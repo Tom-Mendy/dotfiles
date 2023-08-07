@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-me=${USER}
+me=$USER
 su -
-usermod -aG sudo ${me}
+usermod -aG sudo $me
 exit
 echo "reboot and launch step2.sh"
