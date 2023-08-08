@@ -1,7 +1,8 @@
 #!/usr/bin/bash
 
 echo "UPDATE"
-sudo apt update -y
+sudo apt update
+sudo apt upgrade -y
 
 echo "INSTALL NALA"
 sudo apt install nala -y
@@ -20,7 +21,7 @@ echo "TERMINAL"
 sudo nala install kitty -y
 
 echo "BASE-APP"
-sudo nala install vim neovim tldr build-essential -y
+sudo nala install vim neovim tldr build-essential pulseaudio pavucontrol bluez -y
 
 echo "Spotify"
 curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
