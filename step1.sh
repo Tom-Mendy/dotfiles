@@ -1,7 +1,11 @@
 #!/usr/bin/bash
 
-me=$USER
+if [ -z "$var" ] then
+  echo "replace YOUR_USERNAME by your username"
+  echo "./ste1.sh YOUR_USERNAME"
+fi
+
 su -
-usermod -aG sudo $me
+usermod -aG sudo $1
 exit
 echo "reboot and launch step2.sh"
