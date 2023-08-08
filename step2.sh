@@ -20,7 +20,7 @@ echo "TERMINAL"
 sudo nala install kitty -y
 
 echo "BASE-APP"
-sudo nala install vim neovim tldr build-essential zsh -y
+sudo nala install vim neovim tldr build-essential -y
 
 echo "Spotify"
 curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
@@ -59,6 +59,15 @@ sudo nala update
 sudo nala install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo groupadd docker
 sudo usermod -aG docker $USER
+
+echo "ZSH - OH MY ZSH"
+cd /tmp
+git clone https://github.com/JsuisSayker/zsh_auto_install.git
+cd zsh_auto_install
+./Debian.sh
+cd ..
+rm -r zsh_auto_install
+cd
 
 
 
