@@ -21,7 +21,11 @@ echo "TERMINAL"
 sudo nala install kitty -y
 
 echo "BASE-APP"
-sudo nala install vim tldr build-essential pulseaudio pavucontrol bluez -y
+sudo nala install vim tldr build-essential nm-applet network-manager pulseaudio pavucontrol bluez -y
+
+echo "Network MAnager"
+sudo systemctl start NetworkManager.service 
+sudo systemctl enable NetworkManager.service
 
 echo "Spotify"
 curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
