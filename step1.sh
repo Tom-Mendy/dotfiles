@@ -3,6 +3,7 @@
 if [ -z "$var" ] then
   echo "replace YOUR_USERNAME by your username"
   echo "./ste1.sh YOUR_USERNAME"
+  exit 1
 fi
 
 su -
