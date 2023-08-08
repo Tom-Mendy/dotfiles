@@ -72,6 +72,8 @@ cd
 
 echo "Nix Package Manager"
 sh <(curl -L https://nixos.org/nix/install) --no-daemon
+mkdir -p ~/.config/nixpkgs/
+echo "{ allowUnfree = true; }" >> ~/.config/nixpkgs/config.nix
 
 echo "INSTALL Nix Package"
 
