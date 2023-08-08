@@ -21,7 +21,7 @@ echo "TERMINAL"
 sudo nala install kitty -y
 
 echo "BASE-APP"
-sudo nala install vim tldr build-essential nm-applet network-manager pulseaudio pavucontrol bluez -y
+sudo nala install vim tldr build-essential nm-applet network-manager pulseaudio pavucontrol bluez clipit -y
 
 echo "Network MAnager"
 sudo systemctl start NetworkManager.service 
