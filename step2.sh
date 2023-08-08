@@ -21,7 +21,7 @@ echo "TERMINAL"
 sudo nala install kitty -y
 
 echo "BASE-APP"
-sudo nala install vim neovim tldr build-essential pulseaudio pavucontrol bluez -y
+sudo nala install vim tldr build-essential pulseaudio pavucontrol bluez -y
 
 echo "Spotify"
 curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
@@ -70,7 +70,16 @@ cd ..
 rm -r zsh_auto_install
 cd
 
+echo "Nix Package Manager"
+sh <(curl -L https://nixos.org/nix/install) --no-daemon
 
+echo "INSTALL Nix Package"
 
+echo "Discord"
+nix-env -iA nixpkgs.discord
 
+echo "NeoVim"
+nix-env -iA nixpkgs.neovim
 
+echo "Config NeoVim"
+git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
