@@ -49,7 +49,7 @@ cd zsh_auto_install
 chmod +x Debian.sh
 ./Debian.sh
 cd ..
-rm -r zsh_auto_install
+sudo rm -r zsh_auto_install
 cd
 
 echo "Nix Package Manager"
