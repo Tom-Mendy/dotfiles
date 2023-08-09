@@ -60,21 +60,7 @@ mkdir -p ~/.config/nixpkgs/
 echo "{ allowUnfree = true; }" >> ~/.config/nixpkgs/config.nix
 
 echo "INSTALL Nix Package"
-
-echo "Brave"
-nix-env -iA nixpkgs.brave
-
-echo "Discord"
-nix-env -iA nixpkgs.discord
-
-echo "Spotify"
-nix-env -iA nixpkgs.spotify
-
-echo "VSCode"
-nix-env -iA nixpkgs.vscode
-
-echo "NeoVim"
-nix-env -iA nixpkgs.neovim
+nix-env -iA nixpkgs.brave nixpkgs.discord nixpkgs.spotify nixpkgs.vscode nixpkgs.neovim
 
 echo "Config NeoVim"
 git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
