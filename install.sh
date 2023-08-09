@@ -55,7 +55,7 @@ echo "ZSH - OH MY ZSH"
 cd /tmp
 git clone https://github.com/JsuisSayker/zsh_auto_install.git
 cd zsh_auto_install
-./Debian.sh
+sudo ./Debian.sh
 cd ..
 sudo rm -r zsh_auto_install
 cd
