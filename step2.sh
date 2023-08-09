@@ -53,6 +53,7 @@ cd
 
 echo "Nix Package Manager"
 sh <(curl -L https://nixos.org/nix/install) --no-daemon
+. /home/tmendy/.nix-profile/etc/profile.d/nix.sh
 mkdir -p ~/.config/nixpkgs/
 echo "{ allowUnfree = true; }" >> ~/.config/nixpkgs/config.nix
 
