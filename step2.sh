@@ -27,13 +27,6 @@ echo "Network MAnager"
 sudo systemctl start NetworkManager.service 
 sudo systemctl enable NetworkManager.service
 
-echo "Brave"
-sudo nala install curl -y
-sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-sudo nala update
-sudo nala install brave-browser -y
-
 echo "VSCode"
 sudo nala install wget gpg -y
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -74,6 +67,9 @@ mkdir -p ~/.config/nixpkgs/
 echo "{ allowUnfree = true; }" >> ~/.config/nixpkgs/config.nix
 
 echo "INSTALL Nix Package"
+
+echo "Brave"
+nix-env -iA nixpkgs.brave
 
 echo "Discord"
 nix-env -iA nixpkgs.discord
