@@ -27,16 +27,6 @@ echo "Network MAnager"
 sudo systemctl start NetworkManager.service 
 sudo systemctl enable NetworkManager.service
 
-echo "VSCode"
-sudo nala install wget gpg -y
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-rm -f packages.microsoft.gpg
-sudo nala install apt-transport-https -y
-sudo nala update
-sudo nala install code -y
-
 echo "Docker Engine"
 sudo nala update
 sudo nala install ca-certificates curl gnupg -y
@@ -76,6 +66,9 @@ nix-env -iA nixpkgs.discord
 
 echo "Spotify"
 nix-env -iA nixpkgs.spotify
+
+echo "VSCode"
+nix-env -iA nixpkgs.vscode
 
 echo "NeoVim"
 nix-env -iA nixpkgs.neovim
