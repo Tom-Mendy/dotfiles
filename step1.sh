@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-if [ -z "$var" ] then
+if [ -z "$1" ] then
   echo "replace YOUR_USERNAME by your username"
   echo "./ste1.sh YOUR_USERNAME"
   exit 1
