@@ -10,6 +10,6 @@ su -
 apt update && apt upgrade
 apt install sudo git -y
 usermod -aG sudo $1
-echo "reboot and launch step2.sh"
+echo "reboot and launch install.sh"
 sleep 2
 reboot
