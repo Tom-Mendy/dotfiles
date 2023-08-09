@@ -70,7 +70,7 @@ echo 'alias code="flatpak run com.visualstudio.code"' >> ~/.zshrc
 echo 'alias nvim="flatpak run io.neovim.nvim"' >> ~/.zshrc
 
 echo "Flatpak"
-sudo nala install flatpak -y
+sudo nala install flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 echo "INSTALL Flatpak Package"
