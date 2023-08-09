@@ -54,6 +54,7 @@ cd
 
 echo "Nix Package Manager"
 sh <(curl -L https://nixos.org/nix/install) --no-daemon
+#sleep to make sure there will be not bug and can install package
 sleep 1
 . /home/tmendy/.nix-profile/etc/profile.d/nix.sh
 mkdir -p ~/.config/nixpkgs/
