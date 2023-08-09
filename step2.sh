@@ -60,16 +60,16 @@ cd ..
 sudo rm -r zsh_auto_install
 cd
 
-echo "Nix Package Manager"
-sh <(curl -L https://nixos.org/nix/install) --no-daemon
-#sleep to make sure there will be not bug and can install package
-sleep 1
-. /home/tmendy/.nix-profile/etc/profile.d/nix.sh
-mkdir -p ~/.config/nixpkgs/
-echo "{ allowUnfree = true; }" >> ~/.config/nixpkgs/config.nix
+echo "Flatpak"
+sudo nala install flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
-echo "INSTALL Nix Package"
-nix-env -iA nixpkgs.brave nixpkgs.discord nixpkgs.spotify nixpkgs.vscode nixpkgs.neovim
+echo "INSTALL Flatpak Package"
+flatpak install flathub com.brave.Browser
+flatpak install flathub com.discordapp.Discord
+flatpak install flathub com.spotify.Client
+flatpak install flathub com.visualstudio.code
+flatpak install flathub io.neovim.nvim
 
 echo "Config NeoVim"
 git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
