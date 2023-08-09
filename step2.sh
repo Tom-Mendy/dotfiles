@@ -21,7 +21,7 @@ echo "TERMINAL"
 sudo nala install kitty -y
 
 echo "BASE-APP"
-sudo nala install vim tldr build-essential nm-tray network-manager pulseaudio pavucontrol bluez clipit -y
+sudo nala install vim tldr build-essential nm-tray network-manager pulseaudio pavucontrol bluez clipit neofetch htop -y
 
 echo "Network MAnager"
 sudo systemctl start NetworkManager.service 
@@ -77,3 +77,5 @@ nix-env -iA nixpkgs.neovim
 
 echo "Config NeoVim"
 git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
+
+echo "Reboot Now"
