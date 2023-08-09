@@ -71,7 +71,7 @@ echo 'alias nvim="flatpak run io.neovim.nvim"' >> ~/.zshrc
 
 echo "Flatpak"
 sudo nala install flatpak -y
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 echo "INSTALL Flatpak Package"
 flatpak install flathub com.brave.Browser -y
