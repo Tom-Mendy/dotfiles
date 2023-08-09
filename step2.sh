@@ -60,6 +60,15 @@ cd ..
 sudo rm -r zsh_auto_install
 cd
 
+echo "ADD line to .zshrc"
+echo "export PATH=~/my_scripts:$PATH" >> ~/.zshrc
+echo "export EDITOR=flatpak run io.neovim.nvim" >> ~/.zshrc
+echo 'alias brave="flatpak run com.brave.Browser"' >> ~/.zshrc
+echo 'alias Discord="flatpak run com.discordapp.Discord"' >> ~/.zshrc
+echo 'alias spotify="flatpak run com.spotify.Client"' >> ~/.zshrc
+echo 'alias code="flatpak run com.visualstudio.code"' >> ~/.zshrc
+echo 'alias nvim="flatpak run io.neovim.nvim"' >> ~/.zshrc
+
 echo "Flatpak"
 sudo nala install flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
