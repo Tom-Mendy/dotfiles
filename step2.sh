@@ -21,17 +21,11 @@ echo "TERMINAL"
 sudo nala install kitty -y
 
 echo "BASE-APP"
-sudo nala install vim tldr build-essential nm-applet network-manager pulseaudio pavucontrol bluez clipit -y
+sudo nala install vim tldr build-essential nm-tray network-manager pulseaudio pavucontrol bluez clipit -y
 
 echo "Network MAnager"
 sudo systemctl start NetworkManager.service 
 sudo systemctl enable NetworkManager.service
-
-echo "Spotify"
-curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
-echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-sudo nala update
-sudo nala install spotify-client -y
 
 echo "Brave"
 sudo nala install curl -y
@@ -83,6 +77,9 @@ echo "INSTALL Nix Package"
 
 echo "Discord"
 nix-env -iA nixpkgs.discord
+
+echo "Spotify"
+nix-env -iA nixpkgs.spotify
 
 echo "NeoVim"
 nix-env -iA nixpkgs.neovim
