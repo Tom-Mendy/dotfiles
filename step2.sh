@@ -42,11 +42,19 @@ sudo nala install docker-ce docker-ce-cli containerd.io docker-buildx-plugin doc
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
+echo "i3 - Config"
+cd /tmp
+git clone https://github.com/Tom-Mendy/i3-config.git
+cd i3-config
+./install.sh
+cd ..
+sudo rm -r i3-config
+cd
+
 echo "ZSH - OH MY ZSH"
 cd /tmp
 git clone https://github.com/JsuisSayker/zsh_auto_install.git
 cd zsh_auto_install
-chmod +x Debian.sh
 ./Debian.sh
 cd ..
 sudo rm -r zsh_auto_install
