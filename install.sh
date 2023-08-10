@@ -29,6 +29,10 @@ sudo nala install kitty -y
 echo "BASE-APP"
 sudo nala install vim tldr build-essential nm-tray network-manager pulseaudio pavucontrol bluez diodon neofetch htop thunar nitrogen -y
 
+echo "Nitrogen - Config"
+mkdir -p ~/.config/nitrogen/
+sudo cp nitrogen.cfg ~/.config/nitrogen/
+
 echo "Network MAnager"
 sudo systemctl start NetworkManager.service 
 sudo systemctl enable NetworkManager.service
