@@ -18,9 +18,9 @@ echo "WINDOW MANAGER"
 sudo nala install i3 -y
 
 echo "i3 - Config"
-cp i3status.conf /etc/i3status.conf
-cp config ~/.config/i3/config
-cp auto-start.sh /etc/X11/xinit/xinitrc.d/auto-start.sh
+cp i3status.conf /etc/
+cp config ~/.config/i3/
+cp auto-start.sh /etc/X11/xinit/xinitrc.d/
 
 echo "TERMINAL"
 sudo nala install kitty -y
