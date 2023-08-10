@@ -34,8 +34,6 @@ mkdir -p ~/my_scripts
 cd ~/my_scripts
 git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git
 cd auto_set_bing_wallpaper
-chmod +x url_wallpaper.py
-chmod +x auto_wallpaper.sh
 ./auto_wallpaper.sh
 cd
 
