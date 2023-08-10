@@ -10,24 +10,8 @@
 pushd . > /dev/null || exit
 
 #Install dependencies
-sudo apt-get update
-sudo apt-get install -y \
-  autoconf \
-  automake \
-  cmake \
-  g++ \
-  gettext \
-  libncurses5-dev \
-  libtool \
-  libtool-bin \
-  libunibilium-dev \
-  libunibilium4 \
-  ninja-build \
-  pkg-config \
-  python-pip \
-  python3-pip \
-  software-properties-common \
-  unzip
+sudo apt update
+sudo apt install autoconf automake cmake g++ gettext libncurses5-dev libtool libtool-bin libunibilium-dev libunibilium4 ninja-build pkg-config python-pip python3-pip software-properties-common unzip -y
 
 # Enable use of python plugins
 # Note: python neovim module was renamed to pynvim
