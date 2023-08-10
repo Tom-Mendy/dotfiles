@@ -76,5 +76,6 @@ cd
 echo "ADD line to .zshrc"
 echo 'export PATH=~/my_scripts:$PATH' >> ~/.zshrc
 echo 'export EDITOR="nvim"' >> ~/.zshrc
+echo '. ~/.nix-profile/etc/profile.d/nix.sh' >> ~/.zshrc
 
 echo "Reboot Now"
