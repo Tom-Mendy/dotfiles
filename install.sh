@@ -50,12 +50,19 @@ sudo usermod -aG docker $USER
 echo "Nix Package Manager"
 sh <(curl -L https://nixos.org/nix/install) --no-daemon
 
+echo "Nix Package Manager"
+sh <(curl -L https://nixos.org/nix/install) --no-daemon
+#sleep to make sure there will be not bug and can install package
+sleep 1
+. /home/tmendy/.nix-profile/etc/profile.d/nix.sh
+mkdir -p ~/.config/nixpkgs/  
+echo "{ allowUnfree = true; }" >> ~/.config/nixpkgs/config.nix
 
-echo "INSTALL Flatpak Package"
-sudo flatpak install flathub com.brave.Browser com.discordapp.Discord com.spotify.Client com.visualstudio.code io.neovim.nvim -y
+echo "INSTALL Nix Package"
+nix-env -iA nixpkgs.brave nixpkgs.discord nixpkgs.spotify nixpkgs.vscode nixpkgs.neovim
 
 echo "Config NeoVim"
-git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.var/app/io.neovim.nvim/config/nvim
+git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
 
 echo "ZSH - OH MY ZSH"
 cd /tmp
