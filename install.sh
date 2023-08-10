@@ -31,11 +31,8 @@ sudo nala install vim tldr build-essential nm-tray network-manager pulseaudio pa
 
 echo "bing wallpaper"
 mkdir -p ~/my_scripts
-cd ~/my_scripts
-git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git
-cd auto_set_bing_wallpaper
-./auto_wallpaper.sh
-cd
+git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git ~/my_scripts
+~/my_scripts/auto_wallpaper.sh
 
 echo "Network MAnager"
 sudo systemctl start NetworkManager.service 
