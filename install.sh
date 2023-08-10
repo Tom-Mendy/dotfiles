@@ -34,13 +34,10 @@ mkdir -p ~/my_scripts
 cd ~/my_scripts
 git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git
 cd auto_set_bing_wallpaper
+chmod +x url_wallpaper.py
+chmod +x auto_wallpaper.sh
 ./auto_wallpaper.sh
 cd
-
-echo "Nitrogen - Config"
-mkdir -p ~/.config/nitrogen/
-cp nitrogen.cfg ~/.config/nitrogen/
-cp bg-saved.cfg ~/.config/nitrogen/
 
 echo "Network MAnager"
 sudo systemctl start NetworkManager.service 
