@@ -32,6 +32,7 @@ sudo nala install vim tldr build-essential nm-tray network-manager pulseaudio pa
 echo "Nitrogen - Config"
 mkdir -p ~/.config/nitrogen/
 sudo cp nitrogen.cfg ~/.config/nitrogen/
+sudo cp bg-saved.cfg ~/.config/nitrogen/
 
 echo "Network MAnager"
 sudo systemctl start NetworkManager.service 
