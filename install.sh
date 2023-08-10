@@ -76,11 +76,6 @@ cd
 echo "ADD line to .zshrc"
 echo 'export PATH=~/my_scripts:$PATH' >> ~/.zshrc
 echo 'export PATH=/var/lib/flatpak/exports/bin:$PATH' >> ~/.zshrc
-echo 'export EDITOR="io.neovim.nvim"' >> ~/.zshrc
-echo 'alias brave="com.brave.Browser"' >> ~/.zshrc
-echo 'alias Discord="com.discordapp.Discord"' >> ~/.zshrc
-echo 'alias spotify="com.spotify.Client"' >> ~/.zshrc
-echo 'alias code="com.visualstudio.code"' >> ~/.zshrc
-echo 'alias nvim="io.neovim.nvim"' >> ~/.zshrc
+echo 'export EDITOR="nvim"' >> ~/.zshrc
 
 echo "Reboot Now"
