@@ -72,6 +72,7 @@ cd
 
 echo "ADD line to .zshrc"
 echo "export PATH=~/my_scripts:$PATH" >> ~/.zshrc
+echo "export PATH=/var/lib/flatpak/exports/bin:$PATH" >> ~/.zshrc
 echo "export EDITOR=flatpak run io.neovim.nvim" >> ~/.zshrc
 echo 'alias brave="flatpak run com.brave.Browser"' >> ~/.zshrc
 echo 'alias Discord="flatpak run com.discordapp.Discord"' >> ~/.zshrc
