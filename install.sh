@@ -44,13 +44,8 @@ sudo groupadd docker
 sudo usermod -aG docker $USER
 
 echo "i3 - Config"
-cd /tmp
-git clone https://github.com/Tom-Mendy/i3-config.git
-cd i3-config
-#./install.sh
-cd ..
-sudo rm -r i3-config
-cd
+cp i3status.conf /etc/
+cp config ~/.config/i3/
 
 echo "Flatpak"
 sudo nala install flatpak -y
