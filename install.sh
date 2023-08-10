@@ -51,6 +51,20 @@ cd ..
 sudo rm -r i3-config
 cd
 
+echo "Flatpak"
+sudo nala install flatpak -y
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+echo "INSTALL Flatpak Package"
+flatpak install flathub com.brave.Browser -y
+flatpak install flathub com.discordapp.Discord -y
+flatpak install flathub com.spotify.Client -y
+flatpak install flathub com.visualstudio.code -y
+flatpak install flathub io.neovim.nvim -y
+
+echo "Config NeoVim"
+git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
+
 echo "ZSH - OH MY ZSH"
 cd /tmp
 git clone https://github.com/JsuisSayker/zsh_auto_install.git
@@ -68,19 +82,5 @@ echo 'alias Discord="flatpak run com.discordapp.Discord"' >> ~/.zshrc
 echo 'alias spotify="flatpak run com.spotify.Client"' >> ~/.zshrc
 echo 'alias code="flatpak run com.visualstudio.code"' >> ~/.zshrc
 echo 'alias nvim="flatpak run io.neovim.nvim"' >> ~/.zshrc
-
-echo "Flatpak"
-sudo nala install flatpak
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-echo "INSTALL Flatpak Package"
-flatpak install flathub com.brave.Browser -y
-flatpak install flathub com.discordapp.Discord -y
-flatpak install flathub com.spotify.Client -y
-flatpak install flathub com.visualstudio.code -y
-flatpak install flathub io.neovim.nvim -y
-
-echo "Config NeoVim"
-git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
 
 echo "Reboot Now"
