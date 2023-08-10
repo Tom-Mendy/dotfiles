@@ -46,7 +46,7 @@ echo "i3 - Config"
 cd /tmp
 git clone https://github.com/Tom-Mendy/i3-config.git
 cd i3-config
-./install.sh
+#./install.sh
 cd ..
 sudo rm -r i3-config
 cd
