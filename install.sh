@@ -56,14 +56,10 @@ sudo nala install flatpak -y
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 echo "INSTALL Flatpak Package"
-sudo flatpak install flathub com.brave.Browser -y
-sudo flatpak install flathub com.discordapp.Discord -y
-sudo flatpak install flathub com.spotify.Client -y
-sudo flatpak install flathub com.visualstudio.code -y
-sudo flatpak install flathub io.neovim.nvim -y
+sudo flatpak install flathub com.brave.Browser com.discordapp.Discord com.spotify.Client com.visualstudio.code io.neovim.nvim -y
 
 echo "Config NeoVim"
-git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
+git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.var/app/io.neovim.nvim/config/nvim
 
 echo "ZSH - OH MY ZSH"
 cd /tmp
