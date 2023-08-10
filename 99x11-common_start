@@ -2,6 +2,7 @@
 
 # This file is sourced by Xsession(5), not executed.
 
+~/my_scripts/auto_set_bing_wallpaper/auto_wallpaper.sh
 feh --bg-scale --zoom fill /usr/share/wallpaper.jpg
 xrandr -s 1920x1080
 
