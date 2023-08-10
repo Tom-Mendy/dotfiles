@@ -21,7 +21,7 @@ echo "i3 - Config"
 sudo cp i3status.conf /etc/
 sudo cp 99x11-common_start /etc/X11/Xsession.d/
 mkdir -p ~/.config/i3/
-sudo cp config ~/.config/i3/
+cp config ~/.config/i3/
 
 echo "TERMINAL"
 sudo nala install kitty -y
@@ -39,8 +39,8 @@ cd
 
 echo "Nitrogen - Config"
 mkdir -p ~/.config/nitrogen/
-sudo cp nitrogen.cfg ~/.config/nitrogen/
-sudo cp bg-saved.cfg ~/.config/nitrogen/
+cp nitrogen.cfg ~/.config/nitrogen/
+cp bg-saved.cfg ~/.config/nitrogen/
 
 echo "Network MAnager"
 sudo systemctl start NetworkManager.service 
