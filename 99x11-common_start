@@ -2,7 +2,7 @@
 
 # This file is sourced by Xsession(5), not executed.
 
-nitrogen --restore
+feh --bg-scale --zoom fill /usr/share/wallpaper.jpg
 xrandr -s 1920x1080
 
 export XDG_DATA_DIRS=~/.local/share/:~/.nix-profile/share:/usr/share
