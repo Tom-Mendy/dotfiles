@@ -10,6 +10,7 @@ sudo apt install nala -y
 echo "-- INSTALL TIME --"
 echo "XORG"
 sudo nala install xorg xinit -y
+xrandr -s 1920x1080
 
 echo "LOCK SCREEN"
 sudo nala install lightdm -y
