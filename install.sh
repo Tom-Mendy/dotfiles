@@ -75,7 +75,6 @@ cd
 
 echo "ADD line to .zshrc"
 echo 'export PATH=~/my_scripts:$PATH' >> ~/.zshrc
-echo 'export PATH=/var/lib/flatpak/exports/bin:$PATH' >> ~/.zshrc
 echo 'export EDITOR="nvim"' >> ~/.zshrc
 
 echo "Reboot Now"
