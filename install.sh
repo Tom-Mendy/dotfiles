@@ -56,11 +56,11 @@ sudo nala install flatpak -y
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 echo "INSTALL Flatpak Package"
-flatpak install flathub com.brave.Browser -y
-flatpak install flathub com.discordapp.Discord -y
-flatpak install flathub com.spotify.Client -y
-flatpak install flathub com.visualstudio.code -y
-flatpak install flathub io.neovim.nvim -y
+sudo flatpak install flathub com.brave.Browser -y
+sudo flatpak install flathub com.discordapp.Discord -y
+sudo flatpak install flathub com.spotify.Client -y
+sudo flatpak install flathub com.visualstudio.code -y
+sudo flatpak install flathub io.neovim.nvim -y
 
 echo "Config NeoVim"
 git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
