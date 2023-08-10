@@ -20,6 +20,7 @@ sudo nala install i3 -y
 echo "i3 - Config"
 cp i3status.conf /etc/i3status.conf
 cp config ~/.config/i3/config
+cp auto-start.sh /etc/X11/xinit/xinitrc.d/auto-start.sh
 
 echo "TERMINAL"
 sudo nala install kitty -y
@@ -46,9 +47,9 @@ sudo nala install docker-ce docker-ce-cli containerd.io docker-buildx-plugin doc
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
-echo "Flatpak"
-sudo nala install flatpak -y
-sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+echo "Nix Package Manager"
+sh <(curl -L https://nixos.org/nix/install) --no-daemon
+
 
 echo "INSTALL Flatpak Package"
 sudo flatpak install flathub com.brave.Browser com.discordapp.Discord com.spotify.Client com.visualstudio.code io.neovim.nvim -y
