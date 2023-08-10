@@ -10,13 +10,16 @@ sudo apt install nala -y
 echo "-- INSTALL TIME --"
 echo "XORG"
 sudo nala install xorg xinit -y
-xrandr -s 1920x1080
 
 echo "LOCK SCREEN"
 sudo nala install lightdm -y
 
 echo "WINDOW MANAGER"
 sudo nala install i3 -y
+
+echo "i3 - Config"
+cp i3status.conf /etc/i3status.conf
+cp config ~/.config/i3/config
 
 echo "TERMINAL"
 sudo nala install kitty -y
@@ -42,10 +45,6 @@ sudo nala update
 sudo nala install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo groupadd docker
 sudo usermod -aG docker $USER
-
-echo "i3 - Config"
-cp i3status.conf /etc/
-cp config ~/.config/i3/
 
 echo "Flatpak"
 sudo nala install flatpak -y
