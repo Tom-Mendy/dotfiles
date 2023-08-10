@@ -2,7 +2,7 @@
 
 # This file is sourced by Xsession(5), not executed.
 
-~/my_scripts/auto_set_bing_wallpaper/auto_wallpaper.sh
+sudo ~/my_scripts/auto_wallpaper.sh
 
 xrandr -s 1920x1080
 
