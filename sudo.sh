@@ -7,7 +7,7 @@ if [ -z "$1" ] then
 fi
 
 su -
-apt update && apt upgrade
+apt update && apt upgrade -y
 apt install sudo git -y
 usermod -aG sudo $1
 echo "reboot and launch install.sh"
