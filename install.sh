@@ -18,10 +18,10 @@ echo "WINDOW MANAGER"
 sudo nala install i3 -y
 
 echo "i3 - Config"
-sudo cp i3status.conf /etc/
-sudo cp 99x11-common_start /etc/X11/Xsession.d/
 mkdir -p ~/.config/i3/
-cp config ~/.config/i3/
+cp i3/config ~/.config/i3/
+sudo cp i3/i3status.conf /etc/
+sudo cp 99x11-common_start /etc/X11/Xsession.d/
 
 echo "TERMINAL"
 sudo nala install kitty -y
