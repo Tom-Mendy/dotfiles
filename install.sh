@@ -63,8 +63,22 @@ sleep 1
 mkdir -p ~/.config/nixpkgs/  
 echo "{ allowUnfree = true; }" >> ~/.config/nixpkgs/config.nix
 
-echo "INSTALL Nix Package"
-nix-env -iA nixpkgs.brave nixpkgs.discord nixpkgs.spotify nixpkgs.vscode nixpkgs.neovim
+echo "Flatpak"
+sudo nala install flatpak -y
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+echo "INSTALL Flatpak Package"
+sudo flatpak install flathub com.brave.Browser com.discordapp.Discord com.spotify.Client com.visualstudio.code -y
+
+echo "Neovim"
+sudo nala install ninja-build gettext cmake unzip curl -y
+cd /tmp
+git clone https://github.com/neovim/neovim
+cd neovim
+git checkout stable
+sudo make install
+cd ..
+sudo rm -r neovim
+cd
 
 echo "Config NeoVim"
 git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
@@ -79,6 +93,9 @@ sudo rm -r zsh_auto_install
 cd
 
 echo "ADD line to .zshrc"
-echo '. ~/.nix-profile/etc/profile.d/nix.sh' >> ~/.zshrc
+echo 'alias brave="flatpak run com.brave.Browser"' >> ~/.zshrc
+echo 'alias Discord="flatpak run com.discordapp.Discord"' >> ~/.zshrc
+echo 'alias spotify="flatpak run com.spotify.Client"' >> ~/.zshrc
+echo 'alias code="flatpak run com.visualstudio.code"' >> ~/.zshrc
 
 echo "Reboot Now"
