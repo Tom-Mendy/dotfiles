@@ -4,11 +4,11 @@
 
 xrandr -s 1920x1080
 
-/home/tmendy/my_scripts/auto_wallpaper.sh
+sudo /home/tmendy/my_scripts/auto_wallpaper.sh
 
-export XDG_DATA_DIRS=~/.local/share/:~/.nix-profile/share:/usr/share
+export EDITOR="nvim"
 export PATH=~/my_scripts:$PATH
-export EDITOR="vim"
+export PATH=/var/lib/flatpak/exports/bin:$PATH
 
 exec $STARTUP
 
