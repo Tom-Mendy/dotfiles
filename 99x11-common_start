@@ -4,7 +4,7 @@
 
 xrandr -s 1920x1080
 
-sudo /home/tmendy/my_scripts/auto_wallpaper.sh
+/home/tmendy/my_scripts/auto_wallpaper.sh
 
 export EDITOR=nvim
 export TERM=xterm-kitty
