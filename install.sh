@@ -52,20 +52,10 @@ sudo nala install docker-ce docker-ce-cli containerd.io docker-buildx-plugin doc
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
-echo "Nix Package Manager"
-sh <(curl -L https://nixos.org/nix/install) --no-daemon
-
-echo "Nix Package Manager"
-sh <(curl -L https://nixos.org/nix/install) --no-daemon
-#sleep to make sure there will be not bug and can install package
-sleep 1
-. /home/tmendy/.nix-profile/etc/profile.d/nix.sh
-mkdir -p ~/.config/nixpkgs/  
-echo "{ allowUnfree = true; }" >> ~/.config/nixpkgs/config.nix
-
 echo "Flatpak"
 sudo nala install flatpak -y
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
 echo "INSTALL Flatpak Package"
 sudo flatpak install flathub com.brave.Browser com.discordapp.Discord com.spotify.Client com.visualstudio.code -y
 
