@@ -93,9 +93,9 @@ sudo rm -r zsh_auto_install
 cd
 
 echo "ADD line to .zshrc"
-echo 'alias brave="flatpak run com.brave.Browser"' >> ~/.zshrc
-echo 'alias Discord="flatpak run com.discordapp.Discord"' >> ~/.zshrc
-echo 'alias spotify="flatpak run com.spotify.Client"' >> ~/.zshrc
-echo 'alias code="flatpak run com.visualstudio.code"' >> ~/.zshrc
+echo 'alias brave="com.brave.Browser"' >> ~/.zshrc
+echo 'alias Discord="com.discordapp.Discord"' >> ~/.zshrc
+echo 'alias spotify="com.spotify.Client"' >> ~/.zshrc
+echo 'alias code="com.visualstudio.code"' >> ~/.zshrc
 
 echo "Reboot Now"
