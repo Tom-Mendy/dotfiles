@@ -60,7 +60,14 @@ sudo apt install --reinstall ca-certificates
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 echo "INSTALL Flatpak Package"
-sudo flatpak install flathub com.brave.Browser com.discordapp.Discord com.spotify.Client com.visualstudio.code -y
+sudo flatpak install flathub com.discordapp.Discord com.spotify.Client -y
+
+echo "Brave"
+sudo nala install curl -y
+sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+sudo nala update
+sudo nala install brave-browser -y
 
 echo "Neovim"
 sudo nala install ninja-build gettext cmake unzip curl -y
