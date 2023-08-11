@@ -53,15 +53,14 @@ sudo nala install docker-ce docker-ce-cli containerd.io docker-buildx-plugin doc
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
-sleep 10
 echo "Flatpak"
 sudo nala install flatpak -y
+# update certificate
+sudo apt install --reinstall ca-certificates
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-sleep 10
 
 echo "INSTALL Flatpak Package"
 sudo flatpak install flathub com.brave.Browser com.discordapp.Discord com.spotify.Client com.visualstudio.code -y
-sleep 10
 
 echo "Neovim"
 sudo nala install ninja-build gettext cmake unzip curl -y
