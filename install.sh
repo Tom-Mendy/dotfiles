@@ -60,7 +60,7 @@ sudo apt install --reinstall ca-certificates
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 echo "INSTALL Flatpak Package"
-sudo flatpak install flathub com.discordapp.Discord com.spotify.Client -y
+sudo flatpak install flathub com.discordapp.Discord com.spotify.Client com.github.IsmaelMartinez.teams_for_linux -y
 
 echo "Brave"
 sudo nala install curl -y
@@ -105,5 +105,6 @@ cd
 echo "ADD line to .zshrc"
 echo 'alias Discord="com.discordapp.Discord"' >> ~/.zshrc
 echo 'alias spotify="com.spotify.Client"' >> ~/.zshrc
+echo 'alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"' >> ~/.zshrc
 
 echo "Reboot Now"
