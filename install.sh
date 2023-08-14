@@ -28,7 +28,7 @@ echo "TERMINAL"
 sudo nala install kitty -y
 
 echo "BASE-APP"
-sudo nala install vim tldr build-essential nm-tray network-manager pulseaudio pavucontrol bluez copyq neofetch htop thunar feh -y
+sudo nala install vim tldr build-essential nm-tray network-manager pulseaudio pavucontrol bluez copyq neofetch htop thunar feh valgrind -y
 
 echo "bing wallpaper just put code no exec"
 mkdir -p ~/my_scripts
