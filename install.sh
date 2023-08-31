@@ -33,8 +33,6 @@ sudo nala install build-essential vim tldr exa bat ripgrep fzf neofetch htop val
 echo "BASE-APP"
 sudo nala install nm-tray network-manager pulseaudio pavucontrol bluez copyq thunar feh -y
 
-
-
 echo "bing wallpaper just put code no exec"
 mkdir -p ~/my_scripts
 git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git ~/my_scripts
@@ -86,9 +84,8 @@ sudo nala install code -y
 
 echo "Neovim"
 sudo nala install ninja-build gettext cmake unzip curl -y
-cd /tmp
-git clone https://github.com/neovim/neovim
-cd neovim
+git clone https://github.com/neovim/neovim /tmp
+cd /tmp/neovim
 git checkout stable
 sudo make install
 cd ..
@@ -98,10 +95,15 @@ cd
 echo "Config NeoVim"
 git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
 
+echo "Ranger"
+sudo nala install ranger -y
+
+echo "Config Ranger"
+git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
+
 echo "ZSH - OH MY ZSH"
-cd /tmp
-git clone https://github.com/JsuisSayker/zsh_auto_install.git
-cd zsh_auto_install
+git clone https://github.com/JsuisSayker/zsh_auto_install.git /tmp
+cd /tmp/zsh_auto_install
 ./Debian.sh
 cd ..
 sudo rm -r zsh_auto_install
