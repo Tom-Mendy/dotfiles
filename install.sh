@@ -27,8 +27,13 @@ sudo chmod 644 /etc/X11/Xsession.d/99x11-common_start
 echo "TERMINAL"
 sudo nala install kitty -y
 
+echo "CLI-APP"
+sudo nala install build-essential vim tldr exa bat ripgrep fzf neofetch htop valgrind -y
+
 echo "BASE-APP"
-sudo nala install vim tldr build-essential nm-tray network-manager pulseaudio pavucontrol bluez copyq neofetch htop thunar feh valgrind -y
+sudo nala install nm-tray network-manager pulseaudio pavucontrol bluez copyq thunar feh -y
+
+
 
 echo "bing wallpaper just put code no exec"
 mkdir -p ~/my_scripts
