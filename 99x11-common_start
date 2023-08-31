@@ -11,6 +11,9 @@ export TERM=xterm-kitty
 export PATH=~/my_scripts:$PATH
 export PATH=/var/lib/flatpak/exports/bin:$PATH
 
+alias ls='exa --icons --color=always --group-directories-first'
+alias cat='bat --paging=never'
+
 exec $STARTUP
 
 #vim:set ai et sts=2 sw=2 tw=80:
