@@ -113,11 +113,8 @@ touch ~/.config/ranger/rc.conf
 # add icon plugin
 mkdir ~/.config/ranger/plugins
 git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
-echo "default_linemode devicons" >> ~/.config/ranger/rc.conf
-pip install ueberzug
-echo "set preview_images_method ueberzug" >> ~/.config/ranger/rc.conf
-echo "default_linemode devicons" >> ~/.config/ranger/rc.conf
-echo "set show_hidden true" >> ~/.config/ranger/rc.conf
+add_to_file_if_not_in_it('default_linemode devicons', '~/.config/ranger/rc.conf')
+add_to_file_if_not_in_it('set show_hidden true', '~/.config/ranger/rc.conf')
 
 echo "ZSH - OH MY ZSH"
 git clone https://github.com/JsuisSayker/zsh_auto_install.git /tmp/zsh_auto_install
