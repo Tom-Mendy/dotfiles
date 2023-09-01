@@ -1,5 +1,11 @@
 #!/usr/bin/bash
 
+function add_to_file_if_not_in_it($string, $path) {
+  if [[$(cat $path | grep $string) == 0]]; then
+    echo $string >> $path
+  fi
+}
+
 echo "UPDATE"
 sudo apt update
 sudo apt upgrade -y
@@ -88,9 +94,8 @@ git clone https://github.com/neovim/neovim /tmp/neovim
 cd /tmp/neovim
 git checkout stable
 sudo make install
-cd ..
-sudo rm -r neovim
 cd
+sudo rm -rf /tmp/neovim
 
 echo "Config NeoVim"
 git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
@@ -101,11 +106,10 @@ sudo nala install ranger -y
 echo "Config Ranger"
 mkdir ~/.config/ranger
 touch ~/.config/ranger/rc.conf
-# add icon
+# add icon plugin
 mkdir ~/.config/ranger/plugins
 git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
 echo "default_linemode devicons" >> ~/.config/ranger/rc.conf
-
 pip install ueberzug
 echo "set preview_images_method ueberzug" >> ~/.config/ranger/rc.conf
 echo "default_linemode devicons" >> ~/.config/ranger/rc.conf
@@ -115,15 +119,14 @@ echo "ZSH - OH MY ZSH"
 git clone https://github.com/JsuisSayker/zsh_auto_install.git /tmp/zsh_auto_install
 cd /tmp/zsh_auto_install
 ./Debian.sh
-cd ..
-sudo rm -r zsh_auto_install
 cd
+sudo rm -rf /tmp/zsh_auto_install
 
 echo "ADD line to .zshrc"
-echo 'alias Discord="com.discordapp.Discord"' >> ~/.zshrc
-echo 'alias spotify="com.spotify.Client"' >> ~/.zshrc
-echo 'alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"' >> ~/.zshrc
-echo 'alias ls="exa --icons --color=always --group-directories-first"' >> ~/.zshrc
-echo 'alias cat="bat --paging=never"' >> ~/.zshrc
+add_to_file_if_not_in_it('alias Discord="com.discordapp.Discord"', '~/.zshrc')
+add_to_file_if_not_in_it('alias spotify="com.spotify.Client"', '~/.zshrc')
+add_to_file_if_not_in_it('alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"', '~/.zshrc')
+add_to_file_if_not_in_it('alias ls="exa --icons --color=always --group-directories-first"', '~/.zshrc')
+add_to_file_if_not_in_it('alias cat="bat --paging=never"', '~/.zshrc')
 
 echo "Reboot Now"
