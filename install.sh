@@ -99,7 +99,17 @@ echo "Ranger"
 sudo nala install ranger -y
 
 echo "Config Ranger"
+mkdir ~/.config/ranger
+touch ~/.config/ranger/rc.conf
+# add icon
+mkdir ~/.config/ranger/plugins
 git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
+echo "default_linemode devicons" >> ~/.config/ranger/rc.conf
+
+pip install ueberzug
+echo "set preview_images_method ueberzug" >> ~/.config/ranger/rc.conf
+echo "default_linemode devicons" >> ~/.config/ranger/rc.conf
+echo "set show_hidden true" >> ~/.config/ranger/rc.conf
 
 echo "ZSH - OH MY ZSH"
 git clone https://github.com/JsuisSayker/zsh_auto_install.git /tmp
