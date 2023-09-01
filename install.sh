@@ -3,6 +3,7 @@
 function add_to_file_if_not_in_it($string, $path) {
   if [[$(cat $path | grep $string) == 0]]; then
     echo $string >> $path
+    echo $string add to $path
   fi
 }
 
