@@ -37,6 +37,9 @@ sudo nala install kitty -y
 echo "CLI-APP"
 sudo nala install build-essential vim tldr exa bat ripgrep fzf neofetch htop valgrind -y
 
+echo "Rust"
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 echo "BASE-APP"
 sudo nala install nm-tray network-manager pulseaudio pavucontrol bluez copyq thunar feh -y
 
