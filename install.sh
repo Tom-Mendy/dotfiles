@@ -38,7 +38,20 @@ echo "CLI-APP"
 sudo nala install build-essential vim tldr exa bat ripgrep fzf neofetch htop valgrind -y
 
 echo "Rust"
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
+chmod +x /tmp/rust.sh
+/tmp/rust.sh -y
+
+echo "Node"
+sudo nala update
+sudo nala install ca-certificates curl gnupg -y
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=20
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+sudo nala update
+sudo nala install nodejs -y
+
 
 echo "BASE-APP"
 sudo nala install nm-tray network-manager pulseaudio pavucontrol bluez copyq thunar feh -y
