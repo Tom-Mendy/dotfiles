@@ -127,7 +127,8 @@ echo "ADD line to .zshrc"
 add_to_file_if_not_in_it('alias Discord="com.discordapp.Discord"', '~/.zshrc')
 add_to_file_if_not_in_it('alias spotify="com.spotify.Client"', '~/.zshrc')
 add_to_file_if_not_in_it('alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"', '~/.zshrc')
-add_to_file_if_not_in_it('alias ls="exa --icons --color=always --group-directories-first"', '~/.zshrc')
 add_to_file_if_not_in_it('alias cat="bat --paging=never"', '~/.zshrc')
+add_to_file_if_not_in_it('alias ls="exa --icons --color=always --group-directories-first"', '~/.zshrc')
+add_to_file_if_not_in_it('alias tree="exa --icons --color=always --group-directories-first --tree"', '~/.zshrc')
 
 echo "Reboot Now"
