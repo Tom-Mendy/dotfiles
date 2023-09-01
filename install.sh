@@ -84,7 +84,7 @@ sudo nala install code -y
 
 echo "Neovim"
 sudo nala install ninja-build gettext cmake unzip curl -y
-git clone https://github.com/neovim/neovim /tmp
+git clone https://github.com/neovim/neovim /tmp/neovim
 cd /tmp/neovim
 git checkout stable
 sudo make install
@@ -112,7 +112,7 @@ echo "default_linemode devicons" >> ~/.config/ranger/rc.conf
 echo "set show_hidden true" >> ~/.config/ranger/rc.conf
 
 echo "ZSH - OH MY ZSH"
-git clone https://github.com/JsuisSayker/zsh_auto_install.git /tmp
+git clone https://github.com/JsuisSayker/zsh_auto_install.git /tmp/zsh_auto_install
 cd /tmp/zsh_auto_install
 ./Debian.sh
 cd ..
