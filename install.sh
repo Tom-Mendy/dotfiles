@@ -123,5 +123,7 @@ echo "ADD line to .zshrc"
 echo 'alias Discord="com.discordapp.Discord"' >> ~/.zshrc
 echo 'alias spotify="com.spotify.Client"' >> ~/.zshrc
 echo 'alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"' >> ~/.zshrc
+echo 'alias ls="exa --icons --color=always --group-directories-first"' >> ~/.zshrc
+echo 'alias cat="bat --paging=never"' >> ~/.zshrc
 
 echo "Reboot Now"
