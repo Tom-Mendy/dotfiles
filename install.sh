@@ -35,7 +35,10 @@ echo "TERMINAL"
 sudo nala install kitty -y
 
 echo "CLI-APP"
-sudo nala install build-essential vim tldr exa bat ripgrep fzf neofetch htop valgrind -y
+sudo nala install build-essential vim tldr exa bat ripgrep fzf fd-find neofetch htop -y
+
+echo "C"
+sudo nala install valgrind -y
 
 echo "Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
@@ -43,7 +46,7 @@ chmod +x /tmp/rust.sh
 /tmp/rust.sh -y
 rm -f /tmp/rust.sh
 
-echo "Node"
+echo "Nodejs"
 sudo nala update
 sudo nala install ca-certificates curl gnupg -y
 sudo mkdir -p /etc/apt/keyrings
