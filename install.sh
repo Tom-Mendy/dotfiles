@@ -41,6 +41,7 @@ echo "Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
 chmod +x /tmp/rust.sh
 /tmp/rust.sh -y
+rm -f /tmp/rust.sh
 
 echo "Node"
 sudo nala update
@@ -52,6 +53,11 @@ echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.co
 sudo nala update
 sudo nala install nodejs -y
 
+echo "Python-add"
+sudo nala python3-pip python3-venv -y
+
+echo "Lua"
+sudo nala lua5.4 luarocks -y
 
 echo "BASE-APP"
 sudo nala install nm-tray network-manager pulseaudio pavucontrol bluez copyq thunar feh -y
@@ -108,13 +114,16 @@ sudo nala install code -y
 echo "Neovim"
 sudo nala install ninja-build gettext cmake unzip curl -y
 git clone https://github.com/neovim/neovim /tmp/neovim
-cd /tmp/neovim
+cd /tmp/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
 git checkout stable
 sudo make install
 cd
 sudo rm -rf /tmp/neovim
 
 echo "Config NeoVim"
+sudo nala xclip -y
+pip install neovim --break-system-packages
+sudo npm install -g neovim tree-sitter-cli
 git clone https://github.com/Tom-Mendy/kickstart.nvim ~/.config/nvim
 
 echo "Ranger"
