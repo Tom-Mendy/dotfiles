@@ -1,9 +1,14 @@
 #!/usr/bin/bash
 
-function add_to_file_if_not_in_it($string, $path) {
-  if [[$(cat $path | grep $string) == 0]]; then
-    echo $string >> $path
-    echo $string add to $path
+function add_to_file_if_not_in_it {
+  string="$1"
+  path="$2"
+  
+  if ! grep -q "$string" "$path"; then
+    echo "$string" >> "$path"
+    echo "$string added to $path"
+  else
+    echo "$string already exists in $path"
   fi
 }
 
@@ -138,8 +143,8 @@ touch ~/.config/ranger/rc.conf
 # add icon plugin
 mkdir ~/.config/ranger/plugins
 git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
-add_to_file_if_not_in_it('default_linemode devicons', '~/.config/ranger/rc.conf')
-add_to_file_if_not_in_it('set show_hidden true', '~/.config/ranger/rc.conf')
+add_to_file_if_not_in_it 'default_linemode devicons' '~/.config/ranger/rc.conf'
+add_to_file_if_not_in_it 'set show_hidden true' '~/.config/ranger/rc.conf'
 
 echo "ZSH - OH MY ZSH"
 git clone https://github.com/JsuisSayker/zsh_auto_install.git /tmp/zsh_auto_install
@@ -149,11 +154,11 @@ cd
 sudo rm -rf /tmp/zsh_auto_install
 
 echo "ADD line to .zshrc"
-add_to_file_if_not_in_it('alias Discord="com.discordapp.Discord"', '~/.zshrc')
-add_to_file_if_not_in_it('alias spotify="com.spotify.Client"', '~/.zshrc')
-add_to_file_if_not_in_it('alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"', '~/.zshrc')
-add_to_file_if_not_in_it('alias cat="bat --paging=never"', '~/.zshrc')
-add_to_file_if_not_in_it('alias ls="exa --icons --color=always --group-directories-first"', '~/.zshrc')
-add_to_file_if_not_in_it('alias tree="exa --icons --color=always --group-directories-first --tree"', '~/.zshrc')
+add_to_file_if_not_in_it 'alias Discord="com.discordapp.Discord"' '~/.zshrc'
+add_to_file_if_not_in_it 'alias spotify="com.spotify.Client"' '~/.zshrc'
+add_to_file_if_not_in_it 'alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"' '~/.zshrc'
+add_to_file_if_not_in_it 'alias cat="bat --paging=never"' '~/.zshrc'
+add_to_file_if_not_in_it 'alias ls="exa --icons --color=always --group-directories-first"' '~/.zshrc'
+add_to_file_if_not_in_it 'alias tree="exa --icons --color=always --group-directories-first --tree"' '~/.zshrc'
 
 echo "Reboot Now"
