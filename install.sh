@@ -161,8 +161,7 @@ echo "Ranger"
 sudo nala install ranger -y
 
 echo "Config Ranger"
-mkdir $HOME/.config/ranger
-touch $HOME/.config/ranger/rc.conf
+ranger --copy-config=all
 # add icon plugin
 mkdir $HOME/.config/ranger/plugins
 git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
