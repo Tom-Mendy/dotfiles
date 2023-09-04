@@ -4,11 +4,11 @@
 
 xrandr -s 1920x1080
 
-/home/tmendy/my_scripts/auto_wallpaper.sh
+$HOME/my_scripts/auto_wallpaper.sh
 
 export EDITOR=nvim
 export TERM=xterm-kitty
-export PATH=~/my_scripts:$PATH
+export PATH=$HOME/my_scripts:$PATH
 export PATH=/var/lib/flatpak/exports/bin:$PATH
 
 exec $STARTUP
