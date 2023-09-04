@@ -62,7 +62,8 @@ echo "TERMINAL"
 sudo nala install kitty -y
 
 echo "CLI-APP"
-sudo nala install build-essential vim tldr exa bat ripgrep fzf fd-find neofetch htop -y
+sudo nala install build-essential -y
+sudo nala install vim tldr exa bat ripgrep fzf fd-find neofetch htop -y
 
 echo "C"
 sudo nala install valgrind -y
@@ -179,7 +180,8 @@ echo "ADD line to .zshrc"
 add_to_file_if_not_in_it 'alias Discord="com.discordapp.Discord"' "$HOME/.zshrc"
 add_to_file_if_not_in_it 'alias spotify="com.spotify.Client"' "$HOME/.zshrc"
 add_to_file_if_not_in_it 'alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"' "$HOME/.zshrc"
-add_to_file_if_not_in_it 'alias cat="bat --paging=never"' "$HOME/.zshrc"
+add_to_file_if_not_in_it 'alias bat="batcat"' "$HOME/.zshrc"
+add_to_file_if_not_in_it 'alias cat="batcat --paging=never"' "$HOME/.zshrc"
 add_to_file_if_not_in_it 'alias ls="exa --icons --color=always --group-directories-first"' "$HOME/.zshrc"
 add_to_file_if_not_in_it 'alias tree="exa --icons --color=always --group-directories-first --tree"' "$HOME/.zshrc"
 
