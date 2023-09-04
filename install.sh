@@ -95,7 +95,7 @@ sudo nala install nm-tray network-manager pulseaudio pavucontrol bluez copyq thu
 echo "bing wallpaper just put code no exec"
 mkdir -p $HOME/my_scripts
 git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
-cp /tmp/auto_set_bing_wallpaper//tmp/auto_set_bing_wallpaper.sh $HOME/my_scripts
+cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
 
 echo "Network MAnager"
 sudo systemctl start NetworkManager.service 
