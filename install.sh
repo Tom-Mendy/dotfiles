@@ -157,6 +157,9 @@ sudo nala xclip -y
 pip install neovim --break-system-packages
 sudo npm install -g neovim tree-sitter-cli
 git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
+# make nvim work great as root
+sudo mkdir -p /root/.config/nvim
+sudo ln -s $HOME/.config/nvim /root/.config/nvim
 
 echo "Ranger"
 sudo nala install ranger -y
