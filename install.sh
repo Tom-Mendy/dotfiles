@@ -178,6 +178,9 @@ cd /tmp/zsh_auto_install
 ./Debian.sh
 cd
 sudo rm -rf /tmp/zsh_auto_install
+# make zsh work great as root
+sudo ln -s $HOME/.zshrc /root/.zshrc
+sudo ln -s $HOME/.oh-my-zsh /root/.oh-my-zsh
 
 echo "ADD line to .zshrc"
 add_to_file_if_not_in_it 'alias Discord="com.discordapp.Discord"' "$HOME/.zshrc"
@@ -186,6 +189,8 @@ add_to_file_if_not_in_it 'alias teams-for-linux="com.github.IsmaelMartinez.teams
 add_to_file_if_not_in_it 'alias bat="batcat"' "$HOME/.zshrc"
 add_to_file_if_not_in_it 'alias cat="batcat --paging=never"' "$HOME/.zshrc"
 add_to_file_if_not_in_it 'alias ls="exa --icons --color=always --group-directories-first"' "$HOME/.zshrc"
+add_to_file_if_not_in_it 'alias la="exa --icons --color=always --group-directories-first -a"' "$HOME/.zshrc"
+add_to_file_if_not_in_it 'alias ll="exa --icons --color=always --group-directories-first -l"' "$HOME/.zshrc"
 add_to_file_if_not_in_it 'alias tree="exa --icons --color=always --group-directories-first --tree"' "$HOME/.zshrc"
 
 echo "Reboot Now"
