@@ -36,20 +36,20 @@ function add_to_file_if_not_in_it {
 
 echo "UPDATE"
 sudo apt update
-sudo apt upgrade -y
+sudo apt -y upgrade
 
 echo "INSTALL NALA"
-sudo apt install nala -y
+sudo apt -y install nala
 
 echo "-- INSTALL TIME --"
 echo "XORG"
-sudo nala install xorg xinit -y
+sudo nala -y install xorg xinit
 
 echo "LOCK SCREEN"
-sudo nala install lightdm -y
+sudo nala -y install lightdm
 
 echo "WINDOW MANAGER"
-sudo nala install i3 -y
+sudo nala -y install i3
 
 echo "i3 - Config"
 mkdir -p $HOME/.config/i3/
@@ -59,14 +59,14 @@ sudo cp 99x11-common_start /etc/X11/Xsession.d/
 sudo chmod 644 /etc/X11/Xsession.d/99x11-common_start
 
 echo "TERMINAL"
-sudo nala install kitty -y
+sudo nala -y install kitty
 
 echo "CLI-APP"
-sudo nala install build-essential -y
-sudo nala install vim tldr exa bat ripgrep fzf fd-find neofetch htop -y
+sudo nala -y install build-essential
+sudo nala -y install vim tldr exa bat ripgrep fzf fd-find neofetch htop
 
 echo "C"
-sudo nala install valgrind -y
+sudo nala -y install valgrind
 
 echo "Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
@@ -76,22 +76,22 @@ rm -f /tmp/rust.sh
 
 echo "Nodejs"
 sudo nala update
-sudo nala install ca-certificates curl gnupg -y
+sudo nala -y install ca-certificates curl gnupg
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 NODE_MAJOR=20
 echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 sudo nala update
-sudo nala install nodejs -y
+sudo nala -y install nodejs
 
 echo "Python-add"
-sudo nala python3-pip python3-venv -y
+sudo nala -y python3-pip python3-venv
 
 echo "Lua"
-sudo nala lua5.4 luarocks -y
+sudo nala -y lua5.4 luarocks
 
 echo "BASE-APP"
-sudo nala install nm-tray network-manager pulseaudio pavucontrol bluez copyq thunar feh -y
+sudo nala -y install nm-tray network-manager pulseaudio pavucontrol bluez copyq thunar feh
 
 echo "bing wallpaper just put code no exec"
 mkdir -p $HOME/my_scripts
@@ -104,7 +104,7 @@ sudo systemctl enable NetworkManager.service
 
 echo "Docker Engine"
 sudo nala update
-sudo nala install ca-certificates curl gnupg -y
+sudo nala -y install ca-certificates curl gnupg
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
@@ -113,38 +113,38 @@ echo \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo nala update
-sudo nala install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+sudo nala -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
 echo "Flatpak"
-sudo nala install flatpak -y
+sudo nala -y install flatpak
 # update certificate
 sudo apt install --reinstall ca-certificates
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 echo "INSTALL Flatpak Package"
-sudo flatpak install flathub com.discordapp.Discord com.spotify.Client com.github.IsmaelMartinez.teams_for_linux -y
+sudo flatpak -y install flathub com.discordapp.Discord com.spotify.Client com.github.IsmaelMartinez.teams_for_linux
 
 echo "Brave"
-sudo nala install curl -y
+sudo nala -y install curl
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 sudo nala update
-sudo nala install brave-browser -y
+sudo nala -y install brave-browser
 
 echo "VSCode"
-sudo nala install wget gpg -y
+sudo nala -y install wget gpg
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
 sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
 sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
 rm -f packages.microsoft.gpg
-sudo nala install apt-transport-https -y
+sudo nala -y install apt-transport-https
 sudo nala update
-sudo nala install code -y
+sudo nala -y install code
 
 echo "Neovim"
-sudo nala install ninja-build gettext cmake unzip curl -y
+sudo nala -y install ninja-build gettext cmake unzip curl
 git clone https://github.com/neovim/neovim /tmp/neovim
 cd /tmp/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
 git checkout stable
@@ -153,7 +153,7 @@ cd
 sudo rm -rf /tmp/neovim
 
 echo "Config NeoVim"
-sudo nala xclip -y
+sudo nala -y xclip
 pip install neovim --break-system-packages
 sudo npm install -g neovim tree-sitter-cli
 git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
@@ -162,7 +162,7 @@ sudo mkdir -p /root/.config/nvim
 sudo ln -s $HOME/.config/nvim /root/.config/nvim
 
 echo "Ranger"
-sudo nala install ranger -y
+sudo nala -y install ranger
 
 echo "Config Ranger"
 ranger --copy-config=all
