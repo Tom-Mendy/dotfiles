@@ -40,6 +40,7 @@ sudo apt -y upgrade
 
 echo "INSTALL NALA"
 sudo apt -y install nala
+yes |sudo nala fetch --auto
 
 echo "-- INSTALL TIME --"
 echo "XORG"
