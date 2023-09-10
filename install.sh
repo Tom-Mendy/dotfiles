@@ -33,6 +33,8 @@ function add_to_file_if_not_in_it {
   fi
 }
 
+# the dir where the script is located
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # make .cofig work great as root
 sudo mkdir -p $HOME/.config
@@ -58,9 +60,9 @@ sudo nala install -y i3
 
 echo "i3 - Config"
 mkdir -p $HOME/.config/i3/
-cp i3/config $HOME/.config/i3/
-sudo cp i3/i3status.conf /etc/
-sudo cp 99x11-common_start /etc/X11/Xsession.d/
+cp $SCRIPT_DIR/i3/config $HOME/.config/i3/
+sudo cp $SCRIPT_DIR/i3/i3status.conf /etc/
+sudo cp $SCRIPT_DIR/99x11-common_start /etc/X11/Xsession.d/
 sudo chmod 644 /etc/X11/Xsession.d/99x11-common_start
 
 echo "TERMINAL"
