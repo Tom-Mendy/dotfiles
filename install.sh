@@ -90,10 +90,10 @@ sudo nala update
 sudo nala install -y nodejs
 
 echo "Python-add"
-sudo nala -y python3-pip python3-venv
+sudo nala install -y python3-pip python3-venv
 
 echo "Lua"
-sudo nala -y lua5.4 luarocks
+sudo nala install -y lua5.4 luarocks
 
 echo "BASE-APP"
 sudo nala install -y nm-tray network-manager pulseaudio pavucontrol bluez copyq thunar feh
