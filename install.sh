@@ -34,6 +34,10 @@ function add_to_file_if_not_in_it {
 }
 
 
+# make .cofig work great as root
+sudo mkdir -p $HOME/.config
+sudo ln -s $HOME/.config /root/.config
+
 echo "UPDATE"
 sudo apt update
 sudo apt -y upgrade
@@ -158,9 +162,6 @@ sudo nala -y xclip
 pip install neovim --break-system-packages
 sudo npm install -g neovim tree-sitter-cli
 git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
-# make nvim work great as root
-sudo mkdir -p /root/.config/nvim
-sudo ln -s $HOME/.config/nvim /root/.config/nvim
 
 echo "Ranger"
 sudo nala -y install ranger
@@ -181,6 +182,8 @@ cd
 sudo rm -rf /tmp/zsh_auto_install
 # make zsh work great as root
 sudo ln -s $HOME/.zshrc /root/.zshrc
+sudo ln -s $HOME/.zsh_history /root/.zsh_history
+sudo ln -s $HOME/.p10k.zsh /root/.p10k.zsh
 sudo ln -s $HOME/.oh-my-zsh /root/.oh-my-zsh
 
 echo "ADD line to .zshrc"
@@ -193,5 +196,8 @@ add_to_file_if_not_in_it 'alias ls="exa --icons --color=always --group-directori
 add_to_file_if_not_in_it 'alias la="exa --icons --color=always --group-directories-first -a"' "$HOME/.zshrc"
 add_to_file_if_not_in_it 'alias ll="exa --icons --color=always --group-directories-first -l"' "$HOME/.zshrc"
 add_to_file_if_not_in_it 'alias tree="exa --icons --color=always --group-directories-first --tree"' "$HOME/.zshrc"
+
+#add all .file to root 
+sudo ln -s $HOME/.* /root/
 
 echo "Reboot Now"
