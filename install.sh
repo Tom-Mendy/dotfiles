@@ -52,7 +52,10 @@ fi
 $DISPLAY_COMMAND "REFRESH MIRRORS"
 yes |sudo nala fetch --auto
 #add mirror refresh every Wednesday
-(crontab -l ; echo "0 0 0 ? * WED * yes |sudo nala fetch --auto") | crontab -
+crontab -l > /tpm/mycron
+echo "0 0 0 ? * WED * yes |sudo nala fetch --auto" >> /tpm/mycron
+crontab /tpm/mycron
+rm /tpm/mycron
 
 $DISPLAY_COMMAND "-- INSTALL TIME --"
 $DISPLAY_COMMAND "XORG"
@@ -173,7 +176,7 @@ pip install neovim --break-system-packages
 sudo npm install -g neovim tree-sitter-cli
 git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
 # make .$HOME/.config/nvim work great for root
-sudo ln -s $HOME/.config/nvim /root/.config/nvim
+sudo cp $HOME/.config/nvim /root/.config/nvim
 
 $DISPLAY_COMMAND "Ranger"
 sudo nala install -y ranger
@@ -186,22 +189,20 @@ git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ra
 add_to_file_if_not_in_it 'default_linemode devicons' "$HOME/.config/ranger/rc.conf"
 add_to_file_if_not_in_it 'set show_hidden true' "$HOME/.config/ranger/rc.conf"
 # make .$HOME/.config/nvim work great for root
-sudo ln -s $HOME/.config/ranger /root/.config/ranger
+sudo cp $HOME/.config/ranger /root/.config/ranger
 
 $DISPLAY_COMMAND "ZSH"
 sudo nala install -y zsh fonts-font-awesome
 chsh -s /bin/zsh
 # make zsh work great as root
 sudo chsh -s /bin/zsh
-sudo ln -s $HOME/.zshrc /root/.zshrc
-sudo ln -s $HOME/.zsh_history /root/.zsh_history
+sudo cp $HOME/.zshrc /root/.zshrc
 
 $DISPLAY_COMMAND "ZINIT"
 bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 source ~/.zinit/bin/zinit.zsh
 zinit self-update
 cat $SCRIPT_DIR/zinit >> $HOME/.zshrc
-sudo ln -s $HOME/.p10k.zsh /root/.p10k.zsh
 
 $DISPLAY_COMMAND "ADD line to .zshrc"
 add_to_file_if_not_in_it 'alias Discord="com.discordapp.Discord"' "$HOME/.zshrc"
