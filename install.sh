@@ -38,10 +38,6 @@ DISPLAY_COMMAND=echo
 # the dir where the script is located
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-# make .cofig work great as root
-sudo mkdir -p $HOME/.config
-sudo ln -s $HOME/.config /root/.config
-
 $DISPLAY_COMMAND "UPDATE"
 sudo apt update
 sudo apt -y upgrade
@@ -175,7 +171,9 @@ $DISPLAY_COMMAND "Config NeoVim"
 sudo nala install -y xclip
 pip install neovim --break-system-packages
 sudo npm install -g neovim tree-sitter-cli
-sudo git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
+git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
+# make .$HOME/.config/nvim work great for root
+sudo ln -s $HOME/.config/nvim /root/.config/nvim
 
 $DISPLAY_COMMAND "Ranger"
 sudo nala install -y ranger
@@ -187,13 +185,23 @@ mkdir $HOME/.config/ranger/plugins
 git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
 add_to_file_if_not_in_it 'default_linemode devicons' "$HOME/.config/ranger/rc.conf"
 add_to_file_if_not_in_it 'set show_hidden true' "$HOME/.config/ranger/rc.conf"
+# make .$HOME/.config/nvim work great for root
+sudo ln -s $HOME/.config/ranger /root/.config/ranger
 
 $DISPLAY_COMMAND "ZSH"
 sudo nala install -y zsh fonts-font-awesome
-zsh < 1
+chsh -s /bin/zsh
 # make zsh work great as root
+sudo chsh -s /bin/zsh
 sudo ln -s $HOME/.zshrc /root/.zshrc
 sudo ln -s $HOME/.zsh_history /root/.zsh_history
+
+$DISPLAY_COMMAND "ZINIT"
+bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+source ~/.zinit/bin/zinit.zsh
+zinit self-update
+cat $SCRIPT_DIR/zinit >> $HOME/.zshrc
+sudo ln -s $HOME/.p10k.zsh /root/.p10k.zsh
 
 $DISPLAY_COMMAND "ADD line to .zshrc"
 add_to_file_if_not_in_it 'alias Discord="com.discordapp.Discord"' "$HOME/.zshrc"
@@ -212,9 +220,5 @@ fi
 if [ "$(command -v trash)" ]; then
   add_to_file_if_not_in_it "alias rm='echo "This is not the command you are looking for."; false'" "$HOME/.zshrc"
 fi
-
-$DISPLAY_COMMAND "ZINIT"
-cat $SCRIPT_DIR/zinit >> $HOME/.zshrc
-sudo ln -s $HOME/.p10k.zsh /root/.p10k.zsh
 
 $DISPLAY_COMMAND "Reboot Now"
