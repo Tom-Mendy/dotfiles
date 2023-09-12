@@ -47,7 +47,7 @@ sudo apt update
 sudo apt -y upgrade
 
 $DISPLAY_COMMAND "INSTALL NALA"
-sudo apt install -y nala figlet
+sudo apt install -y nala figlet curl
 
 if [ "$(command -v figlet)" ]; then
   DISPLAY_COMMAND=figlet
