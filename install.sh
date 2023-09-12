@@ -214,7 +214,7 @@ if [ "$(command -v trash)" ]; then
 fi
 
 $DISPLAY_COMMAND "ZINIT"
-echo $SCRIPT_DIR/zinit >> $HOME/.zshrc
+cat $SCRIPT_DIR/zinit >> $HOME/.zshrc
 sudo ln -s $HOME/.p10k.zsh /root/.p10k.zsh
 
 $DISPLAY_COMMAND "Reboot Now"
