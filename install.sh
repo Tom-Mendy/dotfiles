@@ -176,7 +176,7 @@ pip install neovim --break-system-packages
 sudo npm install -g neovim tree-sitter-cli
 git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
 # make .$HOME/.config/nvim work great for root
-sudo cp $HOME/.config/nvim /root/.config/nvim
+sudo cp -r $HOME/.config/nvim /root/.config/nvim
 
 $DISPLAY_COMMAND "Ranger"
 sudo nala install -y ranger
@@ -194,13 +194,9 @@ sudo cp $HOME/.config/ranger /root/.config/ranger
 $DISPLAY_COMMAND "ZSH"
 sudo nala install -y zsh fonts-font-awesome
 chsh -s /bin/zsh
-# make zsh work great as root
-sudo chsh -s /bin/zsh
-sudo cp $HOME/.zshrc /root/.zshrc
 
 $DISPLAY_COMMAND "ZINIT"
 bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
-source ~/.zinit/bin/zinit.zsh
 zinit self-update
 cat $SCRIPT_DIR/zinit >> $HOME/.zshrc
 
