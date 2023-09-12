@@ -71,8 +71,8 @@ $DISPLAY_COMMAND "WINDOW MANAGER"
 sudo nala install -y i3
 
 $DISPLAY_COMMAND "i3 - Config"
-mkdir -p $HOME/.config/i3/
-cp $SCRIPT_DIR/i3/config $HOME/.config/i3/
+sudo mkdir -p $HOME/.config/i3/
+sudo cp $SCRIPT_DIR/i3/config $HOME/.config/i3/
 sudo cp $SCRIPT_DIR/i3/i3status.conf /etc/
 sudo cp $SCRIPT_DIR/99x11-common_start /etc/X11/Xsession.d/
 sudo chmod 644 /etc/X11/Xsession.d/99x11-common_start
@@ -175,7 +175,7 @@ $DISPLAY_COMMAND "Config NeoVim"
 sudo nala install -y xclip
 pip install neovim --break-system-packages
 sudo npm install -g neovim tree-sitter-cli
-git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
+sudo git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
 
 $DISPLAY_COMMAND "Ranger"
 sudo nala install -y ranger
@@ -188,17 +188,12 @@ git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ra
 add_to_file_if_not_in_it 'default_linemode devicons' "$HOME/.config/ranger/rc.conf"
 add_to_file_if_not_in_it 'set show_hidden true' "$HOME/.config/ranger/rc.conf"
 
-$DISPLAY_COMMAND "ZSH - OH MY ZSH"
-git clone https://github.com/JsuisSayker/zsh_auto_install.git /tmp/zsh_auto_install
-cd /tmp/zsh_auto_install
-./Debian.sh
-cd
-sudo rm -rf /tmp/zsh_auto_install
+$DISPLAY_COMMAND "ZSH"
+sudo nala install -y zsh fonts-font-awesome
+zsh < 1
 # make zsh work great as root
 sudo ln -s $HOME/.zshrc /root/.zshrc
 sudo ln -s $HOME/.zsh_history /root/.zsh_history
-sudo ln -s $HOME/.p10k.zsh /root/.p10k.zsh
-sudo ln -s $HOME/.oh-my-zsh /root/.oh-my-zsh
 
 $DISPLAY_COMMAND "ADD line to .zshrc"
 add_to_file_if_not_in_it 'alias Discord="com.discordapp.Discord"' "$HOME/.zshrc"
@@ -217,5 +212,9 @@ fi
 if [ "$(command -v trash)" ]; then
   add_to_file_if_not_in_it "alias rm='echo "This is not the command you are looking for."; false'" "$HOME/.zshrc"
 fi
+
+$DISPLAY_COMMAND "ZINIT"
+echo $SCRIPT_DIR/zinit >> $HOME/.zshrc
+sudo ln -s $HOME/.p10k.zsh /root/.p10k.zsh
 
 $DISPLAY_COMMAND "Reboot Now"
