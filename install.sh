@@ -64,7 +64,7 @@ sudo nala install -y xorg xinit
 
 $DISPLAY_COMMAND "LOCK SCREEN"
 sudo nala install -y lightdm
-sudo sh -c "echo 'greeter-hide-users=false' >> /etc/lightdm/lightdm.conf"
+sudo sed -i '109s/^.//' /etc/lightdm/lightdm.conf
 sudo sh -c "echo 'background=/usr/share/wallpapers/bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
 
 $DISPLAY_COMMAND "WINDOW MANAGER"
