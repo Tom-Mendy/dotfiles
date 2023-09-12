@@ -1,0 +1,28 @@
+# Load Zinit
+if [[ ! -f ~/.zinit/bin/zinit.zsh ]]; then
+    bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+fi
+source ~/.zinit/bin/zinit.zsh
+
+
+# Plugin loaded with investigating.
+zinit load zdharma-continuum/history-search-multi-word
+
+# Plugins loaded without investigating.
+zinit light robbyrussell/oh-my-zsh
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light zdharma-continuum/fast-syntax-highlighting
+
+# Snippet
+zinit snippet https://gist.githubusercontent.com/hightemp/5071909/raw/
+
+# Load powerlevel10k theme
+zinit ice depth"1" # git clone depth
+zinit light romkatv/powerlevel10k
+
+# Set your preferred theme
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# Initialize Powerlevel10k theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
