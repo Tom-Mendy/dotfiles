@@ -67,6 +67,9 @@ set -e
 # Log script start
 log "Installation script started."
 
+display "Sync Time"
+sudo apt install -y ntp
+
 display "UPDATE"
 sudo apt update
 sudo apt -y upgrade
