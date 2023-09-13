@@ -52,24 +52,19 @@ fi
 $DISPLAY_COMMAND "REFRESH MIRRORS"
 yes |sudo nala fetch --auto
 #add mirror refresh every Wednesday
-crontab -l > /tpm/mycron
-echo "0 0 0 ? * WED * yes |sudo nala fetch --auto" >> /tpm/mycron
-crontab /tpm/mycron
-rm /tpm/mycron
+echo "0 0 0 ? * WED * yes |sudo nala fetch --auto" >> $HOME/crontab/user
 
 $DISPLAY_COMMAND "-- INSTALL TIME --"
 $DISPLAY_COMMAND "XORG"
 sudo nala install -y xorg xinit
+echo "@reboot xrandr -s 1920x1080" >> $HOME/crontab/user
 
 $DISPLAY_COMMAND "LOCK SCREEN"
 sudo nala install -y lightdm
+# enable list user on login screen
 sudo sed -i '109s/^.//' /etc/lightdm/lightdm.conf
-
-#copy user wallpaper to /usr/share/wallpapers/ as root
-sudo crontab -l > /tpm/mycron
-echo "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" >> /tpm/mycron
-sudo crontab /tpm/mycron
-rm /tpm/mycron
+# copy user wallpaper to /usr/share/wallpapers/ as root
+echo "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" >> $HOME/crontab/root
 sudo sh -c "echo 'background=/usr/share/wallpapers/.bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
 
 $DISPLAY_COMMAND "WINDOW MANAGER"
@@ -121,6 +116,8 @@ $DISPLAY_COMMAND "bing wallpaper just put code no exec"
 mkdir -p $HOME/my_scripts
 git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
 cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
+#refresh wallpaper at startup
+echo "@reboot $HOME/my_scripts/auto_wallpaper.sh" >> $HOME/crontab/user
 
 $DISPLAY_COMMAND "Network MAnager"
 sudo systemctl start NetworkManager.service 
@@ -200,28 +197,13 @@ sudo cp $HOME/.config/ranger /root/.config/ranger
 $DISPLAY_COMMAND "ZSH"
 sudo nala install -y zsh fonts-font-awesome
 chsh -s /bin/zsh
+cp $HOME/zsh/.zshrc >> $HOME/.zshrc
+mkdir $HOME/.zsh
+cp $HOME/zsh/alias.zsh $HOME/.zsh
+cp $HOME/zsh/env.zsh $HOME/.zsh
 
-$DISPLAY_COMMAND "ZINIT"
-bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
-zinit self-update
-cat $SCRIPT_DIR/zinit >> $HOME/.zshrc
-
-$DISPLAY_COMMAND "ADD line to .zshrc"
-add_to_file_if_not_in_it 'alias Discord="com.discordapp.Discord"' "$HOME/.zshrc"
-add_to_file_if_not_in_it 'alias spotify="com.spotify.Client"' "$HOME/.zshrc"
-add_to_file_if_not_in_it 'alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"' "$HOME/.zshrc"
-if [ "$(command -v batcat)" ]; then
-  add_to_file_if_not_in_it 'alias bat="batcat"' "$HOME/.zshrc"
-  add_to_file_if_not_in_it 'alias cat="batcat --paging=never"' "$HOME/.zshrc"
-fi
-if [ "$(command -v exa)" ]; then
-  add_to_file_if_not_in_it 'alias ls="exa --icons --color=always --group-directories-first"' "$HOME/.zshrc"
-  add_to_file_if_not_in_it 'alias la="exa --icons --color=always --group-directories-first -a"' "$HOME/.zshrc"
-  add_to_file_if_not_in_it 'alias ll="exa --icons --color=always --group-directories-first -l"' "$HOME/.zshrc"
-  add_to_file_if_not_in_it 'alias tree="exa --icons --color=always --group-directories-first --tree"' "$HOME/.zshrc"
-fi
-if [ "$(command -v trash)" ]; then
-  add_to_file_if_not_in_it "alias rm='echo "This is not the command you are looking for."; false'" "$HOME/.zshrc"
-fi
+$DISPLAY_COMMAND "CRONTAB"
+crontab $HOME/crontab/user
+sudo crontab $HOME/crontab/root
 
 $DISPLAY_COMMAND "Reboot Now"
