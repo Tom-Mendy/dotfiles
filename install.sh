@@ -3,8 +3,8 @@
 # Configuration
 LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-CRONTAB_USER="$HOME/crontab/user"
-CRONTAB_ROOT="$HOME/crontab/root"
+CRONTAB_USER="$SCRIPT_DIR/crontab/user"
+CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
 
 # Function to log messages
 log() {
