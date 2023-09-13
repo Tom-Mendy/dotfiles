@@ -82,12 +82,12 @@ sudo apt install -y nala figlet curl
 display "REFRESH MIRRORS"
 yes |sudo nala fetch --auto
 #add mirror refresh every Wednesday
-add_to_file_if_not_in_it '0 0 0 ? * WED * yes |sudo nala fetch --auto' $CRONTAB_USER
+# !todo
+# add_to_file_if_not_in_it '0 0 0 ? * WED * yes |sudo nala fetch --auto' $CRONTAB_USER
 
 display "INSTALL TIME"
 display "XORG"
 sudo apt -f install -y xorg xinit
-add_to_file_if_not_in_it "@reboot xrandr -s 1920x1080" $CRONTAB_USER
 
 display "LOCK SCREEN"
 if ! dpkg -s lightdm >/dev/null 2>&1; then
@@ -155,7 +155,8 @@ if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
 fi
 cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
 #refresh wallpaper at startup
-add_to_file_if_not_in_it "@reboot $HOME/my_scripts/auto_wallpaper.sh" $CRONTAB_USER
+cp $SCRIPT_DIR/wait_for_x_then_run.sh $HOME/my_scripts/wait_for_x_then_run.sh
+add_to_file_if_not_in_it "@reboot $HOME/my_scripts/wait_for_x_then_run.sh" $CRONTAB_USER
 
 display "Docker Engine"
 if [ ! "$(command -v docker)" ]; then
