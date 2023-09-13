@@ -1,5 +1,17 @@
 #!/usr/bin/bash
 
+# Configuration
+LOG_FILE="/var/log/installation.log"
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+CRONTAB_USER="$HOME/crontab/user"
+CRONTAB_ROOT="$HOME/crontab/root"
+
+# Function to log messages
+log() {
+    local message="$1"
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - $message" >> "$LOG_FILE"
+}
+
 function confirm {
     while true; do
         read -p "Do you want to proceed? [Yes/No/Cancel] " yn
@@ -21,41 +33,36 @@ function confirm {
 #     # Place your code here to execute when user denies
 # fi
 
-function add_to_file_if_not_in_it {
-  string="$1"
-  path="$2"
+# Function to add a line to a file if it doesn't exist
+add_to_file_if_not_in_it() {
+    local string="$1"
+    local path="$2"
   
-  if ! grep -q "$string" "$path"; then
-    echo "$string" >> "$path"
-    echo "$string added to $path"
-  else
-    echo "$string already exists in $path"
-  fi
-}
-
-function display {
-    DISPLAY_COMMAND=echo
-    if [ "$(command -v figlet)" ]; then
-      DISPLAY_COMMAND=figlet
+    if ! grep -q "$string" "$path"; then
+        echo "$string" >> "$path"
+        echo "$string added to $path"
+    else
+        echo "$string already exists in $path"
     fi
+}
+
+# Function for displaying headers
+display() {
+    local header_text="$1"
+    local DISPLAY_COMMAND="echo"
+    
+    if [ "$(command -v figlet)" ]; then
+        DISPLAY_COMMAND="figlet"
+    fi
+
     echo "--------------------------------------"
-    $DISPLAY_COMMAND "$1"
-    log "$1"
+    $DISPLAY_COMMAND "$header_text"
+    log "$header_text"
     echo "--------------------------------------"
 }
 
-# Function to log messages
-log() {
-    local message="$1"
-    echo "$(date +'%Y-%m-%d %H:%M:%S') - $message" >> "$LOG_FILE"
-}
-
-set -e  # Enable exit on error
-
-#init variable
-# the dir where the script is located
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-LOG_FILE="/var/log/installation.log"
+# Enable exit on error
+set -e
 
 # Log script start
 log "Installation script started."
@@ -70,19 +77,19 @@ sudo apt install -y nala figlet curl
 display "REFRESH MIRRORS"
 yes |sudo nala fetch --auto
 #add mirror refresh every Wednesday
-echo "0 0 0 ? * WED * yes |sudo nala fetch --auto" >> $HOME/crontab/user
+echo "0 0 0 ? * WED * yes |sudo nala fetch --auto" >> $CRONTAB_USER
 
 display "-- INSTALL TIME --"
 display "XORG"
 sudo nala install -y xorg xinit
-echo "@reboot xrandr -s 1920x1080" >> $HOME/crontab/user
+echo "@reboot xrandr -s 1920x1080" >> $CRONTAB_USER
 
 display "LOCK SCREEN"
 sudo nala install -y lightdm
 # enable list user on login screen
 sudo sed -i '109s/^.//' /etc/lightdm/lightdm.conf
 # copy user wallpaper to /usr/share/wallpapers/ as root
-echo "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" >> $HOME/crontab/root
+echo "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" >> $CRONTAB_ROOT
 sudo sh -c "echo 'background=/usr/share/wallpapers/.bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
 
 display "WINDOW MANAGER"
@@ -135,7 +142,7 @@ mkdir -p $HOME/my_scripts
 git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
 cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
 #refresh wallpaper at startup
-echo "@reboot $HOME/my_scripts/auto_wallpaper.sh" >> $HOME/crontab/user
+echo "@reboot $HOME/my_scripts/auto_wallpaper.sh" >> $CRONTAB_USER
 
 display "Network MAnager"
 sudo systemctl start NetworkManager.service 
@@ -221,8 +228,8 @@ cp $HOME/zsh/alias.zsh $HOME/.zsh
 cp $HOME/zsh/env.zsh $HOME/.zsh
 
 display "CRONTAB"
-crontab $HOME/crontab/user
-sudo crontab $HOME/crontab/root
+crontab $CRONTAB_USER
+sudo crontab $CRONTAB_ROOT
 
 display "Reboot Now"
 
