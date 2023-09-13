@@ -6,6 +6,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CRONTAB_USER="$SCRIPT_DIR/crontab/user"
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
 mkdir -p $HOME/.config/
+sudo mkdir -p /root/.config/
 
 # Function to log messages
 log() {
