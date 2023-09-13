@@ -240,7 +240,7 @@ fi
 add_to_file_if_not_in_it 'default_linemode devicons' "$HOME/.config/ranger/rc.conf"
 add_to_file_if_not_in_it 'set show_hidden true' "$HOME/.config/ranger/rc.conf"
 # make .$HOME/.config/nvim work great for root
-sudo cp $HOME/.config/ranger /root/.config/ranger
+sudo cp -r $HOME/.config/ranger /root/.config/ranger
 
 display "ZSH"
 sudo nala install -y zsh fonts-font-awesome
