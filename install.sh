@@ -176,8 +176,6 @@ fi
 
 display "Flatpak"
 sudo nala install -y flatpak
-# update certificate
-sudo apt install --reinstall ca-certificates
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 display "INSTALL Flatpak Package"
