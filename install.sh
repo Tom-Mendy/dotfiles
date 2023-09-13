@@ -53,7 +53,7 @@ display() {
     local header_text="$1"
     local DISPLAY_COMMAND="echo"
     
-    if [ "$(command -v figlet)" ]; then
+    if [ ! "$(command -v figlet)" ]; then
         DISPLAY_COMMAND="figlet"
     fi
 
@@ -122,7 +122,7 @@ chmod +x /tmp/rust.sh
 rm -f /tmp/rust.sh
 
 display "Nodejs"
-if [ ! command -v npm ]; then
+if ! command -v npm &> /dev/null; then
   sudo nala update
   sudo nala install -y ca-certificates curl gnupg
   sudo mkdir -p /etc/apt/keyrings
@@ -156,7 +156,7 @@ cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
 add_to_file_if_not_in_it "@reboot $HOME/my_scripts/auto_wallpaper.sh" $CRONTAB_USER
 
 display "Docker Engine"
-if [ ! command -v docker ]; then
+if ! command -v docker &> /dev/null; then
   sudo nala update
   sudo nala install -y ca-certificates curl gnupg
   sudo install -m 0755 -d /etc/apt/keyrings
@@ -184,7 +184,7 @@ display "INSTALL Flatpak Package"
 sudo flatpak install -y flathub com.discordapp.Discord com.spotify.Client com.github.IsmaelMartinez.teams_for_linux
 
 display "Brave"
-if [ ! command -v brave-browser ]; then
+if ! command -v brave-browser &> /dev/null; then
   sudo nala install -y curl
   sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
@@ -193,7 +193,7 @@ if [ ! command -v brave-browser ]; then
 fi
 
 display "VSCode"
-if [ ! command -v code ]; then
+if ! command -v code &> /dev/null; then
   sudo nala install -y wget gpg
   wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
   sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
@@ -205,7 +205,7 @@ if [ ! command -v code ]; then
 fi
 
 display "Neovim"
-if [ ! command -v nvim ]; then
+if ! command -v nvim &> /dev/null; then
   sudo nala install -y ninja-build gettext cmake unzip curl
   if [ ! -d "/tmp/neovim" ]; then
     git clone https://github.com/neovim/neovim /tmp/neovim
@@ -220,7 +220,7 @@ fi
 display "Config NeoVim"
 sudo nala install -y xclip
 pip install neovim --break-system-packages
-if [ ! -v tree-sitter ]; then
+if ! command -v tree-sitter  &> /dev/null; then
   sudo npm install -g neovim tree-sitter-cli
 fi
 if [ ! -d "$HOME/.config/nvim" ]; then
