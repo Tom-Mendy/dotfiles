@@ -64,7 +64,13 @@ sudo nala install -y xorg xinit
 $DISPLAY_COMMAND "LOCK SCREEN"
 sudo nala install -y lightdm
 sudo sed -i '109s/^.//' /etc/lightdm/lightdm.conf
-sudo sh -c "echo 'background=/usr/share/wallpapers/bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
+
+#copy user wallpaper to /usr/share/wallpapers/ as root
+sudo crontab -l > /tpm/mycron
+echo "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" >> /tpm/mycron
+sudo crontab /tpm/mycron
+rm /tpm/mycron
+sudo sh -c "echo 'background=/usr/share/wallpapers/.bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
 
 $DISPLAY_COMMAND "WINDOW MANAGER"
 sudo nala install -y i3
