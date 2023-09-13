@@ -5,13 +5,12 @@ LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CRONTAB_USER="$SCRIPT_DIR/crontab/user"
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
-mkdir -p $HOME/.config/
-sudo mkdir -p /root/.config/
+mkdir -p $HOME/.config/ & sudo mkdir -p /root/.config/ &
 
 # Function to log messages
 log() {
     local message="$1"
-    sudo sh -c "echo \"$(date +'%Y-%m-%d %H:%M:%S')\" >> \"$LOG_FILE\""
+    sudo sh -c "echo \"$(date +'%Y-%m-%d %H:%M:%S')\" >> \"$LOG_FILE\"" &
 }
 
 confirm() {
@@ -40,12 +39,12 @@ add_to_file_if_not_in_it() {
     local string="$1"
     local path="$2"
   
-    if ! grep -q "$string" "$path"; then
-        echo "$string" >> "$path"
-        echo "$string added to $path"
+    if ! grep -q "$string" "$path" &>/dev/null; then
+        echo "$string" >> "$path" &
+        echo "$string added to $path" &
     else
-        echo "$string already exists in $path"
-    fi
+        echo "$string already exists in $path" &
+    fi & # Add this
 }
 
 # Function for displaying headers
@@ -149,6 +148,7 @@ sudo systemctl start NetworkManager.service
 sudo systemctl enable NetworkManager.service
 
 display "bing wallpaper"
+(
 mkdir -p $HOME/my_scripts
 if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
   git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
@@ -157,8 +157,10 @@ cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
 #refresh wallpaper at startup
 cp $SCRIPT_DIR/wait_for_x_then_run.sh $HOME/my_scripts/wait_for_x_then_run.sh
 add_to_file_if_not_in_it "@reboot $HOME/my_scripts/wait_for_x_then_run.sh" $CRONTAB_USER
+)&
 
 display "Docker Engine"
+(
 if [ ! "$(command -v docker)" ]; then
   sudo nala update
   sudo nala install -y ca-certificates curl gnupg
@@ -176,15 +178,19 @@ if [ ! "$(command -v docker)" ]; then
   fi
   sudo usermod -aG docker $USER
 fi
+)&
 
 display "Flatpak"
+(
 sudo nala install -y flatpak
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 display "INSTALL Flatpak Package"
 sudo flatpak install -y flathub com.discordapp.Discord com.spotify.Client com.github.IsmaelMartinez.teams_for_linux
+)&
 
 display "Brave"
+(
 if ! command -v brave-browser &> /dev/null; then
   sudo nala install -y curl
   sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
@@ -192,8 +198,10 @@ if ! command -v brave-browser &> /dev/null; then
   sudo nala update
   sudo nala install -y brave-browser
 fi
+)&
 
 display "VSCode"
+(
 if [ ! "$(command -v code)" ]; then
   sudo nala install -y wget gpg
   wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -204,8 +212,10 @@ if [ ! "$(command -v code)" ]; then
   sudo nala update
   sudo nala install -y code
 fi
+)&
 
 display "Neovim"
+(
 if [ ! "$(command -v nvim)" ]; then
   sudo nala install -y ninja-build gettext cmake unzip curl
   if [ ! -d "/tmp/neovim" ]; then
@@ -217,6 +227,9 @@ if [ ! "$(command -v nvim)" ]; then
   cd
   sudo rm -rf /tmp/neovim
 fi
+)&
+
+wait 
 
 display "Config NeoVim"
 sudo nala install -y xclip
@@ -259,5 +272,7 @@ sudo crontab $CRONTAB_ROOT
 
 display "Reboot Now"
 
+# wait for all background tasks to complete
+wait
 # Log script completion
 log "Installation script completed."
