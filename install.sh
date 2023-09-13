@@ -186,25 +186,29 @@ sudo nala update
 sudo nala install -y brave-browser
 
 display "VSCode"
-sudo nala install -y wget gpg
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-rm -f packages.microsoft.gpg
-sudo nala install -y apt-transport-https
-sudo nala update
-sudo nala install -y code
+if [ "$(command -v code)" ]; then
+  sudo nala install -y wget gpg
+  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+  sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+  sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+  rm -f packages.microsoft.gpg
+  sudo nala install -y apt-transport-https
+  sudo nala update
+  sudo nala install -y code
+fi
 
 display "Neovim"
-sudo nala install -y ninja-build gettext cmake unzip curl
-if [ ! -d "/tmp/neovim" ]; then
-  git clone https://github.com/neovim/neovim /tmp/neovim
+if [ "$(command -v nvim)" ]; then
+  sudo nala install -y ninja-build gettext cmake unzip curl
+  if [ ! -d "/tmp/neovim" ]; then
+    git clone https://github.com/neovim/neovim /tmp/neovim
+  fi
+  cd /tmp/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
+  git checkout stable
+  sudo make install
+  cd
+  sudo rm -rf /tmp/neovim
 fi
-cd /tmp/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
-git checkout stable
-sudo make install
-cd
-sudo rm -rf /tmp/neovim
 
 display "Config NeoVim"
 sudo nala install -y xclip
