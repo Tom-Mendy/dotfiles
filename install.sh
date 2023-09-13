@@ -82,7 +82,7 @@ sudo apt install -y nala figlet curl
 display "REFRESH MIRRORS"
 yes |sudo nala fetch --auto
 #add mirror refresh every Wednesday
-add_to_file_if_not_in_it "0 0 0 ? * WED * yes |sudo nala fetch --auto" $CRONTAB_USER
+add_to_file_if_not_in_it '0 0 0 ? * WED * yes |sudo nala fetch --auto' $CRONTAB_USER
 
 display "INSTALL TIME"
 display "XORG"
@@ -90,12 +90,14 @@ sudo apt -f install -y xorg xinit
 add_to_file_if_not_in_it "@reboot xrandr -s 1920x1080" $CRONTAB_USER
 
 display "LOCK SCREEN"
-sudo nala install -y lightdm
-# enable list user on login screen
-sudo sed -i '109s/^.//' /etc/lightdm/lightdm.conf
-# copy user wallpaper to /usr/share/wallpapers/ as root
-add_to_file_if_not_in_it "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" $CRONTAB_ROOT
-sudo sh -c "echo 'background=/usr/share/wallpapers/.bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
+if ! dpkg -s lightdm >/dev/null 2>&1; then
+  sudo nala install -y lightdm
+  # enable list user on login screen
+  sudo sed -i '109s/^.//' /etc/lightdm/lightdm.conf
+  # copy user wallpaper to /usr/share/wallpapers/ as root
+  add_to_file_if_not_in_it "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" $CRONTAB_ROOT
+  sudo sh -c "echo 'background=/usr/share/wallpapers/.bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
+fi
 
 display "WINDOW MANAGER"
 sudo nala install -y i3
