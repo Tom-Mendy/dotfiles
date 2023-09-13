@@ -69,6 +69,7 @@ log "Installation script started."
 
 display "Sync Time"
 sudo apt install -y ntp
+sudo systemctl restart ntp
 
 display "UPDATE"
 sudo apt update
