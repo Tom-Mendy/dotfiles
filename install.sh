@@ -84,7 +84,7 @@ echo "0 0 0 ? * WED * yes |sudo nala fetch --auto" >> $CRONTAB_USER
 
 display "INSTALL TIME"
 display "XORG"
-sudo nala -f install -y xorg xinit
+sudo apt -f install -y xorg xinit
 echo "@reboot xrandr -s 1920x1080" >> $CRONTAB_USER
 
 display "LOCK SCREEN"
