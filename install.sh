@@ -53,7 +53,7 @@ display() {
     local header_text="$1"
     local DISPLAY_COMMAND="echo"
     
-    if [ command -v figlet ]; then
+    if [ "$(command -v figlet)" ]; then
         DISPLAY_COMMAND="figlet"
     fi
 
