@@ -237,7 +237,7 @@ ranger --copy-config=all
 # add icon plugin
 sudo mkdir -p $HOME/.config/ranger/plugins
 if [ ! -d "$HOME/.config/ranger/plugins/ranger_devicons" ]; then
-  git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
+  sudo git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
 fi
 add_to_file_if_not_in_it 'default_linemode devicons' "$HOME/.config/ranger/rc.conf"
 add_to_file_if_not_in_it 'set show_hidden true' "$HOME/.config/ranger/rc.conf"
