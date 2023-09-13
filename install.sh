@@ -231,9 +231,9 @@ display "Ranger"
 sudo nala install -y ranger
 
 display "Config Ranger"
+mkdir -p $HOME/.config/ranger/plugins
 ranger --copy-config=all
 # add icon plugin
-mkdir -p $HOME/.config/ranger/plugins
 if [ ! -d "$HOME/.config/ranger/plugins/ranger_devicons" ]; then
   sudo git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
 fi
