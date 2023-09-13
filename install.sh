@@ -9,7 +9,7 @@ CRONTAB_ROOT="$HOME/crontab/root"
 # Function to log messages
 log() {
     local message="$1"
-    sudo sh -c 'echo "$(date +'%Y-%m-%d %H:%M:%S')" >> "$LOG_FILE"'
+    sudo sh -c "echo \"$(date +'%Y-%m-%d %H:%M:%S')\" >> \"$LOG_FILE\""
 }
 
 function confirm {
