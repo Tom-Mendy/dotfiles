@@ -224,7 +224,7 @@ if [ ! "$(command -v tree-sitter)" ]; then
   sudo npm install -g neovim tree-sitter-cli
 fi
 if [ ! -d "$HOME/.config/nvim" ]; then
-  sudo git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
+  git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
 fi
 # make .$HOME/.config/nvim work great for root
 sudo cp -r $HOME/.config/nvim /root/.config/nvim
@@ -237,7 +237,7 @@ mkdir -p $HOME/.config/ranger/plugins
 ranger --copy-config=all
 # add icon plugin
 if [ ! -d "$HOME/.config/ranger/plugins/ranger_devicons" ]; then
-  sudo git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
+  git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
 fi
 add_to_file_if_not_in_it 'default_linemode devicons' "$HOME/.config/ranger/rc.conf"
 add_to_file_if_not_in_it 'set show_hidden true' "$HOME/.config/ranger/rc.conf"
