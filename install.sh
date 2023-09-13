@@ -138,16 +138,16 @@ sudo nala install -y lua5.4 luarocks
 display "BASE-APP"
 sudo nala install -y nm-tray network-manager pulseaudio pavucontrol bluez copyq thunar feh
 
+display "Network MAnager"
+sudo systemctl start NetworkManager.service 
+sudo systemctl enable NetworkManager.service
+
 display "bing wallpaper just put code no exec"
 mkdir -p $HOME/my_scripts
 git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
 cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
 #refresh wallpaper at startup
 echo "@reboot $HOME/my_scripts/auto_wallpaper.sh" >> $CRONTAB_USER
-
-display "Network MAnager"
-sudo systemctl start NetworkManager.service 
-sudo systemctl enable NetworkManager.service
 
 display "Docker Engine"
 sudo nala update
@@ -161,7 +161,10 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo nala update
 sudo nala install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo groupadd docker
+if ! getent group docker >/dev/null; then
+  echo "Creating group: docker"
+  sudo groupadd docker
+fi
 sudo usermod -aG docker $USER
 
 display "Flatpak"
