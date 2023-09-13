@@ -146,7 +146,7 @@ display "Network MAnager"
 sudo systemctl start NetworkManager.service 
 sudo systemctl enable NetworkManager.service
 
-display "bing wallpaper just put code no exec"
+display "bing wallpaper"
 mkdir -p $HOME/my_scripts
 if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
   git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
@@ -233,7 +233,7 @@ sudo nala install -y ranger
 display "Config Ranger"
 ranger --copy-config=all
 # add icon plugin
-mkdir $HOME/.config/ranger/plugins
+mkdir -p $HOME/.config/ranger/plugins
 if [ ! -d "$HOME/.config/ranger/plugins/ranger_devicons" ]; then
   git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
 fi
