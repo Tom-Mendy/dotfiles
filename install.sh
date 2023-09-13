@@ -33,33 +33,51 @@ function add_to_file_if_not_in_it {
   fi
 }
 
+function display {
+    DISPLAY_COMMAND=echo
+    if [ "$(command -v figlet)" ]; then
+      DISPLAY_COMMAND=figlet
+    fi
+    echo "--------------------------------------"
+    $DISPLAY_COMMAND "$1"
+    log "$1"
+    echo "--------------------------------------"
+}
+
+# Function to log messages
+log() {
+    local message="$1"
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - $message" >> "$LOG_FILE"
+}
+
+set -e  # Enable exit on error
+
 #init variable
-DISPLAY_COMMAND=echo
 # the dir where the script is located
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+LOG_FILE="/var/log/installation.log"
 
-$DISPLAY_COMMAND "UPDATE"
+# Log script start
+log "Installation script started."
+
+display "UPDATE"
 sudo apt update
 sudo apt -y upgrade
 
-$DISPLAY_COMMAND "INSTALL NALA"
+display "INSTALL NALA"
 sudo apt install -y nala figlet curl
 
-if [ "$(command -v figlet)" ]; then
-  DISPLAY_COMMAND=figlet
-fi
-
-$DISPLAY_COMMAND "REFRESH MIRRORS"
+display "REFRESH MIRRORS"
 yes |sudo nala fetch --auto
 #add mirror refresh every Wednesday
 echo "0 0 0 ? * WED * yes |sudo nala fetch --auto" >> $HOME/crontab/user
 
-$DISPLAY_COMMAND "-- INSTALL TIME --"
-$DISPLAY_COMMAND "XORG"
+display "-- INSTALL TIME --"
+display "XORG"
 sudo nala install -y xorg xinit
 echo "@reboot xrandr -s 1920x1080" >> $HOME/crontab/user
 
-$DISPLAY_COMMAND "LOCK SCREEN"
+display "LOCK SCREEN"
 sudo nala install -y lightdm
 # enable list user on login screen
 sudo sed -i '109s/^.//' /etc/lightdm/lightdm.conf
@@ -67,33 +85,33 @@ sudo sed -i '109s/^.//' /etc/lightdm/lightdm.conf
 echo "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" >> $HOME/crontab/root
 sudo sh -c "echo 'background=/usr/share/wallpapers/.bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
 
-$DISPLAY_COMMAND "WINDOW MANAGER"
+display "WINDOW MANAGER"
 sudo nala install -y i3
 
-$DISPLAY_COMMAND "i3 - Config"
+display "i3 - Config"
 sudo mkdir -p $HOME/.config/i3/
 sudo cp $SCRIPT_DIR/i3/config $HOME/.config/i3/
 sudo cp $SCRIPT_DIR/i3/i3status.conf /etc/
 sudo cp $SCRIPT_DIR/99x11-common_start /etc/X11/Xsession.d/
 sudo chmod 644 /etc/X11/Xsession.d/99x11-common_start
 
-$DISPLAY_COMMAND "TERMINAL"
+display "TERMINAL"
 sudo nala install -y kitty
 
-$DISPLAY_COMMAND "CLI-APP"
+display "CLI-APP"
 sudo nala install -y build-essential
 sudo nala install -y vim tldr exa bat ripgrep fzf fd-find neofetch htop trash-cli
 
-$DISPLAY_COMMAND "C"
+display "C"
 sudo nala install -y valgrind
 
-$DISPLAY_COMMAND "Rust"
+display "Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
 chmod +x /tmp/rust.sh
 /tmp/rust.sh -y
 rm -f /tmp/rust.sh
 
-$DISPLAY_COMMAND "Nodejs"
+display "Nodejs"
 sudo nala update
 sudo nala install -y ca-certificates curl gnupg
 sudo mkdir -p /etc/apt/keyrings
@@ -103,27 +121,27 @@ echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.co
 sudo nala update
 sudo nala install -y nodejs
 
-$DISPLAY_COMMAND "Python-add"
+display "Python-add"
 sudo nala install -y python3-pip python3-venv
 
-$DISPLAY_COMMAND "Lua"
+display "Lua"
 sudo nala install -y lua5.4 luarocks
 
-$DISPLAY_COMMAND "BASE-APP"
+display "BASE-APP"
 sudo nala install -y nm-tray network-manager pulseaudio pavucontrol bluez copyq thunar feh
 
-$DISPLAY_COMMAND "bing wallpaper just put code no exec"
+display "bing wallpaper just put code no exec"
 mkdir -p $HOME/my_scripts
 git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
 cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
 #refresh wallpaper at startup
 echo "@reboot $HOME/my_scripts/auto_wallpaper.sh" >> $HOME/crontab/user
 
-$DISPLAY_COMMAND "Network MAnager"
+display "Network MAnager"
 sudo systemctl start NetworkManager.service 
 sudo systemctl enable NetworkManager.service
 
-$DISPLAY_COMMAND "Docker Engine"
+display "Docker Engine"
 sudo nala update
 sudo nala install -y ca-certificates curl gnupg
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -138,23 +156,23 @@ sudo nala install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
-$DISPLAY_COMMAND "Flatpak"
+display "Flatpak"
 sudo nala install -y flatpak
 # update certificate
 sudo apt install --reinstall ca-certificates
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
-$DISPLAY_COMMAND "INSTALL Flatpak Package"
+display "INSTALL Flatpak Package"
 sudo flatpak install -y flathub com.discordapp.Discord com.spotify.Client com.github.IsmaelMartinez.teams_for_linux
 
-$DISPLAY_COMMAND "Brave"
+display "Brave"
 sudo nala install -y curl
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 sudo nala update
 sudo nala install -y brave-browser
 
-$DISPLAY_COMMAND "VSCode"
+display "VSCode"
 sudo nala install -y wget gpg
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
 sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
@@ -164,7 +182,7 @@ sudo nala install -y apt-transport-https
 sudo nala update
 sudo nala install -y code
 
-$DISPLAY_COMMAND "Neovim"
+display "Neovim"
 sudo nala install -y ninja-build gettext cmake unzip curl
 git clone https://github.com/neovim/neovim /tmp/neovim
 cd /tmp/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
@@ -173,7 +191,7 @@ sudo make install
 cd
 sudo rm -rf /tmp/neovim
 
-$DISPLAY_COMMAND "Config NeoVim"
+display "Config NeoVim"
 sudo nala install -y xclip
 pip install neovim --break-system-packages
 sudo npm install -g neovim tree-sitter-cli
@@ -181,10 +199,10 @@ git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
 # make .$HOME/.config/nvim work great for root
 sudo cp -r $HOME/.config/nvim /root/.config/nvim
 
-$DISPLAY_COMMAND "Ranger"
+display "Ranger"
 sudo nala install -y ranger
 
-$DISPLAY_COMMAND "Config Ranger"
+display "Config Ranger"
 ranger --copy-config=all
 # add icon plugin
 mkdir $HOME/.config/ranger/plugins
@@ -194,7 +212,7 @@ add_to_file_if_not_in_it 'set show_hidden true' "$HOME/.config/ranger/rc.conf"
 # make .$HOME/.config/nvim work great for root
 sudo cp $HOME/.config/ranger /root/.config/ranger
 
-$DISPLAY_COMMAND "ZSH"
+display "ZSH"
 sudo nala install -y zsh fonts-font-awesome
 chsh -s /bin/zsh
 cp $HOME/zsh/.zshrc >> $HOME/.zshrc
@@ -202,8 +220,11 @@ mkdir $HOME/.zsh
 cp $HOME/zsh/alias.zsh $HOME/.zsh
 cp $HOME/zsh/env.zsh $HOME/.zsh
 
-$DISPLAY_COMMAND "CRONTAB"
+display "CRONTAB"
 crontab $HOME/crontab/user
 sudo crontab $HOME/crontab/root
 
-$DISPLAY_COMMAND "Reboot Now"
+display "Reboot Now"
+
+# Log script completion
+log "Installation script completed."
