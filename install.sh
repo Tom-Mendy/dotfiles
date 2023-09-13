@@ -153,21 +153,23 @@ cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
 add_to_file_if_not_in_it "@reboot $HOME/my_scripts/auto_wallpaper.sh" $CRONTAB_USER
 
 display "Docker Engine"
-sudo nala update
-sudo nala install -y ca-certificates curl gnupg
-sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-sudo chmod a+r /etc/apt/keyrings/docker.gpg
-echo \
-  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo nala update
-sudo nala install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-if ! getent group docker >/dev/null; then
-  echo "Creating group: docker"
-  sudo groupadd docker
+if [ "$(command -v docker)" ]; then
+  sudo nala update
+  sudo nala install -y ca-certificates curl gnupg
+  sudo install -m 0755 -d /etc/apt/keyrings
+  curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  echo \
+    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo nala update
+  sudo nala install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  if ! getent group docker >/dev/null; then
+    echo "Creating group: docker"
+    sudo groupadd docker
+  fi
+  sudo usermod -aG docker $USER
 fi
-sudo usermod -aG docker $USER
 
 display "Flatpak"
 sudo nala install -y flatpak
@@ -179,11 +181,13 @@ display "INSTALL Flatpak Package"
 sudo flatpak install -y flathub com.discordapp.Discord com.spotify.Client com.github.IsmaelMartinez.teams_for_linux
 
 display "Brave"
-sudo nala install -y curl
-sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-sudo nala update
-sudo nala install -y brave-browser
+if [ "$(command -v brave-browser)" ]; then
+  sudo nala install -y curl
+  sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+  sudo nala update
+  sudo nala install -y brave-browser
+fi
 
 display "VSCode"
 if [ "$(command -v code)" ]; then
