@@ -102,8 +102,6 @@ display "i3 - Config"
 sudo mkdir -p $HOME/.config/i3/
 sudo cp $SCRIPT_DIR/i3/config $HOME/.config/i3/
 sudo cp $SCRIPT_DIR/i3/i3status.conf /etc/
-sudo cp $SCRIPT_DIR/99x11-common_start /etc/X11/Xsession.d/
-sudo chmod 644 /etc/X11/Xsession.d/99x11-common_start
 
 display "TERMINAL"
 sudo nala install -y kitty
