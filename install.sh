@@ -5,6 +5,7 @@ LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CRONTAB_USER="$SCRIPT_DIR/crontab/user"
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
+mkdir -p $HOME/.config/
 
 # Function to log messages
 log() {
@@ -12,7 +13,7 @@ log() {
     sudo sh -c "echo \"$(date +'%Y-%m-%d %H:%M:%S')\" >> \"$LOG_FILE\""
 }
 
-function confirm {
+confirm() {
     while true; do
         read -p "Do you want to proceed? [Yes/No/Cancel] " yn
         case $yn in
@@ -144,7 +145,9 @@ sudo systemctl enable NetworkManager.service
 
 display "bing wallpaper just put code no exec"
 mkdir -p $HOME/my_scripts
-git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
+if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
+  git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
+fi
 cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
 #refresh wallpaper at startup
 add_to_file_if_not_in_it "@reboot $HOME/my_scripts/auto_wallpaper.sh" $CRONTAB_USER
@@ -157,8 +160,7 @@ curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o 
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo nala update
 sudo nala install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 if ! getent group docker >/dev/null; then
@@ -195,7 +197,9 @@ sudo nala install -y code
 
 display "Neovim"
 sudo nala install -y ninja-build gettext cmake unzip curl
-git clone https://github.com/neovim/neovim /tmp/neovim
+if [ ! -d "/tmp/neovim" ]; then
+  git clone https://github.com/neovim/neovim /tmp/neovim
+fi
 cd /tmp/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
 git checkout stable
 sudo make install
@@ -206,7 +210,9 @@ display "Config NeoVim"
 sudo nala install -y xclip
 pip install neovim --break-system-packages
 sudo npm install -g neovim tree-sitter-cli
-git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
+if [ ! -d "$HOME/.config/nvim" ]; then
+  git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
+fi
 # make .$HOME/.config/nvim work great for root
 sudo cp -r $HOME/.config/nvim /root/.config/nvim
 
@@ -217,7 +223,9 @@ display "Config Ranger"
 ranger --copy-config=all
 # add icon plugin
 mkdir $HOME/.config/ranger/plugins
-git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
+if [ ! -d "$HOME/.config/ranger/plugins/ranger_devicons" ]; then
+  git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
+fi
 add_to_file_if_not_in_it 'default_linemode devicons' "$HOME/.config/ranger/rc.conf"
 add_to_file_if_not_in_it 'set show_hidden true' "$HOME/.config/ranger/rc.conf"
 # make .$HOME/.config/nvim work great for root
