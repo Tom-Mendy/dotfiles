@@ -80,19 +80,19 @@ sudo apt install -y nala figlet curl
 display "REFRESH MIRRORS"
 yes |sudo nala fetch --auto
 #add mirror refresh every Wednesday
-echo "0 0 0 ? * WED * yes |sudo nala fetch --auto" >> $CRONTAB_USER
+add_to_file_if_not_in_it "0 0 0 ? * WED * yes |sudo nala fetch --auto" $CRONTAB_USER
 
 display "INSTALL TIME"
 display "XORG"
 sudo apt -f install -y xorg xinit
-echo "@reboot xrandr -s 1920x1080" >> $CRONTAB_USER
+add_to_file_if_not_in_it "@reboot xrandr -s 1920x1080" $CRONTAB_USER
 
 display "LOCK SCREEN"
 sudo nala install -y lightdm
 # enable list user on login screen
 sudo sed -i '109s/^.//' /etc/lightdm/lightdm.conf
 # copy user wallpaper to /usr/share/wallpapers/ as root
-echo "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" >> $CRONTAB_ROOT
+add_to_file_if_not_in_it "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" $CRONTAB_ROOT
 sudo sh -c "echo 'background=/usr/share/wallpapers/.bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
 
 display "WINDOW MANAGER"
@@ -147,7 +147,7 @@ mkdir -p $HOME/my_scripts
 git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
 cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
 #refresh wallpaper at startup
-echo "@reboot $HOME/my_scripts/auto_wallpaper.sh" >> $CRONTAB_USER
+add_to_file_if_not_in_it "@reboot $HOME/my_scripts/auto_wallpaper.sh" $CRONTAB_USER
 
 display "Docker Engine"
 sudo nala update
