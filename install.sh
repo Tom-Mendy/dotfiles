@@ -110,19 +110,24 @@ display "TERMINAL"
 sudo nala install -y kitty
 
 display "CLI-APP"
+(
 sudo nala install -y build-essential
 sudo nala install -y vim tldr exa bat ripgrep fzf fd-find neofetch htop trash-cli
+)&
 
 display "C"
 sudo nala install -y valgrind
 
 display "Rust"
+(
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
 chmod +x /tmp/rust.sh
 /tmp/rust.sh -y
 rm -f /tmp/rust.sh
+)&
 
 display "Nodejs"
+(
 if [ ! "$(command -v npm)" ]; then
   sudo nala update
   sudo nala install -y ca-certificates curl gnupg
@@ -133,6 +138,7 @@ if [ ! "$(command -v npm)" ]; then
   sudo nala update
   sudo nala install -y nodejs
 fi
+)&
 
 display "Python-add"
 sudo nala install -y python3-pip python3-venv
