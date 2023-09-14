@@ -15,20 +15,20 @@ fi
 source ~/.zinit/bin/zinit.zsh
 
 # Load your favorite plugins
-zinit load zsh-users/zsh-autosuggestions
-zinit load zsh-users/zsh-syntax-highlighting
+zinit load autojump/autojump
 zinit load junegunn/fzf, \
     atclone"source install --all" \
     atpull"source install --all"
-zinit load zsh-users/zsh-completions
 zinit load ohmyzsh/plugins/git
 zinit load ohmyzsh/plugins/docker
 zinit load ohmyzsh/plugins/kubernetes
-zinit load autojump/autojump
 zinit load michaeltribes/zsh-autopair
-zinit load zsh-users/zsh-history-substring-search
 zinit load zdharma/fast-syntax-highlighting
 zinit load zdharma/history-search-multi-word
+zinit load zsh-users/zsh-autosuggestions
+zinit load zsh-users/zsh-completions
+zinit load zsh-users/zsh-history-substring-search
+zinit load zsh-users/zsh-syntax-highlighting
 
 # Load custom snippets if needed
 # zinit snippet https://gist.githubusercontent.com/hightemp/5071909/raw/
