@@ -1,6 +1,7 @@
 #!/bin/bash
 while :; do
-    xrandr -s 1920x1080
+    pgrep Xorg
+    
     if [ $? -eq 0 ]; then
         break
     else
@@ -8,11 +9,5 @@ while :; do
     fi
 done
 
-while :; do
-    $HOME/my_scripts/auto_wallpaper.sh
-    if [ $? -eq 0 ]; then
-        break
-    else
-        sleep 1
-    fi
-done
+xrandr -s 1920x1080
+$HOME/my_scripts/auto_wallpaper.sh
