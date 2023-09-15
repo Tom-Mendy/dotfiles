@@ -287,9 +287,9 @@ display "Config NeoVim End"
 )&
 
 (
-display "Ranger"
+display "Ranger Start"
 sudo nala install -y ranger
-)&
+display "Ranger End"
 
 display "Config Ranger"
 mkdir -p $HOME/.config/ranger/plugins
@@ -302,6 +302,8 @@ add_to_file_if_not_in_it 'default_linemode devicons' "$HOME/.config/ranger/rc.co
 add_to_file_if_not_in_it 'set show_hidden true' "$HOME/.config/ranger/rc.conf"
 # make .$HOME/.config/nvim work great for root
 sudo cp -r $HOME/.config/ranger /root/.config/ranger
+display "Ranger End"
+)&
 
 display "ZSH"
 sudo nala install -y zsh fonts-font-awesome
@@ -311,13 +313,14 @@ mkdir $HOME/.zsh
 cp $SCRIPT_DIR/zsh/alias.zsh $HOME/.zsh
 cp $SCRIPT_DIR/zsh/env.zsh $HOME/.zsh
 
+# wait for all background tasks to complete
+wait
+
 display "CRONTAB"
 crontab $CRONTAB_USER
 sudo crontab $CRONTAB_ROOT
 
 display "Reboot Now"
 
-# wait for all background tasks to complete
-wait
 # Log script completion
 log "Installation script completed."
