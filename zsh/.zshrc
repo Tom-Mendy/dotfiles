@@ -12,7 +12,7 @@ if [[ ! -f ~/.zinit/bin/zinit.zsh ]]; then
 fi
 
 # Load zinit
-source ~/.zinit/bin/zi.zsh
+source ~/.zinit/bin/zinit.zsh
 
 # Load your favorite plugins
 zinit load autojump/autojump
