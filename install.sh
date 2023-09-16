@@ -84,13 +84,10 @@ yes |sudo nala fetch --auto
 # !todo
 # add_to_file_if_not_in_it '0 0 0 ? * WED * yes |sudo nala fetch --auto' $CRONTAB_USER
 
-(
 display "XORG Start"
 sudo apt -f install -y xorg xinit
 display "XORG End"
-)&
 
-(
 display "LOCK SCREEN Start"
 if ! dpkg -s lightdm >/dev/null 2>&1; then
   sudo nala install -y lightdm
@@ -101,52 +98,37 @@ if ! dpkg -s lightdm >/dev/null 2>&1; then
   sudo sh -c "echo 'background=/usr/share/wallpapers/.bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
 fi
 display "LOCK SCREEN End"
-)&
 
-(
 display "WINDOW MANAGER Start"
 sudo nala install -y i3
 display "WINDOW MANAGER End"
-)&
 
-(
 display "i3 - Config Start"
 sudo mkdir -p $HOME/.config/i3/
 sudo cp $SCRIPT_DIR/i3/config $HOME/.config/i3/
 sudo cp $SCRIPT_DIR/i3/i3status.conf /etc/
 display "i3 - Config End"
-)&
 
-
-(
 display "TERMINAL Start"
 sudo nala install -y kitty
 display "TERMINAL End"
-)&
 
-(
 display "CLI-APP Start"
 sudo nala install -y build-essential
 sudo nala install -y vim tldr exa bat ripgrep fzf fd-find neofetch htop trash-cli
 display "CLI-APP End"
-)&
 
-(
 display "C Start"
 sudo nala install -y valgrind
 display "C End"
-)&
 
-(
 display "Rust Start"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
 chmod +x /tmp/rust.sh
 /tmp/rust.sh -y
 rm -f /tmp/rust.sh
 display "Rust End"
-)&
 
-(
 display "Nodejs Start"
 if [ ! "$(command -v npm)" ]; then
   sudo nala update
@@ -159,29 +141,21 @@ if [ ! "$(command -v npm)" ]; then
   sudo nala install -y nodejs
 fi
 display "Nodejs End"
-)&
 
-(
 display "Python-add Start"
 sudo nala install -y python3-pip python3-venv
 display "Python-add End"
-)&
 
-(
 display "Lua Start"
 sudo nala install -y lua5.4 luarocks
 display "Lua End"
-)&
 
-(
 display "BASE-APP Start"
 sudo nala install -y nm-tray network-manager pulseaudio pavucontrol bluez copyq thunar feh
 sudo systemctl start NetworkManager.service 
 sudo systemctl enable NetworkManager.service
 display "BASE-APP End"
-)&
 
-(
 display "Bing Wallpaper Start"
 mkdir -p $HOME/my_scripts
 if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
@@ -192,9 +166,7 @@ cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
 cp $SCRIPT_DIR/wait_for_x_then_run.sh $HOME/my_scripts/wait_for_x_then_run.sh
 add_to_file_if_not_in_it "@reboot $HOME/my_scripts/wait_for_x_then_run.sh" $CRONTAB_USER
 display "Bing Wallpaper End"
-)&
 
-(
 display "Docker Engine Start"
 if [ ! "$(command -v docker)" ]; then
   sudo nala update
@@ -214,9 +186,7 @@ if [ ! "$(command -v docker)" ]; then
   sudo usermod -aG docker $USER
 fi
 display "Docker Engine End"
-)&
 
-(
 display "Flatpak Start"
 sudo nala install -y flatpak
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
@@ -224,9 +194,7 @@ sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flat
 display "INSTALL Flatpak Package"
 sudo flatpak install -y flathub com.discordapp.Discord com.spotify.Client com.github.IsmaelMartinez.teams_for_linux
 display "Flatpak End"
-)&
 
-(
 display "Brave Start"
 if ! command -v brave-browser &> /dev/null; then
   sudo nala install -y curl
@@ -236,9 +204,7 @@ if ! command -v brave-browser &> /dev/null; then
   sudo nala install -y brave-browser
 fi
 display "Brave End"
-)&
 
-(
 display "VSCode Start"
 if [ ! "$(command -v code)" ]; then
   sudo nala install -y wget gpg
@@ -251,9 +217,7 @@ if [ ! "$(command -v code)" ]; then
   sudo nala install -y code
 fi
 display "VSCode End"
-)&
 
-(
 display "Neovim Start"
 if [ ! "$(command -v nvim)" ]; then
   sudo nala install -y ninja-build gettext cmake unzip curl
@@ -267,11 +231,7 @@ if [ ! "$(command -v nvim)" ]; then
   sudo rm -rf /tmp/neovim
 fi
 display "Neovim End"
-)&
 
-wait 
-
-(
 display "Config NeoVim Start"
 pip install neovim --break-system-packages
 if [ ! "$(command -v tree-sitter)" ]; then
@@ -284,9 +244,7 @@ fi
 # make .$HOME/.config/nvim work great for root
 sudo cp -r $HOME/.config/nvim /root/.config/nvim
 display "Config NeoVim End"
-)&
 
-(
 display "Ranger Start"
 sudo nala install -y ranger
 display "Ranger End"
@@ -303,7 +261,6 @@ add_to_file_if_not_in_it 'set show_hidden true' "$HOME/.config/ranger/rc.conf"
 # make .$HOME/.config/nvim work great for root
 sudo cp -r $HOME/.config/ranger /root/.config/ranger
 display "Ranger End"
-)&
 
 display "ZSH"
 sudo nala install -y zsh fonts-font-awesome
@@ -312,9 +269,6 @@ cp $SCRIPT_DIR/zsh/.zshrc $HOME/.zshrc
 mkdir $HOME/.zsh
 cp $SCRIPT_DIR/zsh/alias.zsh $HOME/.zsh
 cp $SCRIPT_DIR/zsh/env.zsh $HOME/.zsh
-
-# wait for all background tasks to complete
-wait
 
 display "CRONTAB"
 crontab $CRONTAB_USER
