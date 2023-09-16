@@ -9,5 +9,6 @@ while :; do
     fi
 done
 
+sleep 1
 xrandr -s 1920x1080
 $HOME/my_scripts/auto_wallpaper.sh
