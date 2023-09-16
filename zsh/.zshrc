@@ -28,9 +28,6 @@ zinit ice from"gh-r" as"program"
 zinit light junegunn/fzf
 zinit light Aloxaf/fzf-tab
 
-zinit ice as"program" from"gh-r" mv"docker-c* -> docker-compose"
-zinit light "docker/compose"
-
 zinit load agkozak/zsh-z
 
 zinit ice lucid wait='0' atinit='zpcompinit'
@@ -42,18 +39,22 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice lucid wait='0'
 zinit light zsh-users/zsh-completions
 
+zinit ice lucid wait='0'
+zinit light michaeltribes/zsh-autopair
+
 zinit snippet OMZ::lib/completion.zsh
 zinit snippet OMZ::lib/history.zsh
 zinit snippet OMZ::lib/key-bindings.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
 zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
-zinit snippet OMZ::plugins/sudo/sudo.plugin.zsh
-
+zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
+zinit snippet OMZ::plugins/docker/docker.plugin.zsh
+zinit snippet OMZ::plugins/kubernetes/kubernetes.plugin.zsh
 zinit snippet OMZ::plugins/mvn/mvn.plugin.zsh
 zinit snippet OMZ::plugins/tmux/tmux.plugin.zsh
 zinit snippet OMZ::plugins/tmuxinator/tmuxinator.plugin.zsh
-zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
 zinit snippet OMZ::plugins/pip/pip.plugin.zsh
+zinit snippet OMZ::plugins/sudo/sudo.plugin.zsh
 
 zinit ice lucid wait='1'
 zinit snippet OMZ::plugins/git/git.plugin.zsh
@@ -66,14 +67,6 @@ zinit load djui/alias-tips
 
 # zinit light denysdovhan/spaceship-prompt
 zinit ice depth=1; zinit light romkatv/powerlevel10k
-
-
-
-# Load your favorite plugins
-zinit load ohmyzsh/plugins/docker
-zinit load ohmyzsh/plugins/kubernetes
-zinit load michaeltribes/zsh-autopair
-# zinit load zsh-users/zsh-history-substring-search
 
 # Load custom snippets if needed
 # zinit snippet https://gist.githubusercontent.com/hightemp/5071909/raw/
