@@ -45,7 +45,7 @@ add_to_file_if_not_in_it() {
         echo "$string added to $path" 
     else
         echo "$string already exists in $path" 
-    fi & # Add this
+    fi
 }
 
 # Function for displaying headers
