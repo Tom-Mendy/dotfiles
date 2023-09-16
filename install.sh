@@ -5,12 +5,13 @@ LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CRONTAB_USER="$SCRIPT_DIR/crontab/user"
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
-mkdir -p $HOME/.config/ & sudo mkdir -p /root/.config/ &
+mkdir -p $HOME/.config/
+sudo mkdir -p /root/.config/
 
 # Function to log messages
 log() {
     local message="$1"
-    sudo sh -c "echo \"$(date +'%Y-%m-%d %H:%M:%S')\" >> \"$LOG_FILE\"" &
+    sudo sh -c "echo \"$(date +'%Y-%m-%d %H:%M:%S')\" >> \"$LOG_FILE\""
 }
 
 confirm() {
@@ -40,10 +41,10 @@ add_to_file_if_not_in_it() {
     local path="$2"
   
     if ! grep -q "$string" "$path" &>/dev/null; then
-        echo "$string" >> "$path" &
-        echo "$string added to $path" &
+        echo "$string" >> "$path" 
+        echo "$string added to $path" 
     else
-        echo "$string already exists in $path" &
+        echo "$string already exists in $path" 
     fi & # Add this
 }
 
