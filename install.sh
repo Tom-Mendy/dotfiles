@@ -5,13 +5,13 @@ LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CRONTAB_USER="$SCRIPT_DIR/crontab/user"
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
-mkdir -p $HOME/.config/
+mkdir -p "$HOME"/.config/
 sudo mkdir -p /root/.config/
 
 # Function to log messages
 log() {
     local message="$1"
-    sudo sh -c "echo \"$(date +'%Y-%m-%d %H:%M:%S')\" >> \"$LOG_FILE\""
+    sudo sh -c "echo \"$(date +'%Y-%m-%d %H:%M:%S') $message\" >> \"$LOG_FILE\""
 }
 
 confirm() {
@@ -82,7 +82,7 @@ sudo apt install -y nala figlet curl
 display "REFRESH MIRRORS"
 yes |sudo nala fetch --auto
 #add mirror refresh
-add_to_file_if_not_in_it '@reboot yes |sudo nala fetch --auto' $CRONTAB_USER
+add_to_file_if_not_in_it '@reboot yes |sudo nala fetch --auto' "$CRONTAB_USER"
 
 display "XORG Start"
 sudo apt -f install -y xorg xinit
@@ -94,7 +94,7 @@ if ! dpkg -s lightdm >/dev/null 2>&1; then
   # enable list user on login screen
   sudo sed -i '109s/^.//' /etc/lightdm/lightdm.conf
   # copy user wallpaper to /usr/share/wallpapers/ as root
-  add_to_file_if_not_in_it "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" $CRONTAB_ROOT
+  add_to_file_if_not_in_it "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" "$CRONTAB_ROOT"
   sudo sh -c "echo 'background=/usr/share/wallpapers/.bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
 fi
 display "LOCK SCREEN End"
@@ -104,9 +104,9 @@ sudo nala install -y i3
 display "WINDOW MANAGER End"
 
 display "i3 - Config Start"
-sudo mkdir -p $HOME/.config/i3/
-sudo cp $SCRIPT_DIR/i3/config $HOME/.config/i3/
-sudo cp $SCRIPT_DIR/i3/i3status.conf /etc/
+sudo mkdir -p "$HOME"/.config/i3/
+sudo cp "$SCRIPT_DIR"/i3/config "$HOME"/.config/i3/
+sudo cp "$SCRIPT_DIR"/i3/i3status.conf /etc/
 display "i3 - Config End"
 
 display "TERMINAL Start"
@@ -157,14 +157,15 @@ sudo systemctl enable NetworkManager.service
 display "BASE-APP End"
 
 display "Bing Wallpaper Start"
-mkdir -p $HOME/my_scripts
+mkdir -p "$HOME"/my_scripts
+sudo nala install -y feh
 if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
   git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
 fi
-cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
+cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh "$HOME"/my_scripts
 #refresh wallpaper at startup
-cp $SCRIPT_DIR/wait_for_x_then_run.sh $HOME/my_scripts/wait_for_x_then_run.sh
-add_to_file_if_not_in_it "@reboot $HOME/my_scripts/wait_for_x_then_run.sh" $CRONTAB_USER
+cp "$SCRIPT_DIR"/wait_for_x_then_run.sh "$HOME"/my_scripts/wait_for_x_then_run.sh
+add_to_file_if_not_in_it "@reboot $HOME/my_scripts/wait_for_x_then_run.sh" "$CRONTAB_USER"
 display "Bing Wallpaper End"
 
 display "Docker Engine Start"
@@ -183,7 +184,7 @@ if [ ! "$(command -v docker)" ]; then
     echo "Creating group: docker"
     sudo groupadd docker
   fi
-  sudo usermod -aG docker $USER
+  sudo usermod -aG docker "$USER"
 fi
 display "Docker Engine End"
 
@@ -239,7 +240,7 @@ if [ ! "$(command -v tree-sitter)" ]; then
 fi
 sudo nala install -y xclip
 if [ ! -d "$HOME/.config/nvim" ]; then
-  git clone https://github.com/Tom-Mendy/kickstart.nvim $HOME/.config/nvim
+  git clone https://github.com/Tom-Mendy/kickstart.nvim "$HOME"/.config/nvim
 fi
 # make .$HOME/.config/nvim work great for root
 sudo cp -r $HOME/.config/nvim /root/.config/nvim
@@ -254,25 +255,25 @@ mkdir -p $HOME/.config/ranger/plugins
 ranger --copy-config=all
 # add icon plugin
 if [ ! -d "$HOME/.config/ranger/plugins/ranger_devicons" ]; then
-  git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
+  git clone https://github.com/alexanderjeurissen/ranger_devicons "$HOME"/.config/ranger/plugins/ranger_devicons
 fi
 add_to_file_if_not_in_it 'default_linemode devicons' "$HOME/.config/ranger/rc.conf"
 add_to_file_if_not_in_it 'set show_hidden true' "$HOME/.config/ranger/rc.conf"
 # make .$HOME/.config/nvim work great for root
-sudo cp -r $HOME/.config/ranger /root/.config/ranger
+sudo cp -r "$HOME"/.config/ranger /root/.config/ranger
 display "Ranger End"
 
 display "ZSH"
 sudo nala install -y zsh fonts-font-awesome
 chsh -s /bin/zsh
-cp $SCRIPT_DIR/zsh/.zshrc $HOME/.zshrc
-mkdir $HOME/.zsh
-cp $SCRIPT_DIR/zsh/alias.zsh $HOME/.zsh
-cp $SCRIPT_DIR/zsh/env.zsh $HOME/.zsh
+cp "$SCRIPT_DIR"/zsh/.zshrc "$HOME"/.zshrc
+mkdir "$HOME"/.zsh
+cp "$SCRIPT_DIR"/zsh/alias.zsh "$HOME"/.zsh
+cp "$SCRIPT_DIR"/zsh/env.zsh "$HOME"/.zsh
 
 display "CRONTAB"
-crontab $CRONTAB_USER
-sudo crontab $CRONTAB_ROOT
+crontab "$CRONTAB_USER"
+sudo crontab "$CRONTAB_ROOT"
 
 display "Reboot Now"
 
