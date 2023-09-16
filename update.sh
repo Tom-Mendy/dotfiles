@@ -1,6 +1,10 @@
 #!/usr/bin/bash
 
+echo "nala"
 sudo nala update && sudo nala upgrade -y
-flatpak update -y
+echo "npm"
 npm update -y
-cargo update -y
+echo "rustup"
+rustup update
+echo "flatpak"
+flatpak update -y
