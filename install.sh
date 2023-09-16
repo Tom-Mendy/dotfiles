@@ -243,7 +243,7 @@ if [ ! -d "$HOME/.config/nvim" ]; then
   git clone https://github.com/Tom-Mendy/kickstart.nvim "$HOME"/.config/nvim
 fi
 # make .$HOME/.config/nvim work great for root
-sudo cp -r $HOME/.config/nvim /root/.config/nvim
+sudo cp -r "$HOME"/.config/nvim /root/.config/nvim
 display "Config NeoVim End"
 
 display "Ranger Start"
@@ -251,7 +251,7 @@ sudo nala install -y ranger
 display "Ranger End"
 
 display "Config Ranger"
-mkdir -p $HOME/.config/ranger/plugins
+mkdir -p "$HOME"/.config/ranger/plugins
 ranger --copy-config=all
 # add icon plugin
 if [ ! -d "$HOME/.config/ranger/plugins/ranger_devicons" ]; then

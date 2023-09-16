@@ -76,8 +76,8 @@ zinit light romkatv/powerlevel10k
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Load your custom alias and environment settings
-source $HOME/.zsh/alias.zsh
 source $HOME/.zsh/env.zsh
+source $HOME/.zsh/alias.zsh
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
 
