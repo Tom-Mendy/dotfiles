@@ -40,18 +40,22 @@ zinit ice lucid wait='0'
 zinit light zsh-users/zsh-completions
 
 zinit snippet OMZ::lib/completion.zsh
+zinit snippet OMZ::lib/grep.zsh
 zinit snippet OMZ::lib/history.zsh
 zinit snippet OMZ::lib/key-bindings.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
 zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
+zinit snippet OMZ::plugins/colorize/colorize.plugin.zsh
 zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
+zinit snippet OMZ::plugins/debian/debian.plugin.zsh
 zinit snippet OMZ::plugins/docker/docker.plugin.zsh
-zinit snippet OMZ::plugins/kubernetes/kubernetes.plugin.zsh
 zinit snippet OMZ::plugins/mvn/mvn.plugin.zsh
-zinit snippet OMZ::plugins/tmux/tmux.plugin.zsh
-zinit snippet OMZ::plugins/tmuxinator/tmuxinator.plugin.zsh
+zinit snippet OMZ::plugins/npm/npm.plugin.zsh
 zinit snippet OMZ::plugins/pip/pip.plugin.zsh
+zinit snippet OMZ::plugins/ripgrep/_ripgrep
+zinit snippet OMZ::plugins/rsync/rsync.plugin.zsh
 zinit snippet OMZ::plugins/sudo/sudo.plugin.zsh
+zinit snippet OMZ::plugins/zoxide/zoxide.plugin.zsh
 
 zinit ice lucid wait='1'
 zinit snippet OMZ::plugins/git/git.plugin.zsh

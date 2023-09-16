@@ -163,9 +163,7 @@ if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
   git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
 fi
 cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh "$HOME"/my_scripts
-#refresh wallpaper at startup
-cp "$SCRIPT_DIR"/wait_for_x_then_run.sh "$HOME"/my_scripts/wait_for_x_then_run.sh
-add_to_file_if_not_in_it "@reboot $HOME/my_scripts/wait_for_x_then_run.sh" "$CRONTAB_USER"
+
 display "Bing Wallpaper End"
 
 display "Docker Engine Start"
@@ -270,6 +268,7 @@ cp "$SCRIPT_DIR"/zsh/.zshrc "$HOME"/.zshrc
 mkdir "$HOME"/.zsh
 cp "$SCRIPT_DIR"/zsh/alias.zsh "$HOME"/.zsh
 cp "$SCRIPT_DIR"/zsh/env.zsh "$HOME"/.zsh
+cp "$SCRIPT_DIR"/zsh/.p10k.zsh "$HOME"/.p10k.zsh
 
 display "CRONTAB"
 crontab "$CRONTAB_USER"
