@@ -80,9 +80,8 @@ sudo apt install -y nala figlet curl
 
 display "REFRESH MIRRORS"
 yes |sudo nala fetch --auto
-#add mirror refresh every Wednesday
-# !todo
-# add_to_file_if_not_in_it '0 0 0 ? * WED * yes |sudo nala fetch --auto' $CRONTAB_USER
+#add mirror refresh
+add_to_file_if_not_in_it '@reboot yes |sudo nala fetch --auto' $CRONTAB_USER
 
 display "XORG Start"
 sudo apt -f install -y xorg xinit
