@@ -1,7 +1,6 @@
 #!/bin/bash
 while :; do
     pgrep Xorg
-    
     if [ $? -eq 0 ]; then
         break
     else
