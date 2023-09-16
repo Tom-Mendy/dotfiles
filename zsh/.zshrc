@@ -48,14 +48,11 @@ zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
 zinit snippet OMZ::plugins/colorize/colorize.plugin.zsh
 zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
 zinit snippet OMZ::plugins/debian/debian.plugin.zsh
-zinit snippet OMZ::plugins/docker/docker.plugin.zsh
 zinit snippet OMZ::plugins/mvn/mvn.plugin.zsh
 zinit snippet OMZ::plugins/npm/npm.plugin.zsh
 zinit snippet OMZ::plugins/pip/pip.plugin.zsh
-zinit snippet OMZ::plugins/ripgrep/_ripgrep
 zinit snippet OMZ::plugins/rsync/rsync.plugin.zsh
 zinit snippet OMZ::plugins/sudo/sudo.plugin.zsh
-zinit snippet OMZ::plugins/zoxide/zoxide.plugin.zsh
 
 zinit ice lucid wait='1'
 zinit snippet OMZ::plugins/git/git.plugin.zsh
