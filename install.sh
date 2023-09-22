@@ -100,7 +100,7 @@ fi
 display "LOCK SCREEN End"
 
 display "WINDOW MANAGER Start"
-sudo nala install -y i3
+sudo nala install -y i3 i3lock-fancy xbacklight
 display "WINDOW MANAGER End"
 
 display "i3 - Config Start"
