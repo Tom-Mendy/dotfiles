@@ -2,7 +2,7 @@
 
 # Update the system
 echo "Updating the system..."
-sudo nala update && sudo nala upgrade -y
+sudo nala upgrade -y
 
 # Check if the system update was successful
 if [ $? -eq 0 ]; then
@@ -14,7 +14,7 @@ fi
 
 # Update npm packages
 echo "Updating npm packages..."
-npm update -g --force
+sudo npm update -g
 
 # Check if npm update was successful
 if [ $? -eq 0 ]; then
