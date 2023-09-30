@@ -12,6 +12,7 @@ LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
 mkdir -p /home/"$USERNAME"/.config/
+mkdir -p /home/"$USERNAME"/my_scripts
 sudo mkdir -p /root/.config/
 
 # Function to log messages
@@ -251,12 +252,13 @@ cp "$SCRIPT_DIR"/i3/* /home/"$USERNAME"/.config/i3/
 display "i3 - Config End"
 
 display "Bing Wallpaper Start"
-mkdir -p /home/"$USERNAME"/my_scripts
-nala install -y feh
-if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
-  git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
+if [ ! -f "/home/"$USERNAME"/my_scripts/auto_wallpaper.sh" ]; then
+  sudo nala install -y feh
+  if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
+    git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
+  fi
+  cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh /home/"$USERNAME"/my_scripts
 fi
-cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh /home/"$USERNAME"/my_scripts
 display "Bing Wallpaper End"
 
 display "Docker Engine Start"
@@ -318,12 +320,12 @@ fi
 display "Neovim End"
 
 display "Config NeoVim Start"
-pip install neovim --break-system-packages
-if [ ! "$(command -v tree-sitter)" ]; then
-  npm install -g neovim tree-sitter-cli
-fi
-sudo nala install -y xclip
 if [ ! -d "/home/$USERNAME/.config/nvim" ]; then
+  pip install neovim --break-system-packages
+  if [ ! "$(command -v tree-sitter)" ]; then
+    npm install -g neovim tree-sitter-cli
+  fi
+  sudo nala install -y xclip
   git clone https://github.com/Tom-Mendy/kickstart.nvim /home/"$USERNAME"/.config/nvim
 fi
 # make .$HOME/.config/nvim work great for root
