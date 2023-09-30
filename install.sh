@@ -369,6 +369,8 @@ RUNTIME=$((END-START))
 
 display "Scrip executed in $RUNTIME s"
 
+display "Run $> chsh -s /bin/zsh"
+
 display "Reboot Now"
 
 # Log script completion
