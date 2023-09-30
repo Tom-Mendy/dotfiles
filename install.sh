@@ -11,7 +11,7 @@ USERNAME=$(id -u -n 1000)
 LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
-mkdir -p /home/$USERNAME/.config/
+mkdir -p /home/"$USERNAME"/.config/
 mkdir -p /root/.config/
 
 # Function to log messages
@@ -100,7 +100,7 @@ if ! dpkg -s lightdm >/dev/null 2>&1; then
   # enable list user on login screen
   sed -i '109s/^.//' /etc/lightdm/lightdm.conf
   # copy user wallpaper to /usr/share/wallpapers/ as root
-  add_to_file_if_not_in_it "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" "$CRONTAB_ROOT"
+  add_to_file_if_not_in_it "@reboot cp /home/"$USERNAME"/.bing_wallpaper.jpg /usr/share/wallpapers/" "$CRONTAB_ROOT"
   sh -c "echo 'background=/usr/share/wallpapers/.bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
   systemctl enable lightdm
   systemctl set-default graphical.target
@@ -112,8 +112,8 @@ nala install -y i3 i3lock-fancy xbacklight
 display "WINDOW MANAGER End"
 
 display "i3 - Config Start"
-mkdir -p "$HOME"/.config/i3/
-cp "$SCRIPT_DIR"/i3/config "$HOME"/.config/i3/
+mkdir -p /home/"$USERNAME"/.config/i3/
+cp "$SCRIPT_DIR"/i3/config /home/"$USERNAME"/.config/i3/
 cp "$SCRIPT_DIR"/i3/i3status.conf /etc/
 display "i3 - Config End"
 
@@ -166,12 +166,12 @@ systemctl enable NetworkManager.service
 display "BASE-APP End"
 
 display "Bing Wallpaper Start"
-mkdir -p "$HOME"/my_scripts
+mkdir -p /home/"$USERNAME"/my_scripts
 nala install -y feh
 if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
   git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
 fi
-cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh "$HOME"/my_scripts
+cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh /home/"$USERNAME"/my_scripts
 
 display "Bing Wallpaper End"
 
@@ -191,7 +191,7 @@ if [ ! "$(command -v docker)" ]; then
     echo "Creating group: docker"
     groupadd docker
   fi
-  usermod -aG docker "$USER"
+  usermod -aG docker "$USERNAME"
 fi
 display "Docker Engine End"
 
@@ -246,11 +246,11 @@ if [ ! "$(command -v tree-sitter)" ]; then
   npm install -g neovim tree-sitter-cli
 fi
 nala install -y xclip
-if [ ! -d "$HOME/.config/nvim" ]; then
-  git clone https://github.com/Tom-Mendy/kickstart.nvim "$HOME"/.config/nvim
+if [ ! -d "/home/$USERNAME/.config/nvim" ]; then
+  git clone https://github.com/Tom-Mendy/kickstart.nvim /home/"$USERNAME"/.config/nvim
 fi
 # make .$HOME/.config/nvim work great for root
-cp -r "$HOME"/.config/nvim /root/.config/nvim
+cp -r /home/"$USERNAME"/.config/nvim /root/.config/nvim
 display "Config NeoVim End"
 
 display "Ranger Start"
@@ -258,27 +258,27 @@ nala install -y ranger
 display "Ranger End"
 
 display "Config Ranger"
-mkdir -p "$HOME"/.config/ranger/plugins
+mkdir -p /home/"$USERNAME"/.config/ranger/plugins
 ranger --copy-config=all
 # add icon plugin
 if [ ! -d "$HOME/.config/ranger/plugins/ranger_devicons" ]; then
-  git clone https://github.com/alexanderjeurissen/ranger_devicons "$HOME"/.config/ranger/plugins/ranger_devicons
+  git clone https://github.com/alexanderjeurissen/ranger_devicons /home/"$USERNAME"/.config/ranger/plugins/ranger_devicons
 fi
 add_to_file_if_not_in_it 'default_linemode devicons' "$HOME/.config/ranger/rc.conf"
 add_to_file_if_not_in_it 'set show_hidden true' "$HOME/.config/ranger/rc.conf"
 # make .$HOME/.config/nvim work great for root
-cp -r "$HOME"/.config/ranger /root/.config/ranger
+cp -r /home/"$USERNAME"/.config/ranger /root/.config/ranger
 display "Ranger End"
 
 display "ZSH"
 if [ ! "$(command -v zsh)" ]; then
   nala install -y zsh fonts-font-awesome
   chsh -s /bin/zsh
-  cp "$SCRIPT_DIR"/zsh/.zshrc "$HOME"/.zshrc
-  mkdir "$HOME"/.zsh
-  cp "$SCRIPT_DIR"/zsh/alias.zsh "$HOME"/.zsh
-  cp "$SCRIPT_DIR"/zsh/env.zsh "$HOME"/.zsh
-  cp "$SCRIPT_DIR"/zsh/.p10k.zsh "$HOME"/.p10k.zsh
+  cp "$SCRIPT_DIR"/zsh/.zshrc /home/"$USERNAME"/.zshrc
+  mkdir /home/"$USERNAME"/.zsh
+  cp "$SCRIPT_DIR"/zsh/alias.zsh /home/"$USERNAME"/.zsh
+  cp "$SCRIPT_DIR"/zsh/env.zsh /home/"$USERNAME"/.zsh
+  cp "$SCRIPT_DIR"/zsh/.p10k.zsh /home/"$USERNAME"/.p10k.zsh
 fi
 
 display "CRONTAB"
