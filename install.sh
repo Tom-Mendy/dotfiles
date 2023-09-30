@@ -95,7 +95,7 @@ sudo nala install -y build-essential
 display "End build-essential"
 
 display "Start X Window System and Input"
-apt -f install -y xorg xbacklight xinput xorg-dev xdotool brightnessctl
+sudo apt -f install -y xorg xbacklight xinput xorg-dev xdotool brightnessctl
 display "End X Window System and Input"
 
 display "Start Rust"
