@@ -37,6 +37,6 @@ if [ "$(command -v exa)" ]; then
   alias ll="exa --icons --color=always --group-directories-first -l" "$HOME/.zshrc"
   alias tree="exa --icons --color=always --group-directories-first --tree" "$HOME/.zshrc"
 fi
-if [ "$(command -v trash)" ]; then
-  alias rm='echo "This is not the command you are looking for."; false' "$HOME/.zshrc"
+if [ "$(command -v codium)" ]; then
+  alias code="codium" "$HOME/.zshrc"
 fi
