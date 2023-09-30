@@ -266,13 +266,15 @@ sudo cp -r "$HOME"/.config/ranger /root/.config/ranger
 display "Ranger End"
 
 display "ZSH"
-sudo nala install -y zsh fonts-font-awesome
-chsh -s /bin/zsh
-cp "$SCRIPT_DIR"/zsh/.zshrc "$HOME"/.zshrc
-mkdir "$HOME"/.zsh
-cp "$SCRIPT_DIR"/zsh/alias.zsh "$HOME"/.zsh
-cp "$SCRIPT_DIR"/zsh/env.zsh "$HOME"/.zsh
-cp "$SCRIPT_DIR"/zsh/.p10k.zsh "$HOME"/.p10k.zsh
+if [ ! "$(command -v zsh)" ]; then
+  sudo nala install -y zsh fonts-font-awesome
+  chsh -s /bin/zsh
+  cp "$SCRIPT_DIR"/zsh/.zshrc "$HOME"/.zshrc
+  mkdir "$HOME"/.zsh
+  cp "$SCRIPT_DIR"/zsh/alias.zsh "$HOME"/.zsh
+  cp "$SCRIPT_DIR"/zsh/env.zsh "$HOME"/.zsh
+  cp "$SCRIPT_DIR"/zsh/.p10k.zsh "$HOME"/.p10k.zsh
+fi
 
 display "CRONTAB"
 crontab "$CRONTAB_USER"
