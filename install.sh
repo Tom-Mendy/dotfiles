@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 # Configuration
+USERNAME=$(id -u -n 1000)
 LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CRONTAB_USER="$SCRIPT_DIR/crontab/user"
@@ -85,7 +86,7 @@ yes |sudo nala fetch --auto
 add_to_file_if_not_in_it '@reboot yes |sudo nala fetch --auto' "$CRONTAB_USER"
 
 display "XORG Start"
-sudo apt -f install -y xorg xinit
+sudo apt -f install -y xorg xinit x11-xserver-utils libx11-dev libxft-dev libxinerama-dev lxappearance
 display "XORG End"
 
 display "LOCK SCREEN Start"
@@ -96,6 +97,8 @@ if ! dpkg -s lightdm >/dev/null 2>&1; then
   # copy user wallpaper to /usr/share/wallpapers/ as root
   add_to_file_if_not_in_it "@reboot cp $HOME/.bing_wallpaper.jpg /usr/share/wallpapers/" "$CRONTAB_ROOT"
   sudo sh -c "echo 'background=/usr/share/wallpapers/.bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
+  sudo systemctl enable lightdm
+  sudo systemctl set-default graphical.target
 fi
 display "LOCK SCREEN End"
 
@@ -274,6 +277,8 @@ cp "$SCRIPT_DIR"/zsh/.p10k.zsh "$HOME"/.p10k.zsh
 display "CRONTAB"
 crontab "$CRONTAB_USER"
 sudo crontab "$CRONTAB_ROOT"
+
+chown -R $USERNAME:$USERNAME /home/$USERNAME
 
 display "Reboot Now"
 
