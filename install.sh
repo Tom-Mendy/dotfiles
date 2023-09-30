@@ -247,8 +247,7 @@ display "WINDOW MANAGER End"
 
 display "i3 - Config Start"
 mkdir -p /home/"$USERNAME"/.config/i3/
-cp "$SCRIPT_DIR"/i3/config /home/"$USERNAME"/.config/i3/
-cp "$SCRIPT_DIR"/i3/i3status.conf /etc/
+cp "$SCRIPT_DIR"/i3/* /home/"$USERNAME"/.config/i3/
 display "i3 - Config End"
 
 display "Bing Wallpaper Start"
