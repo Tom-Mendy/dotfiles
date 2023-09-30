@@ -5,8 +5,8 @@ if [[ $EUID -ne 0 ]]; then
   echo "You must be a root user to run this script, please run sudo ./install.sh" 2>&1
   exit 1
 fi
-
 # Configuration
+START=`date +%s`
 USERNAME=$(id -u -n 1000)
 LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
@@ -285,6 +285,12 @@ display "CRONTAB"
 crontab "$CRONTAB_ROOT"
 
 chown -R $USERNAME:$USERNAME /home/$USERNAME
+
+END=`date +%s`
+
+RUNTIME=$((END-START))
+
+display "Scrip executed in $RUNTIME s"
 
 display "Reboot Now"
 
