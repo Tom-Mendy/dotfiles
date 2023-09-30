@@ -216,7 +216,7 @@ display "LOCK SCREEN Start"
 sudo nala install -y build-essential libpam0g-dev libxcb-xkb-dev
 git clone --recurse-submodules https://github.com/fairyglade/ly /tmp/ly
 cd /tmp/ly
-make
+sudo make
 sudo make install installsystemd
 sudo systemctl enable ly.service
 cd -
