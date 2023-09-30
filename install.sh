@@ -10,7 +10,6 @@ fi
 USERNAME=$(id -u -n 1000)
 LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-CRONTAB_USER="$SCRIPT_DIR/crontab/user"
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
 mkdir -p /home/$USERNAME/.config/
 mkdir -p /root/.config/
@@ -89,7 +88,7 @@ apt install -y nala figlet curl
 display "REFRESH MIRRORS"
 yes |nala fetch --auto
 #add mirror refresh
-add_to_file_if_not_in_it '@reboot yes |sudo nala fetch --auto' "$CRONTAB_USER"
+add_to_file_if_not_in_it '@reboot yes |nala fetch --auto' "$CRONTAB_ROOT"
 
 display "XORG Start"
 apt -f install -y xorg xinit x11-xserver-utils libx11-dev libxft-dev libxinerama-dev lxappearance
@@ -144,9 +143,9 @@ if [ ! "$(command -v npm)" ]; then
   nala update
   nala install -y ca-certificates curl gnupg
   mkdir -p /etc/apt/keyrings
-  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
   NODE_MAJOR=20
-  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
   nala update
   nala install -y nodejs
 fi
@@ -181,11 +180,11 @@ if [ ! "$(command -v docker)" ]; then
   nala update
   nala install -y ca-certificates curl gnupg
   install -m 0755 -d /etc/apt/keyrings
-  curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-  sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  chmod a+r /etc/apt/keyrings/docker.gpg
   echo \
     "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
   nala update
   nala install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   if ! getent group docker >/dev/null; then
@@ -208,7 +207,7 @@ display "Brave Start"
 if ! command -v brave-browser &> /dev/null; then
   nala install -y curl
   curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-  echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+  echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|tee /etc/apt/sources.list.d/brave-browser-release.list
   nala update
   nala install -y brave-browser
 fi
@@ -283,8 +282,7 @@ if [ ! "$(command -v zsh)" ]; then
 fi
 
 display "CRONTAB"
-crontab "$CRONTAB_USER"
-sudo crontab "$CRONTAB_ROOT"
+crontab "$CRONTAB_ROOT"
 
 chown -R $USERNAME:$USERNAME /home/$USERNAME
 
