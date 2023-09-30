@@ -82,63 +82,30 @@ display "UPDATE"
 apt update
 apt -y upgrade
 
-display "INSTALL NALA"
+display "Installing nala"
 apt install -y nala figlet curl
 
-display "REFRESH MIRRORS"
+display "Refresh Mirrors"
 yes |nala fetch --auto
 #add mirror refresh
 add_to_file_if_not_in_it '@reboot yes |nala fetch --auto' "$CRONTAB_ROOT"
 
-display "XORG Start"
-apt -f install -y xorg xinit x11-xserver-utils libx11-dev libxft-dev libxinerama-dev lxappearance
-display "XORG End"
-
-display "LOCK SCREEN Start"
-if ! dpkg -s lightdm >/dev/null 2>&1; then
-  nala install -y lightdm
-  # enable list user on login screen
-  sed -i '109s/^.//' /etc/lightdm/lightdm.conf
-  # copy user wallpaper to /usr/share/wallpapers/ as root
-  add_to_file_if_not_in_it "@reboot cp /home/"$USERNAME"/.bing_wallpaper.jpg /usr/share/wallpapers/" "$CRONTAB_ROOT"
-  sh -c "echo 'background=/usr/share/wallpapers/.bing_wallpaper.jpg' >> /etc/lightdm/lightdm-gtk-greeter.conf"
-  systemctl enable lightdm
-  systemctl set-default graphical.target
-fi
-display "LOCK SCREEN End"
-
-display "WINDOW MANAGER Start"
-nala install -y i3 i3lock-fancy xbacklight
-display "WINDOW MANAGER End"
-
-display "i3 - Config Start"
-mkdir -p /home/"$USERNAME"/.config/i3/
-cp "$SCRIPT_DIR"/i3/config /home/"$USERNAME"/.config/i3/
-cp "$SCRIPT_DIR"/i3/i3status.conf /etc/
-display "i3 - Config End"
-
-display "TERMINAL Start"
-nala install -y kitty
-display "TERMINAL End"
-
-display "CLI-APP Start"
-nala install -y linux-headers-$(uname -r) firmware-linux
+display "Start build-essential"
 nala install -y build-essential
-nala install -y vim tldr exa bat ripgrep fzf fd-find neofetch htop trash-cli
-display "CLI-APP End"
+display "End build-essential"
 
-display "C Start"
-nala install -y valgrind
-display "C End"
+display "Start X Window System and Input"
+apt -f install -y xorg xbacklight xinput xorg-dev xdotool brightnessctl
+display "End X Window System and Input"
 
-display "Rust Start"
+display "Start Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
 chmod +x /tmp/rust.sh
 /tmp/rust.sh -y
 rm -f /tmp/rust.sh
-display "Rust End"
+display "End Rust"
 
-display "Nodejs Start"
+display "Start Nodejs"
 if [ ! "$(command -v npm)" ]; then
   nala update
   nala install -y ca-certificates curl gnupg
@@ -149,21 +116,136 @@ if [ ! "$(command -v npm)" ]; then
   nala update
   nala install -y nodejs
 fi
-display "Nodejs End"
+display "End Nodejs"
 
-display "Python-add Start"
+display "Start Python-add"
 nala install -y python3-pip python3-venv
-display "Python-add End"
+display "End Python-add"
+
+display "Start Framwork & Header Updates"
+nala install -y linux-headers-$(uname -r) firmware-linux software-properties-common
+display "End Framwork & Header Updates"
+
+display "Start Network Management"
+nala install -y nm-tray network-manager
+systemctl start NetworkManager.service 
+systemctl enable NetworkManager.service
+display "End Network Management"
+
+display "Start Appearance and Customization"
+nala install -y lxappearance qt5ct arandr xclip copyq
+display "End Appearance and Customization"
+
+display "Start System Utilities"
+nala install -y dialog mtools dosfstools avahi-daemon acpi acpid gvfs-backends
+systemctl enable avahi-daemon
+systemctl enable acpid
+display "End System Utilities"
+
+display "Start Terminal Emulators"
+nala install -y kitty
+display "End Terminal Emulators"
+
+display "Start Modern replacement"
+nala install -y exa tldr bat ripgrep fzf fd-find
+display "End Modern replacement"
+
+display "Start File Managers"
+cargo install --locked --force xplr
+nala install -y thunar
+display "End File Managers"
+
+display "Start Audio Control Start"
+nala install -y pulseaudio alsa-utils pavucontrol volumeicon-alsa
+display "End Audio Control End"
+
+display "Start System Information and Monitoring"
+nala install -y neofetch htop
+display "End System Information and Monitoring"
+
+display "Start Screenshots"
+nala install -y flameshot
+display "End Screenshots"
+
+display "Start Printer Support"
+nala install -y cups simple-scan
+systemctl enable cups
+display "End Printer Support"
+
+display "Start Bluetooth Support"
+nala install -y bluez blueman
+systemctl enable bluetooth
+display "End Bluetooth Support"
+
+display "Start Menu and Window Managers"
+nala install -y sxhkd numlockx rofi dunst libnotify-bin picom dmenu polybar dbus-x11
+display "Start Menu and Window Managers"
+
+display "Start Archive Management"
+nala install -y unzip file-roller
+display "End Archive Management"
+
+display "Start Text Editors"
+nala install -y vim mousepad
+display "End Text Editors"
+
+display "Start Image Viewer"
+nala install -y viewnior feh sxiv ueberzug python3-pillow
+display "End Image Viewer"
+
+display "Start Media Player"
+nala install -y vlc
+display "End Media Player"
+
+display "Start Document Viewer"
+nala install -y zathura
+display "End Document Viewer"
+
+display "C Start"
+nala install -y valgrind
+display "C End"
 
 display "Lua Start"
 nala install -y lua5.4 luarocks
 display "Lua End"
 
-display "BASE-APP Start"
-nala install -y nm-tray network-manager pulseaudio pavucontrol bluez copyq thunar feh
-systemctl start NetworkManager.service 
-systemctl enable NetworkManager.service
-display "BASE-APP End"
+display "LOCK SCREEN Start"
+nala install -y build-essential libpam0g-dev libxcb-xkb-dev
+git clone --recurse-submodules https://github.com/fairyglade/ly /tmp/ly
+cd /tmp/ly
+make
+make install installsystemd
+systemctl enable ly.service
+cd -
+rm -rf /tmp/ly
+
+# Configure xsessions
+if [[ ! -d /usr/share/xsessions ]]; then
+    sudo mkdir /usr/share/xsessions
+fi
+
+cat > ./temp << "EOF"
+[Desktop Entry]
+Encoding=UTF-8
+Name=i3
+Comment=Manual Window Manager
+Exec=i3
+Icon=i3
+Type=XSession
+EOF
+sudo cp ./temp /usr/share/xsessions/i3.desktop;rm ./temp
+
+display "LOCK SCREEN End"
+
+display "WINDOW MANAGER Start"
+nala install -y i3 i3lock-fancy
+display "WINDOW MANAGER End"
+
+display "i3 - Config Start"
+mkdir -p /home/"$USERNAME"/.config/i3/
+cp "$SCRIPT_DIR"/i3/config /home/"$USERNAME"/.config/i3/
+cp "$SCRIPT_DIR"/i3/i3status.conf /etc/
+display "i3 - Config End"
 
 display "Bing Wallpaper Start"
 mkdir -p /home/"$USERNAME"/my_scripts
@@ -213,18 +295,13 @@ if ! command -v brave-browser &> /dev/null; then
 fi
 display "Brave End"
 
-display "VSCode Start"
-if [ ! "$(command -v code)" ]; then
-  nala install -y wget gpg
-  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-  install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-  sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-  rm -f packages.microsoft.gpg
-  nala install -y apt-transport-https
-  nala update
-  nala install -y code
+display "VSCodium Start"
+if [ ! "$(command -v codium)" ]; then
+  wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
+  echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' | tee /etc/apt/sources.list.d/vscodium.list
+  nala update && nala install -y codium
 fi
-display "VSCode End"
+display "VSCodium End"
 
 display "Neovim Start"
 if [ ! "$(command -v nvim)" ]; then
