@@ -14,9 +14,6 @@ volumeicon &
 
 numlockx on &
 
-killall sxhkd
-sxhkd -c ~/.config/sxhkd/sxhkdrc &
-
 ibus-daemon -drx &
 
 killall copyq
