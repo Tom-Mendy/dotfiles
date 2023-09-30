@@ -325,7 +325,7 @@ display "Config NeoVim Start"
 if [ ! -d "/home/$USERNAME/.config/nvim" ]; then
   pip install neovim --break-system-packages
   if [ ! "$(command -v tree-sitter)" ]; then
-    npm install -g neovim tree-sitter-cli
+    sudo npm install -g neovim tree-sitter-cli
   fi
   sudo nala install -y xclip
   git clone https://github.com/Tom-Mendy/kickstart.nvim /home/"$USERNAME"/.config/nvim
