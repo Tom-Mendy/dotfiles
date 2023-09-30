@@ -217,7 +217,7 @@ sudo nala install -y build-essential libpam0g-dev libxcb-xkb-dev
 git clone --recurse-submodules https://github.com/fairyglade/ly /tmp/ly
 cd /tmp/ly
 make
-make install installsystemd
+sudo make install installsystemd
 sudo systemctl enable ly.service
 cd -
 rm -rf /tmp/ly
