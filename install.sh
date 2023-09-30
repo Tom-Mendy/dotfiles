@@ -315,7 +315,7 @@ if [ ! "$(command -v nvim)" ]; then
   fi
   cd /tmp/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
   git checkout stable
-  make install
+  sudo make install
   cd
   rm -rf /tmp/neovim
 fi
@@ -329,9 +329,9 @@ if [ ! -d "/home/$USERNAME/.config/nvim" ]; then
   fi
   sudo nala install -y xclip
   git clone https://github.com/Tom-Mendy/kickstart.nvim /home/"$USERNAME"/.config/nvim
+  # make .$HOME/.config/nvim work great for root
+  cp -r /home/"$USERNAME"/.config/nvim /root/.config/nvim
 fi
-# make .$HOME/.config/nvim work great for root
-cp -r /home/"$USERNAME"/.config/nvim /root/.config/nvim
 display "Config NeoVim End"
 
 display "ZSH"
