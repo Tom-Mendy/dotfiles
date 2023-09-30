@@ -114,6 +114,7 @@ sudo nala install -y kitty
 display "TERMINAL End"
 
 display "CLI-APP Start"
+sudo nala install -y linux-headers-$(uname-r)
 sudo nala install -y build-essential
 sudo nala install -y vim tldr exa bat ripgrep fzf fd-find neofetch htop trash-cli
 display "CLI-APP End"
