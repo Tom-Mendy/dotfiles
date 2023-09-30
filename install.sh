@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # Check if Script is Run as Root
-if [[ $EUID -e 0 ]]; then
+if [[ $EUID -ne 1000 ]]; then
   echo "You must be a normal user to run this script, please run ./install.sh" 2>&1
   exit 1
 fi
