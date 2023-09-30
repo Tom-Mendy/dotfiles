@@ -206,11 +206,11 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 5 && xbacklight > /home/user_na
 # Decrease brightness
 bindsym XF86MonBrighnessDown exec xbacklight -dec 5 && xbacklight > /home/user_name/.config/brightness && $refresh_i3status
 
+# switch to workspace with urgent window automatically
+for_window [urgent=latest] focus
+
 # Assigns programs to workspaces
 for_window [class="Brave"] fullscreen enable && move to workspace $ws1 && i3-msg workspace $ws1
 for_window [class="Spotify"] fullscreen enable && move to workspace $ws10 && i3-msg workspace $ws10
 for_window [class="discord"] fullscreen enable && move to workspace $ws9 && i3-msg workspace $ws9
 for_window [class="copyq"] floating enable
-
-# switch to workspace with urgent window automatically
-for_window [urgent=latest] focus
