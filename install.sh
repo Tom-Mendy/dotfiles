@@ -154,7 +154,9 @@ sudo nala install -y exa tldr bat ripgrep fzf fd-find
 display "End Modern replacement"
 
 display "Start File Managers"
-cargo install --locked --force xplr
+if [ ! "$(command -v xplr)" ]; then
+  cargo install --locked --force xplr
+fi
 sudo nala install -y thunar
 display "End File Managers"
 
