@@ -6,8 +6,8 @@ dunst &
 killall nm-tray
 nm-tray &
 
-killall blueman-applet
-blueman-applet &
+killall blueman-tray
+blueman-tray &
 
 killall volumeicon
 volumeicon &
