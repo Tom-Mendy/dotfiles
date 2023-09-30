@@ -56,10 +56,10 @@ tiling_drag modifier titlebar
 bindsym $mod+Return exec kitty
 
 # launch thunar
-bindsym $mod+e exec thunar
+bindsym $mod+c exec thunar
 
 # kill focused window
-bindsym $mod+Shift+c kill
+bindsym $mod+Shift+a kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run
@@ -105,7 +105,7 @@ bindsym $mod+f fullscreen toggle
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+z layout tabbed
-bindsym $mod+x layout toggle split
+bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
