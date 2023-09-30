@@ -184,7 +184,7 @@ sudo systemctl enable bluetooth
 display "End Bluetooth Support"
 
 display "Start Menu and Window Managers"
-sudo nala install -y sxhkd numlockx rofi dunst libnotify-bin picom dmenu polybar dbus-x11
+sudo nala install -y numlockx rofi dunst libnotify-bin picom dmenu polybar dbus-x11
 display "Start Menu and Window Managers"
 
 display "Start Archive Management"
