@@ -342,7 +342,6 @@ if [ ! "$(command -v zsh)" ]; then
   cp "$SCRIPT_DIR"/zsh/alias.zsh /home/"$USERNAME"/.zsh
   cp "$SCRIPT_DIR"/zsh/env.zsh /home/"$USERNAME"/.zsh
   cp "$SCRIPT_DIR"/zsh/.p10k.zsh /home/"$USERNAME"/.p10k.zsh
-  chsh -s /bin/zsh
 fi
 
 display "CRONTAB"
@@ -355,6 +354,9 @@ END=`date +%s`
 RUNTIME=$((END-START))
 
 display "Scrip executed in $RUNTIME s"
+
+display "Type Your Password to make zsh your Default shell"
+chsh -s /bin/zsh
 
 display "Reboot Now"
 
