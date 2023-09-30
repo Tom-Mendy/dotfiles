@@ -330,7 +330,7 @@ if [ ! -d "/home/$USERNAME/.config/nvim" ]; then
   sudo nala install -y xclip
   git clone https://github.com/Tom-Mendy/kickstart.nvim /home/"$USERNAME"/.config/nvim
   # make .$HOME/.config/nvim work great for root
-  cp -r /home/"$USERNAME"/.config/nvim /root/.config/nvim
+  sudo cp -r /home/"$USERNAME"/.config/nvim /root/.config/nvim
 fi
 display "Config NeoVim End"
 
