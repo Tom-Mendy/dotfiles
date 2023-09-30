@@ -278,7 +278,7 @@ display "CRONTAB"
 crontab "$CRONTAB_USER"
 sudo crontab "$CRONTAB_ROOT"
 
-chown -R $USERNAME:$USERNAME /home/$USERNAME
+sudo chown -R $USERNAME:$USERNAME /home/$USERNAME
 
 display "Reboot Now"
 
