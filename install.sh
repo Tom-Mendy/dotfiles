@@ -144,6 +144,7 @@ display "End Network Management"
 
 display "Start Appearance and Customization"
 sudo nala install -y lxappearance qt5ct arandr xclip parcellite
+cp "$SCRIPT_DIR"/parcellite/* $HOME/.config/parcellite/
 display "End Appearance and Customization"
 
 display "Start System Utilities"
