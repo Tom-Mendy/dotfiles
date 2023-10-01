@@ -164,9 +164,10 @@ display "End Modern replacement"
 display "Start File Managers"
 if [ ! "$(cargo --list | grep xplr) --eq 1" ]; then
   cargo install --locked --force xplr
-  mkdir -p ~/.config/xplr
+  mkdir -p $HOME/.config/xplr
   xplr_version="$(xplr --version | awk '{print $2}')"
-  echo "version = '${xplr_version:?}'" > ~/.config/xplr/init.lua
+  echo "version = '${xplr_version:?}'" > $HOME/.config/xplr/init.lua
+  cat "$SCRIPT_DIR"/xplr/init.lua >> $HOME/.config/xplr/init.lua
 fi
 sudo nala install -y thunar
 display "End File Managers"
