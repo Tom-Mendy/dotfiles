@@ -1,5 +1,8 @@
 #!/usr/bin/bash
 
+# Enable exit on error
+set -e
+
 # Check if Script is Run as Root
 if [[ $EUID -ne 1000 ]]; then
   echo "You must be a normal user to run this script, please run ./install.sh" 2>&1
@@ -74,9 +77,6 @@ display() {
     log "$header_text"
     echo "--------------------------------------"
 }
-
-# Enable exit on error
-set -e
 
 # Log script start
 log "Installation script started."
