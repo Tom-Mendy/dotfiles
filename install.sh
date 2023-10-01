@@ -8,6 +8,7 @@ if [[ $EUID -ne 1000 ]]; then
   echo "You must be a normal user to run this script, please run ./install.sh" 2>&1
   exit 1
 fi
+
 # Configuration
 START=`date +%s`
 USERNAME=$(id -u -n 1000)
@@ -160,7 +161,7 @@ sudo nala install -y exa tldr bat ripgrep fzf fd-find
 display "End Modern replacement"
 
 display "Start File Managers"
-if [ ! "$(command -v xplr)" ]; then
+if [ ! "$(cargo --list | grep xplr) --eq 1" ]; then
   cargo install --locked --force xplr
 fi
 sudo nala install -y thunar
