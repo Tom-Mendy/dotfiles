@@ -111,10 +111,6 @@ if [ ! "$(command -v zsh)" ]; then
   cp "$SCRIPT_DIR"/zsh/.p10k.zsh $HOME/.p10k.zsh
 fi
 
-display "Start X Window System and Input"
-sudo apt -f install -y xorg xbacklight xinput xorg-dev xdotool brightnessctl
-display "End X Window System and Input"
-
 display "Start Rust"
 if [ ! "$(command -v cargo)" ]; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
@@ -235,6 +231,10 @@ display "C End"
 display "Lua Start"
 sudo nala install -y lua5.4 luarocks
 display "Lua End"
+
+display "Start X Window System and Input"
+sudo apt -f install -y xorg xbacklight xinput xorg-dev xdotool brightnessctl
+display "End X Window System and Input"
 
 display "LOCK SCREEN Start"
 sudo nala install -y build-essential libpam0g-dev libxcb-xkb-dev
