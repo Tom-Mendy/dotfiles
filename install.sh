@@ -314,7 +314,8 @@ if [ ! "$(command -v nvim)" ]; then
   if [ ! -d "/tmp/neovim" ]; then
     git clone https://github.com/neovim/neovim /tmp/neovim
   fi
-  cd /tmp/neovim && sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
+  cd /tmp/neovim
+  sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
   git checkout stable
   sudo make install
   cd -
