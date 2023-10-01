@@ -5,15 +5,14 @@ if [[ $EUID -ne 1000 ]]; then
   echo "You must be a normal user to run this script, please run ./install.sh" 2>&1
   exit 1
 fi
-
 # Configuration
 START=`date +%s`
-HOME=$(id -u -n 1000)
+USERNAME=$(id -u -n 1000)
 LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
-mkdir -p "$HOME"/.config/
-mkdir -p "$HOME"/my_scripts
+mkdir -p /home/"$USERNAME"/.config/
+mkdir -p /home/"$USERNAME"/my_scripts
 sudo mkdir -p /root/.config/
 
 # Function to log messages
@@ -106,7 +105,7 @@ if [ ! "$(command -v cargo)" ]; then
   chmod +x /tmp/rust.sh
   /tmp/rust.sh -y
   rm -f /tmp/rust.sh
-  source "$HOME"/.cargo/env
+  source /home/"$USERNAME"/.cargo/env
 fi
 display "End Rust"
 
@@ -248,17 +247,17 @@ sudo nala install -y i3 i3lock-fancy
 display "WINDOW MANAGER End"
 
 display "i3 - Config Start"
-mkdir -p "$HOME"/.config/i3/
-cp "$SCRIPT_DIR"/i3/* "$HOME"/.config/i3/
+mkdir -p /home/"$USERNAME"/.config/i3/
+cp "$SCRIPT_DIR"/i3/* /home/"$USERNAME"/.config/i3/
 display "i3 - Config End"
 
 display "Bing Wallpaper Start"
-if [ ! -f ""$HOME"/my_scripts/auto_wallpaper.sh" ]; then
+if [ ! -f "/home/"$USERNAME"/my_scripts/auto_wallpaper.sh" ]; then
   sudo nala install -y feh
   if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
     git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
   fi
-  cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh "$HOME"/my_scripts
+  cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh /home/"$USERNAME"/my_scripts
 fi
 display "Bing Wallpaper End"
 
@@ -278,7 +277,7 @@ if [ ! "$(command -v docker)" ]; then
     echo "Creating group: docker"
     sudo groupadd docker
   fi
-  sudo usermod -aG docker "$USER"
+  sudo usermod -aG docker "$USERNAME"
 fi
 display "Docker Engine End"
 
@@ -324,32 +323,32 @@ fi
 display "Neovim End"
 
 display "Config NeoVim Start"
-if [ ! -d "$HOME/.config/nvim" ]; then
+if [ ! -d "/home/$USERNAME/.config/nvim" ]; then
   pip install neovim --break-system-packages
   if [ ! "$(command -v tree-sitter)" ]; then
     sudo npm install -g neovim tree-sitter-cli
   fi
   sudo nala install -y xclip
-  git clone https://github.com/Tom-Mendy/nvim.git "$HOME"/.config/nvim
+  git clone https://github.com/Tom-Mendy/nvim.git /home/"$USERNAME"/.config/nvim
   # make .$HOME/.config/nvim work great for root
-  sudo cp -r "$HOME"/.config/nvim /root/.config/nvim
+  sudo cp -r /home/"$USERNAME"/.config/nvim /root/.config/nvim
 fi
 display "Config NeoVim End"
 
 display "ZSH"
 if [ ! "$(command -v zsh)" ]; then
   sudo nala install -y zsh fonts-font-awesome
-  cp "$SCRIPT_DIR"/zsh/.zshrc "$HOME"/.zshrc
-  mkdir "$HOME"/.zsh
-  cp "$SCRIPT_DIR"/zsh/alias.zsh "$HOME"/.zsh
-  cp "$SCRIPT_DIR"/zsh/env.zsh "$HOME"/.zsh
-  cp "$SCRIPT_DIR"/zsh/.p10k.zsh "$HOME"/.p10k.zsh
+  cp "$SCRIPT_DIR"/zsh/.zshrc /home/"$USERNAME"/.zshrc
+  mkdir /home/"$USERNAME"/.zsh
+  cp "$SCRIPT_DIR"/zsh/alias.zsh /home/"$USERNAME"/.zsh
+  cp "$SCRIPT_DIR"/zsh/env.zsh /home/"$USERNAME"/.zsh
+  cp "$SCRIPT_DIR"/zsh/.p10k.zsh /home/"$USERNAME"/.p10k.zsh
 fi
 
 display "CRONTAB"
 crontab "$CRONTAB_ROOT"
 
-sudo chown -R $USER:$USER /home/$USER
+sudo chown -R $USERNAME:$USERNAME /home/$USERNAME
 
 END=`date +%s`
 
