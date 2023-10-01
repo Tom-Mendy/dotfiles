@@ -101,6 +101,16 @@ display "Start build-essential"
 sudo nala install -y build-essential
 display "End build-essential"
 
+display "ZSH"
+if [ ! "$(command -v zsh)" ]; then
+  sudo nala install -y zsh fonts-font-awesome
+  cp "$SCRIPT_DIR"/zsh/.zshrc $HOME/.zshrc
+  mkdir $HOME/.zsh
+  cp "$SCRIPT_DIR"/zsh/alias.zsh $HOME/.zsh
+  cp "$SCRIPT_DIR"/zsh/env.zsh $HOME/.zsh
+  cp "$SCRIPT_DIR"/zsh/.p10k.zsh $HOME/.p10k.zsh
+fi
+
 display "Start X Window System and Input"
 sudo apt -f install -y xorg xbacklight xinput xorg-dev xdotool brightnessctl
 display "End X Window System and Input"
@@ -345,16 +355,6 @@ if [ ! -d "$HOME/.config/nvim" ]; then
   sudo cp -r $HOME/.config/nvim /root/.config/nvim
 fi
 display "Config NeoVim End"
-
-display "ZSH"
-if [ ! "$(command -v zsh)" ]; then
-  sudo nala install -y zsh fonts-font-awesome
-  cp "$SCRIPT_DIR"/zsh/.zshrc $HOME/.zshrc
-  mkdir $HOME/.zsh
-  cp "$SCRIPT_DIR"/zsh/alias.zsh $HOME/.zsh
-  cp "$SCRIPT_DIR"/zsh/env.zsh $HOME/.zsh
-  cp "$SCRIPT_DIR"/zsh/.p10k.zsh $HOME/.p10k.zsh
-fi
 
 display "CRONTAB"
 crontab "$CRONTAB_ROOT"
