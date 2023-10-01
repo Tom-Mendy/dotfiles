@@ -31,6 +31,7 @@ require("xpm").setup({
         xplr.config.general.table.row.cols[2] = { format = "custom.icons_dtomvan_col_1" }
       end
     },
+    'sayanarijit/preview-tabbed.xplr',
     'sayanarijit/qrcp.xplr',
   },
   auto_install = true,
@@ -45,6 +46,13 @@ require("xclip").setup{
 }
 
 require"icons".setup()
+
+require("preview-tabbed").setup{
+  mode = "action",
+  key = "P",
+  fifo_path = "/tmp/xplr.fifo",
+  previewer = os.getenv("HOME") .. "/.config/nnn/plugins/preview-tabbed",
+}
 
 require("qrcp").setup{
   mode = "action",
