@@ -61,8 +61,6 @@ zinit snippet OMZ::plugins/git/git.plugin.zsh
 zinit ice wait"2" lucid
 zinit load voronkovich/gitignore.plugin.zsh
 
-zinit load djui/alias-tips
-
 # zinit light denysdovhan/spaceship-prompt
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
