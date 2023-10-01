@@ -328,7 +328,7 @@ if [ ! -d "/home/$USERNAME/.config/nvim" ]; then
     sudo npm install -g neovim tree-sitter-cli
   fi
   sudo nala install -y xclip
-  git clone https://github.com/Tom-Mendy/kickstart.nvim /home/"$USERNAME"/.config/nvim
+  git clone https://github.com/Tom-Mendy/nvim.git /home/"$USERNAME"/.config/nvim
   # make .$HOME/.config/nvim work great for root
   sudo cp -r /home/"$USERNAME"/.config/nvim /root/.config/nvim
 fi
