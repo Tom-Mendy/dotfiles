@@ -317,7 +317,7 @@ if [ ! "$(command -v nvim)" ]; then
   cd /tmp/neovim && sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
   git checkout stable
   sudo make install
-  cd
+  cd -
   sudo rm -rf /tmp/neovim
 fi
 display "Neovim End"
