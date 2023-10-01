@@ -232,6 +232,15 @@ display "Lua Start"
 sudo nala install -y lua5.4 luarocks
 display "Lua End"
 
+display "Go Start"
+sudo nala install -y golang
+display "Go End"
+
+display "Java Start"
+sudo nala install -y default-jdk
+display "Java End"
+
+
 display "Start X Window System and Input"
 sudo apt -f install -y xorg xbacklight xinput xorg-dev xdotool brightnessctl
 display "End X Window System and Input"
