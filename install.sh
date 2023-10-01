@@ -143,7 +143,7 @@ sudo systemctl enable NetworkManager.service
 display "End Network Management"
 
 display "Start Appearance and Customization"
-sudo nala install -y lxappearance qt5ct arandr xclip copyq
+sudo nala install -y lxappearance qt5ct arandr xclip parcellite
 display "End Appearance and Customization"
 
 display "Start System Utilities"

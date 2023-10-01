@@ -16,8 +16,8 @@ numlockx on &
 
 ibus-daemon -drx &
 
-killall copyq
-copyq &
+killall parcellite
+parcellite &
 
 #refresh wallpaper at startup
 xrandr -s 1920x1080 &
