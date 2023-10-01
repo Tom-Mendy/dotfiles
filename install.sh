@@ -174,6 +174,8 @@ if [ ! "$(cargo --list | grep xplr) --eq 1" ]; then
   xplr_version="$(xplr --version | awk '{print $2}')"
   echo "version = '${xplr_version:?}'" > $HOME/.config/xplr/init.lua
   cat "$SCRIPT_DIR"/xplr/init.lua >> $HOME/.config/xplr/init.lua
+  # app for plugins
+  # go install github.com/claudiodangelis/qrcp@latest
 fi
 sudo nala install -y thunar
 display "End File Managers"
@@ -273,7 +275,7 @@ sudo cp ./temp /usr/share/xsessions/i3.desktop;rm ./temp
 display "LOCK SCREEN End"
 
 display "WINDOW MANAGER Start"
-sudo nala install -y i3 i3lock-fancy
+sudo nala install -y i3 i3lock-fancy xautolock
 display "WINDOW MANAGER End"
 
 display "i3 - Config Start"
