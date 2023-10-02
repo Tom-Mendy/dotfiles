@@ -138,6 +138,10 @@ display "Start Python-add"
 sudo nala install -y python3-pip python3-venv
 display "End Python-add"
 
+display "Start Ruby"
+sudo nala install -y ruby
+display "End Ruby"
+
 display "Start Framwork & Header Updates"
 sudo nala install -y linux-headers-$(uname -r) firmware-linux software-properties-common
 display "End Framwork & Header Updates"
