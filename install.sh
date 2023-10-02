@@ -289,10 +289,25 @@ cp "$SCRIPT_DIR"/i3/* $HOME/.config/i3/
 display "i3 - Config End"
 
 display "Theme Start"
+# Desktop Theme
 sudo nala install -y arc-theme
+# Icons
 git clone git@github.com:daniruiz/flat-remix.git /tmp/flat-remix
 sudo mv /tmp/flat-remix/Flat-Remix* /usr/share/icons/
 rm -rf /tmp/flat-remix
+# Cursor
+git clone https://github.com/varlesh/oreo-cursors.git /tmp/oreo-cursors
+cd /tmp/oreo-cursors
+# you can choose the color
+echo 'spark_purple = #912BFF' > generator/colours.conf
+ruby generator/convert.rb
+make build
+sudo make install
+cd -
+rm -rf /tmp/oreo-cursors
+# Add config
+mkdir -p $HOME/.config/gtk3.0/
+cp $SCRIPT_DIR/gtk3.0/settings.ini $HOME/.config/gtk3.0/
 display "Theme End"
 
 
