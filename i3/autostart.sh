@@ -17,7 +17,7 @@ numlockx on &
 ibus-daemon -drx &
 
 killall parcellite
-parcellite &
+parcellite -d &
 
 killall xautolock
 xautolock -time 10 -locker "i3lock-fancy -p" &
