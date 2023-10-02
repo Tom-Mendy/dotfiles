@@ -142,6 +142,23 @@ display "Start Ruby"
 sudo nala install -y ruby
 display "End Ruby"
 
+display "Go Start"
+sudo nala install -y golang
+display "Go End"
+
+display "Java Start"
+sudo nala install -y default-jdk
+display "Java End"
+
+display "Lua Start"
+sudo nala install -y lua5.4 luarocks
+display "Lua End"
+
+display "C Start"
+sudo nala install -y valgrind
+display "C End"
+
+
 display "Start Framwork & Header Updates"
 sudo nala install -y linux-headers-$(uname -r) firmware-linux software-properties-common
 display "End Framwork & Header Updates"
@@ -229,22 +246,6 @@ display "End Media Player"
 display "Start Document Viewer"
 sudo nala install -y zathura
 display "End Document Viewer"
-
-display "C Start"
-sudo nala install -y valgrind
-display "C End"
-
-display "Lua Start"
-sudo nala install -y lua5.4 luarocks
-display "Lua End"
-
-display "Go Start"
-sudo nala install -y golang
-display "Go End"
-
-display "Java Start"
-sudo nala install -y default-jdk
-display "Java End"
 
 
 display "Start X Window System and Input"
