@@ -283,6 +283,14 @@ mkdir -p $HOME/.config/i3/
 cp "$SCRIPT_DIR"/i3/* $HOME/.config/i3/
 display "i3 - Config End"
 
+display "Theme Start"
+sudo nala install -y arc-theme
+git clone git@github.com:daniruiz/flat-remix.git /tmp/flat-remix
+sudo mv /tmp/flat-remix/Flat-Remix* /usr/share/icons/
+rm -rf /tmp/flat-remix
+display "Theme End"
+
+
 display "Bing Wallpaper Start"
 if [ ! -f "$HOME/my_scripts/auto_wallpaper.sh" ]; then
   sudo nala install -y feh
