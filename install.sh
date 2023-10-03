@@ -297,7 +297,7 @@ git clone https://github.com/daniruiz/flat-remix.git /tmp/flat-remix
 sudo mv /tmp/flat-remix/Flat-Remix* /usr/share/icons/
 rm -rf /tmp/flat-remix
 # Cursor
-sudo nala install -y inkscape xcursorgen
+sudo nala install -y inkscape
 git clone https://github.com/varlesh/oreo-cursors.git /tmp/oreo-cursors
 cd /tmp/oreo-cursors
 # you can choose the color
