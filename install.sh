@@ -155,7 +155,7 @@ sudo nala install -y lua5.4 luarocks
 display "Lua End"
 
 display "C Start"
-sudo nala install -y valgrind
+sudo nala install -y valgrind libcriterion-dev
 display "C End"
 
 
@@ -293,7 +293,7 @@ display "Theme Start"
 # Desktop Theme
 sudo nala install -y arc-theme
 # Icons
-git clone git@github.com:daniruiz/flat-remix.git /tmp/flat-remix
+git clone https://github.com/daniruiz/flat-remix.git /tmp/flat-remix
 sudo mv /tmp/flat-remix/Flat-Remix* /usr/share/icons/
 rm -rf /tmp/flat-remix
 # Cursor
