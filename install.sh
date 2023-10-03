@@ -293,9 +293,9 @@ display "Theme Start"
 # Desktop Theme
 sudo nala install -y arc-theme
 # Icons
-if [ -z $(sudo find /usr/share/icons/ -iname "Flat-Remix") ]; then
+if [ -z $(sudo find /usr/share/icons/ -iname "Flat-Remix-*") ]; then
   git clone https://github.com/daniruiz/flat-remix.git /tmp/flat-remix
-  sudo mv /tmp/flat-remix/Flat-Remix* /usr/share/icons/
+  sudo mv /tmp/flat-remix/Flat-Remix-* /usr/share/icons/
   rm -rf /tmp/flat-remix
 fi
 # Cursor
