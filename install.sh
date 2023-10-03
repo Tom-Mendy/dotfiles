@@ -310,8 +310,8 @@ sudo make install
 cd -
 rm -rf /tmp/oreo-cursors
 # Add config
-mkdir -p $HOME/.config/gtk3.0/
-cp $SCRIPT_DIR/gtk3.0/settings.ini $HOME/.config/gtk3.0/
+mkdir -p $HOME/.config/gtk-3.0/
+cp $SCRIPT_DIR/gtk-3.0/settings.ini $HOME/.config/gtk-3.0/
 display "Theme End"
 
 
