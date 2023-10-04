@@ -31,11 +31,11 @@ if [ "$(command -v batcat)" ]; then
   alias bat="batcat" "$HOME/.zshrc"
   alias cat="batcat --paging=never" "$HOME/.zshrc"
 fi
-if [ "$(command -v exa)" ]; then
-  alias ls="exa --icons --color=always --group-directories-first" "$HOME/.zshrc"
-  alias la="exa --icons --color=always --group-directories-first -a" "$HOME/.zshrc"
-  alias ll="exa --icons --color=always --group-directories-first -l" "$HOME/.zshrc"
-  alias tree="exa --icons --color=always --group-directories-first --tree" "$HOME/.zshrc"
+if [ "$(command -v eza)" ]; then
+  alias ls="eza --icons --color=always --group-directories-first" "$HOME/.zshrc"
+  alias la="eza --icons --color=always --group-directories-first -a" "$HOME/.zshrc"
+  alias ll="eza --icons --color=always --group-directories-first -l" "$HOME/.zshrc"
+  alias tree="eza --icons --color=always --group-directories-first --tree" "$HOME/.zshrc"
 fi
 if [ "$(command -v codium)" ]; then
   alias code="codium" "$HOME/.zshrc"
