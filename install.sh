@@ -351,6 +351,25 @@ if [ ! "$(command -v docker)" ]; then
 fi
 display "Docker Engine End"
 
+display "Start Kubectl"
+if [ ! "$(command -v kubectl)" ]; then
+  sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  sudo chmod +x kubectl
+  sudo mv kubectl /usr/local/bin/
+  # add kubectl completion for zsh
+  kubectl completion zsh >> ~/.zshrc
+fi
+display "End Kubectl"
+
+display "Start Minikube"
+if [ ! "$(command -v minikube)" ]; then
+  curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+  sudo install minikube-linux-amd64 /usr/local/bin/minikube
+  minikube start
+fi
+display "End Minikube"
+
+
 display "Flatpak Start"
 sudo nala install -y flatpak
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
