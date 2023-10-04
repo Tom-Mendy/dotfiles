@@ -312,7 +312,7 @@ rm -rf /tmp/oreo-cursors
 # Add config
 mkdir -p $HOME/.config/gtk-3.0/
 cp $SCRIPT_DIR/gtk-3.0/settings.ini $HOME/.config/gtk-3.0/
-sudo ln -s $HOME/.config/gtk-3.0/settings.ini /etc/gtk-3.0/settings.ini
+sudo cp $SCRIPT_DIR/gtk-3.0/settings.ini /etc/gtk-3.0/settings.ini
 display "Theme End"
 
 
