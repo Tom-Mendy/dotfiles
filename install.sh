@@ -186,7 +186,7 @@ sudo nala install -y kitty
 display "End Terminal Emulators"
 
 display "Start Modern replacement"
-cargo install eza
+cargo install eza fcp
 sudo nala install -y tldr bat ripgrep fzf fd-find
 display "End Modern replacement"
 
@@ -226,15 +226,11 @@ sudo systemctl enable bluetooth
 display "End Bluetooth Support"
 
 display "Start Menu and Window Managers"
-sudo nala install -y numlockx rofi dunst libnotify-bin picom dmenu polybar dbus-x11
+sudo nala install -y numlockx rofi dunst libnotify-bin picom dmenu dbus-x11
 display "Start Menu and Window Managers"
 
-display "Start Archive Management"
-sudo nala install -y unzip file-roller
-display "End Archive Management"
-
 display "Start Text Editors"
-sudo nala install -y vim mousepad
+sudo nala install -y vim
 display "End Text Editors"
 
 display "Start Image Viewer"
@@ -242,7 +238,7 @@ sudo nala install -y viewnior feh sxiv ueberzug python3-pillow
 display "End Image Viewer"
 
 display "Start Media Player"
-sudo nala install -y vlc
+sudo nala install -y vlc mpv
 display "End Media Player"
 
 display "Start Document Viewer"
@@ -255,7 +251,7 @@ sudo apt -f install -y xorg xbacklight xinput xorg-dev xdotool brightnessctl
 display "End X Window System and Input"
 
 display "LOCK SCREEN Start"
-sudo nala install -y build-essential libpam0g-dev libxcb-xkb-dev
+sudo nala install -y libpam0g-dev libxcb-xkb-dev
 if [ ! -d "/tmp/ly" ]; then
   git clone --recurse-submodules https://github.com/fairyglade/ly /tmp/ly
 fi
