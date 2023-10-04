@@ -111,6 +111,11 @@ if [ ! "$(command -v zsh)" ]; then
   cp "$SCRIPT_DIR"/zsh/.p10k.zsh $HOME/.p10k.zsh
 fi
 
+display "Start Flatpak"
+sudo nala install -y flatpak
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+display "End Flatpak"
+
 display "Start Rust"
 if [ ! "$(command -v cargo)" ]; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
@@ -229,6 +234,10 @@ display "Start Menu and Window Managers"
 sudo nala install -y numlockx rofi dunst libnotify-bin picom dmenu dbus-x11
 display "Start Menu and Window Managers"
 
+display "Start Communication"
+sudo flatpak install -y flathub com.discordapp.Discord com.github.IsmaelMartinez.teams_for_linux
+display "End Communication"
+
 display "Start Text Editors"
 sudo nala install -y vim
 display "End Text Editors"
@@ -240,6 +249,10 @@ display "End Image Viewer"
 display "Start Media Player"
 sudo nala install -y vlc mpv
 display "End Media Player"
+
+display "Start Music Player"
+sudo flatpak install -y flathub com.spotify.Client
+display "End Music Player"
 
 display "Start Document Viewer"
 sudo nala install -y zathura
@@ -366,15 +379,6 @@ if [ ! "$(command -v minikube)" ]; then
 fi
 display "End Minikube"
 
-
-display "Flatpak Start"
-sudo nala install -y flatpak
-sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-display "INSTALL Flatpak Package"
-sudo flatpak install -y flathub com.discordapp.Discord com.spotify.Client com.github.IsmaelMartinez.teams_for_linux
-display "Flatpak End"
-
 display "Brave Start"
 if ! command -v brave-browser &> /dev/null; then
   sudo nala install -y curl
@@ -396,15 +400,21 @@ display "VSCodium End"
 display "Neovim Start"
 if [ ! "$(command -v nvim)" ]; then
   sudo nala install -y ninja-build gettext cmake unzip curl
-  if [ ! -d "/tmp/neovim" ]; then
-    git clone https://github.com/neovim/neovim /tmp/neovim
-  fi
-  cd /tmp/neovim
-  sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
-  git checkout stable
-  sudo make install
-  cd -
-  sudo rm -rf /tmp/neovim
+  cd /tmp
+  wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
+  tar -xf nvim-linux64.tar.gz
+  sudo cp ./nvim-linux64/bin/nvim /bin/
+  rm -rf /tmp/neovim
+
+  # if [ ! -d "/tmp/neovim" ]; then
+  #   git clone https://github.com/neovim/neovim /tmp/neovim
+  # fi
+  # cd /tmp/neovim
+  # sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
+  # git checkout stable
+  # sudo make install
+  # cd -
+  # rm -rf /tmp/neovim
 fi
 display "Neovim End"
 
