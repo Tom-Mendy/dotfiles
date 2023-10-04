@@ -243,8 +243,21 @@ sudo nala install -y vim
 display "End Text Editors"
 
 display "Start Image Viewer"
-sudo nala install -y viewnior feh sxiv ueberzug python3-pillow
+sudo nala install -y viewnior sxiv ueberzug python3-pillow
 display "End Image Viewer"
+
+display "Start Wallpaper"
+sudo nala install -y feh
+if [ ! "$(command -v wallrus)" ]; then
+  if [ ! -d "/tmp/wallrus" ]; then
+    git clone https://github.com/TheHamkerCat/wallrus /tmp/wallrus
+  fi
+  cd /tmp/wallrus
+  bash ./install.sh
+  cd -
+  rm -rf /tmp/wallrus
+fi
+display "End Wallpaper"
 
 display "Start Media Player"
 sudo nala install -y vlc mpv
