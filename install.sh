@@ -315,7 +315,6 @@ cp $SCRIPT_DIR/gtk-3.0/settings.ini $HOME/.config/gtk-3.0/
 sudo cp $SCRIPT_DIR/gtk-3.0/settings.ini /etc/gtk-3.0/settings.ini
 display "Theme End"
 
-
 display "Bing Wallpaper Start"
 if [ ! -f "$HOME/my_scripts/auto_wallpaper.sh" ]; then
   sudo nala install -y feh
