@@ -186,7 +186,8 @@ sudo nala install -y kitty
 display "End Terminal Emulators"
 
 display "Start Modern replacement"
-sudo nala install -y exa tldr bat ripgrep fzf fd-find
+cargo install eza
+sudo nala install -y tldr bat ripgrep fzf fd-find
 display "End Modern replacement"
 
 display "Start File Managers"
