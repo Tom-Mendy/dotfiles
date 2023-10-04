@@ -380,7 +380,8 @@ if [ ! "$(command -v kubectl)" ]; then
   sudo chmod +x kubectl
   sudo mv kubectl /usr/local/bin/
   # add kubectl completion for zsh
-  kubectl completion zsh >> ~/.zshrc
+  mkdir -p $HOME/.zsh/
+  kubectl completion zsh >> $HOME/.zsh/kubectl.zsh
 fi
 display "End Kubectl"
 
