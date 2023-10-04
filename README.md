@@ -5,6 +5,8 @@ Launch sudo.sh to enable sudo to your user
 
 Launch install.sh to install all the stuff
 
+this install script take ~ 20 min to complete
+
 WIP
 ||
 ||
