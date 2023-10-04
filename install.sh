@@ -255,7 +255,9 @@ display "End X Window System and Input"
 
 display "LOCK SCREEN Start"
 sudo nala install -y build-essential libpam0g-dev libxcb-xkb-dev
-git clone --recurse-submodules https://github.com/fairyglade/ly /tmp/ly
+if [ ! -d "/tmp/ly" ]; then
+  git clone --recurse-submodules https://github.com/fairyglade/ly /tmp/ly
+fi
 cd /tmp/ly
 make
 sudo make install installsystemd
@@ -294,13 +296,17 @@ display "Theme Start"
 sudo nala install -y arc-theme
 # Icons
 if [ -z $(sudo find /usr/share/icons/ -iname "Flat-Remix-*") ]; then
-  git clone https://github.com/daniruiz/flat-remix.git /tmp/flat-remix
+  if [ ! -d "/tmp/flat-remix" ]; then
+    git clone https://github.com/daniruiz/flat-remix.git /tmp/flat-remix
+  fi
   sudo mv /tmp/flat-remix/Flat-Remix-* /usr/share/icons/
   rm -rf /tmp/flat-remix
 fi
 # Cursor
 sudo nala install -y inkscape
-git clone https://github.com/varlesh/oreo-cursors.git /tmp/oreo-cursors
+if [ ! -d "/tmp/oreo-cursors" ]; then
+  git clone https://github.com/varlesh/oreo-cursors.git /tmp/oreo-cursors
+fi
 cd /tmp/oreo-cursors
 # you can choose the color
 echo 'spark_purple = #912BFF' > generator/colours.conf
