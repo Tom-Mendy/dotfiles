@@ -424,7 +424,8 @@ if [ ! "$(command -v nvim)" ]; then
   git checkout stable
   sudo make install
   cd -
-  rm -rf /tmp/neovim
+  # need sudo right beacause do "sudo make install"
+  sudo rm -rf /tmp/neovim
 fi
 display "Neovim End"
 
