@@ -77,9 +77,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Load your custom alias and environment settings
 source $HOME/.zsh/env.zsh
 source $HOME/.zsh/alias.zsh
-if [ -d "$HOME/.zsh/kubectl.zsh" ]; then
-  source $HOME/.zsh/kubectl.zsh
-fi
+source $HOME/.zsh/kubectl.zsh
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
 

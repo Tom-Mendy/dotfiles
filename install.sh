@@ -382,6 +382,7 @@ if [ ! "$(command -v kubectl)" ]; then
   # add kubectl completion for zsh
   mkdir -p $HOME/.zsh/
   kubectl completion zsh >> $HOME/.zsh/kubectl.zsh
+  tail -n +20 $HOME/.zsh/kubectl.zsh > $HOME/.zsh/kubectl.zsh
 fi
 display "End Kubectl"
 
@@ -413,21 +414,15 @@ display "VSCodium End"
 display "Neovim Start"
 if [ ! "$(command -v nvim)" ]; then
   sudo nala install -y ninja-build gettext cmake unzip curl
-  cd /tmp
-  wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
-  tar -xf nvim-linux64.tar.gz
-  sudo cp ./nvim-linux64/bin/nvim /bin/
+  if [ ! -d "/tmp/neovim" ]; then
+    git clone https://github.com/neovim/neovim /tmp/neovim
+  fi
+  cd /tmp/neovim
+  sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
+  git checkout stable
+  sudo make install
+  cd -
   rm -rf /tmp/neovim
-
-  # if [ ! -d "/tmp/neovim" ]; then
-  #   git clone https://github.com/neovim/neovim /tmp/neovim
-  # fi
-  # cd /tmp/neovim
-  # sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
-  # git checkout stable
-  # sudo make install
-  # cd -
-  # rm -rf /tmp/neovim
 fi
 display "Neovim End"
 
