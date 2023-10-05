@@ -289,10 +289,10 @@ cd -
 rm -rf /tmp/ly
 
 # Configure xsessions
-if [[ ! -d /usr/share/xsessions ]]; then
-    sudo mkdir /usr/share/xsessions
-fi
-
+if [[ ! -d /usr/share/xsessions/i3.desktop ]]; then
+  if [[ ! -d /usr/share/xsessions ]]; then
+      sudo mkdir /usr/share/xsessions
+  fi
 cat > ./temp << "EOF"
 [Desktop Entry]
 Encoding=UTF-8
@@ -302,7 +302,8 @@ Exec=i3
 Icon=i3
 Type=XSession
 EOF
-sudo cp ./temp /usr/share/xsessions/i3.desktop;rm ./temp
+  sudo cp ./temp /usr/share/xsessions/i3.desktop;rm ./temp
+fi
 display "LOCK SCREEN End"
 
 display "WINDOW MANAGER Start"
