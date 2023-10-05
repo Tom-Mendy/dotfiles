@@ -342,8 +342,7 @@ fi
 # Add config
 mkdir -p $HOME/.config/gtk-3.0/
 cp $SCRIPT_DIR/gtk-3.0/settings.ini $HOME/.config/gtk-3.0/
-cp $SCRIPT_DIR/gtk-3.0/settings.ini $HOME/
-mv $HOME/settings.ini $HOME/.gtkrc-2.0
+cp $SCRIPT_DIR/gtk-3.0/.gtkrc-2.0 $HOME/
 display "Theme End"
 
 display "Bing Wallpaper Start"
