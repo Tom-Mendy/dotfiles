@@ -9,6 +9,9 @@ nm-tray &
 killall blueman-tray
 blueman-tray &
 
+killall pulseaudio
+pulseaudio --start
+
 killall volumeicon
 volumeicon &
 
