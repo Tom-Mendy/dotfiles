@@ -308,12 +308,11 @@ display "LOCK SCREEN End"
 
 display "WINDOW MANAGER Start"
 sudo nala install -y i3 i3lock-fancy xautolock
-display "WINDOW MANAGER End"
-
-display "i3 - Config Start"
 mkdir -p $HOME/.config/i3/
 cp "$SCRIPT_DIR"/i3/* $HOME/.config/i3/
-display "i3 - Config End"
+mkdir -p $HOME/.config/rofi/
+cp "$SCRIPT_DIR"/rofi/* $HOME/.config/rofi/
+display "WINDOW MANAGER End"
 
 display "Theme Start"
 # Desktop Theme
