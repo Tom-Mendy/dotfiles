@@ -381,8 +381,9 @@ if [ ! "$(command -v kubectl)" ]; then
   sudo mv kubectl /usr/local/bin/
   # add kubectl completion for zsh
   mkdir -p $HOME/.zsh/
-  kubectl completion zsh >> $HOME/.zsh/kubectl.zsh
-  tail -n +20 $HOME/.zsh/kubectl.zsh > $HOME/.zsh/kubectl.zsh
+  kubectl completion zsh > /tmp/kubectl.zsh
+  tail -n +20 /tmp/kubectl.zsh > $HOME/.zsh/kubectl.zsh
+  rm /tmp/kubectl.zsh
 fi
 display "End Kubectl"
 
