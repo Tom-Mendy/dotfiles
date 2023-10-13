@@ -327,18 +327,10 @@ if [ -z $(sudo find /usr/share/icons/ -iname "Flat-Remix-*") ]; then
   rm -rf /tmp/flat-remix
 fi
 # Cursor
-# sudo nala install -y inkscape
-# if [ ! -d "/tmp/oreo-cursors" ]; then
-#   git clone https://github.com/varlesh/oreo-cursors.git /tmp/oreo-cursors
-# fi
-# cd /tmp/oreo-cursors
-# # you can choose the color
-# echo 'spark_purple = #912BFF' > generator/colours.conf
-# ruby generator/convert.rb
-# make build
-# sudo make install
-# cd -
-# rm -rf /tmp/oreo-cursors
+cd "$SCRIPT_DIR"
+tar -xvf oreo-spark-purple-cursors.tar.gz
+sudo mv oreo_spark_purple_cursors /usr/share/icons
+cd -
 # Add config
 mkdir -p $HOME/.config/gtk-3.0/
 cp $SCRIPT_DIR/gtk-3.0/.gtkrc-2.0 $HOME/
