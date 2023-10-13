@@ -40,3 +40,6 @@ fi
 if [ "$(command -v codium)" ]; then
   alias code="codium" "$HOME/.zshrc"
 fi
+if [ "$(command -v safe-rm)" ]; then
+  alias rm="safe-rm" "$HOME/.zshrc"
+fi

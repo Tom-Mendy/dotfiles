@@ -192,6 +192,7 @@ display "End Terminal Emulators"
 
 display "Start Modern replacement"
 cargo install eza fcp
+sudo npm i -g safe-rm
 sudo nala install -y tldr bat ripgrep fzf fd-find
 display "End Modern replacement"
 
