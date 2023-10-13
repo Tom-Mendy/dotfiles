@@ -196,7 +196,7 @@ sudo nala install -y tldr bat ripgrep fzf fd-find
 display "End Modern replacement"
 
 display "Start File Managers"
-if [ ! "$(cargo --list | grep xplr) --eq 1" ]; then
+if [ ! "$(command -v xplr)" ]; then
   cargo install --locked --force xplr
   mkdir -p $HOME/.config/xplr
   xplr_version="$(xplr --version | awk '{print $2}')"
