@@ -266,6 +266,9 @@ display "End Media Player"
 
 display "Start Music Player"
 sudo flatpak install -y flathub com.spotify.Client
+# spotify_player
+sudo nala install libssl-dev libasound2-dev libdbus-1-dev
+cargo install spotify_player --features sixel,daemon
 display "End Music Player"
 
 display "Start Document Viewer"
