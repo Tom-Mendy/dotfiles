@@ -207,6 +207,11 @@ if [ ! "$(command -v xplr)" ]; then
   # go install github.com/claudiodangelis/qrcp@latest
 fi
 sudo nala install -y thunar
+mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
+cp $SCRIPT_DIR/Thunar/thunar.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
+mkdir -p $HOME/.config/Thunar
+cp $SCRIPT_DIR/Thunar/uca.xml $HOME/.config/Thunar
+cp $SCRIPT_DIR/Thunar/accels.scm $HOME/.config/Thunar
 display "End File Managers"
 
 display "Start Audio Control Start"
