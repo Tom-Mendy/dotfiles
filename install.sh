@@ -188,6 +188,8 @@ display "End System Utilities"
 
 display "Start Terminal Emulators"
 sudo nala install -y kitty
+#make kitty the default terminal
+sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
 display "End Terminal Emulators"
 
 display "Start Modern replacement"
@@ -338,6 +340,8 @@ fi
 cd "$SCRIPT_DIR"
 tar -xvf oreo-spark-purple-cursors.tar.gz
 sudo mv oreo_spark_purple_cursors /usr/share/icons
+sudo update-alternatives --install /usr/share/icons/default/cursor.theme x-cursor-theme /usr/share/icons/oreo_spark_purple_cursors/cursor.theme 100
+sudo update-alternatives --set x-cursor-theme /usr/share/icons/oreo_spark_purple_cursors/cursor.theme
 cd -
 # Add config
 mkdir -p $HOME/.config/gtk-3.0/
@@ -438,6 +442,8 @@ if [ ! -d "$HOME/.config/nvim" ]; then
   git clone https://github.com/Tom-Mendy/nvim.git $HOME/.config/nvim
   # make .$HOME/.config/nvim work great for root
   sudo cp -r $HOME/.config/nvim /root/.config/nvim
+  # make nvim the default editor
+  sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 50
 fi
 display "Config NeoVim End"
 
