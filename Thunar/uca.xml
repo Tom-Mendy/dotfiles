@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Open Terminal Here</name>
+	<submenu></submenu>
+	<unique-id>1697298077839912-1</unique-id>
+	<command>kitty</command>
+	<description>Example for a custom action</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>vim</icon>
+	<name>Vim</name>
+	<submenu></submenu>
+	<unique-id>1697301785079099-2</unique-id>
+	<command>kitty vim %f</command>
+	<description>lauch vim</description>
+	<range>*</range>
+	<patterns>*</patterns>
+	<text-files/>
+</action>
+<action>
+	<icon>nvim</icon>
+	<name>NeoVim</name>
+	<submenu></submenu>
+	<unique-id>1697299915667205-1</unique-id>
+	<command>kitty nvim %f</command>
+	<description>lauch Neovim</description>
+	<range>*</range>
+	<patterns>*</patterns>
+	<directories/>
+	<text-files/>
+</action>
+<action>
+	<icon>visual-studio-code</icon>
+	<name>VScode</name>
+	<submenu></submenu>
+	<unique-id>1697301499263534-1</unique-id>
+	<command>kitty codium %f</command>
+	<description>lauch code</description>
+	<range>*</range>
+	<patterns>*</patterns>
+	<directories/>
+	<text-files/>
+</action>
+</actions>
