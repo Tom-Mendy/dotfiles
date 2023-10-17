@@ -398,7 +398,7 @@ if [ ! "$(command -v minikube)" ]; then
 fi
 display "End Minikube"
 
-display "Brave Start"
+display "Start Brave"
 if ! command -v brave-browser &> /dev/null; then
   sudo nala install -y curl
   sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
@@ -406,17 +406,26 @@ if ! command -v brave-browser &> /dev/null; then
   sudo nala update
   sudo nala install -y brave-browser
 fi
-display "Brave End"
+display "End Brave"
 
-display "VSCodium Start"
+display "Start Throrium"
+if [ ! "$(command -v thorium-browser)" ]; then
+  wget https://dl.thorium.rocks/debian/dists/stable/thorium.list
+  sudo mv thorium.list /etc/apt/sources.list.d/
+  sudo apt update
+  sudo apt install thorium-browser
+fi
+display "End Throrium"
+
+display "Start VSCodium"
 if [ ! "$(command -v codium)" ]; then
   wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
   echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
   sudo nala update && sudo nala install -y codium
 fi
-display "VSCodium End"
+display "End VSCodium"
 
-display "Neovim Start"
+display "Start Neovim"
 if [ ! "$(command -v nvim)" ]; then
   sudo nala install -y ninja-build gettext cmake unzip curl
   if [ ! -d "/tmp/neovim" ]; then
@@ -430,9 +439,9 @@ if [ ! "$(command -v nvim)" ]; then
   # need sudo right beacause do "sudo make install"
   sudo rm -rf /tmp/neovim
 fi
-display "Neovim End"
+display "End Neovim"
 
-display "Config NeoVim Start"
+display "Start Config NeoVim"
 if [ ! -d "$HOME/.config/nvim" ]; then
   pip install neovim --break-system-packages
   if [ ! "$(command -v tree-sitter)" ]; then
@@ -445,7 +454,7 @@ if [ ! -d "$HOME/.config/nvim" ]; then
   # make nvim the default editor
   sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 50
 fi
-display "Config NeoVim End"
+display "End Config NeoVim"
 
 display "CRONTAB"
 sudo crontab "$CRONTAB_ROOT"
@@ -456,10 +465,10 @@ END=`date +%s`
 
 RUNTIME=$((END-START))
 
-display "Scrip executed in $RUNTIME s"
-
 display "Type Your Password to make zsh your Default shell"
 chsh -s /bin/zsh
+
+display "Scrip executed in $RUNTIME s"
 
 display "Reboot Now"
 
