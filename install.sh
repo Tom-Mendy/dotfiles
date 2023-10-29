@@ -99,7 +99,7 @@ add_to_file_if_not_in_it '@reboot yes |nala fetch --auto' "$CRONTAB_ROOT"
 
 display "Start build-essential"
 sudo nala install -y build-essential
-display "End build-essential"
+log "End build-essential"
 
 display "ZSH"
 if [ ! "$(command -v zsh)" ]; then
@@ -114,7 +114,7 @@ fi
 display "Start Flatpak"
 sudo nala install -y flatpak
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-display "End Flatpak"
+log "End Flatpak"
 
 display "Start Rust"
 if [ ! "$(command -v cargo)" ]; then
@@ -124,7 +124,7 @@ if [ ! "$(command -v cargo)" ]; then
   rm -f /tmp/rust.sh
   source $HOME/.cargo/env
 fi
-display "End Rust"
+log "End Rust"
 
 display "Start Nodejs"
 if [ ! "$(command -v npm)" ]; then
@@ -137,15 +137,15 @@ if [ ! "$(command -v npm)" ]; then
   sudo nala update
   sudo nala install -y nodejs
 fi
-display "End Nodejs"
+log "End Nodejs"
 
 display "Start Python-add"
 sudo nala install -y python3-pip python3-venv
-display "End Python-add"
+log "End Python-add"
 
 display "Start Ruby"
 sudo nala install -y ruby
-display "End Ruby"
+log "End Ruby"
 
 display "Go Start"
 sudo nala install -y golang
@@ -166,37 +166,37 @@ display "C End"
 
 display "Start Framwork & Header Updates"
 sudo nala install -y linux-headers-$(uname -r) firmware-linux software-properties-common
-display "End Framwork & Header Updates"
+log "End Framwork & Header Updates"
 
 display "Start Network Management"
 sudo nala install -y nm-tray network-manager
 sudo systemctl start NetworkManager.service 
 sudo systemctl enable NetworkManager.service
-display "End Network Management"
+log "End Network Management"
 
 display "Start Appearance and Customization"
 sudo nala install -y lxappearance qt5ct arandr xclip parcellite
 mkdir -p $HOME/.config/parcellite/
 cp "$SCRIPT_DIR"/parcellite/* $HOME/.config/parcellite/
-display "End Appearance and Customization"
+log "End Appearance and Customization"
 
 display "Start System Utilities"
 sudo nala install -y dialog mtools dosfstools avahi-daemon acpi acpid gvfs-backends
 sudo systemctl enable avahi-daemon
 sudo systemctl enable acpid
-display "End System Utilities"
+log "End System Utilities"
 
 display "Start Terminal Emulators"
 sudo nala install -y kitty
 #make kitty the default terminal
 sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
-display "End Terminal Emulators"
+log "End Terminal Emulators"
 
 display "Start Modern replacement"
 cargo install eza fcp
 sudo npm i -g safe-rm
 sudo nala install -y tldr bat ripgrep fzf fd-find
-display "End Modern replacement"
+log "End Modern replacement"
 
 display "Start File Managers"
 if [ ! "$(command -v xplr)" ]; then
@@ -214,78 +214,85 @@ cp $SCRIPT_DIR/Thunar/thunar.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
 mkdir -p $HOME/.config/Thunar
 cp $SCRIPT_DIR/Thunar/uca.xml $HOME/.config/Thunar
 cp $SCRIPT_DIR/Thunar/accels.scm $HOME/.config/Thunar
-display "End File Managers"
+log "End File Managers"
 
 display "Start Audio Control Start"
 sudo nala install -y pulseaudio alsa-utils pavucontrol volumeicon-alsa
-display "End Audio Control End"
+log "End Audio Control End"
 
 display "Start System Information and Monitoring"
 sudo nala install -y neofetch htop
-display "End System Information and Monitoring"
+log "End System Information and Monitoring"
 
 display "Start Screenshots"
 sudo nala install -y flameshot
-display "End Screenshots"
+log "End Screenshots"
 
 display "Start Printer Support"
 sudo nala install -y cups simple-scan
 sudo systemctl enable cups
-display "End Printer Support"
+log "End Printer Support"
 
 display "Start Bluetooth Support"
 sudo nala install -y bluez blueman
 sudo systemctl enable bluetooth
-display "End Bluetooth Support"
+log "End Bluetooth Support"
 
 display "Start Menu and Window Managers"
 sudo nala install -y numlockx rofi dunst libnotify-bin picom dmenu dbus-x11
 display "Start Menu and Window Managers"
 
 display "Start Communication"
-sudo flatpak install -y flathub com.discordapp.Discord com.github.IsmaelMartinez.teams_for_linux
-display "End Communication"
+# discord
+if [ ! "$(command -v discord)" ]; then
+  cd /tmp
+  wget https://discord.com/api/download?platform=linux&format=deb -O discord.deb
+  sudo nala install -y ./discord.deb
+  rm ./discord.deb
+  cd -
+fi
+# teams for linux
+if [ ! "$(command -v teams-for-linux)" ]; then
+  sudo wget -qO /etc/apt/keyrings/teams-for-linux.asc https://repo.teamsforlinux.de/teams-for-linux.asc
+  echo "deb [signed-by=/etc/apt/keyrings/teams-for-linux.asc arch=$(dpkg --print-architecture)] https://repo.teamsforlinux.de/debian/ stable main" | sudo tee /etc/apt/sources.list.d/teams-for-linux-packages.list
+  sudo nala update && sudo nala install -y teams-for-linux
+fi
+log "End Communication"
 
 display "Start Text Editors"
 sudo nala install -y vim
-display "End Text Editors"
+log "End Text Editors"
 
 display "Start Image Viewer"
 sudo nala install -y viewnior sxiv ueberzug python3-pillow
-display "End Image Viewer"
+log "End Image Viewer"
 
 display "Start Wallpaper"
 sudo nala install -y feh
-if [ ! "$(command -v wallrus)" ]; then
-  if [ ! -d "/tmp/wallrus" ]; then
-    git clone https://github.com/TheHamkerCat/wallrus /tmp/wallrus
-  fi
-  cd /tmp/wallrus
-  bash ./install.sh
-  cd -
-  rm -rf /tmp/wallrus
-fi
-display "End Wallpaper"
+log "End Wallpaper"
 
 display "Start Media Player"
 sudo nala install -y vlc mpv
-display "End Media Player"
+log "End Media Player"
 
 display "Start Music Player"
 sudo flatpak install -y flathub com.spotify.Client
 # spotify_player
 sudo nala install -y libssl-dev libasound2-dev libdbus-1-dev
 cargo install spotify_player --features sixel,daemon
-display "End Music Player"
+log "End Music Player"
 
 display "Start Document Viewer"
 sudo nala install -y zathura
-display "End Document Viewer"
+log "End Document Viewer"
 
+display "Start Virtualisation"
+sudo nala install -y distrobox virt-manager
+log "End Virtualisation"
 
 display "Start X Window System and Input"
 sudo apt -f install -y xorg xbacklight xinput xorg-dev xdotool brightnessctl
-display "End X Window System and Input"
+log "End X Window System and Input"
 
 display "LOCK SCREEN Start"
 sudo nala install -y libpam0g-dev libxcb-xkb-dev
@@ -389,14 +396,14 @@ if [ ! "$(command -v kubectl)" ]; then
   tail -n +20 /tmp/kubectl.zsh > $HOME/.zsh/kubectl.zsh
   rm /tmp/kubectl.zsh
 fi
-display "End Kubectl"
+log "End Kubectl"
 
 display "Start Minikube"
 if [ ! "$(command -v minikube)" ]; then
   curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
   sudo install minikube-linux-amd64 /usr/local/bin/minikube
 fi
-display "End Minikube"
+log "End Minikube"
 
 display "Start Brave"
 if ! command -v brave-browser &> /dev/null; then
@@ -406,7 +413,7 @@ if ! command -v brave-browser &> /dev/null; then
   sudo nala update
   sudo nala install -y brave-browser
 fi
-display "End Brave"
+log "End Brave"
 
 display "Start Throrium"
 if [ ! "$(command -v thorium-browser)" ]; then
@@ -415,7 +422,7 @@ if [ ! "$(command -v thorium-browser)" ]; then
   sudo apt update
   sudo apt install thorium-browser
 fi
-display "End Throrium"
+log "End Throrium"
 
 display "Start VSCodium"
 if [ ! "$(command -v codium)" ]; then
@@ -423,7 +430,7 @@ if [ ! "$(command -v codium)" ]; then
   echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
   sudo nala update && sudo nala install -y codium
 fi
-display "End VSCodium"
+log "End VSCodium"
 
 display "Start Neovim"
 if [ ! "$(command -v nvim)" ]; then
@@ -439,7 +446,7 @@ if [ ! "$(command -v nvim)" ]; then
   # need sudo right beacause do "sudo make install"
   sudo rm -rf /tmp/neovim
 fi
-display "End Neovim"
+log "End Neovim"
 
 display "Start Config NeoVim"
 if [ ! -d "$HOME/.config/nvim" ]; then
@@ -454,7 +461,7 @@ if [ ! -d "$HOME/.config/nvim" ]; then
   # make nvim the default editor
   sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 50
 fi
-display "End Config NeoVim"
+log "End Config NeoVim"
 
 display "CRONTAB"
 sudo crontab "$CRONTAB_ROOT"
