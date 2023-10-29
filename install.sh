@@ -177,7 +177,7 @@ log "End Network Management"
 display "Start Appearance and Customization"
 sudo nala install -y lxappearance qt5ct arandr xclip parcellite
 mkdir -p $HOME/.config/parcellite/
-cp "$SCRIPT_DIR"/parcellite/* $HOME/.config/parcellite/
+cp "$SCRIPT_DIR"/parcellite/* "$HOME"/.config/parcellite/
 log "End Appearance and Customization"
 
 display "Start System Utilities"
@@ -188,6 +188,8 @@ log "End System Utilities"
 
 display "Start Terminal Emulators"
 sudo nala install -y kitty
+mkdir -p "$HOME"/.config/kitty/
+cp "$SCRIPT_DIR"/kitty/kitty.conf "$HOME"/.config/kitty/
 #make kitty the default terminal
 sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
 log "End Terminal Emulators"
