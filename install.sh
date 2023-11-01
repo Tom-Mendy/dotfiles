@@ -210,7 +210,7 @@ if [ ! "$(command -v xplr)" ]; then
   # app for plugins
   # go install github.com/claudiodangelis/qrcp@latest
 fi
-sudo nala install -y thunar
+sudo nala install -y thunar thunar-achive-plugin thunar-media-tags-plugin
 mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
 cp $SCRIPT_DIR/Thunar/thunar.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
 mkdir -p $HOME/.config/Thunar
