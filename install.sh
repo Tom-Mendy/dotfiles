@@ -191,7 +191,7 @@ display "Docker Engine End"
 
 display "Start Virtualisation"
 sudo nala install -y distrobox virt-manager
-distrobox create --name arch --init --image quay.io/toolbx-images/archlinux-toolbox:latest --yes
+distrobox create --name arch --image quay.io/toolbx-images/archlinux-toolbox:latest --yes
 distrobox enter arch -- $SCRIPT_DIR/distrobox/arch.sh
 log "End Virtualisation"
 
