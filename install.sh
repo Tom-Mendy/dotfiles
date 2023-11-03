@@ -161,7 +161,7 @@ display "Lua End"
 
 display "C Start"
 sudo nala install -y valgrind libcriterion-dev
-$SCRIPT_DIR/criterion/install_criterion.sh
+sudo $SCRIPT_DIR/criterion/install_criterion.sh
 display "C End"
 
 
