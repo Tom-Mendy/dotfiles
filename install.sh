@@ -304,8 +304,7 @@ sudo nala install -y vlc mpv
 log "End Media Player"
 
 display "Start Music Player"
-distrobox enter arch -- paru -Syyu --noconfirm spotify
-distrobox enter arch -- distrobox-export --app spotify
+sudo flatpak install -y flathub com.spotify.Client
 # spotify_player
 sudo nala install -y libssl-dev libasound2-dev libdbus-1-dev
 cargo install spotify_player --features sixel,daemon
