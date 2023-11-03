@@ -292,6 +292,9 @@ log "End Document Viewer"
 
 display "Start Virtualisation"
 sudo nala install -y distrobox virt-manager
+distrobox create --name arch --init --image quay.io/toolbx-images/archlinux-toolbox:latest --yes
+chmod +x $SCRIPT_DIR/distrobox/arch.sh
+distrobox enter arch -- $SCRIPT_DIR/distrobox/arch.sh
 log "End Virtualisation"
 
 display "Start X Window System and Input"
@@ -348,12 +351,15 @@ if [ -z $(sudo find /usr/share/icons/ -iname "Flat-Remix-*") ]; then
   rm -rf /tmp/flat-remix
 fi
 # Cursor
-cd "$SCRIPT_DIR"
 tar -xvf oreo-spark-purple-cursors.tar.gz
 sudo mv oreo_spark_purple_cursors /usr/share/icons
 sudo update-alternatives --install /usr/share/icons/default/cursor.theme x-cursor-theme /usr/share/icons/oreo_spark_purple_cursors/cursor.theme 100
 sudo update-alternatives --set x-cursor-theme /usr/share/icons/oreo_spark_purple_cursors/cursor.theme
-cd -
+
+wget https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.4/Bibata-Modern-Amber.tar.xz -O Bibata-Modern-Amber.tar.xz
+tar -xvf Bibata-Modern-Amber.tar.xz
+sudo mv Bibata-Modern-Amber /usr/share/icons
+
 # Add config
 mkdir -p $HOME/.config/gtk-3.0/
 cp $SCRIPT_DIR/gtk-3.0/.gtkrc-2.0 $HOME/
