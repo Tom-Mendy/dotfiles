@@ -169,6 +169,32 @@ display "Start Framwork & Header Updates"
 sudo nala install -y linux-headers-$(uname -r) firmware-linux software-properties-common
 log "End Framwork & Header Updates"
 
+display "Docker Engine Start"
+if [ ! "$(command -v docker)" ]; then
+  sudo nala update
+  sudo nala update
+  sudo nala install ca-certificates curl gnupg
+  sudo install -m 0755 -d /etc/apt/keyrings
+  curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo nala update
+  sudo nala install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  if ! getent group docker >/dev/null; then
+    echo "Creating group: docker"
+    sudo groupadd docker
+  fi
+  sudo usermod -aG docker "$USER"
+fi
+display "Docker Engine End"
+
+display "Start Virtualisation"
+sudo nala install -y distrobox virt-manager
+distrobox create --name arch --init --image quay.io/toolbx-images/archlinux-toolbox:latest --yes
+distrobox enter arch -- $SCRIPT_DIR/distrobox/arch.sh
+log "End Virtualisation"
+
 display "Start Network Management"
 sudo nala install -y nm-tray network-manager
 sudo systemctl start NetworkManager.service 
@@ -176,7 +202,7 @@ sudo systemctl enable NetworkManager.service
 log "End Network Management"
 
 display "Start Appearance and Customization"
-sudo nala install -y lxappearance qt5ct arandr xclip parcellite
+sudo nala install -y lxappearance arandr xclip parcellite
 mkdir -p $HOME/.config/parcellite/
 cp "$SCRIPT_DIR"/parcellite/* "$HOME"/.config/parcellite/
 log "End Appearance and Customization"
@@ -250,11 +276,8 @@ display "Start Menu and Window Managers"
 display "Start Communication"
 # discord
 if [ ! "$(command -v discord)" ]; then
-  cd /tmp
-  wget https://discord.com/api/download?platform=linux&format=deb -O discord.deb
-  sudo nala install -y ./discord.deb
-  rm ./discord.deb
-  cd -
+	distrobox enter arch -- paru --Syyu --noconfirm discord
+	distrobox enter arch -- distrobox-export --app discord
 fi
 # teams for linux
 if [ ! "$(command -v teams-for-linux)" ]; then
@@ -281,7 +304,8 @@ sudo nala install -y vlc mpv
 log "End Media Player"
 
 display "Start Music Player"
-sudo flatpak install -y flathub com.spotify.Client
+distrobox enter arch -- paru --Syyu --noconfirm spotify
+distrobox enter arch -- distrobox-export --app spotify
 # spotify_player
 sudo nala install -y libssl-dev libasound2-dev libdbus-1-dev
 cargo install spotify_player --features sixel,daemon
@@ -290,12 +314,6 @@ log "End Music Player"
 display "Start Document Viewer"
 sudo nala install -y zathura
 log "End Document Viewer"
-
-display "Start Virtualisation"
-sudo nala install -y distrobox virt-manager
-distrobox create --name arch --init --image quay.io/toolbx-images/archlinux-toolbox:latest --yes
-distrobox enter arch -- $SCRIPT_DIR/distrobox/arch.sh
-log "End Virtualisation"
 
 display "Start X Window System and Input"
 sudo apt -f install -y xorg xbacklight xinput xorg-dev xdotool brightnessctl
@@ -375,25 +393,7 @@ if [ ! -f "$HOME/my_scripts/auto_wallpaper.sh" ]; then
 fi
 display "Bing Wallpaper End"
 
-display "Docker Engine Start"
-if [ ! "$(command -v docker)" ]; then
-  sudo nala update
-  sudo nala update
-  sudo nala install ca-certificates curl gnupg
-  sudo install -m 0755 -d /etc/apt/keyrings
-  curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-  sudo chmod a+r /etc/apt/keyrings/docker.gpg
-  echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  sudo nala update
-  sudo nala install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-  if ! getent group docker >/dev/null; then
-    echo "Creating group: docker"
-    sudo groupadd docker
-  fi
-  sudo usermod -aG docker "$USER"
-fi
-display "Docker Engine End"
+
 
 display "Start Kubectl"
 if [ ! "$(command -v kubectl)" ]; then
