@@ -369,7 +369,7 @@ if [ -z $(sudo find /usr/share/icons/ -iname "Flat-Remix-*") ]; then
   rm -rf /tmp/flat-remix
 fi
 # Cursor
-tar -xvf oreo-spark-purple-cursors.tar.gz
+tar -xvf $SCRIPT_DIR/oreo-spark-purple-cursors.tar.gz
 sudo mv $SCRIPT_DIR/oreo_spark_purple_cursors /usr/share/icons
 sudo update-alternatives --install /usr/share/icons/default/cursor.theme x-cursor-theme /usr/share/icons/oreo_spark_purple_cursors/cursor.theme 100
 sudo update-alternatives --set x-cursor-theme /usr/share/icons/oreo_spark_purple_cursors/cursor.theme
