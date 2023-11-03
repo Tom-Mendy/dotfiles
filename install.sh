@@ -374,8 +374,7 @@ sudo mv oreo_spark_purple_cursors /usr/share/icons
 sudo update-alternatives --install /usr/share/icons/default/cursor.theme x-cursor-theme /usr/share/icons/oreo_spark_purple_cursors/cursor.theme 100
 sudo update-alternatives --set x-cursor-theme /usr/share/icons/oreo_spark_purple_cursors/cursor.theme
 
-wget https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.4/Bibata-Modern-Amber.tar.xz -O Bibata-Modern-Amber.tar.xz
-tar -xvf Bibata-Modern-Amber.tar.xz
+tar -xvf $SCRIPT_DIR/Bibata-Modern-Amber.tar.xz
 sudo mv Bibata-Modern-Amber /usr/share/icons
 
 # Add config
