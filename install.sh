@@ -276,7 +276,7 @@ display "Start Menu and Window Managers"
 display "Start Communication"
 # discord
 if [ ! "$(command -v discord)" ]; then
-	distrobox enter arch -- paru --Syyu --noconfirm discord
+	distrobox enter arch -- paru -Syyu --noconfirm discord
 	distrobox enter arch -- distrobox-export --app discord
 fi
 # teams for linux
@@ -304,7 +304,7 @@ sudo nala install -y vlc mpv
 log "End Media Player"
 
 display "Start Music Player"
-distrobox enter arch -- paru --Syyu --noconfirm spotify
+distrobox enter arch -- paru -Syyu --noconfirm spotify
 distrobox enter arch -- distrobox-export --app spotify
 # spotify_player
 sudo nala install -y libssl-dev libasound2-dev libdbus-1-dev
