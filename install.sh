@@ -369,16 +369,17 @@ if [ -z $(sudo find /usr/share/icons/ -iname "Flat-Remix-*") ]; then
   rm -rf /tmp/flat-remix
 fi
 # Cursor
-tar -xvf $SCRIPT_DIR/oreo-spark-purple-cursors.tar.gz
-sudo rm -rf /usr/share/icons/oreo_spark_purple_cursors
-sudo rm -rf /usr/share/icons/oreo_spark_purple_cursors
-sudo mv oreo_spark_purple_cursors /usr/share/icons
-sudo update-alternatives --install /usr/share/icons/default/cursor.theme x-cursor-theme /usr/share/icons/oreo_spark_purple_cursors/cursor.theme 100
-sudo update-alternatives --set x-cursor-theme /usr/share/icons/oreo_spark_purple_cursors/cursor.theme
-
-tar -xvf $SCRIPT_DIR/Bibata-Modern-Amber.tar.xz
-sudo rm -rf /usr/share/icons/Bibata-Modern-Amber
-sudo mv Bibata-Modern-Amber /usr/share/icons
+if [ -z $(sudo find /usr/share/icons/ -name "oreo_spark_purple_cursors") ]; then
+  tar -xvf $SCRIPT_DIR/oreo-spark-purple-cursors.tar.gz
+  sudo mv oreo_spark_purple_cursors /usr/share/icons
+  sudo update-alternatives --install /usr/share/icons/default/cursor.theme x-cursor-theme /usr/share/icons/oreo_spark_purple_cursors/cursor.theme 100
+  sudo update-alternatives --set x-cursor-theme /usr/share/icons/oreo_spark_purple_cursors/cursor.theme
+fi
+if [ -z $(sudo find /usr/share/icons/ -name "Bibata-Modern-Amber") ]; then
+  tar -xvf $SCRIPT_DIR/Bibata-Modern-Amber.tar.xz
+  sudo rm -rf /usr/share/icons/Bibata-Modern-Amber
+  sudo mv Bibata-Modern-Amber /usr/share/icons
+fi
 
 # Add config
 mkdir -p $HOME/.config/gtk-3.0/
