@@ -98,7 +98,7 @@ yes |sudo nala fetch --auto
 add_to_file_if_not_in_it '@reboot yes |nala fetch --auto' "$CRONTAB_ROOT"
 
 display "Start build-essential"
-sudo nala install -y build-essential xdg-user-dirs
+sudo nala install -y build-essential xdg-user-dirs vim
 log "End build-essential"
 
 display "ZSH"
