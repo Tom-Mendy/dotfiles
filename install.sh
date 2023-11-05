@@ -112,11 +112,8 @@ if [ ! "$(command -v zsh)" ]; then
   cp "$SCRIPT_DIR"/zsh/env.zsh $HOME/.zsh
   cp "$SCRIPT_DIR"/zsh/.p10k.zsh $HOME/.p10k.zsh
   # root
-  sudo cp "$SCRIPT_DIR"/zsh/.zshrc /root/.zshrc
-  sudo mkdir /root/.zsh
-  sudo cp "$SCRIPT_DIR"/zsh/alias.zsh /root/.zsh
-  sudo cp "$SCRIPT_DIR"/zsh/env.zsh /root/.zsh
-  sudo cp "$SCRIPT_DIR"/zsh/.p10k.zsh /root/.p10k.zsh
+  sudo cat "$SCRIPT_DIR"/zsh/alias.zsh >> /root/.bashrc
+  sudo cat "$SCRIPT_DIR"/zsh/env.zsh >> /root/.bashrc
 fi
 
 display "Start Flatpak"
