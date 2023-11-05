@@ -275,9 +275,8 @@ display "Start Menu and Window Managers"
 
 display "Start Communication"
 # discord
-if [ ! "$(command -v discord)" ]; then
-	distrobox enter arch -- paru -Syyu --noconfirm discord
-	distrobox enter arch -- distrobox-export --app discord
+if [ ! "$(command -v Discord)" ]; then
+  sudo flatpak install -y flathub com.discordapp.Discord
 fi
 # teams for linux
 if [ ! "$(command -v teams-for-linux)" ]; then
