@@ -20,8 +20,10 @@ fi
 LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
+mkdir -p $HOME/Desktop $HOME/Documents $HOME/Downloads $HOME/Pictures $HOME/Musics
 mkdir -p $HOME/.config/
 mkdir -p $HOME/my_scripts
+
 sudo mkdir -p /root/.config/
 
 # Function to log messages
@@ -109,6 +111,12 @@ if [ ! "$(command -v zsh)" ]; then
   cp "$SCRIPT_DIR"/zsh/alias.zsh $HOME/.zsh
   cp "$SCRIPT_DIR"/zsh/env.zsh $HOME/.zsh
   cp "$SCRIPT_DIR"/zsh/.p10k.zsh $HOME/.p10k.zsh
+  # root
+  sudo cp "$SCRIPT_DIR"/zsh/.zshrc /root/.zshrc
+  sudo mkdir /root/.zsh
+  sudo cp "$SCRIPT_DIR"/zsh/alias.zsh /root/.zsh
+  sudo cp "$SCRIPT_DIR"/zsh/env.zsh /root/.zsh
+  sudo cp "$SCRIPT_DIR"/zsh/.p10k.zsh /root/.p10k.zsh
 fi
 
 display "Start Flatpak"
