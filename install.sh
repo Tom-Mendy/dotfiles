@@ -231,6 +231,7 @@ sudo nala install -y tldr bat ripgrep fzf fd-find
 log "End Modern replacement"
 
 display "Start File Managers"
+# terminal base
 if [ ! "$(command -v xplr)" ]; then
   cargo install --locked --force xplr
   mkdir -p $HOME/.config/xplr
@@ -240,12 +241,18 @@ if [ ! "$(command -v xplr)" ]; then
   # app for plugins
   # go install github.com/claudiodangelis/qrcp@latest
 fi
-sudo nala install -y thunar thunar-archive-plugin thunar-media-tags-plugin
-mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
-cp $SCRIPT_DIR/Thunar/thunar.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
-mkdir -p $HOME/.config/Thunar
-cp $SCRIPT_DIR/Thunar/uca.xml $HOME/.config/Thunar
-cp $SCRIPT_DIR/Thunar/accels.scm $HOME/.config/Thunar
+if [ ! "$(command -v yazi-fm)" ]; then
+  cargo install --locked yazi-fm
+fi
+# GUI
+if [ ! "$(command -v thunar)" ]; then
+  sudo nala install -y thunar thunar-archive-plugin thunar-media-tags-plugin
+  mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
+  cp $SCRIPT_DIR/Thunar/thunar.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
+  mkdir -p $HOME/.config/Thunar
+  cp $SCRIPT_DIR/Thunar/uca.xml $HOME/.config/Thunar
+  cp $SCRIPT_DIR/Thunar/accels.scm $HOME/.config/Thunar
+fi
 log "End File Managers"
 
 display "Start Audio Control Start"
