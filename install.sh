@@ -446,13 +446,25 @@ if [ ! "$(command -v thorium-browser)" ]; then
 fi
 log "End Throrium"
 
-display "Start VSCodium"
-if [ ! "$(command -v codium)" ]; then
-  wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
-  echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
-  sudo nala update && sudo nala install -y codium
+display "Start VSCode"
+if [ ! "$(command -v code)" ]; then
+  sudo nala install -y wget gpg apt-transport-https
+  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+  sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+  sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+  rm -f packages.microsoft.gpg
+  sudo nala update
+  sudo nala install -y code
 fi
-log "End VSCodium"
+log "End VSCode"
+
+# display "Start VSCodium"
+# if [ ! "$(command -v codium)" ]; then
+#   wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
+#   echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
+#   sudo nala update && sudo nala install -y codium
+# fi
+# log "End VSCodium"
 
 display "Start Neovim"
 if [ ! "$(command -v nvim)" ]; then
