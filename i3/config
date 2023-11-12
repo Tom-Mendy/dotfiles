@@ -169,6 +169,7 @@ for_window [urgent=latest]                          focus
 
 # Assigns programs to workspaces
 for_window [class="VSCodium"] move to workspace $ws2 && i3-msg workspace $ws2
+for_window [class="VSCode"] move to workspace $ws2 && i3-msg workspace $ws2
 for_window [class="Neovim"] move to workspace $ws2 && i3-msg workspace $ws2
 for_window [class="Brave"] move to workspace $ws3 && i3-msg workspace $ws3
 for_window [class="thorium"] move to workspace $ws3 && i3-msg workspace $ws3
