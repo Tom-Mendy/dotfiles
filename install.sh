@@ -241,7 +241,7 @@ if [ ! "$(command -v xplr)" ]; then
   # app for plugins
   # go install github.com/claudiodangelis/qrcp@latest
 fi
-if [ ! "$(command -v yazi-fm)" ]; then
+if [ ! "$(command -v yazi)" ]; then
   cargo install --locked yazi-fm
 fi
 # GUI
