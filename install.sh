@@ -400,25 +400,25 @@ display "Bing Wallpaper End"
 
 
 
-display "Start Kubectl"
-if [ ! "$(command -v kubectl)" ]; then
-  sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-  sudo chmod +x kubectl
-  sudo mv kubectl /usr/local/bin/
-  # add kubectl completion for zsh
-  mkdir -p $HOME/.zsh/
-  kubectl completion zsh > /tmp/kubectl.zsh
-  tail -n +20 /tmp/kubectl.zsh > $HOME/.zsh/kubectl.zsh
-  rm /tmp/kubectl.zsh
-fi
-log "End Kubectl"
+# display "Start Kubectl"
+# if [ ! "$(command -v kubectl)" ]; then
+#   sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+#   sudo chmod +x kubectl
+#   sudo mv kubectl /usr/local/bin/
+#   # add kubectl completion for zsh
+#   mkdir -p $HOME/.zsh/
+#   kubectl completion zsh > /tmp/kubectl.zsh
+#   tail -n +20 /tmp/kubectl.zsh > $HOME/.zsh/kubectl.zsh
+#   rm /tmp/kubectl.zsh
+# fi
+# log "End Kubectl"
 
-display "Start Minikube"
-if [ ! "$(command -v minikube)" ]; then
-  curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-  sudo install minikube-linux-amd64 /usr/local/bin/minikube
-fi
-log "End Minikube"
+# display "Start Minikube"
+# if [ ! "$(command -v minikube)" ]; then
+#   curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+#   sudo install minikube-linux-amd64 /usr/local/bin/minikube
+# fi
+# log "End Minikube"
 
 display "Start Brave"
 if ! command -v brave-browser &> /dev/null; then
