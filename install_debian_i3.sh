@@ -165,7 +165,7 @@ sudo nala install -y lua5.4 luarocks
 display "Lua End"
 
 display "C Start"
-sudo nala install -y valgrind libcriterion-dev
+sudo nala install -y valgrind libcriterion-dev cppcheck
 //$SCRIPT_DIR/criterion/install_criterion.sh
 display "C End"
 
