@@ -165,13 +165,8 @@ sudo nala install -y lua5.4 luarocks
 display "Lua End"
 
 display "C Start"
-<<<<<<< HEAD
-sudo nala install -y valgrind libcriterion-dev gcovr
+sudo nala install -y libcriterion-dev cppcheck gdb valgrind lldb gcovr
 //"$SCRIPT_DIR/criterion/install_criterion.sh"
-=======
-sudo nala install -y libcriterion-dev cppcheck gdb valgrind lldb
-//$SCRIPT_DIR/criterion/install_criterion.sh
->>>>>>> b31a2214fe6160713cd90e779124ed0cdd0e177d
 display "C End"
 
 
