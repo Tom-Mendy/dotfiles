@@ -10,7 +10,7 @@ if [[ $EUID -ne 1000 ]]; then
 fi
 
 # Configuration
-START=`date +%s`
+START=$(date +%s)
 USERNAME=$(id -u -n 1000)
 
 if [[ "/home/$USERNAME" != "$HOME" ]]; then
@@ -20,9 +20,9 @@ fi
 LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
-mkdir -p $HOME/Desktop $HOME/Documents $HOME/Downloads $HOME/Pictures $HOME/Music
-mkdir -p $HOME/.config/
-mkdir -p $HOME/my_scripts
+mkdir -p "$HOME/Desktop" "$HOME/Documents" "$HOME/Downloads" "$HOME/Pictures" "$HOME/Music"
+mkdir -p "$HOME/.config/"
+mkdir -p "$HOME/my_scripts"
 
 sudo mkdir -p /root/.config/
 
@@ -34,7 +34,7 @@ log() {
 
 confirm() {
     while true; do
-        read -p "Do you want to proceed? [Yes/No/Cancel] " yn
+        read -rp "Do you want to proceed? [Yes/No/Cancel] " yn
         case $yn in
             [Yy]* ) return 0;;
             [Nn]* ) return 1;;
@@ -106,14 +106,14 @@ log "End build-essential"
 display "ZSH"
 if [ ! "$(command -v zsh)" ]; then
   sudo nala install -y zsh fonts-font-awesome
-  cp "$SCRIPT_DIR"/zsh/.zshrc $HOME/.zshrc
-  mkdir $HOME/.zsh
-  cp "$SCRIPT_DIR"/zsh/alias.zsh $HOME/.zsh
-  cp "$SCRIPT_DIR"/zsh/env.zsh $HOME/.zsh
-  cp "$SCRIPT_DIR"/zsh/.p10k.zsh $HOME/.p10k.zsh
+  cp "$SCRIPT_DIR/zsh/.zshrc" "$HOME/.zshrc"
+  mkdir "$HOME/.zsh"
+  cp "$SCRIPT_DIR/zsh/alias.zsh" "$HOME/.zsh"
+  cp "$SCRIPT_DIR/zsh/env.zsh" "$HOME/.zsh"
+  cp "$SCRIPT_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
   # root
-  sudo cat "$SCRIPT_DIR"/zsh/alias.zsh | sudo tee -a /root/.bashrc
-  sudo cat "$SCRIPT_DIR"/zsh/env.zsh | sudo tee -a /root/.bashrc
+  sudo cat "$SCRIPT_DIR/zsh/alias.zsh" | sudo tee -a /root/.bashrc
+  sudo cat "$SCRIPT_DIR/zsh/env.zsh" | sudo tee -a /root/.bashrc
 fi
 
 display "Start Flatpak"
@@ -127,7 +127,7 @@ if [ ! "$(command -v cargo)" ]; then
   chmod +x /tmp/rust.sh
   /tmp/rust.sh -y
   rm -f /tmp/rust.sh
-  source $HOME/.cargo/env
+  source "$HOME/.cargo/env"
 fi
 log "End Rust"
 
@@ -165,13 +165,13 @@ sudo nala install -y lua5.4 luarocks
 display "Lua End"
 
 display "C Start"
-sudo nala install -y valgrind libcriterion-dev
-//$SCRIPT_DIR/criterion/install_criterion.sh
+sudo nala install -y valgrind libcriterion-dev gcovr
+//"$SCRIPT_DIR/criterion/install_criterion.sh"
 display "C End"
 
 
 display "Start Framwork & Header Updates"
-sudo nala install -y linux-headers-$(uname -r) firmware-linux software-properties-common
+sudo nala install -y linux-headers-"$(uname -r)" firmware-linux software-properties-common
 log "End Framwork & Header Updates"
 
 display "Docker Engine Start"
@@ -206,7 +206,7 @@ log "End Network Management"
 
 display "Start Appearance and Customization"
 sudo nala install -y lxappearance arandr xclip parcellite
-mkdir -p $HOME/.config/parcellite/
+mkdir -p "$HOME/.config/parcellite/"
 cp "$SCRIPT_DIR"/parcellite/* "$HOME"/.config/parcellite/
 log "End Appearance and Customization"
 
@@ -218,8 +218,8 @@ log "End System Utilities"
 
 display "Start Terminal Emulators"
 sudo nala install -y kitty
-mkdir -p "$HOME"/.config/kitty/
-cp "$SCRIPT_DIR"/kitty/kitty.conf "$HOME"/.config/kitty/
+mkdir -p "$HOME/.config/kitty/"
+cp "$SCRIPT_DIR/kitty/kitty.conf" "$HOME/.config/kitty/"
 #make kitty the default terminal
 sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
 log "End Terminal Emulators"
@@ -234,10 +234,10 @@ display "Start File Managers"
 # terminal base
 if [ ! "$(command -v xplr)" ]; then
   cargo install --locked --force xplr
-  mkdir -p $HOME/.config/xplr
+  mkdir -p "$HOME/.config/xplr"
   xplr_version="$(xplr --version | awk '{print $2}')"
-  echo "version = '${xplr_version:?}'" > $HOME/.config/xplr/init.lua
-  cat "$SCRIPT_DIR"/xplr/init.lua >> $HOME/.config/xplr/init.lua
+  echo "version = '${xplr_version:?}'" > "$HOME/.config/xplr/init.lua"
+  cat "$SCRIPT_DIR"/xplr/init.lua >> "$HOME/.config/xplr/init.lua"
   # app for plugins
   # go install github.com/claudiodangelis/qrcp@latest
 fi
@@ -247,11 +247,11 @@ fi
 # GUI
 if [ ! "$(command -v thunar)" ]; then
   sudo nala install -y thunar thunar-archive-plugin thunar-media-tags-plugin
-  mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
-  cp $SCRIPT_DIR/Thunar/thunar.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
-  mkdir -p $HOME/.config/Thunar
-  cp $SCRIPT_DIR/Thunar/uca.xml $HOME/.config/Thunar
-  cp $SCRIPT_DIR/Thunar/accels.scm $HOME/.config/Thunar
+  mkdir -p "$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/"
+  cp "$SCRIPT_DIR/Thunar/thunar.xml" "$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/"
+  mkdir -p "$HOME/.config/Thunar"
+  cp "$SCRIPT_DIR/Thunar/uca.xml" "$HOME/.config/Thunar"
+  cp "$SCRIPT_DIR/Thunar/accels.scm" "$HOME/.config/Thunar"
 fi
 log "End File Managers"
 
@@ -261,8 +261,8 @@ log "End Audio Control End"
 
 display "Start System Information and Monitoring"
 sudo nala install -y neofetch htop
-mkdir -p $HOME/.config/neofetch/
-cp $SCRIPT_DIR/neofetch/* $HOME/.config/neofetch/
+mkdir -p "$HOME/.config/neofetch/"
+cp "$SCRIPT_DIR/neofetch/*" "$HOME/.config/neofetch/"
 log "End System Information and Monitoring"
 
 display "Start Screenshots"
@@ -359,17 +359,17 @@ display "LOCK SCREEN End"
 
 display "WINDOW MANAGER Start"
 sudo nala install -y i3 i3lock-fancy xautolock
-mkdir -p $HOME/.config/i3/
-cp "$SCRIPT_DIR"/i3/* $HOME/.config/i3/
-mkdir -p $HOME/.config/rofi/
-cp "$SCRIPT_DIR"/rofi/* $HOME/.config/rofi/
+mkdir -p "$HOME/.config/i3/"
+cp "$SCRIPT_DIR/i3/*" "$HOME/.config/i3/"
+mkdir -p "$HOME/.config/rofi/"
+cp "$SCRIPT_DIR/rofi/*" "$HOME/.config/rofi/"
 display "WINDOW MANAGER End"
 
 display "Theme Start"
 # Desktop Theme
 sudo nala install -y arc-theme
 # Icons
-if [ -z $(sudo find /usr/share/icons/ -iname "Flat-Remix-*") ]; then
+if [ -z "$(sudo find /usr/share/icons/ -iname "Flat-Remix-*")" ]; then
   if [ ! -d "/tmp/flat-remix" ]; then
     git clone https://github.com/daniruiz/flat-remix.git /tmp/flat-remix
   fi
@@ -377,22 +377,19 @@ if [ -z $(sudo find /usr/share/icons/ -iname "Flat-Remix-*") ]; then
   rm -rf /tmp/flat-remix
 fi
 # Cursor
-if [ -z $(sudo find /usr/share/icons/ -name "oreo_spark_purple_cursors") ]; then
-  tar -xvf $SCRIPT_DIR/oreo-spark-purple-cursors.tar.gz
-  sudo mv oreo_spark_purple_cursors /usr/share/icons
-
+mkdir -p "$HOME/.icons/"
+if [ -z "$(sudo find "$HOME/.icons/" -name "oreo_spark_purple_cursors")" ]; then
+  tar -xvf "$SCRIPT_DIR/oreo-spark-purple-cursors.tar.gz"
+  sudo mv oreo_spark_purple_cursors "$HOME/.icons/" 
 fi
-if [ -z $(sudo find /usr/share/icons/ -name "Bibata-Modern-Amber") ]; then
-  tar -xvf $SCRIPT_DIR/Bibata-Modern-Amber.tar.xz
-  sudo rm -rf /usr/share/icons/Bibata-Modern-Amber
-  sudo mv Bibata-Modern-Amber /usr/share/icons
-  sudo update-alternatives --install /usr/share/icons/default/cursor.theme x-cursor-theme /usr/share/icons/Bibata-Modern-Amber/cursor.theme 100
-  sudo update-alternatives --set x-cursor-theme /usr/share/icons/Bibata-Modern-Amber/cursor.theme
+if [ -z "$(sudo find "$HOME/.icons/" -name "Bibata-Modern-Amber")" ]; then
+  tar -xvf "$SCRIPT_DIR/Bibata-Modern-Amber.tar.xz"
+  sudo mv Bibata-Modern-Amber "$HOME/.icons/" 
 fi
 
 # Add config
-mkdir -p $HOME/.config/gtk-3.0/
-cp $SCRIPT_DIR/gtk-3.0/.gtkrc-2.0 $HOME/
+mkdir -p "$HOME/.config/gtk-3.0/"
+cp "$SCRIPT_DIR/gtk-3.0/.gtkrc-2.0" "$HOME/"
 display "Theme End"
 
 display "Bing Wallpaper Start"
@@ -401,7 +398,7 @@ if [ ! -f "$HOME/my_scripts/auto_wallpaper.sh" ]; then
   if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
     git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
   fi
-  cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh $HOME/my_scripts
+  cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh "$HOME/my_scripts"
 fi
 display "Bing Wallpaper End"
 
@@ -489,9 +486,9 @@ if [ ! -d "$HOME/.config/nvim" ]; then
     sudo npm install -g neovim tree-sitter-cli
   fi
   sudo nala install -y xclip
-  git clone https://github.com/Tom-Mendy/nvim.git $HOME/.config/nvim
+  git clone https://github.com/Tom-Mendy/nvim.git "$HOME/.config/nvim"
   # make .$HOME/.config/nvim work great for root
-  sudo cp -r $HOME/.config/nvim /root/.config/nvim
+  sudo cp -r "$HOME/.config/nvim" /root/.config/nvim
   # make nvim the default editor
   sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 50
 fi
@@ -500,9 +497,9 @@ log "End Config NeoVim"
 display "CRONTAB"
 sudo crontab "$CRONTAB_ROOT"
 
-sudo chown -R $USER:$USER /home/$USER
+sudo chown -R "$USER":"$USER" "/home/$USER"
 
-END=`date +%s`
+END=$(date +%s)
 
 RUNTIME=$((END-START))
 
