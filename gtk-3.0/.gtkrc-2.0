@@ -1,5 +1,5 @@
-gtk-theme-name="Arc"
-gtk-icon-theme-name="Flat-Remix-Blue-Light"
+gtk-theme-name="Arc-Dark"
+gtk-icon-theme-name="Flat-Remix-Blue-Dark"
 gtk-font-name="Sans 10"
 gtk-cursor-theme-name="oreo_spark_purple_cursors"
 gtk-cursor-theme-size=0
@@ -13,3 +13,4 @@ gtk-xft-antialias=1
 gtk-xft-hinting=1
 gtk-xft-hintstyle=hintfull
 gtk-xft-rgba=rgb
+tk-xft-rgba=rgb
