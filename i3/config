@@ -110,6 +110,10 @@ bindsym $mod+q focus parent
 # focus the child container
 bindsym $mod+Start+q child
 
+# cycle thought workspace
+bindsym $mod+Control+$right workspace next
+bindsym $mod+Control+$left workspace prev
+
 # switch to workspace
 bindsym $mod+ampersand workspace number $ws1
 bindsym $mod+eacute workspace number $ws2
