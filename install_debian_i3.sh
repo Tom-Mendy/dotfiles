@@ -3,45 +3,22 @@
 # Enable exit on error
 set -e
 
-# Check if Script is Run as Root
-if [[ $EUID -ne 1000 ]]; then
-  echo "You must be a normal user to run this script, please run ./install.sh" 2>&1
-  exit 1
-fi
-
-# Configuration
-START=$(date +%s)
-USERNAME=$(id -u -n 1000)
-
-if [[ "/home/$USERNAME" != "$HOME" ]]; then
-  exit 1
-fi
-
-LOG_FILE="/var/log/installation.log"
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
-mkdir -p "$HOME/Desktop" "$HOME/Documents" "$HOME/Downloads" "$HOME/Pictures" "$HOME/Music"
-mkdir -p "$HOME/.config/"
-mkdir -p "$HOME/my_scripts"
-
-sudo mkdir -p /root/.config/
-
 # Function to log messages
 log() {
-    local message="$1"
-    sudo sh -c "echo \"$(date +'%Y-%m-%d %H:%M:%S') $message\" >> \"$LOG_FILE\""
+  local message="$1"
+  sudo sh -c "echo \"$(date +'%Y-%m-%d %H:%M:%S') $message\" >> \"$LOG_FILE\""
 }
 
 confirm() {
-    while true; do
-        read -rp "Do you want to proceed? [Yes/No/Cancel] " yn
-        case $yn in
-            [Yy]* ) return 0;;
-            [Nn]* ) return 1;;
-            [Cc]* ) exit;;
-            * ) echo "Please answer YES, NO, or CANCEL.";;
-        esac
-    done
+  while true; do
+    read -rp "Do you want to proceed? [Yes/No/Cancel] " yn
+    case $yn in
+      [Yy]* ) return 0;;
+      [Nn]* ) return 1;;
+      [Cc]* ) exit;;
+      * ) echo "Please answer YES, NO, or CANCEL.";;
+    esac
+  done
 }
 
 # Example usage of the confirm function
@@ -55,37 +32,66 @@ confirm() {
 
 # Function to add a line to a file if it doesn't exist
 add_to_file_if_not_in_it() {
-    local string="$1"
-    local path="$2"
-  
-    if ! grep -q "$string" "$path" &>/dev/null; then
-        echo "$string" >> "$path" 
-        echo "$string added to $path" 
-    else
-        echo "$string already exists in $path" 
-    fi
+  local string="$1"
+  local path="$2"
+
+  if ! grep -q "$string" "$path" &>/dev/null; then
+    echo "$string" >> "$path" 
+    echo "$string added to $path" 
+  else
+    echo "$string already exists in $path" 
+  fi
 }
 
 # Function for displaying headers
 display() {
-    local header_text="$1"
-    local DISPLAY_COMMAND="echo"
-    
-    if [ "$(command -v figlet)" ]; then
-        DISPLAY_COMMAND="figlet"
-    fi
+  local header_text="$1"
+  local DISPLAY_COMMAND="echo"
 
-    echo "--------------------------------------"
-    $DISPLAY_COMMAND "$header_text"
-    log "$header_text"
-    echo "--------------------------------------"
+  if [ "$(command -v figlet)" ]; then
+    DISPLAY_COMMAND="figlet"
+  fi
+
+  echo "--------------------------------------"
+  $DISPLAY_COMMAND "$header_text"
+  log "$header_text"
+  echo "--------------------------------------"
 }
+
+###START_PROGRAM###
+
+# Check if Script is Run as Root
+if [[ $EUID -ne 1000 ]]; then
+  echo "You must be a normal user to run this script, please run ./install.sh" 2>&1
+  exit 1
+fi
+
+USERNAME=$(id -u -n 1000)
+
+if [[ "/home/$USERNAME" != "$HOME" ]]; then
+  exit 1
+fi
+
+# Configuration
+START=$(date +%s)
+LOG_FILE="/var/log/installation.log"
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
+mkdir -p "$HOME/Desktop" "$HOME/Documents" "$HOME/Downloads" "$HOME/Pictures" "$HOME/Music"
+mkdir -p "$HOME/.config/"
+
+sudo mkdir -p /root/.config/
 
 # Log script start
 log "Installation script started."
 
 display "Sync Time"
 sudo apt install -y ntp
+
+# Update Submodule
+git submodule update --init --recursive
+# copy my scripts
+cp "$SCRIPT_DIR/my_scripts" "$HOME"
 
 display "UPDATE"
 sudo apt update
@@ -298,6 +304,7 @@ log "End Communication"
 
 display "Start Text Editors"
 sudo nala install -y vim
+cp "$SCRIPT_DIR/vim/.vimrc" "$HOME"
 log "End Text Editors"
 
 display "Start Image Viewer"
