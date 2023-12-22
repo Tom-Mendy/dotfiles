@@ -175,7 +175,6 @@ for_window [urgent=latest]                          focus
 # Code
 for_window [class="VSCodium"] move to workspace $ws2 workspace number $ws1 && i3-msg workspace $ws2
 for_window [class="Code"] move to workspace $ws2 workspace number $ws2 && i3-msg workspace $ws2
-for_window [title="nvim"] move to workspace $ws2 workspace number $ws2 && i3-msg workspace $ws2
 # Browser
 for_window [class="Brave"] move to workspace $ws3 workspace number $ws3 && i3-msg workspace $ws3
 for_window [class="Thorium-browser"] move to workspace $ws3 workspace number $ws3 && i3-msg workspace $ws3

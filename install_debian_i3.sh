@@ -177,7 +177,7 @@ display "C End"
 
 
 display "Start Framwork & Header Updates"
-sudo nala install -y linux-headers-"$(uname -r)" firmware-linux software-properties-common
+sudo nala install -y linux-headers-"$(uname -r)" firmware-linux software-properties-common laptop-mode-tools
 log "End Framwork & Header Updates"
 
 display "Docker Engine Start"
@@ -440,15 +440,6 @@ if ! command -v brave-browser &> /dev/null; then
   sudo nala install -y brave-browser
 fi
 log "End Brave"
-
-display "Start Throrium"
-if [ ! "$(command -v thorium-browser)" ]; then
-  wget https://dl.thorium.rocks/debian/dists/stable/thorium.list
-  sudo mv thorium.list /etc/apt/sources.list.d/
-  sudo apt update
-  sudo apt install thorium-browser
-fi
-log "End Throrium"
 
 display "Start VSCode"
 if [ ! "$(command -v code)" ]; then
