@@ -183,7 +183,6 @@ log "End Framwork & Header Updates"
 display "Docker Engine Start"
 if [ ! "$(command -v docker)" ]; then
   sudo nala update
-  sudo nala update
   sudo nala install ca-certificates curl gnupg
   sudo install -m 0755 -d /etc/apt/keyrings
   curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
