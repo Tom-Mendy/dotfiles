@@ -63,7 +63,7 @@ if [ ! "$(command -v zsh)" ]; then
   mkdir "$HOME/.zsh"
   cp "$SCRIPT_DIR/zsh/alias.zsh" "$HOME/.zsh"
   cp "$SCRIPT_DIR/zsh/env.zsh" "$HOME/.zsh"
-  touch "$HOME/.zsh"
+  touch "$HOME/.zsh/kubectl.zsh"
   cp "$SCRIPT_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
 fi
 
