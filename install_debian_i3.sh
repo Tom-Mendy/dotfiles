@@ -117,6 +117,7 @@ if [ ! "$(command -v zsh)" ]; then
   cp "$SCRIPT_DIR/zsh/alias.zsh" "$HOME/.zsh"
   cp "$SCRIPT_DIR/zsh/env.zsh" "$HOME/.zsh"
   cp "$SCRIPT_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
+  touch "$HOME/.zsh/kubectl.zsh"
   # root
   sudo cat "$SCRIPT_DIR/zsh/alias.zsh" | sudo tee -a /root/.bashrc
   sudo cat "$SCRIPT_DIR/zsh/env.zsh" | sudo tee -a /root/.bashrc

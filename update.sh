@@ -2,7 +2,7 @@
 
 # Update the system
 echo "Updating the system..."
-sudo nala upgrade -y
+sudo dnf upgrade -y
 
 # Check if the system update was successful
 if [ $? -eq 0 ]; then
