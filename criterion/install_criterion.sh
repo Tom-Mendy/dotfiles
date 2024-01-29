@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-VERSION="v2.4.2"
-URL="https://github.com/Snaipe/Criterion/releases/download/$VERSION"
-TARBALL="criterion-$VERSION-linux-x86_64.tar.bz2"
-DIR="criterion-$VERSION"
-DST="/usr/local/"
-SUDO=/usr/bin/sudo
+URL="https://github.com/Snaipe/Criterion/releases/download/v2.4.2/"
+TARBALL="criterion-2.4.2-linux-x86_64.tar.xz"
+DIR="criterion-2.4.2"
+DST="/usr/local"
+SUDO="/usr/bin/sudo"
 
 if [ $UID -eq "0" ]; then
     SUDO=""
@@ -13,28 +12,28 @@ fi
 
 cd /tmp
 rm -f $TARBALL
-rm -fr $DIR
+rm -rf $DIR
 
 wget $URL/$TARBALL
 if [ $? != 0 ]; then
-    echo "failled, exiting"
+    echo "failed, exiting"
     exit;
 fi
 
 echo
 echo "untaring $TARBALL"
-tar xjf $TARBALL
+tar -xf $TARBALL
 if [ $? != 0 ]; then
-    echo "failled, exiting"
+    echo "failed, exiting"
     exit;
 fi
 
 echo "creating custom ld.conf"
 $SUDO sh -c "echo "/usr/local/lib" > /etc/ld.so.conf.d/criterion.conf"
-echo "cp headers to $DST/include..."
+echo "cp headers to $DST/include/criterion"
 $SUDO cp -r $DIR/include/* $DST/include/
-echo "cp lib to $DST/include..."
+echo "cp lib to $DST/include/criterion"
 $SUDO cp -r $DIR/lib/* $DST/lib/
 echo "run ldconfig."
 $SUDO ldconfig
-echo "all good."
+echo "Criterion installed."
