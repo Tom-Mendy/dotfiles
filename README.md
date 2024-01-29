@@ -1,16 +1,12 @@
-# debian-i3
-my debian configuration with i3wm
+# dofiles
 
-Launch sudo.sh to enable sudo to your user
-
-Launch install.sh to install all the stuff
-
+- install_debian_i3.sh = auto install my debian configuration with i3wm
 this install script take ~ 20 min to complete
 
-WIP
-||
-||
-\/
+- install_fedora.sh = auto install my utily program for fedora
+
+
+Work In Progress
 
 ## A list of (cool) programs & tools I am currently using   
 
