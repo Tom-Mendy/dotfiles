@@ -50,7 +50,8 @@ git submodule update --init --recursive
 cp "$SCRIPT_DIR/my_scripts" "$HOME"
 
 # Update DNF
-sudo "$SCRIPT_DIR/dnf/dnf.conf" /etc/dnf/dnf.conf
+sudo cp "$SCRIPT_DIR/dnf/dnf.conf" /etc/dnf/dnf.conf
+sudo dnf update -y
 
 # default APP
 sudo dnf install -y htop vim curl figlet neofetch
@@ -122,7 +123,9 @@ sudo dnf install -y kitty
 mkdir -p "$HOME/.config/kitty/"
 cp "$SCRIPT_DIR/kitty/kitty.conf" "$HOME/.config/kitty/"
 #make kitty the default terminal
-sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
+if [[ sudo update-alternatives --list | grep x-terminal-emulator == 0 ]]; then
+  sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
+fi
 log "End Terminal Emulators"
 
 display "Start Modern replacement"
