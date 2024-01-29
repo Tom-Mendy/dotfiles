@@ -268,7 +268,7 @@ log "End Audio Control End"
 display "Start System Information and Monitoring"
 sudo nala install -y neofetch htop
 mkdir -p "$HOME/.config/neofetch/"
-cp "$SCRIPT_DIR/neofetch/*" "$HOME/.config/neofetch/"
+cp -r "$SCRIPT_DIR/neofetch/*" "$HOME/.config/neofetch/"
 log "End System Information and Monitoring"
 
 display "Start Screenshots"
