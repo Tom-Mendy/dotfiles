@@ -91,7 +91,7 @@ sudo apt install -y ntp
 # Update Submodule
 git submodule update --init --recursive
 # copy my scripts
-cp "$SCRIPT_DIR/my_scripts" "$HOME"
+cp -r "$SCRIPT_DIR/my_scripts" "$HOME"
 
 display "UPDATE"
 sudo apt update

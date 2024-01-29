@@ -47,7 +47,7 @@ mkdir -p "$HOME/.config/"
 # Update Submodule
 git submodule update --init --recursive
 # copy my scripts
-cp "$SCRIPT_DIR/my_scripts" "$HOME"
+cp -r "$SCRIPT_DIR/my_scripts" "$HOME"
 
 # Update DNF
 sudo cp "$SCRIPT_DIR/dnf/dnf.conf" /etc/dnf/dnf.conf
