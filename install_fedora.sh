@@ -134,6 +134,8 @@ if [ $INSTALL_DOCKER == true ]; then
       sudo groupadd docker
     fi
     sudo usermod -aG docker "$USER"
+    sudo systemctl start docker
+    sudo systemctl enable docker
   fi
   log "End Docker Engine"
 fi
