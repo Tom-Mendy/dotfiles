@@ -47,7 +47,9 @@ zinit snippet OMZ::lib/theme-and-appearance.zsh
 zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
 zinit snippet OMZ::plugins/colorize/colorize.plugin.zsh
 zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
+if grep "Fedora" /etc/os-release -eq 0; then
 zinit snippet OMZ::plugins/debian/debian.plugin.zsh
+fi
 zinit snippet OMZ::plugins/mvn/mvn.plugin.zsh
 zinit snippet OMZ::plugins/npm/npm.plugin.zsh
 zinit snippet OMZ::plugins/pip/pip.plugin.zsh
@@ -77,7 +79,6 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Load your custom alias and environment settings
 source $HOME/.zsh/env.zsh
 source $HOME/.zsh/alias.zsh
-source $HOME/.zsh/kubectl.zsh
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
 
