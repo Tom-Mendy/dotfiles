@@ -1,41 +1,37 @@
-# debian-i3
-my debian configuration with i3wm
+# dofiles
 
-Launch sudo.sh to enable sudo to your user
-
-Launch install.sh to install all the stuff
-
+- install_debian_i3.sh = auto install my debian configuration with i3wm
 this install script take ~ 20 min to complete
 
-WIP
-||
-||
-\/
+- install_fedora.sh = auto install my utily program for fedora
+
+
+Work In Progress
 
 ## A list of (cool) programs & tools I am currently using   
 
 This list is not exhaustive, these are the tools I use on a daily basis and could do without.
 
 ### DE
-- Window manager : [i3](https://swaywm.org/)
-- Screen locker : [i3lock-fancy](https://github.com/jovanlanik/gtklock)
-- Status bar : [i3satus](https://github.com/oknozor/eww)
-- App launcher : [onagre](https://github.com/oknozor/onagre) (not perfect yet but I am working on it!)
-- Notification : [mako](https://github.com/emersion/mako)
+- Window manager : [i3](https://i3wm.org)
+- Screen locker : [i3lock-fancy](https://github.com/meskarune/i3lock-fancy)
+- Status bar : [i3satus](https://i3wm.org/docs/i3status.html)
+- App launcher : [rofi](https://github.com/davatorium/rofi)
+- Notification : [dunst](https://github.com/dunst-project/dunst)
 
 ### Package manager
-- Aur helper : [yay](https://github.com/Jguer/yay)
+- Apt front-end : [nala](https://gitlab.com/volian/nala)
 - 🦀: [cargo](https://doc.rust-lang.org/cargo/)
 
 ### Term
-- Terminal emulator : [kitty](https://github.com/jwilm/alacritty)
-- Shell prompt : [10kpowerline](https://github.com/starship/starship)
+- Terminal emulator : [kitty](https://sw.kovidgoyal.net/kitty/)
+- Shell prompt : [10kpowerline](https://github.com/romkatv/powerlevel10k)
 - Shell : [zsh](https://www.zsh.org/)
-- Plugin manager : [zinit](https://github.com/zsh-users/antigen)
+- Plugin manager : [zinit](https://github.com/zdharma-continuum/zinit)
 
 ### Editor
 - Editor : [neovim](https://neovim.io/)
-- Plugin Manager : [Lazy](https://github.com/junegunn/vim-plug)
+- Plugin Manager : [Lazy](https://github.com/folke/lazy.nvim)
     - [nvim-lualine/lualine.nvim](https://github.com/nvim-lualine/lualine)
     - [oknozor/illumination](https://github.com/oknozor/illumination)
     - [scrooloose/nerdtree](https://github.com/scrooloose/nerdtree)
@@ -61,7 +57,7 @@ This list is not exhaustive, these are the tools I use on a daily basis and coul
 - Hexdump replacement : [hexyl](https://github.com/sharkdp/hexyl) 
 - du replacement : [dust](https://github.com/bootandy/dust) 
 - Quick file navigation : [autojump-rs](https://github.com/xen0n/autojump-rs)
-- Password managment : [pass](https://www.passwordstore.org/)
+- File Explorer : [yazi](https://github.com/sxyazi/yazi)
 
 ### Media
 - Media library management : [beets](http://beets.io/)
