@@ -54,7 +54,7 @@ sudo cp "$SCRIPT_DIR/dnf/dnf.conf" /etc/dnf/dnf.conf
 sudo dnf update -y
 
 # default APP
-sudo dnf install -y htop vim curl figlet neofetch
+sudo dnf install -y htop vim curl figlet neofetch rofi
 sudo dnf group install -y 'Development Tools'
 
 display "ZSH"
@@ -122,10 +122,6 @@ display "Start Terminal Emulators"
 sudo dnf install -y kitty
 mkdir -p "$HOME/.config/kitty/"
 cp "$SCRIPT_DIR/kitty/kitty.conf" "$HOME/.config/kitty/"
-#make kitty the default terminal
-if [[ sudo update-alternatives --list | grep x-terminal-emulator == 0 ]]; then
-  sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
-fi
 log "End Terminal Emulators"
 
 display "Start Modern replacement"
@@ -139,21 +135,7 @@ display "Start File Managers"
 if [ ! "$(command -v yazi)" ]; then
   cargo install --locked yazi-fm
 fi
-# GUI
-if [ ! "$(command -v thunar)" ]; then
-  sudo dnf install -y thunar thunar-archive-plugin thunar-media-tags-plugin
-  mkdir -p "$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/"
-  cp "$SCRIPT_DIR/Thunar/thunar.xml" "$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/"
-  mkdir -p "$HOME/.config/Thunar"
-  cp "$SCRIPT_DIR/Thunar/uca.xml" "$HOME/.config/Thunar"
-  cp "$SCRIPT_DIR/Thunar/accels.scm" "$HOME/.config/Thunar"
-fi
 log "End File Managers"
-
-display "Start Bluetooth Support"
-sudo dnf install -y bluez blueman
-sudo systemctl enable bluetooth
-log "End Bluetooth Support"
 
 display "Start Communication"
 # discord
@@ -171,24 +153,10 @@ sudo dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.co
 sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
 sudo dnf install -y brave-browser
 
+display "Start VSCode"
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
 dnf check-update
 sudo dnf -y install code
+log "End VSCode"
 
-display "Start Config NeoVim"
-if [ ! -d "$HOME/.config/nvim" ]; then
-  pip install neovim --break-system-packages
-  if [ ! "$(command -v tree-sitter)" ]; then
-    sudo npm install -g neovim tree-sitter-cli
-  fi
-  sudo dnf install -y xclip
-  git clone https://github.com/Tom-Mendy/nvim.git "$HOME/.config/nvim"
-  # make .$HOME/.config/nvim work great for root
-  sudo cp -r "$HOME/.config/nvim" /root/.config/nvim
-  # make nvim the default editor
-  sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 50
-fi
-log "End Config NeoVim"
-
-d
