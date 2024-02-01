@@ -65,6 +65,9 @@ fi
 # Update DNF
 sudo cp "$SCRIPT_DIR/dnf/dnf.conf" /etc/dnf/dnf.conf
 sudo dnf update -y
+# enable auto update
+sudo dnf install -y dnf-automatic
+sudo systemctl enable --now dnf-automatic-install.timer
 
 # default APP
 sudo dnf install -y htop vim curl figlet neofetch rofi
