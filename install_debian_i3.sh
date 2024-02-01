@@ -91,7 +91,7 @@ sudo apt install -y ntp
 # Update Submodule
 git submodule update --init --recursive
 # copy my scripts
-cp "$SCRIPT_DIR/my_scripts" "$HOME"
+cp -r "$SCRIPT_DIR/my_scripts" "$HOME"
 
 display "UPDATE"
 sudo apt update
@@ -268,7 +268,7 @@ log "End Audio Control End"
 display "Start System Information and Monitoring"
 sudo nala install -y neofetch htop
 mkdir -p "$HOME/.config/neofetch/"
-cp "$SCRIPT_DIR/neofetch/*" "$HOME/.config/neofetch/"
+cp -r "$SCRIPT_DIR/neofetch/"* "$HOME/.config/neofetch/"
 log "End System Information and Monitoring"
 
 display "Start Screenshots"
@@ -367,9 +367,9 @@ display "LOCK SCREEN End"
 display "WINDOW MANAGER Start"
 sudo nala install -y i3 i3lock-fancy xautolock
 mkdir -p "$HOME/.config/i3/"
-cp "$SCRIPT_DIR/i3/*" "$HOME/.config/i3/"
+cp "$SCRIPT_DIR/i3/"* "$HOME/.config/i3/"
 mkdir -p "$HOME/.config/rofi/"
-cp "$SCRIPT_DIR/rofi/*" "$HOME/.config/rofi/"
+cp "$SCRIPT_DIR/rofi/"* "$HOME/.config/rofi/"
 display "WINDOW MANAGER End"
 
 display "Theme Start"

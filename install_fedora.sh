@@ -44,10 +44,16 @@ CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
 mkdir -p "$HOME/Desktop" "$HOME/Documents" "$HOME/Downloads" "$HOME/Pictures" "$HOME/Music"
 mkdir -p "$HOME/.config/"
 
+# define what you want to install
+INSTALL_JAVA=true
+INSTALL_GO=true
+INSTALL_C=true
+INSTALL_DOCKER=true
+
 # Update Submodule
 git submodule update --init --recursive
 # copy my scripts
-cp "$SCRIPT_DIR/my_scripts" "$HOME"
+cp -r "$SCRIPT_DIR/my_scripts" "$HOME"
 
 # Update DNF
 sudo cp "$SCRIPT_DIR/dnf/dnf.conf" /etc/dnf/dnf.conf
@@ -87,35 +93,43 @@ display "Start Nodejs"
 sudo dnf install -y nodejs
 log "End Nodejs"
 
-display "Go Start"
-sudo dnf install -y golang
-display "Go End"
+if [ INSTALL_GO == true ]; then
+  display "Go Start"
+  sudo dnf install -y golang
+  log "Go End"
+fi
 
-display "Python"
+display "Start Python"
 sudo dnf install -y python3-pip
-display "Python"
+log "Start Python"
 
-display "Java Start"
-sudo dnf install -y java
-display "Java End"
+if [ INSTALL_JAVA == true ]; then
+  display "Java Start"
+  sudo dnf install -y java
+  log "Java End"
+fi
 
-display "C Start"
-sudo dnf group install -y 'C Development Tools and Libraries'
-sudo dnf install -y ghc-criterion
-//"$SCRIPT_DIR/criterion/install_criterion.sh"
-display "C End"
+if [ INSTALL_C == true ]; then
+  display "C Start"
+  sudo dnf group install -y 'C Development Tools and Libraries'
+  "$SCRIPT_DIR/criterion/install_criterion.sh"
+  log "C End"
+fi
 
 
-display "Docker Engine Start"
-if [ ! "$(command -v docker)" ]; then
-  sudo dnf -y install dnf-plugins-core
-  sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-  sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-  if ! getent group docker >/dev/null; then
-    echo "Creating group: docker"
-    sudo groupadd docker
+if [ INSTALL_DOCKER == true ]; then
+  display "Start Docker Engine"
+  if [ ! "$(command -v docker)" ]; then
+    sudo dnf -y install dnf-plugins-core
+    sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+    sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    if ! getent group docker >/dev/null; then
+      echo "Creating group: docker"
+      sudo groupadd docker
+    fi
+    sudo usermod -aG docker "$USER"
   fi
-  sudo usermod -aG docker "$USER"
+  log "End Docker Engine"
 fi
 
 display "Start Terminal Emulators"
