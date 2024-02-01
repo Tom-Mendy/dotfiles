@@ -36,10 +36,10 @@ add_to_file_if_not_in_it() {
   local path="$2"
 
   if ! grep -q "$string" "$path" &>/dev/null; then
-    echo "$string" >> "$path" 
-    echo "$string added to $path" 
+    echo "$string" >> "$path"
+    echo "$string added to $path"
   else
-    echo "$string already exists in $path" 
+    echo "$string already exists in $path"
   fi
 }
 
@@ -197,6 +197,8 @@ if [ ! "$(command -v docker)" ]; then
     sudo groupadd docker
   fi
   sudo usermod -aG docker "$USER"
+  sudo systemctl start docker
+  sudo systemctl enable docker
 fi
 display "Docker Engine End"
 
@@ -206,7 +208,7 @@ log "End Virtualisation"
 
 display "Start Network Management"
 sudo nala install -y nm-tray network-manager
-sudo systemctl start NetworkManager.service 
+sudo systemctl start NetworkManager.service
 sudo systemctl enable NetworkManager.service
 log "End Network Management"
 
@@ -387,11 +389,11 @@ fi
 mkdir -p "$HOME/.icons/"
 if [ -z "$(sudo find "$HOME/.icons/" -name "oreo_spark_purple_cursors")" ]; then
   tar -xvf "$SCRIPT_DIR/oreo-spark-purple-cursors.tar.gz"
-  sudo mv oreo_spark_purple_cursors "$HOME/.icons/" 
+  sudo mv oreo_spark_purple_cursors "$HOME/.icons/"
 fi
 if [ -z "$(sudo find "$HOME/.icons/" -name "Bibata-Modern-Amber")" ]; then
   tar -xvf "$SCRIPT_DIR/Bibata-Modern-Amber.tar.xz"
-  sudo mv Bibata-Modern-Amber "$HOME/.icons/" 
+  sudo mv Bibata-Modern-Amber "$HOME/.icons/"
 fi
 
 # Add config
