@@ -45,6 +45,7 @@ mkdir -p "$HOME/Desktop" "$HOME/Documents" "$HOME/Downloads" "$HOME/Pictures" "$
 mkdir -p "$HOME/.config/"
 
 # define what you want to install
+INSTALL_MY_SCRIPT=true
 INSTALL_JAVA=true
 INSTALL_GO=true
 INSTALL_C=true
@@ -55,9 +56,11 @@ INSTALL_CHROME=true
 INSTALL_VSCODE=true
 
 # Update Submodule
-git submodule update --init --recursive
-# copy my scripts
-cp -r "$SCRIPT_DIR/my_scripts" "$HOME"
+if [ $INSTALL_MY_SCRIPT == true ]; then
+  git submodule update --init --recursive
+  # copy my scripts
+  cp -r "$SCRIPT_DIR/my_scripts" "$HOME"
+fi
 
 # Update DNF
 sudo cp "$SCRIPT_DIR/dnf/dnf.conf" /etc/dnf/dnf.conf

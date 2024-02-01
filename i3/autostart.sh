@@ -1,32 +1,48 @@
 #!/bin/bash
 
-killall picom
-picom -b &
+if [ "$(command -v picom)" ]; then
+  killall picom
+  picom -b &
+fi
 
-killall dunst
-dunst &
+if [ "$(command -v dunst)" ]; then
+  killall dunst
+  dunst &
+fi
 
-killall nm-tray
-nm-tray &
+if [ "$(command -v nm-tray)" ]; then
+  killall nm-tray
+  nm-tray &
+fi
 
-killall blueman-applet
-blueman-applet &
+if [ "$(command -v blueman-applet)" ]; then
+  killall blueman-applet
+  blueman-applet &
+fi
 
-killall pulseaudio
-pulseaudio --start &
+if [ "$(command -v pulseaudio)" ]; then
+  killall pulseaudio
+  pulseaudio --start &
+fi
 
-numlockx on &
+if [ "$(command -v numlockx)" ]; then
+  numlockx on &
+fi
 
-killall parcellite
-parcellite &
+if [ "$(command -v parcellite)" ]; then
+  killall parcellite
+  parcellite &
+fi
 
-killall xautolock
-xautolock -time 10 -locker "i3lock-fancy -p" &
+if [ "$(command -v xautolock)" ]; then
+  killall xautolock
+  xautolock -time 10 -locker "i3lock-fancy -p" &
+fi
 
-device_id=$(xinput |grep Touch |cut -f 2 |cut -d "=" -f 2)
-tap_to_clic_id=$(xinput --list-props "$device_id" |grep "Tapping Enabled" -m 1 |cut -d "(" -f 2 |cut -d ")" -f 1)
+device_id=$(xinput | grep Touch | cut -f 2 | cut -d "=" -f 2)
+tap_to_clic_id=$(xinput --list-props "$device_id" | grep "Tapping Enabled" -m 1 | cut -d "(" -f 2 | cut -d ")" -f 1)
 xinput set-prop "$device_id" "$tap_to_clic_id" 1
-natural_scroll_id=$(xinput --list-props "$device_id" |grep "Natural Scrolling Enabled" -m 1 |cut -d "(" -f 2 |cut -d ")" -f 1)
+natural_scroll_id=$(xinput --list-props "$device_id" | grep "Natural Scrolling Enabled" -m 1 | cut -d "(" -f 2 | cut -d ")" -f 1)
 xinput set-prop "$device_id" "$natural_scroll_id" 1
 
 #refresh wallpaper at startup
