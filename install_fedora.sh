@@ -105,9 +105,9 @@ sudo dnf install -y nodejs
 log "End Nodejs"
 
 if [ $INSTALL_GO == true ]; then
-  display "Go Start"
+  display "Start Go"
   sudo dnf install -y golang
-  log "Go End"
+  log "End Go"
 fi
 
 display "Start Python"
@@ -115,22 +115,24 @@ sudo dnf install -y python3-pip
 log "Start Python"
 
 if [ $INSTALL_JAVA == true ]; then
-  display "Java Start"
+  display "Start Java"
   sudo dnf install -y java
-  log "Java End"
+  log "End Java"
 fi
 
 if [ $INSTALL_C == true ]; then
-  display "C Start"
+  display "Start C"
   sudo dnf install -y ncurses-devel SFML-devel
   sudo dnf group install -y 'C Development Tools and Libraries'
   "$SCRIPT_DIR/criterion/install_criterion.sh"
-  log "C End"
+  log "End C"
 fi
 
 if [ $INSTALL_HASKELL == true ]; then
+  display "Start Haskell"
   sudo dnf install -y ghc
   # curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+  log "End Haskell"
 fi
 
 
@@ -191,41 +193,43 @@ fi
 
 display "Start Communication"
 # discord
-if [ ! "$(command -v Discord)" ]; then
+if [ ! "$(command -v com.discordapp.Discord)" ]; then
   sudo flatpak install -y flathub com.discordapp.Discord
 fi
 # teams for linux
-if [ ! "$(command -v teams-for-linux)" ]; then
+if [ ! "$(command -v com.github.IsmaelMartinez.teams_for_linux)" ]; then
   sudo flatpak install -y flathub com.github.IsmaelMartinez.teams_for_linux
 fi
 log "End Communication"
 
 if [ $INSTALL_BRAVE == true ]; then
+  display "Start Brave"
   if [ ! "$(command -v brave-brower)" ]; then
-    display "Start Brave"
     sudo dnf install -y dnf-plugins-core
     sudo dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
     sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
     sudo dnf install -y brave-browser
-    log "End Brave"
   fi
+  log "End Brave"
 fi
 
 if [ $INSTALL_CHROME == true ]; then
+  display "Start Chrome"
   if [ ! "$(command -v google-chrome-stable)" ]; then
     sudo dnf install fedora-workstation-repositories
     sudo dnf config-manager --set-enabled google-chrome
     sudo dnf install -y google-chrome-stable
   fi
+  log "End Chrome"
 fi
 
 if [ $INSTALL_VSCODE == true ]; then
+  display "Start VSCode"
   if [ ! "$(command -v code)" ]; then
-    display "Start VSCode"
     sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
     sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
     dnf check-update
     sudo dnf -y install code
-    log "End VSCode"
   fi
+  log "End VSCode"
 fi
