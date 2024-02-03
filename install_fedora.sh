@@ -47,6 +47,7 @@ INSTALL_MY_SCRIPT=true
 INSTALL_JAVA=true
 INSTALL_GO=true
 INSTALL_C=true
+INSTALL_HASKELL=true
 INSTALL_DOCKER=true
 INSTALL_TUI_FILE_MANAGER=true
 INSTALL_BRAVE=false
@@ -127,12 +128,12 @@ if [ $INSTALL_C == true ]; then
   log "C End"
 fi
 
-if [ $INSTALL_C == true ]; then
+if [ $INSTALL_HASKELL == true ]; then
   sudo dnf install -y ghc
+  # curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 fi
 
 
-curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 
 if [ $INSTALL_DOCKER == true ]; then
   display "Start Docker Engine"
