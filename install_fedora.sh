@@ -52,6 +52,8 @@ INSTALL_TUI_FILE_MANAGER=true
 INSTALL_BRAVE=false
 INSTALL_CHROME=true
 INSTALL_VSCODE=true
+# only if you are using i3
+INSTALL_I3=false
 
 # Update Submodule
 if [ $INSTALL_MY_SCRIPT == true ]; then
@@ -153,6 +155,16 @@ cargo install eza fcp
 sudo npm i -g safe-rm
 sudo dnf install -y tldr bat ripgrep fzf fd-find
 log "End Modern replacement"
+
+if [ $INSTALL_i3 == true ]; then
+  display "Start i3"
+  sudo dnf install -y i3 i3lock-fancy xautolock
+  mkdir -p "$HOME/.config/i3/"
+  cp "$SCRIPT_DIR/i3/"* "$HOME/.config/i3/"
+  mkdir -p "$HOME/.config/rofi/"
+  cp "$SCRIPT_DIR/rofi/"* "$HOME/.config/rofi/"
+  log "End i3"
+fi
 
 if [ $INSTALL_TUI_FILE_MANAGER == true ]; then
   display "Start File Managers"
