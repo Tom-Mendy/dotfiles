@@ -27,6 +27,10 @@ if [ "$(command -v batcat)" ]; then
   alias bat="batcat" "$HOME/.zshrc"
   alias cat="batcat --paging=never" "$HOME/.zshrc"
 fi
+if [ "$(command -v bat)" ]; then
+  alias bat="bat" "$HOME/.zshrc"
+  alias cat="bat --paging=never" "$HOME/.zshrc"
+fi
 if [ "$(command -v eza)" ]; then
   alias ls="eza --icons --color=always --group-directories-first" "$HOME/.zshrc"
   alias la="eza --icons --color=always --group-directories-first -a" "$HOME/.zshrc"
