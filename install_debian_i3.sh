@@ -13,10 +13,10 @@ confirm() {
   while true; do
     read -rp "Do you want to proceed? [Yes/No/Cancel] " yn
     case $yn in
-      [Yy]* ) return 0;;
-      [Nn]* ) return 1;;
-      [Cc]* ) exit;;
-      * ) echo "Please answer YES, NO, or CANCEL.";;
+    [Yy]*) return 0 ;;
+    [Nn]*) return 1 ;;
+    [Cc]*) exit ;;
+    *) echo "Please answer YES, NO, or CANCEL." ;;
     esac
   done
 }
@@ -36,7 +36,7 @@ add_to_file_if_not_in_it() {
   local path="$2"
 
   if ! grep -q "$string" "$path" &>/dev/null; then
-    echo "$string" >> "$path"
+    echo "$string" >>"$path"
     echo "$string added to $path"
   else
     echo "$string already exists in $path"
@@ -75,7 +75,7 @@ fi
 # Configuration
 START=$(date +%s)
 LOG_FILE="/var/log/installation.log"
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
 mkdir -p "$HOME/Desktop" "$HOME/Documents" "$HOME/Downloads" "$HOME/Pictures" "$HOME/Music"
 mkdir -p "$HOME/.config/"
@@ -101,7 +101,7 @@ display "Installing nala"
 sudo apt install -y nala figlet curl
 
 display "Refresh Mirrors"
-yes |sudo nala fetch --auto
+yes | sudo nala fetch --auto
 #add mirror refresh
 add_to_file_if_not_in_it '@reboot yes |nala fetch --auto' "$CRONTAB_ROOT"
 
@@ -130,7 +130,7 @@ log "End Flatpak"
 
 display "Start Rust"
 if [ ! "$(command -v cargo)" ]; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs >/tmp/rust.sh
   chmod +x /tmp/rust.sh
   /tmp/rust.sh -y
   rm -f /tmp/rust.sh
@@ -176,7 +176,6 @@ sudo nala install -y libcriterion-dev cppcheck gdb valgrind lldb gcovr
 //"$SCRIPT_DIR/criterion/install_criterion.sh"
 display "C End"
 
-
 display "Start Framwork & Header Updates"
 sudo nala install -y linux-headers-"$(uname -r)" firmware-linux software-properties-common laptop-mode-tools
 log "End Framwork & Header Updates"
@@ -189,7 +188,7 @@ if [ ! "$(command -v docker)" ]; then
   curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
   sudo chmod a+r /etc/apt/keyrings/docker.gpg
   echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
   sudo nala update
   sudo nala install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   if ! getent group docker >/dev/null; then
@@ -244,8 +243,8 @@ if [ ! "$(command -v xplr)" ]; then
   cargo install --locked --force xplr
   mkdir -p "$HOME/.config/xplr"
   xplr_version="$(xplr --version | awk '{print $2}')"
-  echo "version = '${xplr_version:?}'" > "$HOME/.config/xplr/init.lua"
-  cat "$SCRIPT_DIR"/xplr/init.lua >> "$HOME/.config/xplr/init.lua"
+  echo "version = '${xplr_version:?}'" >"$HOME/.config/xplr/init.lua"
+  cat "$SCRIPT_DIR"/xplr/init.lua >>"$HOME/.config/xplr/init.lua"
   # app for plugins
   # go install github.com/claudiodangelis/qrcp@latest
 fi
@@ -351,9 +350,9 @@ rm -rf /tmp/ly
 # Configure xsessions
 if [[ ! -d /usr/share/xsessions/i3.desktop ]]; then
   if [[ ! -d /usr/share/xsessions ]]; then
-      sudo mkdir /usr/share/xsessions
+    sudo mkdir /usr/share/xsessions
   fi
-cat > ./temp << "EOF"
+  cat >./temp <<"EOF"
 [Desktop Entry]
 Encoding=UTF-8
 Name=i3
@@ -362,7 +361,8 @@ Exec=i3
 Icon=i3
 Type=XSession
 EOF
-  sudo cp ./temp /usr/share/xsessions/i3.desktop;rm ./temp
+  sudo cp ./temp /usr/share/xsessions/i3.desktop
+  rm ./temp
 fi
 display "LOCK SCREEN End"
 
@@ -411,8 +411,6 @@ if [ ! -f "$HOME/my_scripts/auto_wallpaper.sh" ]; then
 fi
 display "Bing Wallpaper End"
 
-
-
 # display "Start Kubectl"
 # if [ ! "$(command -v kubectl)" ]; then
 #   sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -434,10 +432,10 @@ display "Bing Wallpaper End"
 # log "End Minikube"
 
 display "Start Brave"
-if ! command -v brave-browser &> /dev/null; then
+if ! command -v brave-browser &>/dev/null; then
   sudo nala install -y curl
   sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-  echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"| sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+  echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
   sudo nala update
   sudo nala install -y brave-browser
 fi
@@ -446,7 +444,7 @@ log "End Brave"
 display "Start VSCode"
 if [ ! "$(command -v code)" ]; then
   sudo nala install -y wget gpg apt-transport-https
-  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor >packages.microsoft.gpg
   sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
   sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
   rm -f packages.microsoft.gpg
@@ -501,7 +499,7 @@ sudo chown -R "$USER":"$USER" "/home/$USER"
 
 END=$(date +%s)
 
-RUNTIME=$((END-START))
+RUNTIME=$((END - START))
 
 display "Type Your Password to make zsh your Default shell"
 chsh -s /bin/zsh
