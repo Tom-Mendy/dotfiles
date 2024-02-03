@@ -163,7 +163,7 @@ sudo npm i -g safe-rm
 sudo dnf install -y tldr bat ripgrep fzf fd-find
 log "End Modern replacement"
 
-if [ $INSTALL_i3 == true ]; then
+if [ $INSTALL_I3 == true ]; then
   display "Start i3"
   sudo dnf install -y i3 i3lock-fancy xautolock
   mkdir -p "$HOME/.config/i3/"
