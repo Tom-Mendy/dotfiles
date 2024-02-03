@@ -127,6 +127,13 @@ if [ $INSTALL_C == true ]; then
   log "C End"
 fi
 
+if [ $INSTALL_C == true ]; then
+  sudo dnf install -y ghc
+fi
+
+
+curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+
 if [ $INSTALL_DOCKER == true ]; then
   display "Start Docker Engine"
   if [ ! "$(command -v docker)" ]; then
