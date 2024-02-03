@@ -7,6 +7,7 @@ this install script take ~ 20 min to complete
 
 
 Work In Progress
+![exemple i3](exemple.png)
 
 ## A list of (cool) programs & tools I am currently using   
 
