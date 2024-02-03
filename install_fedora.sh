@@ -166,7 +166,13 @@ log "End Modern replacement"
 
 if [ $INSTALL_I3 == true ]; then
   display "Start i3"
-  sudo dnf install -y i3 i3lock-fancy xautolock picom feh
+  sudo dnf install -y i3 xautolock picom feh
+  if [ ! -d "/tmp/i3lock-fancy" ]; then
+    git clone https://github.com/meskarune/i3lock-fancy.git "/tmp/i3lock-fancy"
+    cd "/tmp/i3lock-fancy"
+    sudo make install
+    cd -
+  fi
   mkdir -p "$HOME/.config/i3/"
   cp "$SCRIPT_DIR/i3/"* "$HOME/.config/i3/"
   mkdir -p "$HOME/.config/rofi/"
