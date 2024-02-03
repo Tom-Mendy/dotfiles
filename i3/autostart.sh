@@ -15,6 +15,11 @@ if [ "$(command -v nm-tray)" ]; then
   nm-tray &
 fi
 
+if [ "$(command -v nm-applet)" ]; then
+  killall nm-applet
+  nm-applet &
+fi
+
 if [ "$(command -v blueman-applet)" ]; then
   killall blueman-applet
   blueman-applet &
@@ -23,6 +28,11 @@ fi
 if [ "$(command -v pulseaudio)" ]; then
   killall pulseaudio
   pulseaudio --start &
+fi
+
+if [ "$(command -v volumeicon)" ]; then
+  killall volumeicon
+  volumeicon &
 fi
 
 if [ "$(command -v numlockx)" ]; then

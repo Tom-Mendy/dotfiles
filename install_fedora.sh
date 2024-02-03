@@ -168,7 +168,7 @@ log "End Modern replacement"
 
 if [ $INSTALL_I3 == true ]; then
   display "Start i3"
-  sudo dnf install -y i3 xautolock picom feh
+  sudo dnf install -y i3 xautolock picom feh parcellite
   if [ ! -d "/tmp/i3lock-fancy" ]; then
     git clone https://github.com/meskarune/i3lock-fancy.git "/tmp/i3lock-fancy"
     cd "/tmp/i3lock-fancy"
