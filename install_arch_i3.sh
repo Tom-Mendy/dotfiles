@@ -150,7 +150,7 @@ fi
 log "End Nodejs"
 
 display "Start Python-add"
-sudo paru -Syu --noconfirm python3-pip python3-venv
+sudo paru -Syu --noconfirm python python-pip python-pipenv
 log "End Python-add"
 
 if [ $INSTALL_RUBY == true ]; then
