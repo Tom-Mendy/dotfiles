@@ -116,8 +116,13 @@ sudo apt update
 sudo apt -y upgrade
 
 display "Installing Paru"
-
-
+if [ ! "$(command -v paru)" ]; then
+  sudo pacman -S --needed base-devel
+  git clone https://aur.archlinux.org/paru.git /tmp/paru
+  cd /tmp/paru
+  makepkg -si
+  cd -
+fi
 
 display "Refresh Mirrors"
 yes | sudo nala fetch --auto
