@@ -179,8 +179,8 @@ fi
 
 if [ $INSTALL_C == true ]; then
   display "C Start"
-  sudo paru -Syu --noconfirm libcriterion-dev cppcheck gdb valgrind lldb gcovr ncurses-devel CSFML-devel
-  #"$SCRIPT_DIR/criterion/install_criterion.sh"
+  sudo paru -Syu --noconfirm cppcheck gdb valgrind lldb gcovr ncurses csfml
+  "$SCRIPT_DIR/criterion/install_criterion.sh"
   log "C End"
 fi
 
