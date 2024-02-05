@@ -121,7 +121,7 @@ if [ ! "$(command -v paru)" ]; then
 fi
 
 display "Start base-devel"
-sudo paru -Syu --noconfirm base-devel xdg-user-dirs vim
+sudo paru -Syu --noconfirm base-devel xdg-user-dirs vim wget curl
 log "End base-devel"
 
 display "ZSH"
