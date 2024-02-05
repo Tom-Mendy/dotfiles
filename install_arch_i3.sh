@@ -115,8 +115,9 @@ display "UPDATE"
 sudo apt update
 sudo apt -y upgrade
 
-display "Installing nala"
-sudo apt install -y nala figlet curl
+display "Installing Paru"
+
+
 
 display "Refresh Mirrors"
 yes | sudo nala fetch --auto
