@@ -101,9 +101,6 @@ INSTALL_NVIM=true
 # Log script start
 log "Installation script started."
 
-display "Sync Time"
-sudo apt install -y ntp
-
 if [ $INSTALL_MY_SCRIPT == true ]; then
   # Update Submodule
   git submodule update --init --recursive
@@ -112,8 +109,7 @@ if [ $INSTALL_MY_SCRIPT == true ]; then
 fi
 
 display "UPDATE"
-sudo apt update
-sudo apt -y upgrade
+sudo pacman -Syyu
 
 display "Installing Paru"
 if [ ! "$(command -v paru)" ]; then
@@ -164,14 +160,7 @@ log "End Rust"
 
 display "Start Nodejs"
 if [ ! "$(command -v npm)" ]; then
-  sudo nala update
-  sudo nala install -y ca-certificates curl gnupg
-  sudo mkdir -p /etc/apt/keyrings
-  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-  NODE_MAJOR=20
-  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-  sudo nala update
-  sudo nala install -y nodejs
+  sudo paru -Syyu nodejs
 fi
 log "End Nodejs"
 
@@ -180,58 +169,46 @@ sudo nala install -y python3-pip python3-venv
 log "End Python-add"
 
 if [ $INSTALL_RUBY == true ]; then
-display "Start Ruby"
-sudo nala install -y ruby
-log "End Ruby"
+  display "Start Ruby"
+  sudo paru -Syyu ruby
+  log "End Ruby"
 fi
 
 if [ $INSTALL_JAVA == true ]; then
   display "Java Start"
-  sudo nala install -y default-jdk
+  sudo paru -Syyu jdk-openjdk
   display "Java End"
 fi
 
 if [ $INSTALL_GO == true ]; then
   display "Go Start"
-  sudo nala install -y golang
+  sudo paru -Syyu go
   log "Go End"
 fi
 
 if [ $INSTALL_LUA == true ]; then
   display "Lua Start"
-  sudo nala install -y lua5.4 luarocks
+  sudo paru -Syyu lua luarocks
   log "Lua End"
 fi
 
 if [ $INSTALL_C == true ]; then
   display "C Start"
-  sudo nala install -y libcriterion-dev cppcheck gdb valgrind lldb gcovr ncurses-devel CSFML-devel
+  sudo paru -Syyu libcriterion-dev cppcheck gdb valgrind lldb gcovr ncurses-devel CSFML-devel
   #"$SCRIPT_DIR/criterion/install_criterion.sh"
   log "C End"
 fi
 
 if [ $INSTALL_HASKELL == true ]; then
   display "HASKELL Start"
-  sudo nala install -y ghc
+  sudo paru -Syyu ghc
   log "HASKELL End"
 fi
-
-display "Start Framwork & Header Updates"
-sudo nala install -y linux-headers-"$(uname -r)" firmware-linux software-properties-common laptop-mode-tools
-log "End Framwork & Header Updates"
 
 if [ $INSTALL_DOCKER == true ]; then
   display "Docker Engine Start"
   if [ ! "$(command -v docker)" ]; then
-    sudo nala update
-    sudo nala install ca-certificates curl gnupg
-    sudo install -m 0755 -d /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    sudo chmod a+r /etc/apt/keyrings/docker.gpg
-    echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-      "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
-    sudo nala update
-    sudo nala install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    sudo paru -Syyu docker
     if ! getent group docker >/dev/null; then
       echo "Creating group: docker"
       sudo groupadd docker
@@ -243,30 +220,26 @@ if [ $INSTALL_DOCKER == true ]; then
   log "Docker Engine End"
 fi
 
-display "Start Virtualisation"
-sudo nala install -y distrobox virt-manager
-log "End Virtualisation"
-
 display "Start Network Management"
-sudo nala install -y nm-tray network-manager
+sudo paru -Syyu network-manager-applet
 sudo systemctl start NetworkManager.service
 sudo systemctl enable NetworkManager.service
 log "End Network Management"
 
 display "Start Appearance and Customization"
-sudo nala install -y lxappearance arandr xclip parcellite
+sudo paru -Syyu lxappearance arandr xclip parcellite
 mkdir -p "$HOME/.config/parcellite/"
 cp "$SCRIPT_DIR"/parcellite/* "$HOME"/.config/parcellite/
 log "End Appearance and Customization"
 
 display "Start System Utilities"
-sudo nala install -y dialog mtools dosfstools avahi-daemon acpi acpid gvfs-backends
+sudo paru -Syyu dialog mtools dosfstools avahi-daemon acpi acpid gvfs-backends
 sudo systemctl enable avahi-daemon
 sudo systemctl enable acpid
 log "End System Utilities"
 
 display "Start Terminal Emulators"
-sudo nala install -y kitty
+sudo paru -Syyu kitty
 mkdir -p "$HOME/.config/kitty/"
 cp "$SCRIPT_DIR/kitty/kitty.conf" "$HOME/.config/kitty/"
 #make kitty the default terminal
@@ -274,9 +247,9 @@ sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
 log "End Terminal Emulators"
 
 display "Start Modern replacement"
-cargo install eza fcp
+cargo install fcp
 sudo npm i -g safe-rm
-sudo nala install -y tldr bat ripgrep fzf fd-find
+sudo paru -Syyu eza tldr bat ripgrep fzf
 log "End Modern replacement"
 
 display "Start File Managers"
@@ -297,7 +270,7 @@ if [ $INSTALL_TUI_FILE_MANAGER == true ]; then
 fi
 # GUI
 if [ ! "$(command -v thunar)" ]; then
-  sudo nala install -y thunar thunar-archive-plugin thunar-media-tags-plugin
+  sudo paru -Syyu thunar thunar-archive-plugin thunar-media-tags-plugin
   mkdir -p "$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/"
   cp "$SCRIPT_DIR/Thunar/thunar.xml" "$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/"
   mkdir -p "$HOME/.config/Thunar"
@@ -307,31 +280,31 @@ fi
 log "End File Managers"
 
 display "Start Audio Control Start"
-sudo nala install -y pulseaudio alsa-utils pavucontrol volumeicon-alsa
+sudo paru -Syyu pulseaudio alsa-utils pavucontrol volumeicon-alsa
 log "End Audio Control End"
 
 display "Start System Information and Monitoring"
-sudo nala install -y neofetch htop
+sudo paru -Syyu neofetch htop
 mkdir -p "$HOME/.config/neofetch/"
 cp -r "$SCRIPT_DIR/neofetch/"* "$HOME/.config/neofetch/"
 log "End System Information and Monitoring"
 
 display "Start Screenshots"
-sudo nala install -y flameshot
+sudo paru -Syyu flameshot
 log "End Screenshots"
 
 display "Start Printer Support"
-sudo nala install -y cups simple-scan
+sudo paru -Syyu cups simple-scan
 sudo systemctl enable cups
 log "End Printer Support"
 
 display "Start Bluetooth Support"
-sudo nala install -y bluez blueman
+sudo paru -Syyu bluez blueman
 sudo systemctl enable bluetooth
 log "End Bluetooth Support"
 
 display "Start Menu and Window Managers"
-sudo nala install -y numlockx rofi dunst libnotify-bin picom dmenu dbus-x11
+sudo paru -Syyu numlockx rofi dunst libnotify-bin picom dmenu dbus-x11
 display "Start Menu and Window Managers"
 
 display "Start Communication"
@@ -348,31 +321,31 @@ fi
 log "End Communication"
 
 display "Start Text Editors"
-sudo nala install -y vim
+sudo paru -Syyu vim
 cp "$SCRIPT_DIR/vim/.vimrc" "$HOME"
 log "End Text Editors"
 
 display "Start Image Viewer"
-sudo nala install -y viewnior sxiv ueberzug python3-pillow
+sudo paru -Syyu viewnior sxiv ueberzug python3-pillow
 log "End Image Viewer"
 
 display "Start Wallpaper"
-sudo nala install -y feh
+sudo paru -Syyu feh
 log "End Wallpaper"
 
 display "Start Media Player"
-sudo nala install -y vlc mpv
+sudo paru -Syyu vlc mpv
 log "End Media Player"
 
 display "Start Music Player"
 sudo flatpak install -y flathub com.spotify.Client io.bassi.Amberol
 # spotify_player
-sudo nala install -y libssl-dev libasound2-dev libdbus-1-dev
+sudo paru -Syyu libssl-dev libasound2-dev libdbus-1-dev
 cargo install spotify_player --features sixel,daemon
 log "End Music Player"
 
 display "Start Document Viewer"
-sudo nala install -y zathura
+sudo paru -Syyu zathura
 log "End Document Viewer"
 
 display "Start X Window System and Input"
@@ -380,16 +353,7 @@ sudo apt -f install -y xorg xbacklight xinput xorg-dev xdotool brightnessctl
 log "End X Window System and Input"
 
 display "LOCK SCREEN Start"
-sudo nala install -y libpam0g-dev libxcb-xkb-dev
-if [ ! -d "/tmp/ly" ]; then
-  git clone --recurse-submodules https://github.com/fairyglade/ly /tmp/ly
-fi
-cd /tmp/ly
-make
-sudo make install installsystemd
-sudo systemctl enable ly.service
-cd -
-rm -rf /tmp/ly
+sudo pacman -S ly
 
 # Configure xsessions
 if [[ ! -d /usr/share/xsessions/i3.desktop ]]; then
@@ -411,7 +375,7 @@ fi
 display "LOCK SCREEN End"
 
 display "WINDOW MANAGER Start"
-sudo nala install -y i3 i3lock-fancy xautolock
+sudo paru -Syyu i3 i3lock-fancy xautolock
 mkdir -p "$HOME/.config/i3/"
 cp "$SCRIPT_DIR/i3/"* "$HOME/.config/i3/"
 mkdir -p "$HOME/.config/rofi/"
@@ -420,7 +384,7 @@ display "WINDOW MANAGER End"
 
 display "Theme Start"
 # Desktop Theme
-sudo nala install -y arc-theme
+sudo paru -Syyu arc-theme
 # Icons
 if [ -z "$(sudo find /usr/share/icons/ -iname "Flat-Remix-*")" ]; then
   if [ ! -d "/tmp/flat-remix" ]; then
@@ -447,7 +411,7 @@ display "Theme End"
 
 display "Bing Wallpaper Start"
 if [ ! -f "$HOME/my_scripts/auto_wallpaper.sh" ]; then
-  sudo nala install -y feh
+  sudo paru -Syyu feh
   if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
     git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
   fi
@@ -475,29 +439,21 @@ display "Bing Wallpaper End"
 # fi
 # log "End Minikube"
 
+if [ $INSTALL_CHROME == true ]; then
+  display "Start chrome"
+  sudo paru -Syyu google-chrome
+  log "End chrome"
+fi
+
 if [ $INSTALL_BRAVE == true ]; then
   display "Start Brave"
-  if ! command -v brave-browser &>/dev/null; then
-    sudo nala install -y curl
-    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-    sudo nala update
-    sudo nala install -y brave-browser
-  fi
+  sudo paru -Syyu brave-bin
   log "End Brave"
 fi
 
 if [ $INSTALL_VSCODE == true ]; then
   display "Start VSCode"
-  if [ ! "$(command -v code)" ]; then
-    sudo nala install -y wget gpg apt-transport-https
-    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor >packages.microsoft.gpg
-    sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-    sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-    rm -f packages.microsoft.gpg
-    sudo nala update
-    sudo nala install -y code
-  fi
+  sudo paru -Syyu code
   log "End VSCode"
 fi
 
@@ -513,19 +469,7 @@ fi
 
 if [ $INSTALL_NVIM == true ]; then
   display "Start Neovim"
-  if [ ! "$(command -v nvim)" ]; then
-    sudo nala install -y ninja-build gettext cmake unzip curl
-    if [ ! -d "/tmp/neovim" ]; then
-      git clone https://github.com/neovim/neovim /tmp/neovim
-    fi
-    cd /tmp/neovim
-    sudo make CMAKE_BUILD_TYPE=RelWithDebInfo
-    git checkout stable
-    sudo make install
-    cd -
-    # need sudo right beacause do "sudo make install"
-    sudo rm -rf /tmp/neovim
-  fi
+  sudo paru -Syyu neovim
   log "End Neovim"
 
   display "Start Config NeoVim"
