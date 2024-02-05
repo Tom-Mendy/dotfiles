@@ -149,13 +149,7 @@ sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flat
 log "End Flatpak"
 
 display "Start Rust"
-if [ ! "$(command -v cargo)" ]; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs >/tmp/rust.sh
-  chmod +x /tmp/rust.sh
-  /tmp/rust.sh -y
-  rm -f /tmp/rust.sh
-  source "$HOME/.cargo/env"
-fi
+sudo paru -Syyu rust
 log "End Rust"
 
 display "Start Nodejs"
