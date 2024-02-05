@@ -120,9 +120,9 @@ if [ ! "$(command -v paru)" ]; then
   cd -
 fi
 
-display "Start build-essential"
-sudo paru -Syyu base-devel xdg-user-dirs vim
-log "End build-essential"
+display "Start base-devel"
+sudo paru -Syyu --noconfirm base-devel xdg-user-dirs vim
+log "End base-devel"
 
 display "ZSH"
 if [ ! "$(command -v zsh)" ]; then
