@@ -120,13 +120,8 @@ if [ ! "$(command -v paru)" ]; then
   cd -
 fi
 
-display "Refresh Mirrors"
-yes | sudo nala fetch --auto
-#add mirror refresh
-add_to_file_if_not_in_it '@reboot yes |nala fetch --auto' "$CRONTAB_ROOT"
-
 display "Start build-essential"
-sudo paru -Syyu build-essential xdg-user-dirs vim
+sudo paru -Syyu base-devel xdg-user-dirs vim
 log "End build-essential"
 
 display "ZSH"
@@ -310,7 +305,7 @@ fi
 if [ ! "$(command -v teams-for-linux)" ]; then
   sudo wget -qO /etc/apt/keyrings/teams-for-linux.asc https://repo.teamsforlinux.de/teams-for-linux.asc
   echo "deb [signed-by=/etc/apt/keyrings/teams-for-linux.asc arch=$(dpkg --print-architecture)] https://repo.teamsforlinux.de/debian/ stable main" | sudo tee /etc/apt/sources.list.d/teams-for-linux-packages.list
-  sudo nala update && sudo paru -Syyu teams-for-linux
+  sudo paru -Syyu teams-for-linux
 fi
 log "End Communication"
 
@@ -453,11 +448,7 @@ fi
 
 if [ $INSTALL_VSCODIUM == true ]; then
   display "Start VSCodium"
-  if [ ! "$(command -v codium)" ]; then
-    wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
-    echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
-    sudo nala update && sudo paru -Syyu codium
-  fi
+  sudo paru -Syyu vscodium
   log "End VSCodium"
 fi
 
