@@ -91,6 +91,7 @@ INSTALL_LUA=true
 INSTALL_C=true
 INSTALL_HASKELL=true
 INSTALL_DOCKER=true
+INSTALL_PODMAN=true
 INSTALL_TUI_FILE_MANAGER=true
 INSTALL_BRAVE=false
 INSTALL_CHROME=true
@@ -205,6 +206,12 @@ if [ $INSTALL_DOCKER == true ]; then
   log "Docker Engine End"
 fi
 
+if [ $INSTALL_PODMAN == true ]; then
+  display "Podman Start"
+  sudo paru podman
+  log "Podman End"
+fi
+
 display "Start Network Management"
 sudo paru -Syu --noconfirm network-manager-applet
 sudo systemctl start NetworkManager.service
@@ -218,8 +225,8 @@ cp "$SCRIPT_DIR"/parcellite/* "$HOME"/.config/parcellite/
 log "End Appearance and Customization"
 
 display "Start System Utilities"
-sudo paru -Syu --noconfirm dialog mtools dosfstools avahi-daemon acpi acpid gvfs-backends
-sudo systemctl enable avahi-daemon
+sudo paru -Syu --noconfirm dialog mtools dosfstools avahi acpi acpid gvfs
+sudo systemctl enable avahi
 sudo systemctl enable acpid
 log "End System Utilities"
 
