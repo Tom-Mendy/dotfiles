@@ -121,12 +121,12 @@ if [ ! "$(command -v paru)" ]; then
 fi
 
 display "Start base-devel"
-sudo paru -Syyu --noconfirm base-devel xdg-user-dirs vim
+sudo paru -Syu --noconfirm base-devel xdg-user-dirs vim
 log "End base-devel"
 
 display "ZSH"
 if [ ! "$(command -v zsh)" ]; then
-  sudo paru -Syyu zsh fonts-font-awesome
+  sudo paru -Syu --noconfirm zsh ttf-font-awesome
   cp "$SCRIPT_DIR/zsh/.zshrc" "$HOME/.zshrc"
   mkdir "$HOME/.zsh"
   cp "$SCRIPT_DIR/zsh/alias.zsh" "$HOME/.zsh"
@@ -139,65 +139,65 @@ if [ ! "$(command -v zsh)" ]; then
 fi
 
 display "Start Flatpak"
-sudo paru -Syyu flatpak
+sudo paru -Syu --noconfirm flatpak
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 log "End Flatpak"
 
 display "Start Rust"
-sudo paru -Syyu rust
+sudo paru -Syu --noconfirm rust
 log "End Rust"
 
 display "Start Nodejs"
 if [ ! "$(command -v npm)" ]; then
-  sudo paru -Syyu nodejs
+  sudo paru -Syu --noconfirm nodejs
 fi
 log "End Nodejs"
 
 display "Start Python-add"
-sudo paru -Syyu python3-pip python3-venv
+sudo paru -Syu --noconfirm python3-pip python3-venv
 log "End Python-add"
 
 if [ $INSTALL_RUBY == true ]; then
   display "Start Ruby"
-  sudo paru -Syyu ruby
+  sudo paru -Syu --noconfirm ruby
   log "End Ruby"
 fi
 
 if [ $INSTALL_JAVA == true ]; then
   display "Java Start"
-  sudo paru -Syyu jdk-openjdk
+  sudo paru -Syu --noconfirm jdk-openjdk
   display "Java End"
 fi
 
 if [ $INSTALL_GO == true ]; then
   display "Go Start"
-  sudo paru -Syyu go
+  sudo paru -Syu --noconfirm go
   log "Go End"
 fi
 
 if [ $INSTALL_LUA == true ]; then
   display "Lua Start"
-  sudo paru -Syyu lua luarocks
+  sudo paru -Syu --noconfirm lua luarocks
   log "Lua End"
 fi
 
 if [ $INSTALL_C == true ]; then
   display "C Start"
-  sudo paru -Syyu libcriterion-dev cppcheck gdb valgrind lldb gcovr ncurses-devel CSFML-devel
+  sudo paru -Syu --noconfirm libcriterion-dev cppcheck gdb valgrind lldb gcovr ncurses-devel CSFML-devel
   #"$SCRIPT_DIR/criterion/install_criterion.sh"
   log "C End"
 fi
 
 if [ $INSTALL_HASKELL == true ]; then
   display "HASKELL Start"
-  sudo paru -Syyu ghc
+  sudo paru -Syu --noconfirm ghc
   log "HASKELL End"
 fi
 
 if [ $INSTALL_DOCKER == true ]; then
   display "Docker Engine Start"
   if [ ! "$(command -v docker)" ]; then
-    sudo paru -Syyu docker
+    sudo paru -Syu --noconfirm docker
     if ! getent group docker >/dev/null; then
       echo "Creating group: docker"
       sudo groupadd docker
@@ -210,25 +210,25 @@ if [ $INSTALL_DOCKER == true ]; then
 fi
 
 display "Start Network Management"
-sudo paru -Syyu network-manager-applet
+sudo paru -Syu --noconfirm network-manager-applet
 sudo systemctl start NetworkManager.service
 sudo systemctl enable NetworkManager.service
 log "End Network Management"
 
 display "Start Appearance and Customization"
-sudo paru -Syyu lxappearance arandr xclip parcellite
+sudo paru -Syu --noconfirm lxappearance arandr xclip parcellite
 mkdir -p "$HOME/.config/parcellite/"
 cp "$SCRIPT_DIR"/parcellite/* "$HOME"/.config/parcellite/
 log "End Appearance and Customization"
 
 display "Start System Utilities"
-sudo paru -Syyu dialog mtools dosfstools avahi-daemon acpi acpid gvfs-backends
+sudo paru -Syu --noconfirm dialog mtools dosfstools avahi-daemon acpi acpid gvfs-backends
 sudo systemctl enable avahi-daemon
 sudo systemctl enable acpid
 log "End System Utilities"
 
 display "Start Terminal Emulators"
-sudo paru -Syyu kitty
+sudo paru -Syu --noconfirm kitty
 mkdir -p "$HOME/.config/kitty/"
 cp "$SCRIPT_DIR/kitty/kitty.conf" "$HOME/.config/kitty/"
 #make kitty the default terminal
@@ -238,7 +238,7 @@ log "End Terminal Emulators"
 display "Start Modern replacement"
 cargo install fcp
 sudo npm i -g safe-rm
-sudo paru -Syyu eza tldr bat ripgrep fzf
+sudo paru -Syu --noconfirm eza tldr bat ripgrep fzf
 log "End Modern replacement"
 
 display "Start File Managers"
@@ -259,7 +259,7 @@ if [ $INSTALL_TUI_FILE_MANAGER == true ]; then
 fi
 # GUI
 if [ ! "$(command -v thunar)" ]; then
-  sudo paru -Syyu thunar thunar-archive-plugin thunar-media-tags-plugin
+  sudo paru -Syu --noconfirm thunar thunar-archive-plugin thunar-media-tags-plugin
   mkdir -p "$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/"
   cp "$SCRIPT_DIR/Thunar/thunar.xml" "$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/"
   mkdir -p "$HOME/.config/Thunar"
@@ -269,31 +269,31 @@ fi
 log "End File Managers"
 
 display "Start Audio Control Start"
-sudo paru -Syyu pulseaudio alsa-utils pavucontrol volumeicon-alsa
+sudo paru -Syu --noconfirm pulseaudio alsa-utils pavucontrol volumeicon-alsa
 log "End Audio Control End"
 
 display "Start System Information and Monitoring"
-sudo paru -Syyu neofetch htop
+sudo paru -Syu --noconfirm neofetch htop
 mkdir -p "$HOME/.config/neofetch/"
 cp -r "$SCRIPT_DIR/neofetch/"* "$HOME/.config/neofetch/"
 log "End System Information and Monitoring"
 
 display "Start Screenshots"
-sudo paru -Syyu flameshot
+sudo paru -Syu --noconfirm flameshot
 log "End Screenshots"
 
 display "Start Printer Support"
-sudo paru -Syyu cups simple-scan
+sudo paru -Syu --noconfirm cups simple-scan
 sudo systemctl enable cups
 log "End Printer Support"
 
 display "Start Bluetooth Support"
-sudo paru -Syyu bluez blueman
+sudo paru -Syu --noconfirm bluez blueman
 sudo systemctl enable bluetooth
 log "End Bluetooth Support"
 
 display "Start Menu and Window Managers"
-sudo paru -Syyu numlockx rofi dunst libnotify-bin picom dmenu dbus-x11
+sudo paru -Syu --noconfirm numlockx rofi dunst libnotify-bin picom dmenu dbus-x11
 display "Start Menu and Window Managers"
 
 display "Start Communication"
@@ -305,36 +305,36 @@ fi
 if [ ! "$(command -v teams-for-linux)" ]; then
   sudo wget -qO /etc/apt/keyrings/teams-for-linux.asc https://repo.teamsforlinux.de/teams-for-linux.asc
   echo "deb [signed-by=/etc/apt/keyrings/teams-for-linux.asc arch=$(dpkg --print-architecture)] https://repo.teamsforlinux.de/debian/ stable main" | sudo tee /etc/apt/sources.list.d/teams-for-linux-packages.list
-  sudo paru -Syyu teams-for-linux
+  sudo paru -Syu --noconfirm teams-for-linux
 fi
 log "End Communication"
 
 display "Start Text Editors"
-sudo paru -Syyu vim
+sudo paru -Syu --noconfirm vim
 cp "$SCRIPT_DIR/vim/.vimrc" "$HOME"
 log "End Text Editors"
 
 display "Start Image Viewer"
-sudo paru -Syyu viewnior sxiv ueberzug python3-pillow
+sudo paru -Syu --noconfirm viewnior sxiv ueberzug python3-pillow
 log "End Image Viewer"
 
 display "Start Wallpaper"
-sudo paru -Syyu feh
+sudo paru -Syu --noconfirm feh
 log "End Wallpaper"
 
 display "Start Media Player"
-sudo paru -Syyu vlc mpv
+sudo paru -Syu --noconfirm vlc mpv
 log "End Media Player"
 
 display "Start Music Player"
 sudo flatpak install -y flathub com.spotify.Client io.bassi.Amberol
 # spotify_player
-sudo paru -Syyu libssl-dev libasound2-dev libdbus-1-dev
+sudo paru -Syu --noconfirm libssl-dev libasound2-dev libdbus-1-dev
 cargo install spotify_player --features sixel,daemon
 log "End Music Player"
 
 display "Start Document Viewer"
-sudo paru -Syyu zathura
+sudo paru -Syu --noconfirm zathura
 log "End Document Viewer"
 
 display "Start X Window System and Input"
@@ -364,7 +364,7 @@ fi
 display "LOCK SCREEN End"
 
 display "WINDOW MANAGER Start"
-sudo paru -Syyu i3 i3lock-fancy xautolock
+sudo paru -Syu --noconfirm i3 i3lock-fancy xautolock
 mkdir -p "$HOME/.config/i3/"
 cp "$SCRIPT_DIR/i3/"* "$HOME/.config/i3/"
 mkdir -p "$HOME/.config/rofi/"
@@ -373,7 +373,7 @@ display "WINDOW MANAGER End"
 
 display "Theme Start"
 # Desktop Theme
-sudo paru -Syyu arc-theme
+sudo paru -Syu --noconfirm arc-theme
 # Icons
 if [ -z "$(sudo find /usr/share/icons/ -iname "Flat-Remix-*")" ]; then
   if [ ! -d "/tmp/flat-remix" ]; then
@@ -400,7 +400,7 @@ display "Theme End"
 
 display "Bing Wallpaper Start"
 if [ ! -f "$HOME/my_scripts/auto_wallpaper.sh" ]; then
-  sudo paru -Syyu feh
+  sudo paru -Syu --noconfirm feh
   if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
     git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
   fi
@@ -430,31 +430,31 @@ display "Bing Wallpaper End"
 
 if [ $INSTALL_CHROME == true ]; then
   display "Start chrome"
-  sudo paru -Syyu google-chrome
+  sudo paru -Syu --noconfirm google-chrome
   log "End chrome"
 fi
 
 if [ $INSTALL_BRAVE == true ]; then
   display "Start Brave"
-  sudo paru -Syyu brave-bin
+  sudo paru -Syu --noconfirm brave-bin
   log "End Brave"
 fi
 
 if [ $INSTALL_VSCODE == true ]; then
   display "Start VSCode"
-  sudo paru -Syyu code
+  sudo paru -Syu --noconfirm code
   log "End VSCode"
 fi
 
 if [ $INSTALL_VSCODIUM == true ]; then
   display "Start VSCodium"
-  sudo paru -Syyu vscodium
+  sudo paru -Syu --noconfirm vscodium
   log "End VSCodium"
 fi
 
 if [ $INSTALL_NVIM == true ]; then
   display "Start Neovim"
-  sudo paru -Syyu neovim
+  sudo paru -Syu --noconfirm neovim
   log "End Neovim"
 
   display "Start Config NeoVim"
@@ -463,7 +463,7 @@ if [ $INSTALL_NVIM == true ]; then
     if [ ! "$(command -v tree-sitter)" ]; then
       sudo npm install -g neovim tree-sitter-cli
     fi
-    sudo paru -Syyu xclip
+    sudo paru -Syu --noconfirm xclip
     git clone https://github.com/Tom-Mendy/nvim.git "$HOME/.config/nvim"
     # make .$HOME/.config/nvim work great for root
     sudo cp -r "$HOME/.config/nvim" /root/.config/nvim
