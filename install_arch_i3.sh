@@ -126,12 +126,12 @@ yes | sudo nala fetch --auto
 add_to_file_if_not_in_it '@reboot yes |nala fetch --auto' "$CRONTAB_ROOT"
 
 display "Start build-essential"
-sudo nala install -y build-essential xdg-user-dirs vim
+sudo paru -Syyu build-essential xdg-user-dirs vim
 log "End build-essential"
 
 display "ZSH"
 if [ ! "$(command -v zsh)" ]; then
-  sudo nala install -y zsh fonts-font-awesome
+  sudo paru -Syyu zsh fonts-font-awesome
   cp "$SCRIPT_DIR/zsh/.zshrc" "$HOME/.zshrc"
   mkdir "$HOME/.zsh"
   cp "$SCRIPT_DIR/zsh/alias.zsh" "$HOME/.zsh"
@@ -144,7 +144,7 @@ if [ ! "$(command -v zsh)" ]; then
 fi
 
 display "Start Flatpak"
-sudo nala install -y flatpak
+sudo paru -Syyu flatpak
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 log "End Flatpak"
 
@@ -159,7 +159,7 @@ fi
 log "End Nodejs"
 
 display "Start Python-add"
-sudo nala install -y python3-pip python3-venv
+sudo paru -Syyu python3-pip python3-venv
 log "End Python-add"
 
 if [ $INSTALL_RUBY == true ]; then
@@ -310,7 +310,7 @@ fi
 if [ ! "$(command -v teams-for-linux)" ]; then
   sudo wget -qO /etc/apt/keyrings/teams-for-linux.asc https://repo.teamsforlinux.de/teams-for-linux.asc
   echo "deb [signed-by=/etc/apt/keyrings/teams-for-linux.asc arch=$(dpkg --print-architecture)] https://repo.teamsforlinux.de/debian/ stable main" | sudo tee /etc/apt/sources.list.d/teams-for-linux-packages.list
-  sudo nala update && sudo nala install -y teams-for-linux
+  sudo nala update && sudo paru -Syyu teams-for-linux
 fi
 log "End Communication"
 
@@ -456,7 +456,7 @@ if [ $INSTALL_VSCODIUM == true ]; then
   if [ ! "$(command -v codium)" ]; then
     wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
     echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
-    sudo nala update && sudo nala install -y codium
+    sudo nala update && sudo paru -Syyu codium
   fi
   log "End VSCodium"
 fi
@@ -472,7 +472,7 @@ if [ $INSTALL_NVIM == true ]; then
     if [ ! "$(command -v tree-sitter)" ]; then
       sudo npm install -g neovim tree-sitter-cli
     fi
-    sudo nala install -y xclip
+    sudo paru -Syyu xclip
     git clone https://github.com/Tom-Mendy/nvim.git "$HOME/.config/nvim"
     # make .$HOME/.config/nvim work great for root
     sudo cp -r "$HOME/.config/nvim" /root/.config/nvim
