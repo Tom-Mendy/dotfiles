@@ -116,7 +116,7 @@ if [ ! "$(command -v paru)" ]; then
   sudo pacman -S --needed base-devel
   git clone https://aur.archlinux.org/paru.git /tmp/paru
   cd /tmp/paru
-  makepkg -si
+  makepkg -si --noconfirm
   cd -
 fi
 
