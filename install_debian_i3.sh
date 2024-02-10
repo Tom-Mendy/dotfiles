@@ -182,7 +182,7 @@ fi
 if [ $INSTALL_JAVA == true ]; then
   display "Java Start"
   sudo nala install -y default-jdk
-  display "Java End"
+  log "Java End"
 fi
 
 if [ $INSTALL_GO == true ]; then
@@ -272,6 +272,14 @@ cargo install eza fcp
 sudo npm i -g safe-rm
 sudo nala install -y tldr bat ripgrep fzf fd-find
 log "End Modern replacement"
+
+display "Start More icons"
+if [ ! -d "/tmp/devicons" ]; then
+  git clone https://github.com/vorillaz/devicons.git "/tmp/devicons"
+  sudo cp /tmp/devicons/fonts/devicons.ttf /usr/share/fonts/
+  fc-cache -f -v
+fi
+log "End More icons"
 
 display "Start File Managers"
 # terminal base

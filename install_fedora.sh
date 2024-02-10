@@ -135,8 +135,6 @@ if [ $INSTALL_HASKELL == true ]; then
   log "End Haskell"
 fi
 
-
-
 if [ $INSTALL_DOCKER == true ]; then
   display "Start Docker Engine"
   if [ ! "$(command -v docker)" ]; then
@@ -165,6 +163,14 @@ cargo install eza fcp
 sudo npm i -g safe-rm
 sudo dnf install -y tldr bat ripgrep fzf fd-find
 log "End Modern replacement"
+
+display "Start More icons"
+if [ ! -d "/tmp/devicons" ]; then
+  git clone https://github.com/vorillaz/devicons.git "/tmp/devicons"
+  sudo cp /tmp/devicons/fonts/devicons.ttf /usr/share/fonts/
+  fc-cache -f -v
+fi
+log "End More icons"
 
 if [ $INSTALL_I3 == true ]; then
   display "Start i3"
