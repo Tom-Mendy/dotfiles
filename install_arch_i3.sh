@@ -279,7 +279,7 @@ sudo paru -Syu --noconfirm pulseaudio alsa-utils pavucontrol volumeicon
 log "End Audio Control End"
 
 display "Start System Information and Monitoring"
-sudo paru -Syu --noconfirm neofetch htop
+sudo paru -Syu --noconfirm neofetch htop btop
 mkdir -p "$HOME/.config/neofetch/"
 cp -r "$SCRIPT_DIR/neofetch/"* "$HOME/.config/neofetch/"
 log "End System Information and Monitoring"
