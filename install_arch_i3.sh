@@ -110,7 +110,7 @@ if [ $INSTALL_MY_SCRIPT == true ]; then
 fi
 
 display "UPDATE"
-sudo pacman -Syyu
+sudo pacman -Syyu --noconfirm
 
 display "Installing Paru"
 if [ ! "$(command -v paru)" ]; then
