@@ -93,6 +93,7 @@ INSTALL_HASKELL=true
 INSTALL_DOCKER=true
 INSTALL_PODMAN=true
 INSTALL_TUI_FILE_MANAGER=true
+INSTALL_XPLR=false
 INSTALL_BRAVE=false
 INSTALL_CHROME=true
 INSTALL_VSCODE=true
@@ -244,14 +245,16 @@ log "End Modern replacement"
 display "Start File Managers"
 # terminal base
 if [ $INSTALL_TUI_FILE_MANAGER == true ]; then
-  if [ ! "$(command -v xplr)" ]; then
-    cargo install --locked --force xplr
-    mkdir -p "$HOME/.config/xplr"
-    xplr_version="$(xplr --version | awk '{print $2}')"
-    echo "version = '${xplr_version:?}'" >"$HOME/.config/xplr/init.lua"
-    cat "$SCRIPT_DIR"/xplr/init.lua >>"$HOME/.config/xplr/init.lua"
-    # app for plugins
-    # go install github.com/claudiodangelis/qrcp@latest
+  if [ $INSTALL_XPLR == true ]; then
+    if [ ! "$(command -v xplr)" ]; then
+      cargo install --locked --force xplr
+      mkdir -p "$HOME/.config/xplr"
+      xplr_version="$(xplr --version | awk '{print $2}')"
+      echo "version = '${xplr_version:?}'" >"$HOME/.config/xplr/init.lua"
+      cat "$SCRIPT_DIR"/xplr/init.lua >>"$HOME/.config/xplr/init.lua"
+      # app for plugins
+      # go install github.com/claudiodangelis/qrcp@latest
+    fi
   fi
   if [ ! "$(command -v yazi)" ]; then
     cargo install --locked yazi-fm
