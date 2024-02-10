@@ -272,6 +272,7 @@ fi
 log "End File Managers"
 
 display "Start Audio Control Start"
+sudo paru -R --noconfirm pipewire-pulse
 sudo paru -Syu --noconfirm pulseaudio alsa-utils pavucontrol volumeicon
 log "End Audio Control End"
 
@@ -296,7 +297,7 @@ sudo systemctl enable bluetooth
 log "End Bluetooth Support"
 
 display "Start Menu and Window Managers"
-sudo paru -Syu --noconfirm numlockx rofi dunst libnotify-bin picom dmenu dbus-x11
+sudo paru -Syu --noconfirm numlockx rofi dunst libnotify picom dmenu dbus
 display "Start Menu and Window Managers"
 
 display "Start Communication"
