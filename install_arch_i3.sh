@@ -340,6 +340,7 @@ log "End X Window System and Input"
 
 display "LOCK SCREEN Start"
 sudo paru -Suy --noconfirm ly
+sudo systemctl enable ly.service
 display "LOCK SCREEN End"
 
 display "WINDOW MANAGER Start"
