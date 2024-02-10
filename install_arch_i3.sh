@@ -334,7 +334,7 @@ sudo paru -Syu --noconfirm zathura
 log "End Document Viewer"
 
 display "Start X Window System and Input"
-sudo paru -Suy --noconfirm xorg xbacklight xinput xorg-dev xdotool brightnessctl
+sudo paru -Suy --noconfirm xorg xorg-xbacklight xorg-xinput xdotool brightnessctl
 log "End X Window System and Input"
 
 display "LOCK SCREEN Start"
