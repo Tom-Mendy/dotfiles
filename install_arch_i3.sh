@@ -274,8 +274,8 @@ fi
 log "End File Managers"
 
 display "Start Audio Control Start"
-sudo paru -R --noconfirm pipewire-pulse || true
-sudo paru -Syu --noconfirm pulseaudio alsa-utils pavucontrol volumeicon
+sudo paru -R --noconfirm pipewire-pulse pipewire-alsa pipewire-bluetooth || true
+sudo paru -Syu --noconfirm pulseaudio pulseaudio-alsa pulseaudio-bluetooth alsa-utils pavucontrol volumeicon
 log "End Audio Control End"
 
 display "Start System Information and Monitoring"
