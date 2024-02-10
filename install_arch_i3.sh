@@ -303,11 +303,11 @@ display "Start Menu and Window Managers"
 display "Start Communication"
 # discord
 if [ ! "$(command -v Discord)" ]; then
-  sudo flatpak install -y flathub com.discordapp.Discord
+  sudo paru -Syu --noconfirm discord
 fi
 # teams for linux
 if [ ! "$(command -v teams-for-linux)" ]; then
-  sudo flatpak install -y flathub com.github.IsmaelMartinez.teams_for_linux
+  sudo paru -Syu --noconfirm teams-for-linux
 fi
 log "End Communication"
 
