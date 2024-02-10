@@ -164,7 +164,7 @@ fi
 if [ $INSTALL_JAVA == true ]; then
   display "Java Start"
   sudo paru -Syu --noconfirm jdk-openjdk
-  display "Java End"
+  log "Java End"
 fi
 
 if [ $INSTALL_GO == true ]; then
@@ -243,6 +243,14 @@ cargo install fcp
 sudo npm i -g safe-rm
 sudo paru -Syu --noconfirm eza tldr bat ripgrep fzf
 log "End Modern replacement"
+
+display "Start More icons"
+if [ ! -d "/tmp/devicons" ]; then
+  git clone https://github.com/vorillaz/devicons.git "/tmp/devicons"
+  sudo cp /tmp/devicons/fonts/devicons.ttf /usr/share/fonts/
+  fc-cache -f -v
+fi
+log "End More icons"
 
 display "Start File Managers"
 # terminal base
