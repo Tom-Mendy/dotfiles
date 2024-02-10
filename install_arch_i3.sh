@@ -145,9 +145,7 @@ sudo paru -Syu --noconfirm rust
 log "End Rust"
 
 display "Start Nodejs"
-if [ ! "$(command -v npm)" ]; then
-  sudo paru -Syu --noconfirm nodejs
-fi
+sudo paru -Syu --noconfirm npm nodejs
 log "End Nodejs"
 
 display "Start Python-add"
