@@ -445,9 +445,6 @@ if [ $INSTALL_NVIM == true ]; then
   log "End Config NeoVim"
 fi
 
-display "CRONTAB"
-sudo crontab "$CRONTAB_ROOT"
-
 sudo chown -R "$USER":"$USER" "/home/$USER"
 
 END=$(date +%s)
