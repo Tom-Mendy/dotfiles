@@ -311,7 +311,7 @@ cp "$SCRIPT_DIR/vim/.vimrc" "$HOME"
 log "End Text Editors"
 
 display "Start Image Viewer"
-sudo paru -Syu --noconfirm viewnior sxiv ueberzug python3-pillow
+sudo paru -Syu --noconfirm viewnior sxiv ueberzug python-pillow
 log "End Image Viewer"
 
 display "Start Wallpaper"
