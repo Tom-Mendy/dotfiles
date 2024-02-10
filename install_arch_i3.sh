@@ -339,24 +339,6 @@ log "End X Window System and Input"
 
 display "LOCK SCREEN Start"
 sudo paru -Suy --noconfirm ly
-
-# Configure xsessions
-# if [[ ! -d /usr/share/xsessions/i3.desktop ]]; then
-#   if [[ ! -d /usr/share/xsessions ]]; then
-#     sudo mkdir /usr/share/xsessions
-#   fi
-#   cat >./temp <<"EOF"
-# [Desktop Entry]
-# Encoding=UTF-8
-# Name=i3
-# Comment=Manual Window Manager
-# Exec=i3
-# Icon=i3
-# Type=XSession
-# EOF
-#   sudo cp ./temp /usr/share/xsessions/i3.desktop
-#   rm ./temp
-# fi
 display "LOCK SCREEN End"
 
 display "WINDOW MANAGER Start"
@@ -370,25 +352,11 @@ display "WINDOW MANAGER End"
 
 display "Theme Start"
 # Desktop Theme
-sudo paru -Syu --noconfirm arc-theme
+sudo paru -Syu --noconfirm arc-gtk-theme
 # Icons
-if [ -z "$(sudo find /usr/share/icons/ -iname "Flat-Remix-*")" ]; then
-  if [ ! -d "/tmp/flat-remix" ]; then
-    git clone https://github.com/daniruiz/flat-remix.git /tmp/flat-remix
-  fi
-  sudo mv /tmp/flat-remix/Flat-Remix-* /usr/share/icons/
-  rm -rf /tmp/flat-remix
-fi
+paru -Syu --noconfirm flat-remix-gtk
 # Cursor
-mkdir -p "$HOME/.icons/"
-if [ -z "$(sudo find "$HOME/.icons/" -name "oreo_spark_purple_cursors")" ]; then
-  tar -xvf "$SCRIPT_DIR/oreo-spark-purple-cursors.tar.gz"
-  sudo mv oreo_spark_purple_cursors "$HOME/.icons/"
-fi
-if [ -z "$(sudo find "$HOME/.icons/" -name "Bibata-Modern-Amber")" ]; then
-  tar -xvf "$SCRIPT_DIR/Bibata-Modern-Amber.tar.xz"
-  sudo mv Bibata-Modern-Amber "$HOME/.icons/"
-fi
+paru -Syu --noconfirm bibata-cursor-theme
 
 # Add config
 mkdir -p "$HOME/.config/gtk-3.0/"
