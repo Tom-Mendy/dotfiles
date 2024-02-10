@@ -395,13 +395,13 @@ display "Bing Wallpaper End"
 
 if [ $INSTALL_CHROME == true ]; then
   display "Start chrome"
-  sudo paru -Syu --noconfirm google-chrome
+  paru -Syu --noconfirm google-chrome
   log "End chrome"
 fi
 
 if [ $INSTALL_BRAVE == true ]; then
   display "Start Brave"
-  sudo paru -Syu --noconfirm brave-bin
+  paru -Syu --noconfirm brave-bin
   log "End Brave"
 fi
 
@@ -413,7 +413,7 @@ fi
 
 if [ $INSTALL_VSCODIUM == true ]; then
   display "Start VSCodium"
-  sudo paru -Syu --noconfirm vscodium
+  paru -Syu --noconfirm vscodium
   log "End VSCodium"
 fi
 
