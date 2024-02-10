@@ -208,7 +208,7 @@ fi
 
 if [ $INSTALL_PODMAN == true ]; then
   display "Podman Start"
-  sudo paru podman
+  sudo paru -Syu --noconfirm podman
   log "Podman End"
 fi
 
