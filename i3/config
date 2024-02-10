@@ -72,6 +72,9 @@ bindsym $mod+d exec --no-startup-id rofi -show drun
 # switching window with win+tab
 bindsym $mod+Tab exec --no-startup-id rofi -show window
 
+# take screenshot
+bindsym Print exec --no-startup-id flamshot gui
+
 # change focus
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
