@@ -301,14 +301,8 @@ sudo paru -Syu --noconfirm numlockx rofi dunst libnotify picom dmenu dbus
 display "Start Menu and Window Managers"
 
 display "Start Communication"
-# discord
-if [ ! "$(command -v Discord)" ]; then
-  sudo paru -Syu --noconfirm discord
-fi
-# teams for linux
-if [ ! "$(command -v teams-for-linux)" ]; then
-  sudo paru -Syu --noconfirm teams-for-linux
-fi
+sudo paru -Syu --noconfirm discord
+paru -Syu --noconfirm teams-for-linux
 log "End Communication"
 
 display "Start Text Editors"
