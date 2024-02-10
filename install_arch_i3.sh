@@ -334,11 +334,11 @@ sudo paru -Syu --noconfirm zathura
 log "End Document Viewer"
 
 display "Start X Window System and Input"
-sudo apt -f install -y xorg xbacklight xinput xorg-dev xdotool brightnessctl
+sudo paru -Suy --noconfirm xorg xbacklight xinput xorg-dev xdotool brightnessctl
 log "End X Window System and Input"
 
 display "LOCK SCREEN Start"
-sudo pacman -S ly
+sudo paru -Suy --noconfirm ly
 
 # Configure xsessions
 if [[ ! -d /usr/share/xsessions/i3.desktop ]]; then
