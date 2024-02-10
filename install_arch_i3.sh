@@ -294,7 +294,7 @@ sudo systemctl enable cups
 log "End Printer Support"
 
 display "Start Bluetooth Support"
-sudo paru -Syu --noconfirm bluez blueman
+sudo paru -Syu --noconfirm bluez bluez-utils blueman
 sudo systemctl enable bluetooth
 log "End Bluetooth Support"
 
