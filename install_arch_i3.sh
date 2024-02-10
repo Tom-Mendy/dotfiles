@@ -99,6 +99,7 @@ INSTALL_BRAVE=false
 INSTALL_CHROME=true
 INSTALL_VSCODE=true
 INSTALL_VSCODIUM=false
+INSTALL_JETBRAINS=true
 INSTALL_NVIM=true
 
 # Log script start
@@ -414,6 +415,12 @@ fi
 if [ $INSTALL_VSCODIUM == true ]; then
   display "Start VSCodium"
   paru -Syu --noconfirm vscodium
+  log "End VSCodium"
+fi
+
+if [ $INSTALL_JETBRAINS == true ]; then
+  display "Start VSCodium"
+  paru -Syu --noconfirm jetbrains-toolbox
   log "End VSCodium"
 fi
 
