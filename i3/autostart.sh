@@ -5,6 +5,9 @@ if [ "$(command -v picom)" ]; then
   picom -b &
 fi
 
+#refresh wallpaper at startup
+"$HOME/my_scripts/auto_wallpaper.sh" &
+
 if [ "$(command -v dunst)" ]; then
   killall dunst
   dunst &
@@ -30,11 +33,6 @@ if [ "$(command -v pulseaudio)" ]; then
   pulseaudio --start &
 fi
 
-if [ "$(command -v volumeicon)" ]; then
-  killall volumeicon
-  volumeicon &
-fi
-
 if [ "$(command -v numlockx)" ]; then
   numlockx on &
 fi
@@ -55,5 +53,7 @@ xinput set-prop "$device_id" "$tap_to_clic_id" 1
 natural_scroll_id=$(xinput --list-props "$device_id" | grep "Natural Scrolling Enabled" -m 1 | cut -d "(" -f 2 | cut -d ")" -f 1)
 xinput set-prop "$device_id" "$natural_scroll_id" 1
 
-#refresh wallpaper at startup
-"$HOME/my_scripts/auto_wallpaper.sh" &
+if [ "$(command -v volumeicon)" ]; then
+  killall volumeicon
+  volumeicon &
+fi
