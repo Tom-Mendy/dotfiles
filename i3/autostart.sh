@@ -1,13 +1,15 @@
 #!/bin/bash
 
+## transparency
 if [ "$(command -v picom)" ]; then
   killall picom
-  picom -b &
+  picom -b
 fi
 
 #refresh wallpaper at startup
 "$HOME/my_scripts/auto_wallpaper.sh" &
 
+# notification
 if [ "$(command -v dunst)" ]; then
   killall dunst
   dunst &
