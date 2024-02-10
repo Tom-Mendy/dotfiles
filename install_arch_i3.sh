@@ -94,6 +94,7 @@ INSTALL_DOCKER=true
 INSTALL_PODMAN=true
 INSTALL_TUI_FILE_MANAGER=true
 INSTALL_XPLR=false
+INSTALL_SPOTIFY=false
 INSTALL_BRAVE=false
 INSTALL_CHROME=true
 INSTALL_VSCODE=true
@@ -323,10 +324,9 @@ sudo paru -Syu --noconfirm vlc mpv
 log "End Media Player"
 
 display "Start Music Player"
-sudo flatpak install -y flathub com.spotify.Client io.bassi.Amberol
-# spotify_player
-sudo paru -Syu --noconfirm libssl-dev libasound2-dev libdbus-1-dev
-cargo install spotify_player --features sixel,daemon
+if [ $INSTALL_SPOTIFY == true ]; then
+  paru -Syu --noconfirm spotify
+fi
 log "End Music Player"
 
 display "Start Document Viewer"
