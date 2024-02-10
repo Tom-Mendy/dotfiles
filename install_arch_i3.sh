@@ -440,7 +440,7 @@ if [ $INSTALL_NVIM == true ]; then
     # make .$HOME/.config/nvim work great for root
     sudo cp -r "$HOME/.config/nvim" /root/.config/nvim
     # make nvim the default editor
-    sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 50
+    # sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 50
   fi
   log "End Config NeoVim"
 fi
