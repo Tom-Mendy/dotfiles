@@ -307,9 +307,7 @@ if [ ! "$(command -v Discord)" ]; then
 fi
 # teams for linux
 if [ ! "$(command -v teams-for-linux)" ]; then
-  sudo wget -qO /etc/apt/keyrings/teams-for-linux.asc https://repo.teamsforlinux.de/teams-for-linux.asc
-  echo "deb [signed-by=/etc/apt/keyrings/teams-for-linux.asc arch=$(dpkg --print-architecture)] https://repo.teamsforlinux.de/debian/ stable main" | sudo tee /etc/apt/sources.list.d/teams-for-linux-packages.list
-  sudo paru -Syu --noconfirm teams-for-linux
+  sudo flatpak install -y flathub com.github.IsmaelMartinez.teams_for_linux
 fi
 log "End Communication"
 
