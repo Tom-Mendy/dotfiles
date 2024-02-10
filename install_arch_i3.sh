@@ -234,7 +234,7 @@ sudo paru -Syu --noconfirm kitty
 mkdir -p "$HOME/.config/kitty/"
 cp "$SCRIPT_DIR/kitty/kitty.conf" "$HOME/.config/kitty/"
 #make kitty the default terminal
-sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
+# sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
 log "End Terminal Emulators"
 
 display "Start Modern replacement"
