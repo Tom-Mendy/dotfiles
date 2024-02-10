@@ -226,7 +226,6 @@ log "End Appearance and Customization"
 
 display "Start System Utilities"
 sudo paru -Syu --noconfirm dialog mtools dosfstools avahi acpi acpid gvfs
-sudo systemctl enable avahi
 sudo systemctl enable acpid
 log "End System Utilities"
 
