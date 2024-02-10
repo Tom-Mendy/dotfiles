@@ -55,5 +55,6 @@ xinput set-prop "$device_id" "$natural_scroll_id" 1
 
 if [ "$(command -v volumeicon)" ]; then
   killall volumeicon
+  sleep 1
   volumeicon &
 fi
