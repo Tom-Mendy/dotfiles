@@ -360,7 +360,7 @@ sudo paru -Suy --noconfirm ly
 display "LOCK SCREEN End"
 
 display "WINDOW MANAGER Start"
-sudo paru -Syu --noconfirm i3-wm i3-status i3lock-fancy xautolock
+sudo paru -Syu --noconfirm i3-wm i3-status xautolock
 paru -Syu --noconfirm i3lock-fancy
 mkdir -p "$HOME/.config/i3/"
 cp "$SCRIPT_DIR/i3/"* "$HOME/.config/i3/"
