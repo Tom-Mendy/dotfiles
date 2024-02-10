@@ -341,22 +341,22 @@ display "LOCK SCREEN Start"
 sudo paru -Suy --noconfirm ly
 
 # Configure xsessions
-if [[ ! -d /usr/share/xsessions/i3.desktop ]]; then
-  if [[ ! -d /usr/share/xsessions ]]; then
-    sudo mkdir /usr/share/xsessions
-  fi
-  cat >./temp <<"EOF"
-[Desktop Entry]
-Encoding=UTF-8
-Name=i3
-Comment=Manual Window Manager
-Exec=i3
-Icon=i3
-Type=XSession
-EOF
-  sudo cp ./temp /usr/share/xsessions/i3.desktop
-  rm ./temp
-fi
+# if [[ ! -d /usr/share/xsessions/i3.desktop ]]; then
+#   if [[ ! -d /usr/share/xsessions ]]; then
+#     sudo mkdir /usr/share/xsessions
+#   fi
+#   cat >./temp <<"EOF"
+# [Desktop Entry]
+# Encoding=UTF-8
+# Name=i3
+# Comment=Manual Window Manager
+# Exec=i3
+# Icon=i3
+# Type=XSession
+# EOF
+#   sudo cp ./temp /usr/share/xsessions/i3.desktop
+#   rm ./temp
+# fi
 display "LOCK SCREEN End"
 
 display "WINDOW MANAGER Start"
