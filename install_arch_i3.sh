@@ -220,7 +220,7 @@ sudo systemctl enable NetworkManager.service
 log "End Network Management"
 
 display "Start Appearance and Customization"
-sudo paru -Syu --noconfirm lxappearance arandr xclip parcellite
+sudo paru -Syu --noconfirm arandr xclip parcellite
 mkdir -p "$HOME/.config/parcellite/"
 cp "$SCRIPT_DIR"/parcellite/* "$HOME"/.config/parcellite/
 log "End Appearance and Customization"
@@ -361,12 +361,16 @@ cp "$SCRIPT_DIR/rofi/"* "$HOME/.config/rofi/"
 display "WINDOW MANAGER End"
 
 display "Theme Start"
+sudo paru -Syu --noconfirm lxappearance gtk-engine-murrine
 # Desktop Theme
 sudo paru -Syu --noconfirm arc-gtk-theme
 # Icons
 paru -Syu --noconfirm flat-remix-gtk
 # Cursor
-paru -Syu --noconfirm bibata-cursor-theme
+paru -Syu --noconfirm xcursor-themes bibata-cursor-theme
+mkdir -p "$HOME/.icons/default"
+cp "$SCRIPT_DIR/icons/default/index.theme" "$HOME/.icons/default"
+ls -s /usr/share/icons/Bibata-Modern-Amber/cursors "$HOME/.icons/default/cursors"
 
 # Add config
 mkdir -p "$HOME/.config/gtk-3.0/"
