@@ -201,8 +201,8 @@ if [ $INSTALL_DOCKER == true ]; then
       sudo groupadd docker
     fi
     sudo usermod -aG docker "$USER"
-    sudo systemctl start docker
-    sudo systemctl enable docker
+    sudo systemctl enable containerd.service
+    sudo systemctl enable docker.service
   fi
   log "Docker Engine End"
 fi
