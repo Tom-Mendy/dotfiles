@@ -128,14 +128,25 @@ display "Start base-devel"
 sudo paru -Syu --noconfirm base-devel xdg-user-dirs vim wget curl
 log "End base-devel"
 
+# Remove PC Speaker Beep
+sudo rmmod pcspkr
+
 display "ZSH"
 if [ ! "$(command -v zsh)" ]; then
-  sudo paru -Syu --noconfirm zsh ttf-font-awesome
+  sudo dnf install -y zsh fontawesome-fonts
   cp "$SCRIPT_DIR/zsh/.zshrc" "$HOME/.zshrc"
   mkdir "$HOME/.zsh"
   cp "$SCRIPT_DIR/zsh/alias.zsh" "$HOME/.zsh"
   cp "$SCRIPT_DIR/zsh/env.zsh" "$HOME/.zsh"
+  touch "$HOME/.zsh/kubectl.zsh"
   cp "$SCRIPT_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
+  display "Start More icons"
+  if [ ! -d "/tmp/devicons" ]; then
+    git clone https://github.com/vorillaz/devicons.git "/tmp/devicons"
+    sudo cp /tmp/devicons/fonts/devicons.ttf /usr/share/fonts/
+    fc-cache -f -v
+  fi
+  log "End More icons"
 fi
 
 display "Start Flatpak"
@@ -243,14 +254,6 @@ cargo install fcp
 sudo npm i -g safe-rm
 sudo paru -Syu --noconfirm eza tldr bat ripgrep fzf
 log "End Modern replacement"
-
-display "Start More icons"
-if [ ! -d "/tmp/devicons" ]; then
-  git clone https://github.com/vorillaz/devicons.git "/tmp/devicons"
-  sudo cp /tmp/devicons/fonts/devicons.ttf /usr/share/fonts/
-  fc-cache -f -v
-fi
-log "End More icons"
 
 display "Start File Managers"
 # terminal base

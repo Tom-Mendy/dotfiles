@@ -127,18 +127,25 @@ display "Start build-essential"
 sudo nala install -y build-essential xdg-user-dirs vim
 log "End build-essential"
 
+# Remove PC Speaker Beep
+sudo rmmod pcspkr
+
 display "ZSH"
 if [ ! "$(command -v zsh)" ]; then
-  sudo nala install -y zsh fonts-font-awesome
+  sudo dnf install -y zsh fontawesome-fonts
   cp "$SCRIPT_DIR/zsh/.zshrc" "$HOME/.zshrc"
   mkdir "$HOME/.zsh"
   cp "$SCRIPT_DIR/zsh/alias.zsh" "$HOME/.zsh"
   cp "$SCRIPT_DIR/zsh/env.zsh" "$HOME/.zsh"
-  cp "$SCRIPT_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
   touch "$HOME/.zsh/kubectl.zsh"
-  # root
-  sudo cat "$SCRIPT_DIR/zsh/alias.zsh" | sudo tee -a /root/.bashrc
-  sudo cat "$SCRIPT_DIR/zsh/env.zsh" | sudo tee -a /root/.bashrc
+  cp "$SCRIPT_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
+  display "Start More icons"
+  if [ ! -d "/tmp/devicons" ]; then
+    git clone https://github.com/vorillaz/devicons.git "/tmp/devicons"
+    sudo cp /tmp/devicons/fonts/devicons.ttf /usr/share/fonts/
+    fc-cache -f -v
+  fi
+  log "End More icons"
 fi
 
 display "Start Flatpak"
@@ -272,14 +279,6 @@ cargo install eza fcp
 sudo npm i -g safe-rm
 sudo nala install -y tldr bat ripgrep fzf fd-find
 log "End Modern replacement"
-
-display "Start More icons"
-if [ ! -d "/tmp/devicons" ]; then
-  git clone https://github.com/vorillaz/devicons.git "/tmp/devicons"
-  sudo cp /tmp/devicons/fonts/devicons.ttf /usr/share/fonts/
-  fc-cache -f -v
-fi
-log "End More icons"
 
 display "Start File Managers"
 # terminal base
