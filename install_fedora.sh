@@ -74,6 +74,9 @@ sudo systemctl enable --now dnf-automatic-install.timer
 sudo dnf install -y htop vim curl figlet neofetch rofi
 sudo dnf group install -y 'Development Tools'
 
+# Remove PC Speaker Beep
+sudo rmmod pcspkr
+
 display "ZSH"
 if [ ! "$(command -v zsh)" ]; then
   sudo dnf install -y zsh fontawesome-fonts
@@ -83,6 +86,13 @@ if [ ! "$(command -v zsh)" ]; then
   cp "$SCRIPT_DIR/zsh/env.zsh" "$HOME/.zsh"
   touch "$HOME/.zsh/kubectl.zsh"
   cp "$SCRIPT_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
+  display "Start More icons"
+  if [ ! -d "/tmp/devicons" ]; then
+    git clone https://github.com/vorillaz/devicons.git "/tmp/devicons"
+    sudo cp /tmp/devicons/fonts/devicons.ttf /usr/share/fonts/
+    fc-cache -f -v
+  fi
+  log "End More icons"
 fi
 
 display "Start Flatpak"
@@ -163,14 +173,6 @@ cargo install eza fcp
 sudo npm i -g safe-rm
 sudo dnf install -y tldr bat ripgrep fzf fd-find
 log "End Modern replacement"
-
-display "Start More icons"
-if [ ! -d "/tmp/devicons" ]; then
-  git clone https://github.com/vorillaz/devicons.git "/tmp/devicons"
-  sudo cp /tmp/devicons/fonts/devicons.ttf /usr/share/fonts/
-  fc-cache -f -v
-fi
-log "End More icons"
 
 if [ $INSTALL_I3 == true ]; then
   display "Start i3"
