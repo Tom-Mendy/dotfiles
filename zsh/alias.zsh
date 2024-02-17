@@ -20,26 +20,42 @@ if [[ -f ~/.ssh/assh.yml ]]; then
 	alias ssh="assh wrapper ssh --"
 fi
 
-alias Discord="com.discordapp.Discord" "$HOME/.zshrc"
-alias spotify="com.spotify.Client" "$HOME/.zshrc"
-alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux" "$HOME/.zshrc"
+# Flatpak
+if [ "$(command -v com.discordapp.Discord)" ]; then
+  alias Discord="com.discordapp.Discord"
+fi
+if [ "$(command -v com.github.IsmaelMartinez.teams_for_linux)" ]; then
+  alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"
+fi
+if [ "$(command -v com.spotify.Client)" ]; then
+  alias spotify="com.spotify.Client"
+fi
+
+# Debian
 if [ "$(command -v batcat)" ]; then
-  alias bat="batcat" "$HOME/.zshrc"
-  alias cat="batcat --paging=never" "$HOME/.zshrc"
+  alias bat="batcat"
+  alias cat="batcat --paging=never"
 fi
+# Fedora & Arch
 if [ "$(command -v bat)" ]; then
-  alias bat="bat" "$HOME/.zshrc"
-  alias cat="bat --paging=never" "$HOME/.zshrc"
+  alias bat="bat"
+  alias cat="bat --paging=never"
 fi
+
+# ls replacement
 if [ "$(command -v eza)" ]; then
-  alias ls="eza --icons --color=always --group-directories-first" "$HOME/.zshrc"
-  alias la="eza --icons --color=always --group-directories-first -a" "$HOME/.zshrc"
-  alias ll="eza --icons --color=always --group-directories-first -l" "$HOME/.zshrc"
-  alias tree="eza --icons --color=always --group-directories-first --tree" "$HOME/.zshrc"
+  alias ls="eza --icons --color=always --group-directories-first"
+  alias la="eza --icons --color=always --group-directories-first -a"
+  alias ll="eza --icons --color=always --group-directories-first -l"
+  alias tree="eza --icons --color=always --group-directories-first --tree"
 fi
-if [ "$(command -v codium)" ]; then
-  alias code="codium" "$HOME/.zshrc"
-fi
+
+# trash in terminal
 if [ "$(command -v safe-rm)" ]; then
-  alias rm="safe-rm" "$HOME/.zshrc"
+  alias rm="safe-rm"
+fi
+
+# VSCodium
+if [ "$(command -v codium)" ]; then
+  alias code="codium"
 fi
