@@ -20,7 +20,7 @@ if [ ! "$(command -v zsh)" ]; then
   . /etc/os-release
   case $ID in
     arch)
-      sudo paru -Syu --noconfirm zsh ttf-font-awesome
+      sudo pacman -Syu --noconfirm zsh ttf-font-awesome
       ;;
     debian)
       sudo apt install -y zsh fonts-font-awesome
