@@ -47,15 +47,16 @@ zinit snippet OMZ::lib/theme-and-appearance.zsh
 zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
 zinit snippet OMZ::plugins/colorize/colorize.plugin.zsh
 zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
-grep --silent "Debian" /etc/os-release
-if [ $? -eq 0 ]; then
-  zinit snippet OMZ::plugins/debian/debian.plugin.zsh
-fi
 zinit snippet OMZ::plugins/mvn/mvn.plugin.zsh
 zinit snippet OMZ::plugins/npm/npm.plugin.zsh
 zinit snippet OMZ::plugins/pip/pip.plugin.zsh
 zinit snippet OMZ::plugins/rsync/rsync.plugin.zsh
 zinit snippet OMZ::plugins/sudo/sudo.plugin.zsh
+# take the distrubution info
+. /etc/os-release
+if [[ $ID == "debian" ]]; then
+  zinit snippet OMZ::plugins/debian/debian.plugin.zsh
+fi
 
 zinit ice lucid wait='1'
 zinit snippet OMZ::plugins/git/git.plugin.zsh
