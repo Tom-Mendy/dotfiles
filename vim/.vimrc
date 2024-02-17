@@ -11,7 +11,7 @@ autocmd VimEnter *
   \| endif
 
 " set the <leader> to a key
-let mapleader = ","
+let mapleader = " "
 
 " *** plugins ***
 call plug#begin('~/.vim/plugged')
