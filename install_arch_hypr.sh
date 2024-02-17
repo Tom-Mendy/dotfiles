@@ -300,10 +300,6 @@ display "Start Image Viewer"
 sudo paru -Syu --noconfirm viewnior sxiv ueberzug python-pillow
 log "End Image Viewer"
 
-display "Start Wallpaper"
-sudo paru -Syu --noconfirm hyprpaper
-log "End Wallpaper"
-
 display "Start Media Player"
 sudo paru -Syu --noconfirm vlc mpv
 log "End Media Player"
@@ -315,9 +311,11 @@ fi
 log "End Music Player"
 
 display "WINDOW MANAGER Start"
-sudo paru -Syu --noconfirm waybar udiskie
+sudo paru -Syu --noconfirm waybar hyprpaper udiskie
 mkdir -p "$HOME/.config/hypr/"
 cp "$SCRIPT_DIR/hypr/"* "$HOME/.config/hypr/"
+mkdir -p "$HOME/.config/waybar/"
+cp "$SCRIPT_DIR/waybar/"* "$HOME/.config/waybar/"
 # wofi wip
 # mkdir -p "$HOME/.config/rofi/"
 # cp "$SCRIPT_DIR/rofi/"* "$HOME/.config/rofi/"
