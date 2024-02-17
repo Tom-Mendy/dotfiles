@@ -285,7 +285,10 @@ sudo systemctl enable bluetooth
 log "End Bluetooth Support"
 
 display "Start Communication"
-paru -Syu --noconfirm gtkcord4-bin teams-for-linux
+if [ ! "$(command -v com.discordapp.Discord)" ]; then
+  sudo flatpak install -y flathub com.discordapp.Discord
+fi
+paru -Syu --noconfirm teams-for-linux
 log "End Communication"
 
 display "Start Text Editors"

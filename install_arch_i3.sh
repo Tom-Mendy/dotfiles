@@ -314,7 +314,9 @@ sudo paru -Syu --noconfirm numlockx rofi dunst libnotify picom dmenu dbus
 display "Start Menu and Window Managers"
 
 display "Start Communication"
-sudo paru -Syu --noconfirm discord
+if [ ! "$(command -v com.discordapp.Discord)" ]; then
+  sudo flatpak install -y flathub com.discordapp.Discord
+fi
 paru -Syu --noconfirm teams-for-linux
 log "End Communication"
 
