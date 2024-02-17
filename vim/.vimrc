@@ -22,26 +22,26 @@ set shiftwidth=4
 call plug#end()
 " =================================
 
-" set visualbell
+set visualbell
 
 " show the command
-" set showcmd
+set showcmd
 
-" set colorcolumn=80
+set colorcolumn=80
 
 " relative line
-" set nu rnu
-" static number line
-" set number
+set nu rnu
+static number line
+set number
 
 " enable cursor
-" set mouse=a
+set mouse=a
 
 " add other file extention
-" filetype on
+filetype on
 
 " set title
-" set title
+set title
 
 " map save
 map <C-Q> :wq<CR>
@@ -53,7 +53,7 @@ inoremap KJ <Esc>
 vnoremap q <Esc>
 
 " Remove the color for the pool day
-syntax off
+syntax on
 
 set shiftwidth=4
 set tabstop=4

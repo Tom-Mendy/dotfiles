@@ -289,9 +289,9 @@ sudo paru -Syu --noconfirm vim
 cp "$SCRIPT_DIR/vim/.vimrc" "$HOME"
 log "End Text Editors"
 
-display "Start Image Viewer"
-sudo paru -Syu --noconfirm viewnior sxiv ueberzug python-pillow
-log "End Image Viewer"
+# display "Start Image Viewer"
+# sudo paru -Syu --noconfirm viewnior sxiv ueberzug python-pillow
+# log "End Image Viewer"
 
 display "Start Media Player"
 sudo paru -Syu --noconfirm vlc mpv
@@ -309,9 +309,8 @@ mkdir -p "$HOME/.config/hypr/"
 cp "$SCRIPT_DIR/hypr/"* "$HOME/.config/hypr/"
 mkdir -p "$HOME/.config/waybar/"
 cp "$SCRIPT_DIR/waybar/"* "$HOME/.config/waybar/"
-# wofi wip
-# mkdir -p "$HOME/.config/rofi/"
-# cp "$SCRIPT_DIR/rofi/"* "$HOME/.config/rofi/"
+mkdir -p "$HOME/.config/wofi/"
+cp "$SCRIPT_DIR/wofi/"* "$HOME/.config/wofi/"
 display "WINDOW MANAGER End"
 
 display "Bing Wallpaper Start"
