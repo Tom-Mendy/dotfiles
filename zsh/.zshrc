@@ -46,7 +46,7 @@ zinit snippet OMZ::lib/key-bindings.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
 zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
 zinit snippet OMZ::plugins/colorize/colorize.plugin.zsh
-zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh^
+zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
 grep --silent "Debian" /etc/os-release
 if [ $? -eq 0 ]; then
   zinit snippet OMZ::plugins/debian/debian.plugin.zsh
