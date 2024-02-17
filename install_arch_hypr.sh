@@ -223,18 +223,16 @@ display "Start Clipboard"
 sudo paru -Syu --noconfirm cliphist wl-clipboard
 log "End Clipboard"
 
-display "Start System Utilities"
-sudo paru -Syu --noconfirm dialog mtools dosfstools avahi acpi acpid gvfs
-sudo systemctl enable acpid
-log "End System Utilities"
+# display "Start System Utilities"
+# sudo paru -Syu --noconfirm dialog mtools dosfstools avahi acpi acpid gvfs
+# sudo systemctl enable acpid
+# log "End System Utilities"
 
-display "Start Terminal Emulators"
-sudo paru -Syu --noconfirm kitty
-mkdir -p "$HOME/.config/kitty/"
-cp "$SCRIPT_DIR/kitty/kitty.conf" "$HOME/.config/kitty/"
-#make kitty the default terminal
-# sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
-log "End Terminal Emulators"
+# display "Start Terminal Emulators"
+# sudo paru -Syu --noconfirm kitty
+# mkdir -p "$HOME/.config/kitty/"
+# cp "$SCRIPT_DIR/kitty/kitty.conf" "$HOME/.config/kitty/"
+# log "End Terminal Emulators"
 
 display "Start Modern replacement"
 cargo install fcp
@@ -259,11 +257,6 @@ if [ $INSTALL_TUI_FILE_MANAGER == true ]; then
 fi
 log "End File Managers"
 
-display "Start Audio Control Start"
-sudo paru -R --noconfirm pipewire-pulse pipewire-alsa pipewire-bluetooth || true
-sudo paru -Syu --noconfirm pulseaudio pulseaudio-alsa pulseaudio-bluetooth alsa-utils pavucontrol volumeicon
-log "End Audio Control End"
-
 display "Start System Information and Monitoring"
 sudo paru -Syu --noconfirm neofetch htop btop
 mkdir -p "$HOME/.config/neofetch/"
@@ -274,10 +267,10 @@ display "Start Screenshots"
 sudo paru -Syu --noconfirm flameshot
 log "End Screenshots"
 
-display "Start Printer Support"
-sudo paru -Syu --noconfirm cups simple-scan
-sudo systemctl enable cups
-log "End Printer Support"
+# display "Start Printer Support"
+# sudo paru -Syu --noconfirm cups simple-scan
+# sudo systemctl enable cups
+# log "End Printer Support"
 
 display "Start Bluetooth Support"
 sudo paru -Syu --noconfirm bluez bluez-utils blueman
