@@ -40,3 +40,6 @@ if [ ! "$(command -v zsh)" ]; then
   cp "$SCRIPT_DIR/zsh/env.zsh" "$HOME/.zsh"
   cp "$SCRIPT_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
 fi
+
+# make zsh the default shell
+chsh -s /bin/zsh
