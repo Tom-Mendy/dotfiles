@@ -55,6 +55,11 @@ if [ "$(command -v safe-rm)" ]; then
   alias rm="safe-rm"
 fi
 
+# VSCode hyprland
+if [[ $(loginctl show-session "$XDG_SESSION_ID" -p Desktop --value) == "hyprland" ]]; then
+  alias code="code --ozone-platform=wayland 2> /dev/null"
+fi
+
 # VSCodium
 if [ "$(command -v codium)" ]; then
   alias code="codium"
