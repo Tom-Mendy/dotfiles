@@ -327,7 +327,7 @@ sudo paru -Syu --noconfirm zathura
 log "End Document Viewer"
 
 display "Start X Window System and Input"
-sudo paru -Suy --noconfirm xorg-xbacklight xorg-xinput xdotool brightnessctl
+sudo paru -Suy --noconfirm xorg-xbacklight xorg-xinput xdotool brightnessctl volumeicon
 log "End X Window System and Input"
 
 display "WINDOW MANAGER Start"
