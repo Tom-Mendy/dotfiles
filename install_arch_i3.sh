@@ -271,11 +271,6 @@ if [ ! "$(command -v thunar)" ]; then
 fi
 log "End File Managers"
 
-display "Start Audio Control Start"
-sudo paru -R --noconfirm pipewire-pulse pipewire-alsa pipewire-bluetooth || true
-sudo paru -Syu --noconfirm pulseaudio pulseaudio-alsa pulseaudio-bluetooth alsa-utils pavucontrol volumeicon
-log "End Audio Control End"
-
 display "Start System Information and Monitoring"
 sudo paru -Syu --noconfirm neofetch htop btop
 mkdir -p "$HOME/.config/neofetch/"
@@ -286,10 +281,10 @@ display "Start Screenshots"
 sudo paru -Syu --noconfirm flameshot
 log "End Screenshots"
 
-display "Start Printer Support"
-sudo paru -Syu --noconfirm cups simple-scan
-sudo systemctl enable cups
-log "End Printer Support"
+# display "Start Printer Support"
+# sudo paru -Syu --noconfirm cups simple-scan
+# sudo systemctl enable cups
+# log "End Printer Support"
 
 display "Start Bluetooth Support"
 sudo paru -Syu --noconfirm bluez bluez-utils blueman
@@ -297,13 +292,11 @@ sudo systemctl enable bluetooth
 log "End Bluetooth Support"
 
 display "Start Menu and Window Managers"
-sudo paru -Syu --noconfirm numlockx rofi dunst libnotify picom dmenu dbus
+sudo paru -Syu --noconfirm numlockx rofi dunst libnotify picom
 display "Start Menu and Window Managers"
 
 display "Start Communication"
-if [ ! "$(command -v com.discordapp.Discord)" ]; then
-  sudo flatpak install -y flathub com.discordapp.Discord
-fi
+sudo paru -Syu --noconfirm discord
 paru -Syu --noconfirm teams-for-linux
 log "End Communication"
 
@@ -312,9 +305,9 @@ sudo paru -Syu --noconfirm vim
 cp "$SCRIPT_DIR/vim/.vimrc" "$HOME"
 log "End Text Editors"
 
-display "Start Image Viewer"
-sudo paru -Syu --noconfirm viewnior sxiv ueberzug python-pillow
-log "End Image Viewer"
+# display "Start Image Viewer"
+# sudo paru -Syu --noconfirm viewnior sxiv ueberzug python-pillow
+# log "End Image Viewer"
 
 display "Start Wallpaper"
 sudo paru -Syu --noconfirm feh
@@ -335,16 +328,11 @@ sudo paru -Syu --noconfirm zathura
 log "End Document Viewer"
 
 display "Start X Window System and Input"
-sudo paru -Suy --noconfirm xorg xorg-xbacklight xorg-xinput xdotool brightnessctl
+sudo paru -Suy --noconfirm xorg-xbacklight xorg-xinput xdotool brightnessctl
 log "End X Window System and Input"
 
-display "LOCK SCREEN Start"
-sudo paru -Suy --noconfirm ly
-sudo systemctl enable ly.service
-display "LOCK SCREEN End"
-
 display "WINDOW MANAGER Start"
-sudo paru -Syu --noconfirm i3-wm i3status xautolock
+sudo paru -Syu --noconfirm i3status xautolock
 paru -Syu --noconfirm i3lock-fancy
 mkdir -p "$HOME/.config/i3/"
 cp "$SCRIPT_DIR/i3/"* "$HOME/.config/i3/"
