@@ -55,6 +55,12 @@ if [ "$(command -v parcellite)" ]; then
   parcellite &
 fi
 
+## picom
+if [ "$(command -v picom)" ]; then
+  killall picom
+  picom &
+fi
+
 ## lock screen
 if [ "$(command -v xautolock)" ]; then
   killall xautolock
