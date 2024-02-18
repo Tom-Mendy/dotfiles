@@ -58,8 +58,10 @@ INSTALL_I3=false
 
 # Update Submodule
 if [ $INSTALL_MY_SCRIPT == true ]; then
-  git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git "/tmp/auto_set_bing_wallpaper"
-  cp "/tmp/auto_set_bing_wallpaper/auto_wallpaper.sh" "$SCRIPT_DIR/my_scripts"
+  if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
+    git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git "/tmp/auto_set_bing_wallpaper"
+    cp "/tmp/auto_set_bing_wallpaper/auto_wallpaper.sh" "$SCRIPT_DIR/my_scripts"
+  fi
   # copy my scripts
   cp -r "$SCRIPT_DIR/my_scripts" "$HOME"
 fi
