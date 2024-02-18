@@ -76,11 +76,8 @@ fi
 START=$(date +%s)
 LOG_FILE="/var/log/installation.log"
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
-CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
 mkdir -p "$HOME/Desktop" "$HOME/Documents" "$HOME/Downloads" "$HOME/Pictures" "$HOME/Music"
 mkdir -p "$HOME/.config/"
-
-sudo mkdir -p /root/.config/
 
 # define what you want to install
 INSTALL_MY_SCRIPT=true
@@ -93,9 +90,9 @@ INSTALL_HASKELL=true
 INSTALL_DOCKER=true
 INSTALL_PODMAN=true
 INSTALL_TUI_FILE_MANAGER=true
-INSTALL_XPLR=false
 INSTALL_SPOTIFY=false
 INSTALL_BRAVE=false
+INSTALL_FIREFOX=true
 INSTALL_CHROME=true
 INSTALL_VSCODE=true
 INSTALL_VSCODIUM=false
@@ -259,17 +256,6 @@ log "End More icons"
 display "Start File Managers"
 # terminal base
 if [ $INSTALL_TUI_FILE_MANAGER == true ]; then
-  if [ $INSTALL_XPLR == true ]; then
-    if [ ! "$(command -v xplr)" ]; then
-      cargo install --locked --force xplr
-      mkdir -p "$HOME/.config/xplr"
-      xplr_version="$(xplr --version | awk '{print $2}')"
-      echo "version = '${xplr_version:?}'" >"$HOME/.config/xplr/init.lua"
-      cat "$SCRIPT_DIR"/xplr/init.lua >>"$HOME/.config/xplr/init.lua"
-      # app for plugins
-      # go install github.com/claudiodangelis/qrcp@latest
-    fi
-  fi
   if [ ! "$(command -v yazi)" ]; then
     cargo install --locked yazi-fm
   fi
@@ -387,31 +373,17 @@ display "Bing Wallpaper Start"
 if [ ! -f "$HOME/my_scripts/auto_wallpaper.sh" ]; then
   sudo paru -Syu --noconfirm feh
   if [ ! -d "/tmp/auto_set_bing_wallpaper" ]; then
-    git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git /tmp/auto_set_bing_wallpaper
+    git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
   fi
   cp /tmp/auto_set_bing_wallpaper/auto_wallpaper.sh "$HOME/my_scripts"
 fi
 display "Bing Wallpaper End"
 
-# display "Start Kubectl"
-# if [ ! "$(command -v kubectl)" ]; then
-#   sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-#   sudo chmod +x kubectl
-#   sudo mv kubectl /usr/local/bin/
-#   # add kubectl completion for zsh
-#   mkdir -p $HOME/.zsh/
-#   kubectl completion zsh > /tmp/kubectl.zsh
-#   tail -n +20 /tmp/kubectl.zsh > $HOME/.zsh/kubectl.zsh
-#   rm /tmp/kubectl.zsh
-# fi
-# log "End Kubectl"
-
-# display "Start Minikube"
-# if [ ! "$(command -v minikube)" ]; then
-#   curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-#   sudo install minikube-linux-amd64 /usr/local/bin/minikube
-# fi
-# log "End Minikube"
+if [ $INSTALL_FIREFOX == true ]; then
+  display "Start firefox"
+  paru -Syu --noconfirm firefox
+  log "End firefox"
+fi
 
 if [ $INSTALL_CHROME == true ]; then
   display "Start chrome"
@@ -456,10 +428,6 @@ if [ $INSTALL_NVIM == true ]; then
     fi
     sudo paru -Syu --noconfirm xclip
     git clone https://github.com/Tom-Mendy/nvim.git "$HOME/.config/nvim"
-    # make .$HOME/.config/nvim work great for root
-    sudo cp -r "$HOME/.config/nvim" /root/.config/nvim
-    # make nvim the default editor
-    # sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 50
   fi
   log "End Config NeoVim"
 fi

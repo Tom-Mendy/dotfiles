@@ -229,11 +229,12 @@ log "End Clipboard"
 # sudo systemctl enable acpid
 # log "End System Utilities"
 
-# display "Start Terminal Emulators"
+display "Start Terminal Emulators"
+sudo paru -Syu --noconfirm foot
 # sudo paru -Syu --noconfirm kitty
 # mkdir -p "$HOME/.config/kitty/"
 # cp "$SCRIPT_DIR/kitty/kitty.conf" "$HOME/.config/kitty/"
-# log "End Terminal Emulators"
+log "End Terminal Emulators"
 
 display "Start Modern replacement"
 cargo install fcp
@@ -242,11 +243,8 @@ sudo paru -Syu --noconfirm eza tldr bat ripgrep fzf
 log "End Modern replacement"
 
 display "Start More icons"
-if [ ! -d "/tmp/devicons" ]; then
-  git clone https://github.com/vorillaz/devicons.git "/tmp/devicons"
-  sudo cp /tmp/devicons/fonts/devicons.ttf /usr/share/fonts/
-  fc-cache -f -v
-fi
+sudo paru -Syu --noconfirm ttf-nerd-fonts-symbols
+paru -Syu --noconfirm ttf-devicons
 log "End More icons"
 
 display "Start File Managers"
