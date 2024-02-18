@@ -264,7 +264,7 @@ cp -r "$SCRIPT_DIR/neofetch/"* "$HOME/.config/neofetch/"
 log "End System Information and Monitoring"
 
 display "Start Screenshots"
-sudo paru -Syu --noconfirm flameshot
+sudo paru -Syu --noconfirm grim slurp
 log "End Screenshots"
 
 # display "Start Printer Support"
@@ -278,10 +278,10 @@ sudo systemctl enable bluetooth
 log "End Bluetooth Support"
 
 display "Start Communication"
-if [ ! "$(command -v com.discordapp.Discord)" ]; then
-  sudo flatpak install -y flathub com.discordapp.Discord
-fi
+sudo paru -Syu --noconfirm discord
+sudo cp "$SCRIPT_DIR/discord/discord.desktop" "/usr/share/applications/"
 paru -Syu --noconfirm teams-for-linux
+sudo cp "$SCRIPT_DIR/teams-for-linux/teams-for-linux.desktop" "/usr/share/applications/"
 log "End Communication"
 
 display "Start Text Editors"
@@ -304,13 +304,14 @@ fi
 log "End Music Player"
 
 display "WINDOW MANAGER Start"
-sudo paru -Syu --noconfirm waybar hyprpaper udiskie
+sudo paru -Syu --noconfirm waybar hyprpaper udiskie xdg-desktop-portal swaylock
 mkdir -p "$HOME/.config/hypr/"
 cp "$SCRIPT_DIR/hypr/"* "$HOME/.config/hypr/"
 mkdir -p "$HOME/.config/waybar/"
 cp "$SCRIPT_DIR/waybar/"* "$HOME/.config/waybar/"
 mkdir -p "$HOME/.config/wofi/"
 cp "$SCRIPT_DIR/wofi/"* "$HOME/.config/wofi/"
+cp "$SCRIPT_DIR/electron/electron-flags.conf" "$HOME/.config/"
 display "WINDOW MANAGER End"
 
 display "Bing Wallpaper Start"
@@ -344,6 +345,7 @@ fi
 if [ $INSTALL_VSCODE == true ]; then
   display "Start VSCode"
   sudo paru -Syu --noconfirm code
+  cp "$SCRIPT_DIR/vscode/code-flags.conf" "$HOME/.config/"
   log "End VSCode"
 fi
 
