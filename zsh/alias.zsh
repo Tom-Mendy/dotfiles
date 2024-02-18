@@ -55,12 +55,13 @@ if [ "$(command -v safe-rm)" ]; then
   alias rm="safe-rm"
 fi
 
-# VSCode hyprland
-if [[ $(loginctl show-session "$XDG_SESSION_ID" -p Desktop --value) == "hyprland" ]]; then
-  alias code="code --ozone-platform=wayland 2> /dev/null"
-fi
-
 # VSCodium
 if [ "$(command -v codium)" ]; then
   alias code="codium"
+fi
+
+# Electron app hyprland
+if [[ $(loginctl show-session "$XDG_SESSION_ID" -p Desktop --value) == "hyprland" ]]; then
+  alias discord="discord --enable-features=UseOzonePlatform --ozone-platform=wayland"
+  alias teams-for-linux ="teams-for-linux --enable-features=UseOzonePlatform --ozone-platform=wayland"
 fi
