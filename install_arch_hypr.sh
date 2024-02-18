@@ -104,7 +104,8 @@ log "Installation script started."
 
 if [ $INSTALL_MY_SCRIPT == true ]; then
   # Update Submodule
-  git submodule update --init --recursive
+  git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git "/tmp/auto_set_bing_wallpaper"
+  cp "/tmp/auto_set_bing_wallpaper/auto_wallpaper.sh" "$SCRIPT_DIR/my_scripts"
   # copy my scripts
   cp -r "$SCRIPT_DIR/my_scripts" "$HOME"
 fi
@@ -344,7 +345,7 @@ fi
 
 if [ $INSTALL_VSCODE == true ]; then
   display "Start VSCode"
-  sudo paru -Syu --noconfirm code
+  paru -Syu --noconfirm visual-studio-code-bin
   cp "$SCRIPT_DIR/vscode/code-flags.conf" "$HOME/.config/"
   log "End VSCode"
 fi
