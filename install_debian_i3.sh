@@ -106,7 +106,8 @@ sudo apt install -y ntp
 
 if [ $INSTALL_MY_SCRIPT == true ]; then
   # Update Submodule
-  git submodule update --init --recursive
+  git clone https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git "/tmp/auto_set_bing_wallpaper"
+  cp "/tmp/auto_set_bing_wallpaper/auto_wallpaper.sh" "$SCRIPT_DIR/my_scripts"
   # copy my scripts
   cp -r "$SCRIPT_DIR/my_scripts" "$HOME"
 fi
