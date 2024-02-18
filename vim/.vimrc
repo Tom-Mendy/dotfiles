@@ -31,8 +31,8 @@ set colorcolumn=80
 
 " relative line
 set nu rnu
-static number line
-set number
+" static number line
+" set number
 
 " enable cursor
 set mouse=a

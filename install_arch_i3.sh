@@ -248,11 +248,8 @@ sudo paru -Syu --noconfirm eza tldr bat ripgrep fzf
 log "End Modern replacement"
 
 display "Start More icons"
-if [ ! -d "/tmp/devicons" ]; then
-  git clone https://github.com/vorillaz/devicons.git "/tmp/devicons"
-  sudo cp /tmp/devicons/fonts/devicons.ttf /usr/share/fonts/
-  fc-cache -f -v
-fi
+sudo paru -Syu --noconfirm ttf-nerd-fonts-symbols
+paru -Syu --noconfirm ttf-devicons
 log "End More icons"
 
 display "Start File Managers"
@@ -352,7 +349,7 @@ paru -Syu --noconfirm flat-remix-gtk
 paru -Syu --noconfirm xcursor-themes bibata-cursor-theme
 mkdir -p "$HOME/.icons/default"
 cp "$SCRIPT_DIR/icons/default/index.theme" "$HOME/.icons/default"
-ls -s /usr/share/icons/Bibata-Modern-Amber/cursors "$HOME/.icons/default/cursors"
+ln -s /usr/share/icons/Bibata-Modern-Amber/cursors "$HOME/.icons/default/cursors"
 
 # Add config
 mkdir -p "$HOME/.config/gtk-3.0/"
