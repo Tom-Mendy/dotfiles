@@ -191,7 +191,7 @@ fi
 
 if [ $INSTALL_HASKELL == true ]; then
   display "HASKELL Start"
-  sudo paru -Syu --noconfirm ghc
+  sudo paru -Syu --noconfirm ghc stack hindent stylish-haskell hlint
   log "HASKELL End"
 fi
 
