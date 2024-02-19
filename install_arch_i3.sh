@@ -386,7 +386,7 @@ fi
 
 if [ $INSTALL_VSCODE == true ]; then
   display "Start VSCode"
-  sudo paru -Syu --noconfirm code
+  paru -Syu --noconfirm visual-studio-code-bin
   log "End VSCode"
 fi
 
