@@ -3,7 +3,7 @@
 
 :: Browsers
   :: Edge
-  winget install Microsoft.Edge
+  ::winget install Microsoft.Edge
   ::Firefox
   winget install Mozilla.Firefox
   :: Chrome
@@ -15,7 +15,7 @@
   :: Vivaldi
   ::winget install VivaldiTechnologies.Vivaldi
   :: Tor
-  winget install TheTorProject.TorBrowser
+  winget install TorProject.TorBrowser
   :: Chromium
   ::winget install Chromium.Chromium
 
@@ -27,7 +27,7 @@
   :: Zoom
   winget install Zoom.Zoom
   :: Slack
-  winget install SlackTechnologies.Slack
+  ::winget install SlackTechnologies.Slack
 
 :: Media Players
   :: VLC
@@ -53,18 +53,18 @@
   :: Docker
   winget install Docker.DockerDesktop
   :: PuTTY
-  winget install SimonTatham.Putty
+  ::winget install SimonTatham.Putty
   :: VM Software
     :: VirtualBox
     winget install Oracle.VirtualBox
     :: VMware
-    winget install VMware.VMwareWorkstationPro
+    winget install VMware.WorkstationPro
 
 :: Utilities
   :: 7-Zip
   winget install 7zip.7zip
   :: Notepad++
-  winget install NotepadPlusPlus.NotepadPlusPlus
+  winget install Notepad++.Notepad++
   :: AutoHotKey
   winget install AutoHotkey.AutoHotkey
   :: Everything
@@ -76,10 +76,10 @@
   :: Microsoft Office
   winget install Microsoft.Office
   :: Sreen Sharing
-  :: TeamViewer
-  winget install TeamViewer.TeamViewer
-  :: AnyDesk
-  winget install AnyDesk.AnyDesk
+    :: TeamViewer
+    winget install TeamViewer.TeamViewer
+    :: AnyDesk
+    winget install AnyDesk.AnyDesk
 
 :: System Monitoring
   :: HWMonitor
@@ -98,13 +98,13 @@
   :: GeForce Experience
   winget install NVIDIA.GeForceExperience
   :: AMD Adrenalin
-  winget install AMD.AMDSoftware
+  ::winget install AMD.AMDSoftware
 
 :: Peripherals Software
   :: Logitech G Hub
   winget install Logitech.GHUB
   :: Razer Synapse
-  winget install Razer.Synapse
+  ::winget install Razer.Synapse
   :: SteelSeries GG
   winget install SteelSeries.GG
   :: HyperX NGenuity
@@ -119,7 +119,7 @@
     :: Badlion Client
     winget install Badlion.BadlionClient
     :: multiMC
-    winget install MultiMC.MultiMC
+    winget install PrismLauncher.PrismLauncher
   :: Game Launchers
     :: Steam
     winget install Valve.Steam
@@ -132,7 +132,7 @@
     :: Battle.net
     winget install Blizzard.BattleNet
     :: Origin
-    winget install ElectronicArts.Origin
+    winget install ElectronicArts.EADesktop
     :: GOG
     winget install GOG.Galaxy
     :: Oculus
