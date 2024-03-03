@@ -127,7 +127,7 @@ fi
 
 if [ $INSTALL_C == true ]; then
   display "Start C"
-  sudo dnf install -y ncurses-devel SFML-devel
+  sudo dnf install -y gcovr clang ncurses-devel SFML-devel
   sudo dnf group install -y 'C Development Tools and Libraries'
   "$SCRIPT_DIR/criterion/install_criterion.sh"
   log "End C"
