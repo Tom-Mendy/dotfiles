@@ -135,7 +135,7 @@ fi
 
 if [ $INSTALL_HASKELL == true ]; then
   display "Start Haskell"
-  sudo dnf install -y ghc
+  sudo dnf install -y ghc stack
   # curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
   log "End Haskell"
 fi
