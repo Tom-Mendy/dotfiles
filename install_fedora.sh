@@ -244,3 +244,5 @@ if [ $INSTALL_VSCODE == true ]; then
   fi
   log "End VSCode"
 fi
+
+chsh -s /bin/bash
