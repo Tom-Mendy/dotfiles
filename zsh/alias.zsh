@@ -61,7 +61,7 @@ if [ "$(command -v codium)" ]; then
 fi
 
 # Electron app hyprland
-if [[ $(loginctl show-session "$XDG_SESSION_ID" -p Desktop --value) == "hyprland" ]]; then
-  alias discord="discord --enable-features=UseOzonePlatform --ozone-platform=wayland"
-  alias teams-for-linux="teams-for-linux --enable-features=UseOzonePlatform --ozone-platform=wayland"
-fi
+# if [[ $(loginctl show-session "$XDG_SESSION_ID" -p Desktop --value) == "hyprland" ]]; then
+#   alias discord="discord --enable-features=UseOzonePlatform --ozone-platform=wayland"
+#   alias teams-for-linux="teams-for-linux --enable-features=UseOzonePlatform --ozone-platform=wayland"
+# fi
