@@ -137,7 +137,7 @@ if [ $INSTALL_HASKELL == true ]; then
   display "Start Haskell"
   sudo dnf install -y stack
   sudo stack upgrade
-  stack install stylish-haskell hindent ghc
+  stack install stylish-haskell hindent ghc hlint
   # curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
   log "End Haskell"
 fi
