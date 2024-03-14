@@ -25,4 +25,3 @@ export PATH=$HOME/my_scripts:$PATH
 export PATH=/usr/bin:$PATH
 # to make bin in $HOME/.local/bin in the PATH
 export PATH=$HOME/.local/bin:$PATH
-
