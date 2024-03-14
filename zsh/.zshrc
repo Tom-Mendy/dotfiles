@@ -47,17 +47,25 @@ zinit snippet OMZ::lib/theme-and-appearance.zsh
 zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
 zinit snippet OMZ::plugins/colorize/colorize.plugin.zsh
 zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
-zinit snippet OMZ::plugins/mvn/mvn.plugin.zsh
-zinit snippet OMZ::plugins/npm/npm.plugin.zsh
-zinit snippet OMZ::plugins/pip/pip.plugin.zsh
+zinit snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
+zinit snippet OMZ::plugins/compleat/compleat.plugin.zsh
 zinit snippet OMZ::plugins/rsync/rsync.plugin.zsh
 zinit snippet OMZ::plugins/sudo/sudo.plugin.zsh
+zinit snippet OMZ::plugins/podman/podman.plugin.zsh
+# plugin for language
+zinit snippet OMZ::plugins/mvn/mvn.plugin.zsh
+zinit snippet OMZ::plugins/node/node.plugin.zsh
+zinit snippet OMZ::plugins/npm/npm.plugin.zsh
+zinit snippet OMZ::plugins/pip/pip.plugin.zsh
+zinit snippet OMZ::plugins/golang/golang.plugin.zsh
 # take the distrubution info
 . /etc/os-release
 if [[ $ID == "debian" ]]; then
   zinit snippet OMZ::plugins/debian/debian.plugin.zsh
 fi
-
+if [[ $ID == "fedora" ]]; then
+  zinit snippet OMZ::plugins/dnf/dnf.plugin.zsh
+fi
 zinit ice lucid wait='1'
 zinit snippet OMZ::plugins/git/git.plugin.zsh
 
@@ -88,3 +96,5 @@ ZSH_DISABLE_COMPFIX=true
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+[ -f "/home/tmendy/.ghcup/env" ] && source "/home/tmendy/.ghcup/env" # ghcup-env
