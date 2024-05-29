@@ -7,7 +7,7 @@
 
 # find ZappyAI -name '*.py' -exec python3 -m autopep8 --in-place --aggressive --aggressive {} \;
 
-grep_str_sh="^.*.[s][h]$"
+grep_str_sh="^.*[.][s][h]$"
 
 bash_files="$(find "$(pwd)/" -maxdepth 5 -type f -not -path '*/\.*' | grep "$grep_str_sh")"
-shfmt -l -w $bash_files
+shfmt -l -w -s -i 2 -sr $bash_files
