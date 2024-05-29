@@ -1,0 +1,74 @@
+---
+
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+Language: Cpp
+BasedOnStyle: LLVM
+
+# Set the maximum column limit to 80 (As per Epitech rules, think about clear code)
+ColumnLimit: 79
+
+# Use 4 spaces for indentation, no tabulations allowed
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+# if
+AllowShortIfStatementsOnASingleLine: false
+PointerAlignment: Right
+AlwaysBreakBeforeMultilineStrings: false
+ContinuationIndentWidth: 4
+
+# Alignment configurations
+AlignAfterOpenBracket: DontAlign
+AlignOperands: DontAlign
+# AlignTrailingComments: True
+AlignEscapedNewlines: DontAlign
+AlignConsecutiveAssignments: None
+AlignConsecutiveDeclarations: None
+AlignConsecutiveBitFields: None
+AlignConsecutiveMacros: None
+# AlignConsecutiveShortCaseStatements: None
+
+# Control space around certain language constructs
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceBeforeSquareBrackets: False
+SpaceBeforeCpp11BracedList: False
+SpaceInEmptyParentheses: False
+SpacesInAngles: Never
+SpacesInParentheses: False
+SpacesInCStyleCastParentheses: False
+# SpacesInConditionalStatements: True
+
+# Indentation rules for C-Preprocessor directives to reflect their nesting level
+IndentPPDirectives: BeforeHash
+PPIndentWidth: 4
+
+# Enforce newline at the end of files
+InsertNewlineAtEOF: True
+
+# Miscellaneous options
+FixNamespaceComments: True
+MaxEmptyLinesToKeep: 1
+
+# bracket
+BreakBeforeBraces: Custom
+BraceWrapping:
+    AfterCaseLabel: false
+    AfterClass: false
+    AfterControlStatement: Never
+    AfterEnum: true
+    AfterFunction: true
+    AfterNamespace: false
+    AfterStruct: false
+    AfterUnion: false
+    AfterExternBlock: true
+    BeforeCatch: false
+    BeforeElse: false
+    BeforeLambdaBody: false
+    BeforeWhile: false
+    IndentBraces: false
+    SplitEmptyFunction: true
+    SplitEmptyRecord: true
+    SplitEmptyNamespace: true
