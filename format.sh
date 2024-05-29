@@ -10,4 +10,4 @@
 grep_str_sh="^.*[.][s][h]$"
 
 bash_files="$(find "$(pwd)/" -maxdepth 5 -type f -not -path '*/\.*' | grep "$grep_str_sh")"
-shfmt -l -w -s -i 2 -sr $bash_files
+shfmt -l -w -s -i 2 -ci -sr $bash_files
