@@ -1,0 +1,116 @@
+{
+    "security.workspace.trust.untrustedFiles": "open",
+    //place the vertical bar at the 80 characters
+    "editor.rulers": [
+        79
+    ],
+    //show dot where theire is space
+    "editor.renderWhitespace": "all",
+    //position de la sidebar
+    "workbench.sideBar.location": "right",
+    //extention theme icon
+    "workbench.iconTheme": "material-icon-theme",
+    //epitech headers
+    "epitech-c-cpp-headers.username": "",
+    "epitech-c-cpp-headers.login": "tom.mendy@epitech.eu",
+    "epitech-c-cpp-headers.headerType": "post2017",
+    "epitech-c-cpp-headers.usePragmaOnce": false,
+    "epitech-c-cpp-headers.autoGenerateClasses": true,
+    "epitech-c-cpp-headers.indentAccessSpecifiers": true,
+    //git
+    "git.enableSmartCommit": true,
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    //minimap disable
+    "editor.minimap.enabled": false,
+    //clang
+    "C_Cpp.clang_format_fallbackStyle": "{ColumnLimit: '80', BreakBeforeBraces: WebKit, AlignEscapedNewlines: Left, AllowShortIfStatementsOnASingleLine: Never, AllowShortLoopsOnASingleLine: 'false', AlwaysBreakBeforeMultilineStrings: 'false', AlwaysBreakTemplateDeclarations: 'Yes', BinPackArguments: 'false', BinPackParameters: 'false'}",
+    "vscodeGoogleTranslate.preferredLanguage": "English",
+    "debug.onTaskErrors": "debugAnyway",
+    "files.autoSave": "onFocusChange",
+    "terminal.external.linuxExec": "/usr/bin/kitty",
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "liveshare.launcherClient": "visualStudioCode",
+    "workbench.panel.defaultLocation": "right",
+    "redhat.telemetry.enabled": true,
+    "workbench.editorAssociations": {
+        "*.out": "default",
+        "*.bytecode": "hexEditor.hexedit",
+        "*.cor": "hexEditor.hexedit",
+        "*.hex": "hexEditor.hexedit"
+    },
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    //dayNightThemeSwitcher
+    "dayNightThemeSwitcher.dayTheme": "Default High Contrast Light",
+    "dayNightThemeSwitcher.nightTheme": "Default High Contrast",
+    "dayNightThemeSwitcher.toggleDefaultDark": false,
+    "editor.stickyScroll.enabled": true,
+    "git.autofetch": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[c]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+    "window.titleBarStyle": "custom",
+    "git.openRepositoryInParentFolders": "never",
+    "[cpp]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+    "[lua]": {
+        "editor.defaultFormatter": "sumneko.lua"
+    },
+    "terminal.integrated.fontFamily": "'Hack Nerd Font'",
+    "workbench.colorTheme": "Default High Contrast",
+    "haskell.manageHLS": "GHCup",
+    "workbench.colorCustomizations": {},
+    "autoDayNightThemeSwitcher.dayTheme": "Solarized Light",
+    "autoDayNightThemeSwitcher.autoToggleTimeNightBegin": "18:00",
+    "[shellscript]": {
+        "editor.defaultFormatter": "foxundermoon.shell-format"
+    },
+    "cmake.showOptionsMovedNotification": false,
+    "[haskell]": {
+        "editor.defaultFormatter": "sergey-kintsel.haskell-formatter-vscode-extension"
+    },
+    "git.confirmSync": false,
+    "[dockerfile]": {
+        "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+    },
+    "cSpell.userWords": [
+        "bootstap",
+        "EPITECH"
+    ],
+    "cmake.configureOnOpen": true,
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[yaml]": {
+        "editor.defaultFormatter": "PascalReitermann93.vscode-yaml-sort"
+    },
+    "[cmake]": {
+        "editor.defaultFormatter": "cheshirekow.cmake-format"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[xml]": {
+        "editor.defaultFormatter": "fabianlauer.vs-code-xml-format"
+    },
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "go.toolsManagement.autoUpdate": true,
+    "editor.largeFileOptimizations": false,
+    "github.copilot.editor.enableAutoCompletions": true,
+    "tabnine.experimentalAutoImports": true,
+}
