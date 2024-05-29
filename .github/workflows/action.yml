@@ -1,0 +1,35 @@
+name: action
+run-name: ${{github.actor}} verifying my code
+
+on:
+  push:
+    branches-ignore:
+      - " ga-ignore-"
+  pull_request:
+    branches-ignore:
+      - " ga-ignore-"
+
+jobs:
+  auto_format:
+    # Check if the PR is not from a fork
+    runs-on: ubuntu-latest
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+    if: github.repository == 'Tom-Mendy/dotfiles'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install shfmt
+        run: apt update && apt install shfmt -y
+      - name: format file
+        run: ./format.sh
+      - name: Check for modified files
+        id: git-check
+        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
+      - name: Push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        if: steps.git-check.outputs.modified == 'true'
+        with:
+          commit_message: Automated Change
