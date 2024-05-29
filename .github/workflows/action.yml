@@ -22,7 +22,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Install shfmt
-        run: apt update && apt install shfmt -y
+        run: sudo apt update && sudo apt install shfmt -y
       - name: format file
         run: ./format.sh
       - name: Check for modified files
