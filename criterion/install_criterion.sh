@@ -6,8 +6,8 @@ DST="/usr/local"
 SUDO="/usr/bin/sudo"
 
 if [ $UID -eq "0" ]; then
-    SUDO=""
-    echo "[no sudo for root]"
+  SUDO=""
+  echo "[no sudo for root]"
 fi
 
 cd /tmp
@@ -16,16 +16,16 @@ rm -rf $DIR
 
 wget $URL/$TARBALL
 if [ $? != 0 ]; then
-    echo "failed, exiting"
-    exit;
+  echo "failed, exiting"
+  exit
 fi
 
 echo
 echo "untaring $TARBALL"
 tar -xf $TARBALL
 if [ $? != 0 ]; then
-    echo "failed, exiting"
-    exit;
+  echo "failed, exiting"
+  exit
 fi
 
 echo "creating custom ld.conf"

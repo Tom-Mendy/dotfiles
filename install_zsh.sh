@@ -13,7 +13,7 @@ if [[ "/home/$USERNAME" != "$HOME" ]]; then
 fi
 
 # Configuration
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 
 if [ ! "$(command -v zsh)" ]; then
   # take the distrubution info
