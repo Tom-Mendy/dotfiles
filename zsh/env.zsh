@@ -2,11 +2,6 @@
 if [ "$(command -v nvim)" ]; then
     export EDITOR=nvim
 fi
-# to make kitty default editor
-if [ "$(command -v kitty)" ]; then
-    export TERM=xterm-kitty
-fi
-
 # language specific paths
 if [ "$(command -v cargo)" ]; then
     export PATH=$HOME/.cargo/bin:$PATH

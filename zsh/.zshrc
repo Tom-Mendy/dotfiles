@@ -97,4 +97,12 @@ ZSH_DISABLE_COMPFIX=true
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
+# ghcup-env Haskell
 [ -f "/home/tmendy/.ghcup/env" ] && source "/home/tmendy/.ghcup/env" # ghcup-env
+
+# Load Angular CLI autocompletion.
+if [ "$(command -v ng)" ]; then
+  autoload -Uz compinit
+  compinit
+  source <(ng completion script)
+fi
