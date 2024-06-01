@@ -15,31 +15,29 @@ fi
 # Configuration
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 
-if [ ! "$(command -v zsh)" ]; then
-  # take the distrubution info
-  . /etc/os-release
-  case $ID in
-    arch)
-      sudo pacman -Syu --noconfirm zsh ttf-font-awesome
-      ;;
-    debian)
-      sudo apt install -y zsh fonts-font-awesome
-      ;;
-    fedora)
-      sudo dnf install -y zsh fontawesome-fonts
-      ;;
-    *)
-      echo "Unsupported OS"
-      ;;
-  esac
+# take the distrubution info
+. /etc/os-release
+case $ID in
+  arch)
+    sudo pacman -Syu --noconfirm zsh ttf-font-awesome
+    ;;
+  debian)
+    sudo apt install -y zsh fonts-font-awesome
+    ;;
+  fedora)
+    sudo dnf install -y zsh fontawesome-fonts
+    ;;
+  *)
+    echo "Unsupported OS"
+    ;;
+esac
 
-  # copy config
-  cp "$SCRIPT_DIR/zsh/.zshrc" "$HOME/.zshrc"
-  mkdir "$HOME/.zsh"
-  cp "$SCRIPT_DIR/zsh/alias.zsh" "$HOME/.zsh"
-  cp "$SCRIPT_DIR/zsh/env.zsh" "$HOME/.zsh"
-  cp "$SCRIPT_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
-fi
+# copy config
+cp "$SCRIPT_DIR/zsh/.zshrc" "$HOME/.zshrc"
+mkdir -p "$HOME/.zsh"
+cp "$SCRIPT_DIR/zsh/alias.zsh" "$HOME/.zsh"
+cp "$SCRIPT_DIR/zsh/env.zsh" "$HOME/.zsh"
+cp "$SCRIPT_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
 
 # make zsh the default shell
 chsh -s /bin/zsh
