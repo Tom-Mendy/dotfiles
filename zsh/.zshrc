@@ -17,6 +17,9 @@ fi
 # Load zinit
 source ~/.zinit/bin/zinit.zsh
 
+autoload -Uz compinit
+compinit
+
 zinit ice lucid wait='1'
 # Turbo mode with "wait"
 zinit light-mode lucid wait for \
@@ -39,35 +42,34 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice lucid wait='0'
 zinit light zsh-users/zsh-completions
 
-zinit snippet OMZ::lib/completion.zsh
+#zinit snippet OMZ::lib/completion.zsh
 zinit snippet OMZ::lib/grep.zsh
 zinit snippet OMZ::lib/history.zsh
 zinit snippet OMZ::lib/key-bindings.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
-zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
-zinit snippet OMZ::plugins/colorize/colorize.plugin.zsh
-zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
-zinit snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
-zinit snippet OMZ::plugins/compleat/compleat.plugin.zsh
-zinit snippet OMZ::plugins/rsync/rsync.plugin.zsh
-zinit snippet OMZ::plugins/sudo/sudo.plugin.zsh
-zinit snippet OMZ::plugins/podman/podman.plugin.zsh
+zinit snippet OMZP::colored-man-pages
+zinit snippet OMZP::colorize
+zinit snippet OMZP::command-not-found
+#zinit snippet OMZP::common-aliases
+#zinit snippet OMZP::compleat
+zinit snippet OMZP::sudo
+zinit snippet OMZP::podman
 # plugin for language
-zinit snippet OMZ::plugins/mvn/mvn.plugin.zsh
-zinit snippet OMZ::plugins/node/node.plugin.zsh
-zinit snippet OMZ::plugins/npm/npm.plugin.zsh
-zinit snippet OMZ::plugins/pip/pip.plugin.zsh
-zinit snippet OMZ::plugins/golang/golang.plugin.zsh
+zinit snippet OMZP::mvn
+zinit snippet OMZP::node
+zinit snippet OMZP::npm
+zinit snippet OMZP::pip
+zinit snippet OMZP::golang
 # take the distrubution info
 . /etc/os-release
 if [[ $ID == "debian" ]]; then
-  zinit snippet OMZ::plugins/debian/debian.plugin.zsh
+  zinit snippet OMZP::debian
 fi
 if [[ $ID == "fedora" ]]; then
-  zinit snippet OMZ::plugins/dnf/dnf.plugin.zsh
+  zinit snippet OMZP::dnf
 fi
 zinit ice lucid wait='1'
-zinit snippet OMZ::plugins/git/git.plugin.zsh
+zinit snippet OMZP::git
 
 # Gitignore plugin – commands gii and gi
 zinit ice wait"2" lucid
@@ -85,6 +87,7 @@ zinit light romkatv/powerlevel10k
 
 # Set your preferred theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
+
 
 # Load your custom alias and environment settings
 source $HOME/.zsh/env.zsh
@@ -104,12 +107,13 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
+eval "$(zoxide init --cmd cd zsh)"
+
 # ghcup-env Haskell
 [ -f "/home/tmendy/.ghcup/env" ] && source "/home/tmendy/.ghcup/env" # ghcup-env
 
 # Load Angular CLI autocompletion.
 if [ "$(command -v ng)" ]; then
-  autoload -Uz compinit
-  compinit
   source <(ng completion script)
 fi
+
