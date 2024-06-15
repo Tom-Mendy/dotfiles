@@ -1,17 +1,19 @@
- on
+# Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
 
 let
-  nvimConfig = pkgs.fetchgit {
-    url = "https://github.com/Tom-Mendy/nvim";
-    sha256 = "1nvfl2jra45m23ddf2a4diz9n7dypqzbj0rgy64vzv40mkzxg803";
+  nvimConfig = builtins.fetchTree {
+    type = "github";
+    owner = "Tom-Mendy";
+    repo = "nvim";
   };
-  dotfiles = pkgs.fetchgit {
-    url = "https://github.com/Tom-Mendy/dotfiles";
-    sha256 = "171q677nziipv9sxyz1mili59ncalnq0yajyxi1p2whgv50nlv28";
+  dotfiles = builtins.fetchTree {
+    type = "github";
+    owner = "Tom-Mendy";
+    repo = "dotfiles";
   };
 
 in
@@ -25,6 +27,7 @@ in
       <home-manager/nixos>
     ];
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -106,10 +109,12 @@ in
     ];
   };
   home-manager.users.tmendy = { pkgs, ... }: {
-    home.file.".config/nvim".source = nvimConfig;
-    home.file."dotfiles".source = dotfiles;
+    home.file.".config/nvim".source = "${nvimConfig}";
+    home.file."dotfiles".source = "${dotfiles}";
     home.file.".zshrc".source = "${dotfiles}/zsh/.zshrc";
     home.file.".p10k.zsh".source = "${dotfiles}/zsh/.p10k.zsh";
+    home.file.".config/kitty/kitty.conf".source = "${dotfiles}/kitty/kitty.conf";
+    /* home.file."my_scripts".source = "${dotfiles}/my_scripts/"; */
 
     # The state version is required and should stay at the version you
     # originally installed.
@@ -219,3 +224,4 @@ in
   system.stateVersion = "24.05"; # Did you read the comment?
   system.autoUpgrade.enable = true;
 }
+
