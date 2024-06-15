@@ -86,7 +86,7 @@ zinit ice depth"1" # git clone depth
 zinit light romkatv/powerlevel10k
 
 # Set your preferred theme
-ZSH_THEME="powerlevel10k/powerlevel10k
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
 
