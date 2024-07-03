@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "all you camera"
 ls /dev/video*

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ## transparency
 if [ "$(command -v picom)" ]; then

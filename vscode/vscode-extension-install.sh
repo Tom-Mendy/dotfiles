@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 mkdir -p ~/.config/VSCodium/User/
 cp settings.json ~/.config/VSCodium/User/settings.json

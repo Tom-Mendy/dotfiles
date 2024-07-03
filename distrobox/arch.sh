@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # install kitty for compatibility
 sudo pacman -Syyu --noconfirm kitty
