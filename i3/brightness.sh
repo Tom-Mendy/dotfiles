@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # base dir for backlight class
 basedir="/sys/class/backlight/"
