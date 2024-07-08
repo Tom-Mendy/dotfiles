@@ -2,18 +2,20 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, callPackage, ... }:
 
 let
-  nvimConfig = builtins.fetchTree {
-    type = "github";
-    owner = "Tom-Mendy";
-    repo = "nvim";
+  nvimConfig = builtins.fetchGit {
+    url = "https://github.com/Tom-Mendy/nvim.git";
+    ref = "HEAD";
   };
-  dotfiles = builtins.fetchTree {
-    type = "github";
-    owner = "Tom-Mendy";
-    repo = "dotfiles";
+  dotfiles = builtins.fetchGit {
+    url = "https://github.com/Tom-Mendy/dotfiles.git";
+    ref = "HEAD";
+  };
+  autoSetBingWallpaper = builtins.fetchGit {
+    url = "https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git";
+    ref = "HEAD";
   };
 
 in
@@ -60,8 +62,43 @@ in
     LC_TIME = "fr_FR.UTF-8";
   };
 
+  environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+
+  # Enable I3
+  services.displayManager = {
+    defaultSession = "none+i3";
+  };
+  services.xserver = {
+
+    desktopManager = {
+      xterm.enable = false;
+    };
+   
+    windowManager.i3 = {
+      enable = true;
+      extraPackages = with pkgs; [
+        xfce.thunar
+        xfce.thunar-archive-plugin
+        xfce.thunar-media-tags-plugin
+        killall
+        rofi
+        feh
+        dunst
+        i3status # gives you the default i3 status bar
+        blueman
+        nm-tray
+        pulseaudio
+        volumeicon
+        picom
+        parcellite
+        numlockx
+        i3lock-fancy
+        xautolock
+     ];
+    };
+  };
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -110,10 +147,22 @@ in
   };
   home-manager.users.tmendy = { pkgs, ... }: {
     home.file.".config/nvim".source = "${nvimConfig}";
+    home.file."my_scripts/".source = "${dotfiles}/my_scripts";
     home.file."dotfiles".source = "${dotfiles}";
     home.file.".zshrc".source = "${dotfiles}/zsh/.zshrc";
     home.file.".p10k.zsh".source = "${dotfiles}/zsh/.p10k.zsh";
     home.file.".config/kitty/kitty.conf".source = "${dotfiles}/kitty/kitty.conf";
+    # i3
+    home.file.".config/i3".source = "${dotfiles}/i3";
+    home.file.".config/rofi".source = "${dotfiles}/rofi";
+    home.file.".gtkrc-2.0".source = "${dotfiles}/gtk-3.0/.gtkrc-2.0";
+    home.file.".config/gtk-3.0/settings.ini".source = "${dotfiles}/gtk-3.0/settings.ini";
+    home.file.".icons/default/index.theme".source = "${dotfiles}/icons/default/index.theme";
+    home.file."auto_set_bing_wallpaper/".source = "${autoSetBingWallpaper}";
+    # Thunar
+    home.file.".config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml".source = "${dotfiles}/Thunar/thunar.xml";
+    home.file.".config/Thunar/uca.xml".source = "${dotfiles}/Thunar/uca.xml";
+    home.file.".config/Thunar/accels.scm".source = "${dotfiles}/Thunar/accels.scm";
     /* home.file."my_scripts".source = "${dotfiles}/my_scripts/"; */
 
     # The state version is required and should stay at the version you
@@ -122,7 +171,7 @@ in
     programs.home-manager.enable = true;
   };
   home-manager.users.root = { pkgs, ... }: {
-    home.file.".config/nvim".source = nvimConfig;
+    home.file.".config/nvim".source = "${nvimConfig}";
     home.stateVersion = "24.05";
     programs.home-manager.enable = true;
   };
@@ -164,6 +213,9 @@ in
     lua
     # Java
     jdk
+    # PHP
+    php
+    php83Packages.composer
     # Container
     docker
     podman
@@ -174,6 +226,11 @@ in
     vim
     vscode
     zed-editor
+    # Theme
+    lxappearance
+    arc-theme
+    flat-remix-icon-theme
+    bibata-cursors
     # Utility
     bat
     curl
