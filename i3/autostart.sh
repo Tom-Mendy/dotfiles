@@ -62,10 +62,10 @@ if [ "$(command -v picom)" ]; then
 fi
 
 ## lock screen
-if [ "$(command -v xautolock)" ]; then
-  killall xautolock
-  xautolock -time 10 -locker "i3lock-fancy -p" &
-fi
+#if [ "$(command -v xautolock)" ]; then
+#  killall xautolock
+#  xautolock -time 10 -locker "i3lock-fancy -p" &
+#fi
 
 # enable tap to click & natural scroll for my touch pad
 device_id=$(xinput | grep Touch | cut -f 2 | cut -d "=" -f 2)
