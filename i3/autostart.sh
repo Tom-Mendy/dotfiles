@@ -62,6 +62,10 @@ if [ "$(command -v picom)" ]; then
 fi
 
 ## lock screen
+if [ "$(command -v xss-lock)" ]; then
+  killall xss-lock
+  xss-lock -- ~/.config/i3/lock.sh
+fi
 #if [ "$(command -v xautolock)" ]; then
 #  killall xautolock
 #  xautolock -time 10 -locker "i3lock-fancy -p" &
