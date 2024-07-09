@@ -58,7 +58,7 @@ fi
 ## picom
 if [ "$(command -v picom)" ]; then
   killall picom
-  picom &
+  picom -b
 fi
 
 ## lock screen
