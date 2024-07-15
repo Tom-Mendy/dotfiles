@@ -58,7 +58,7 @@ fi
 ## picom
 if [ "$(command -v picom)" ]; then
   killall picom
-  picom --config "$HOME/.config/picom/picom.conf" -b
+  picom --config "$HOME/.config/picom/picom.conf" --vsync -b
 fi
 
 ## lock screen
