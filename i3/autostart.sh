@@ -1,9 +1,14 @@
 #!/bin/sh
 
+# System Sound
+if [ "$(command -v pulseaudio)" ]; then
+  pulseaudio --start
+fi
+
 ## transparency
 if [ "$(command -v picom)" ]; then
   killall picom
-  picom -b
+  picom --vsync -b
 fi
 
 #refresh wallpaper at startup
@@ -33,12 +38,7 @@ if [ "$(command -v blueman-applet)" ]; then
   blueman-applet &
 fi
 
-## Sound
-# System
-if [ "$(command -v pulseaudio)" ]; then
-  pulseaudio --start
-fi
-# applet
+# Sound applet
 if [ "$(command -v volumeicon)" ]; then
   killall volumeicon
   volumeicon &
@@ -53,12 +53,6 @@ fi
 if [ "$(command -v parcellite)" ]; then
   killall parcellite
   parcellite &
-fi
-
-## picom
-if [ "$(command -v picom)" ]; then
-  killall picom
-  picom --config "$HOME/.config/picom/picom.conf" --vsync -b
 fi
 
 ## lock screen
