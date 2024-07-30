@@ -60,6 +60,7 @@ zinit snippet OMZP::node
 zinit snippet OMZP::npm
 zinit snippet OMZP::pip
 zinit snippet OMZP::golang
+zinit snippet OMZP::laravel
 # take the distrubution info
 . /etc/os-release
 if [[ $ID == "debian" ]]; then
@@ -142,15 +143,15 @@ if [ "$(command -v com.spotify.Client)" ]; then
   alias spotify="com.spotify.Client"
 fi
 
-# Debian
-if [ "$(command -v batcat)" ]; then
-  alias bat="batcat"
-  alias cat="batcat --paging=never"
-fi
 # Fedora & Arch
 if [ "$(command -v bat)" ]; then
   alias bat="bat"
   alias cat="bat --paging=never"
+fi
+# Debian & Ubuntu
+if [ "$(command -v batcat)" ]; then
+    alias bat="batcat"
+    alias cat="batcat --paging=never"
 fi
 
 # ls replacement
