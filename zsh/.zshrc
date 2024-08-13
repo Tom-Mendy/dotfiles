@@ -113,9 +113,12 @@ if [ "$(command -v ng)" ]; then
   source <(ng completion script)
 fi
 
-### ALIAS ###
+# TMUX
+export PATH="$HOME/.local/bin":"$PATH"
+bindkey -s ^f "tmux-sessionizer\n"
 
-alias tmux="TERM=screen-256color tmux -2"
+
+### ALIAS ###
 alias grep="grep --color=auto"
 alias e=$EDITOR
 
@@ -125,12 +128,6 @@ alias gitlog="git ls-files -z | xargs -0n1 git blame -w --show-email | perl -n -
 alias proxy='export http_proxy=http://127.0.0.1:1080 https_proxy=http://127.0.0.1:1080 all_proxy=socks5://127.0.0.1:1080'
 alias unproxy='unset http_proxy;unset https_proxy;unset all_proxy'
 alias proxy_http='export all_proxy=http://127.0.0.1:1081'
-
-# assh
-# https://github.com/moul/assh
-if [[ -f ~/.ssh/assh.yml ]]; then
-	alias ssh="assh wrapper ssh --"
-fi
 
 # Flatpak
 if [ "$(command -v com.discordapp.Discord)" ]; then
@@ -184,10 +181,13 @@ if [ "$(command -v go)" ]; then
     export PATH=${PATH}:$(go env GOPATH)/bin
 fi
 
+# ssh
+export TERM=xterm-256color
+
 # to make bin in $HOME/my_scripts in the PATH
 mkdir -p $HOME/my_scripts
 export PATH=$HOME/my_scripts:$PATH
 # to make bin in /usr/bin in the PATH
 export PATH=/usr/bin:$PATH
 # to make bin in $HOME/.local/bin in the PATH
-export PATH=$HOME/.local/bin:$PATH
+export PATH="$HOME/.local/bin":"$PATH"
