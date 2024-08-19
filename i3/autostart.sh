@@ -60,6 +60,12 @@ if [ "$(command -v xss-lock)" ]; then
   killall xss-lock
   xss-lock -- ~/.config/i3/lock.sh
 fi
+
+## keyring
+if [ "$(command -v gnome-keyring-daemon)" ]; then
+  gnome-keyring-daemon -s 
+fi
+
 #if [ "$(command -v xautolock)" ]; then
 #  killall xautolock
 #  xautolock -time 10 -locker "i3lock-fancy -p" &
