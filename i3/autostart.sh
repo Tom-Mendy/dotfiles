@@ -63,7 +63,7 @@ fi
 
 ## keyring
 if [ "$(command -v gnome-keyring-daemon)" ]; then
-  gnome-keyring-daemon -s 
+  gnome-keyring-daemon -s
 fi
 
 #if [ "$(command -v xautolock)" ]; then
