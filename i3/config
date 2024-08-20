@@ -19,7 +19,7 @@ set $ws3    "3:   Browser "
 set $ws4    "4:   Files "
 set $ws5    "5:   Documents "
 set $ws6    "6:   Media "
-set $ws7    "7:   Design "
+set $ws7    "7:   Virtualization "
 set $ws8    "8:   Chat "
 set $ws9    "9:   General "
 set $ws10   "10:   Settings "
@@ -191,6 +191,9 @@ for_window [class="spotify"] move to workspace $ws6 workspace number $ws6 && i3-
 for_window [class="spotify_player"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
 for_window [class="vlc"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
 for_window [class="amberol"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
+for_window [class="Rhythmbox"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
+# Virtualization
+for_window [class="Virt-manager"] move to workspace $ws7 workspace number $ws7 && i3-msg workspace $ws7
 # Chat
 for_window [class="discord"] move to workspace $ws8 workspace number $ws8 && i3-msg workspace $ws8
 for_window [class="teams-for-linux"] move to workspace $ws8 workspace number $ws8 && i3-msg workspace $ws8
