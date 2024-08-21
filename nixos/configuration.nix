@@ -2,9 +2,10 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, callPackage, ... }:
+{ config, pkgs, ... }:
 
 let
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-24.05.tar.gz";
   nvimConfig = builtins.fetchGit {
     url = "https://github.com/Tom-Mendy/nvim.git";
     ref = "HEAD";
@@ -17,30 +18,24 @@ let
     url = "https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git";
     ref = "HEAD";
   };
-  # When using easyCerts=true the IP Address must resolve to the master on creation.
-  # So use simply 127.0.0.1 in that case. Otherwise you will have errors like this https://github.com/NixOS/nixpkgs/issues/59364
-  #kubeMasterIP = "10.1.1.2";
-  /* kubeMasterIP = "127.0.0.1";
-  kubeMasterHostname = "api.kube";
-  kubeMasterAPIServerPort = 6443; */
-
-in
+  tmuxTpmPlugin = builtins.fetchGit {
+    url = "https://github.com/tmux-plugins/tpm";
+    ref = "HEAD";
+  };
+in 
 
 {
-
   imports =
-    [
-      # Include the results of the hardware scan.
+    [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      <home-manager/nixos>
+      (import "${home-manager}/nixos")
     ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "Tom-M-Nixos-Laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -68,11 +63,11 @@ in
     LC_TIME = "fr_FR.UTF-8";
   };
 
-  environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   # Enable I3
+  environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw 
   services.displayManager = {
     defaultSession = "none+i3";
   };
@@ -141,18 +136,19 @@ in
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput.enable = true;
+  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tmendy = {
     isNormalUser = true;
     description = "Tom Mendy";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
     packages = with pkgs; [
-      #  thunderbird
+    #  thunderbird
     ];
   };
+
   home-manager.users.tmendy = { pkgs, ... }: {
     home.file.".config/nvim".source = "${nvimConfig}";
     home.file."my_scripts/".source = "${dotfiles}/my_scripts";
@@ -172,7 +168,10 @@ in
     home.file.".config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml".source = "${dotfiles}/Thunar/thunar.xml";
     home.file.".config/Thunar/uca.xml".source = "${dotfiles}/Thunar/uca.xml";
     home.file.".config/Thunar/accels.scm".source = "${dotfiles}/Thunar/accels.scm";
-    /* home.file."my_scripts".source = "${dotfiles}/my_scripts/"; */
+    # Tmux
+    home.file.".tmux/plugins/tpm".source = "${tmuxTpmPlugin}";
+    home.file.".config/tmux/tmux.conf".source = "${dotfiles}/tmux/tmux.conf";
+    home.file.".local/bin/tmux-sessionizer".source = "${dotfiles}/tmux/tmux-sessionizer";
 
     # The state version is required and should stay at the version you
     # originally installed.
@@ -190,82 +189,49 @@ in
     nerdfonts
   ];
 
+  # Container
+  virtualisation.docker = {
+    enable = true;
+  };
+
+  # Virtualisation
+  # virt-manager
+  virtualisation.libvirtd = {
+  enable = true;
+  qemu = {
+    package = pkgs.qemu_kvm;
+    runAsRoot = true;
+    swtpm.enable = true;
+    ovmf = {
+      enable = true;
+      packages = [(pkgs.OVMF.override {
+        secureBoot = true;
+        tpmSupport = true;
+      }).fd];
+    };
+  };
+};
+  programs.virt-manager.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Enable common container config files in /etc/containers
-  virtualisation.containers.enable = true;
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
-  };
-
-  virtualisation.podman = {
-    enable = true;
-    # Required for containers under podman-compose to be able to talk to each other.
-    defaultNetwork.settings.dns_enabled = true;
-
-  };
-
-  # resolve master hostname
-  /* networking.extraHosts = "${kubeMasterIP} ${kubeMasterHostname}";
-
-  services.kubernetes =
-    {
-      roles = [ "master" "node" ];
-      masterAddress = kubeMasterHostname;
-      apiserverAddress = "https://${kubeMasterHostname}:${toString kubeMasterAPIServerPort}";
-      easyCerts = true;
-      apiserver = {
-        securePort = kubeMasterAPIServerPort;
-        advertiseAddress = kubeMasterIP;
-      };
-
-      # point kubelet and other services to kube-apiserver
-      # kubelet.kubeconfig.server = api;
-      # apiserverAddress = api;
-
-      # use coredns
-      addons.dns.enable = true;
-
-      # needed if you use swap
-      kubelet.extraOpts = "--fail-swap-on=false";
-    }; */
-
-  # K3s
-  /* networking.firewall.allowedTCPPorts = [
-    6443 # k3s: required so that pods can reach the API server (running on port 6443 by default)
-    # 2379 # k3s, etcd clients: required if using a "High Availability Embedded etcd" configuration
-    # 2380 # k3s, etcd peers: required if using a "High Availability Embedded etcd" configuration
-  ];
-  networking.firewall.allowedUDPPorts = [
-    6443
-    # 8472 # k3s, flannel: required if using multi-node for inter-node networking
-  ]; */
-  #services.k3s.enable = true;
-  #services.k3s.role = "server";
-
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.host.enableExtensionPack = true;
-  virtualisation.virtualbox.guest.enable = true;
-  virtualisation.virtualbox.guest.draganddrop = true;
-
-  # Install zsh
   programs.zsh.enable = true;
-
-  # Install firefox.
   programs.firefox.enable = true;
-
-  programs.steam.enable = true;
-
   programs.git.enable = true;
+  programs.tmux.enable = true;
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
 
-  programs.neovim.enable = true;
 
+  environment.variables.EDITOR = "nvim";
+  environment.variables. BROWSER = "firefox";
+  environment.variables.TERMINAL = "kitty";
+
+  # Enable the Flakes feature and the accompanying new nix command-line tool
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -294,18 +260,10 @@ in
     sqlitebrowser
     # Container
     docker-compose
-    podman-compose
-    # kubernetes
-    #certmgr
-    libhugetlbfs
-    cpuset
-    minikube
-    #kompose
-    kubectl
-    kubernetes
-    #k9s
     cri-tools
-    #kubernetes-helm
+    # Virtualisation
+    virtio-win
+    qemu
     # Communication
     discord
     teams-for-linux
@@ -326,12 +284,13 @@ in
     policycoreutils
     inxi
     wirelesstools
-    # Utility
+    # Tmux
+    sesh
+    # Web Browser
     ladybird
     google-chrome
+    # Utility
     logseq
-    tana
-    anytype
     rhythmbox
     bat
     curl
@@ -341,16 +300,14 @@ in
     neofetch
     ripgrep
     safe-rm
-    tmux
     vlc
     unzip
     wget
     xclip
+    xorg.xkill
     yazi
     zoxide
   ];
-
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -380,4 +337,3 @@ in
   system.stateVersion = "24.05"; # Did you read the comment?
   system.autoUpgrade.enable = true;
 }
-
