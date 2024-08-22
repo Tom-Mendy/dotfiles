@@ -186,6 +186,8 @@ for_window [class="firefox"] move to workspace $ws3 workspace number $ws3 && i3-
 for_window [title="Thunar"] move to workspace $ws4 workspace number $ws4 && i3-msg workspace $ws4
 for_window [title="xplr"] move to workspace $ws4 workspace number $ws4 && i3-msg workspace $ws4
 for_window [title="yazi"] move to workspace $ws4 workspace number $ws4 && i3-msg workspace $ws4
+# Documents
+for_window [title="Logseq"] move to workspace $ws5 workspace number $ws5 && i3-msg workspace $ws5
 # Media
 for_window [class="spotify"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
 for_window [class="spotify_player"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
