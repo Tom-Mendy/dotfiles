@@ -168,17 +168,20 @@ fi
 
 # to make nvim default editor
 if [ "$(command -v nvim)" ]; then
-    export EDITOR=nvim
+  export EDITOR=nvim
 fi
 # language specific paths
 if [ "$(command -v cargo)" ]; then
-    export PATH=$HOME/.cargo/bin:$PATH
+  export PATH="${PATH}":"${HOME}/.cargo/bin"
 fi
 if [ "$(command -v flatpak)" ]; then
-    export PATH=/var/lib/flatpak/exports/bin:$PATH
+  export PATH="${PATH}":"/var/lib/flatpak/exports/bin"
 fi
 if [ "$(command -v go)" ]; then
-    export PATH=${PATH}:$(go env GOPATH)/bin
+  export PATH=${PATH}:"$(go env GOPATH)/bin"
+fi
+if [ "$(command -v go)" ]; then
+  export PATH="${PATH}":"$(composer global config bin-dir --absolute)"
 fi
 
 # ssh
