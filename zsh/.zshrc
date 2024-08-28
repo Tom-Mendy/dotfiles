@@ -180,8 +180,8 @@ fi
 if [ "$(command -v go)" ]; then
   export PATH=${PATH}:"$(go env GOPATH)/bin"
 fi
-if [ "$(command -v go)" ]; then
-  export PATH="${PATH}":"$(composer global config bin-dir --absolute)"
+if [ "$(command -v composer)" ]; then
+  export PATH="${PATH}":"$(composer global config bin-dir --absolute 2> /dev/null)"
 fi
 
 # ssh
