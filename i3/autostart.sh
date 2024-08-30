@@ -5,6 +5,10 @@ if [ "$(command -v pulseaudio)" ]; then
   pulseaudio --start
 fi
 
+if [ "$(command -v pipewire)" ]; then
+  pulseaudio --start
+fi
+
 ## transparency
 if [ "$(command -v picom)" ]; then
   killall picom
@@ -26,7 +30,7 @@ if [ "$(command -v nm-tray)" ]; then
   killall nm-tray
   nm-tray &
 fi
-# fedora & arch
+# fedora & arch & nixos
 if [ "$(command -v nm-applet)" ]; then
   killall nm-applet
   nm-applet &
@@ -53,12 +57,6 @@ fi
 if [ "$(command -v parcellite)" ]; then
   killall parcellite
   parcellite &
-fi
-
-## lock screen
-if [ "$(command -v xss-lock)" ]; then
-  killall xss-lock
-  xss-lock -- ~/.config/i3/lock.sh
 fi
 
 ## keyring
