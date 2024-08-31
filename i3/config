@@ -200,7 +200,7 @@ for_window [class="Virt-manager"] move to workspace $ws7 workspace number $ws7 &
 for_window [class="discord"] move to workspace $ws8 workspace number $ws8 && i3-msg workspace $ws8
 for_window [class="teams-for-linux"] move to workspace $ws8 workspace number $ws8 && i3-msg workspace $ws8
 # Setting
-for_window [class="Pavucontrol"] move to workspace $ws10 number $ws10 i3-msg workspace $ws10
+for_window [class="Pavucontrol"] move to workspace $ws10 workspace number $ws10 i3-msg workspace $ws10
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #2b83a6 #2b83a6 #ffffff #dddddd   #2b83a6
@@ -212,9 +212,9 @@ client.background       #212121
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id sh -c 'pactl set-sink-volume @DEFAULT_SINK@ +5% || wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+' && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id sh -c 'pactl set-sink-volume @DEFAULT_SINK@ -5% || wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-' && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id sh -c 'pactl set-sink-mute @DEFAULT_SINK@ toggle || wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle' && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # control brightness
