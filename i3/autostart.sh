@@ -16,7 +16,7 @@ if [ "$(command -v picom)" ]; then
 fi
 
 #refresh wallpaper at startup
-"$HOME/auto_set_bing_wallpaper/auto_wallpaper.sh" &
+"$HOME/auto_wallpaper.sh" &
 
 # notification
 if [ "$(command -v dunst)" ]; then
