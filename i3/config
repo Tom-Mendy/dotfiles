@@ -15,14 +15,14 @@ set $right  l
 # define names for workspaces
 set $ws1    "1:   Terminal "
 set $ws2    "2:   Code "
-set $ws3    "3:   Browser "
-set $ws4    "4:   Files "
-set $ws5    "5:   Documents "
-set $ws6    "6:   Media "
-set $ws7    "7:   Virtualization "
-set $ws8    "8:   Chat "
-set $ws9    "9:   General "
-set $ws10   "10:   Settings "
+set $ws3    "3:   Perso Browser "
+set $ws4    "4:   Pro Browser "
+set $ws5    "5:   Files "
+set $ws6    "6:   Documents "
+set $ws7    "7:   Media "
+set $ws8    "8:   Virtualization "
+set $ws9    "9:   Chat "
+set $ws10   "10:   General "
 
 # use $mod+Mouse to drag floating windows to their wanted position
 floating_modifier $mod
@@ -178,27 +178,28 @@ for_window [urgent=latest]                          focus
 # Code
 for_window [class="VSCodium"] move to workspace $ws2 workspace number $ws1 && i3-msg workspace $ws2
 for_window [class="Code"] move to workspace $ws2 workspace number $ws2 && i3-msg workspace $ws2
-# Browser
+# Perso Browser
 for_window [class="Brave"] move to workspace $ws3 workspace number $ws3 && i3-msg workspace $ws3
-for_window [class="Thorium-browser"] move to workspace $ws3 workspace number $ws3 && i3-msg workspace $ws3
 for_window [class="firefox"] move to workspace $ws3 workspace number $ws3 && i3-msg workspace $ws3
+# Pro Browser
+for_window [class="Google-chrome"] move to workspace $ws4 workspace number $ws4 && i3-msg workspace $ws4
 # File manager
-for_window [title="Thunar"] move to workspace $ws4 workspace number $ws4 && i3-msg workspace $ws4
-for_window [title="xplr"] move to workspace $ws4 workspace number $ws4 && i3-msg workspace $ws4
-for_window [title="yazi"] move to workspace $ws4 workspace number $ws4 && i3-msg workspace $ws4
+for_window [title="Thunar"] move to workspace $ws5 workspace number $ws5 && i3-msg workspace $ws5
+for_window [title="xplr"] move to workspace $ws5 workspace number $ws5 && i3-msg workspace $ws5
+for_window [title="yazi"] move to workspace $ws5 workspace number $ws5 && i3-msg workspace $ws5
 # Documents
-for_window [title="Logseq"] move to workspace $ws5 workspace number $ws5 && i3-msg workspace $ws5
+for_window [title="Logseq"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
 # Media
-for_window [class="spotify"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
-for_window [class="spotify_player"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
-for_window [class="vlc"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
-for_window [class="amberol"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
-for_window [class="Rhythmbox"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
+# for_window [class="spotify"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
+# for_window [class="spotify_player"] move to workspace $ws6 workspace number $ws6 && i3-msg workspace $ws6
+for_window [class="vlc"] move to workspace $ws7 workspace number $ws7 && i3-msg workspace $ws7
+for_window [class="amberol"] move to workspace $ws7 workspace number $ws7 && i3-msg workspace $ws7
+for_window [class="Rhythmbox"] move to workspace $ws7 workspace number $ws7 && i3-msg workspace $ws7
 # Virtualization
-for_window [class="Virt-manager"] move to workspace $ws7 workspace number $ws7 && i3-msg workspace $ws7
+for_window [class="Virt-manager"] move to workspace $ws8 workspace number $ws8 && i3-msg workspace $ws8
 # Chat
-for_window [class="discord"] move to workspace $ws8 workspace number $ws8 && i3-msg workspace $ws8
-for_window [class="teams-for-linux"] move to workspace $ws8 workspace number $ws8 && i3-msg workspace $ws8
+for_window [class="discord"] move to workspace $ws9 workspace number $ws9 && i3-msg workspace $ws9
+for_window [class="teams-for-linux"] move to workspace $ws9 workspace number $ws9 && i3-msg workspace $ws9
 # Setting
 for_window [class="Pavucontrol"] move to workspace $ws10 workspace number $ws10 i3-msg workspace $ws10
 
