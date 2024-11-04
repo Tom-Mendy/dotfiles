@@ -202,6 +202,7 @@ for_window [class="discord"] move to workspace $ws9 workspace number $ws9 && i3-
 for_window [class="teams-for-linux"] move to workspace $ws9 workspace number $ws9 && i3-msg workspace $ws9
 # Setting
 for_window [class="Pavucontrol"] move to workspace $ws10 workspace number $ws10 i3-msg workspace $ws10
+for_window [class=".blueman-manager-wrapped"] move to workspace $ws10 workspace number $ws10 i3-msg workspace $ws10
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #2b83a6 #2b83a6 #ffffff #dddddd   #2b83a6
