@@ -32,6 +32,7 @@ zinit light junegunn/fzf
 zinit light Aloxaf/fzf-tab
 
 zinit load agkozak/zsh-z
+zinit light ajeetdsouza/zoxide
 
 zinit ice lucid wait='0' atinit='zpcompinit'
 zinit light zdharma-continuum/fast-syntax-highlighting
