@@ -52,7 +52,7 @@ zinit snippet OMZP::colored-man-pages
 zinit snippet OMZP::colorize
 zinit snippet OMZP::command-not-found
 #zinit snippet OMZP::common-aliases
-#zinit snippet OMZP::compleat
+#zinit snippet OMZP::complete
 zinit snippet OMZP::sudo
 zinit snippet OMZP::podman
 # plugin for language
@@ -62,7 +62,7 @@ zinit snippet OMZP::npm
 zinit snippet OMZP::pip
 zinit snippet OMZP::golang
 zinit snippet OMZP::laravel
-# take the distrubution info
+# take the distribution info
 . /etc/os-release
 if [[ $ID == "debian" ]]; then
   zinit snippet OMZP::debian
@@ -102,9 +102,11 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+if [ "$(command -v zoxide)" ]; then
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 eval "$(zoxide init --cmd cd zsh)"
+fi
 
 # ghcup-env Haskell
 [ -f "/home/tmendy/.ghcup/env" ] && source "/home/tmendy/.ghcup/env" # ghcup-env
