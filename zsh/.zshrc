@@ -54,14 +54,28 @@ zinit snippet OMZP::command-not-found
 #zinit snippet OMZP::common-aliases
 #zinit snippet OMZP::complete
 zinit snippet OMZP::sudo
+if [ "$(command -v podman)" ]; then
 zinit snippet OMZP::podman
+fi
 # plugin for language
+if [ "$(command -v mvn)" ]; then
 zinit snippet OMZP::mvn
+fi
+if [ "$(command -v node)" ]; then
 zinit snippet OMZP::node
+fi
+if [ "$(command -v npm)" ]; then
 zinit snippet OMZP::npm
+fi
+if [ "$(command -v pip)" ]; then
 zinit snippet OMZP::pip
+fi
+if [ "$(command -v go)" ]; then
 zinit snippet OMZP::golang
+fi
+if [ "$(command -v php)" ]; then
 zinit snippet OMZP::laravel
+fi
 # take the distribution info
 . /etc/os-release
 if [[ $ID == "debian" ]]; then
