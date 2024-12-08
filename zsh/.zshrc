@@ -201,6 +201,11 @@ if [ "$(command -v composer)" ]; then
   export PATH="${PATH}":"$(composer global config bin-dir --absolute 2> /dev/null)"
 fi
 
+# Android SDK
+if [ -d  "${HOME}/Android/Sdk/" ]; then
+  export ANDROID_HOME="${HOME}/Android/Sdk/"
+fi
+
 # ssh
 export TERM=xterm-256color
 
