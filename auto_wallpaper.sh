@@ -55,16 +55,8 @@ case $(loginctl show-session "$XDG_SESSION_ID" -p Type --value) in
     fi
     ;;
   wayland)
-    if [ "$(command -v hyprpaper)" ]; then
-      killall hyprpaper
-      hyprpaper &
-      monitors=$(hyprctl monitors | grep Monitor | awk '{print $2}')
-      hyprctl hyprpaper unload all
-      hyprctl hyprpaper preload "${file}"
-      for monitor in $monitors; do
-        hyprctl hyprpaper wallpaper "$monitor, ${file}"
-      done
-    else
+    # check if hyprpaper is not install
+    if [ ! "$(command -v hyprpaper)" ]; then
       echo "hyprpaper is not install"
     fi
     ;;
