@@ -11,7 +11,7 @@ generate_file() {
   url="$base_url$url"
   rm -f xml_page
 
-  #dowload image
+  #download image
   echo "$url"
   curl "$url" --output wallpaper.jpg
   mv wallpaper.jpg "${file}"
@@ -55,8 +55,16 @@ case $(loginctl show-session "$XDG_SESSION_ID" -p Type --value) in
     fi
     ;;
   wayland)
-    # check if hyprpaper is not install
-    if [ ! "$(command -v hyprpaper)" ]; then
+    if [ "$(command -v hyprpaper)" ]; then
+      killall hyprpaper
+      hyprpaper &
+      monitors=$(hyprctl monitors | grep Monitor | awk '{print $2}')
+      hyprctl hyprpaper unload all
+      hyprctl hyprpaper preload "${file}"
+      for monitor in $monitors; do
+        hyprctl hyprpaper wallpaper "$monitor, ${file}"
+      done
+    else
       echo "hyprpaper is not install"
     fi
     ;;
