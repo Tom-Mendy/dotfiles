@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-file="$HOME/.background-image"
-old_file="$HOME/.background-image_old"
+file="${HOME}/.background-image"
+old_file="${HOME}/.background-image_old"
 
 generate_file() {
   #get image url
@@ -58,12 +58,12 @@ case $(loginctl show-session "$XDG_SESSION_ID" -p Type --value) in
     if [ "$(command -v hyprpaper)" ]; then
       killall hyprpaper
       hyprpaper &
-      monitors=$(hyprctl monitors | grep Monitor | awk '{print $2}')
-      hyprctl hyprpaper unload all
-      hyprctl hyprpaper preload "${file}"
-      for monitor in $monitors; do
-        hyprctl hyprpaper wallpaper "$monitor, ${file}"
-      done
+      # monitors=$(hyprctl monitors | grep Monitor | awk '{print $2}')
+      # hyprctl hyprpaper unload all
+      # hyprctl hyprpaper preload "${file}"
+      # for monitor in $monitors; do
+      #   hyprctl hyprpaper wallpaper "$monitor, ${file}"
+      # done
     else
       echo "hyprpaper is not install"
     fi
