@@ -5,7 +5,10 @@
 { config, pkgs, ... }:
 
 let
-  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-24.05.tar.gz";
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz";
+  unstableTarball =
+    fetchTarball
+      "https://github.com/nixos/nixpkgs/tarball/master";
   nvimConfig = builtins.fetchGit {
     url = "https://github.com/Tom-Mendy/nvim.git";
     ref = "HEAD";
@@ -14,19 +17,18 @@ let
     url = "https://github.com/Tom-Mendy/dotfiles.git";
     ref = "HEAD";
   };
-  autoSetBingWallpaper = builtins.fetchGit {
-    url = "https://github.com/Tom-Mendy/auto_set_bing_wallpaper.git";
-    ref = "HEAD";
-  };
   tmuxTpmPlugin = builtins.fetchGit {
     url = "https://github.com/tmux-plugins/tpm";
     ref = "HEAD";
   };
-in 
+
+  darkmode = false;
+in
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       (import "${home-manager}/nixos")
     ];
@@ -34,6 +36,22 @@ in
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "dotnet-sdk-wrapped-7.0.410"
+    "dotnet-sdk-7.0.410"
+  ];
+
+  nixpkgs.config = {
+    packageOverrides = pkgs: with pkgs; {
+      unstable = import unstableTarball {
+        config = config.nixpkgs.config;
+      };
+    };
+  };
 
   networking.hostName = "Tom-M-Nixos-Laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -63,14 +81,40 @@ in
     LC_TIME = "fr_FR.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  # Enable the gnome-keyring secrets vault.
+  # Will be exposed through DBus to programs willing to store secrets.
+  services.gnome.gnome-keyring.enable = true;
 
-  # Enable I3
-  environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw 
-  services.displayManager = {
-    defaultSession = "none+i3";
+  programs.hyprland = {
+    # Install the packages from nixpkgs
+    enable = true;
+    # Whether to enable XWayland
+    xwayland.enable = true;
+    # package = pkgs.unstable.hyprland;
+
   };
+  programs.hyprlock = {
+    enable = true;
+  };
+  environment.sessionVariables = {
+    # If your cursor becomes invisible
+    WLR_NO_HARDWARE_CURSORS = "1";
+    #  Hint electron apps to use wayland
+    NIXOS_OZONE_WL = "1";
+  };
+  hardware = {
+    #Opengl
+    graphics.enable = true;
+    # opengl.enable = true;
+  };
+
+  services.xserver.enable = true;
+  services.displayManager = {
+    defaultSession = "hyprland";
+    # defaultSession = "none+i3";
+  };
+
+  # I3
   services.xserver = {
 
     desktopManager = {
@@ -81,27 +125,14 @@ in
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
-        xfce.thunar
-        xfce.thunar-archive-plugin
-        xfce.thunar-media-tags-plugin
-        killall
-        rofi
-        feh
-        dunst
-        i3status # gives you the default i3 status bar
-        blueman
-        nm-tray
-        pulseaudio
-        volumeicon
-        picom
-        brightnessctl
-        parcellite
-        numlockx
+        i3status
         i3lock-fancy
-        xss-lock
+        source-sans-pro
       ];
     };
   };
+
+
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -128,7 +159,8 @@ in
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
+    wireplumber.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -143,36 +175,107 @@ in
     isNormalUser = true;
     description = "Tom Mendy";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "input" ];
+
   };
 
-  home-manager.users.tmendy = { pkgs, ... }: {
-    home.file.".config/nvim".source = "${nvimConfig}";
-    home.file."my_scripts/".source = "${dotfiles}/my_scripts";
-    home.file."dotfiles".source = "${dotfiles}";
-    home.file.".zshrc".source = "${dotfiles}/zsh/.zshrc";
-    home.file.".p10k.zsh".source = "${dotfiles}/zsh/.p10k.zsh";
-    home.file.".config/kitty/kitty.conf".source = "${dotfiles}/kitty/kitty.conf";
-    home.file.".bashrc".source = "${dotfiles}/bash/.bashrc";
-    # i3
-    home.file.".config/i3".source = "${dotfiles}/i3";
-    home.file.".config/rofi".source = "${dotfiles}/rofi";
-    home.file.".config/picom".source = "${dotfiles}/picom";
-    home.file.".gtkrc-2.0".source = "${dotfiles}/gtk-3.0/.gtkrc-2.0";
-    home.file.".config/gtk-3.0/settings.ini".source = "${dotfiles}/gtk-3.0/settings.ini";
-    home.file.".icons/default/index.theme".source = "${dotfiles}/icons/default/index.theme";
-    home.file."auto_set_bing_wallpaper/".source = "${autoSetBingWallpaper}";
-    # Thunar
-    home.file.".config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml".source = "${dotfiles}/Thunar/thunar.xml";
-    home.file.".config/Thunar/uca.xml".source = "${dotfiles}/Thunar/uca.xml";
-    home.file.".config/Thunar/accels.scm".source = "${dotfiles}/Thunar/accels.scm";
-    # Tmux
-    home.file.".tmux/plugins/tpm".source = "${tmuxTpmPlugin}";
-    home.file.".config/tmux/tmux.conf".source = "${dotfiles}/tmux/tmux.conf";
-    home.file.".local/bin/tmux-sessionizer".source = "${dotfiles}/tmux/tmux-sessionizer";
+  home-manager.backupFileExtension = "backup";
+  home-manager.users.tmendy = { pkgs, unstable, ... }: {
+    programs.git = {
+      enable = true;
+      userName = "Tom Mendy";
+      userEmail = "tom.mendy@epitech.eu";
+      lfs.enable = true;
+      delta.enable = true;
+    };
+
+    programs.firefox.enable = true;
+    home.sessionVariables = {
+      EDITOR = "nvim";
+      TERM = "kitty";
+      BROWSER = "firefox";
+    };
+
+    nixpkgs.config.allowUnfree = true;
+    home.packages = with pkgs; [
+      # Editor
+      jetbrains.clion
+      jetbrains.goland
+      libreoffice
+      # logseq
+      # Web Browser
+      google-chrome
+      tor-browser
+      # Communication
+      # discord
+      teams-for-linux
+      vesktop # discord wayland
+      # ferdium
+      # Game Software
+      unityhub
+      # Music
+      rhythmbox
+      # Theme
+      lxappearance
+      darkman
+    ];
+
+    home.file = {
+      ".config/nvim".source = "${nvimConfig}";
+      "my_scripts/".source = "${dotfiles}/my_scripts";
+      "dotfiles".source = "${dotfiles}";
+      ".zshrc".source = "${dotfiles}/zsh/.zshrc";
+      ".p10k.zsh".source = "${dotfiles}/zsh/.p10k.zsh";
+      ".config/kitty/kitty.conf".source = "${dotfiles}/kitty/kitty.conf";
+      ".bashrc".source = "${dotfiles}/bash/.bashrc";
+      "auto_wallpaper.sh".source = "${dotfiles}/auto_wallpaper.sh";
+      # i3
+      ".config/i3".source = "${dotfiles}/i3";
+      ".config/rofi".source = "${dotfiles}/rofi";
+      ".config/picom".source = "${dotfiles}/picom";
+      # Thunar
+      ".config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml".source = "${dotfiles}/Thunar/thunar.xml";
+      ".config/Thunar/uca.xml".source = "${dotfiles}/Thunar/uca.xml";
+      ".config/Thunar/accels.scm".source = "${dotfiles}/Thunar/accels.scm";
+      # Tmux
+      ".tmux/plugins/tpm".source = "${tmuxTpmPlugin}";
+      ".config/tmux/tmux.conf".source = "${dotfiles}/tmux/tmux.conf";
+      ".local/bin/tmux-sessionizer".source = "${dotfiles}/tmux/tmux-sessionizer";
+      # Hyprland
+      ".config/waybar".source = "${dotfiles}/waybar";
+      ".config/wofi".source = "${dotfiles}/wofi";
+      ".config/hypr/".source = "${dotfiles}/hypr/";
+    };
+    home.pointerCursor = {
+      gtk.enable = true;
+      # x11.enable = true;
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
+      size = 16;
+    };
+
+    gtk = {
+      enable = true;
+
+      theme = {
+        package = pkgs.arc-theme;
+        name = if (darkmode) then "Arc-Dark" else "Arc";
+      };
+
+      iconTheme = {
+        package = pkgs.flat-remix-icon-theme;
+        name = if (darkmode) then "Flat-Remix-Blue-Dark" else "Flat-Remix-Blue-Light";
+      };
+
+      cursorTheme = {
+        package = pkgs.bibata-cursors;
+        name = "Bibata-Modern-Classic";
+      };
+      font = {
+        name = "Sans";
+        size = 11;
+      };
+    };
 
     # The state version is required and should stay at the version you
     # originally installed.
@@ -186,50 +289,80 @@ in
   };
 
   # Fonts
-  fonts.packages = with pkgs; [
-    nerdfonts
-  ];
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      nerdfonts
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-emoji
+      font-awesome
+      source-han-sans
+      open-sans
+      source-han-sans-japanese
+      source-han-serif-japanese
+    ];
+    fontconfig.defaultFonts = {
+      serif = [ "Noto Serif" "Source Han Serif" ];
+      sansSerif = [ "Open Sans" "Source Han Sans" ];
+      emoji = [ "Noto Color Emoji" ];
+    };
+  };
 
   # Container
   virtualisation.docker = {
     enable = true;
   };
 
+  # Kubernetes
+  networking.firewall.allowedTCPPorts = [
+    # 6443 # k3s: required so that pods can reach the API server (running on port 6443 by default)
+    # 2379 # k3s, etcd clients: required if using a "High Availability Embedded etcd" configuration
+    # 2380 # k3s, etcd peers: required if using a "High Availability Embedded etcd" configuration
+  ];
+  networking.firewall.allowedUDPPorts = [
+    # 8472 # k3s, flannel: required if using multi-node for inter-node networking
+  ];
+  # services.k3s.enable = true;
+  # services.k3s.role = "server";
+  # services.k3s.extraFlags = toString [
+  #   "--debug" # Optionally add additional args to k3s
+  # ];
+
   # Virtualisation
   # virt-manager
   virtualisation.libvirtd = {
-  enable = true;
-  qemu = {
-    package = pkgs.qemu_kvm;
-    runAsRoot = true;
-    swtpm.enable = true;
-    ovmf = {
-      enable = true;
-      packages = [(pkgs.OVMF.override {
-        secureBoot = true;
-        tpmSupport = true;
-      }).fd];
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        enable = true;
+        packages = [
+          (pkgs.OVMF.override {
+            secureBoot = true;
+            tpmSupport = true;
+          }).fd
+        ];
+      };
     };
   };
-};
   programs.virt-manager.enable = true;
+  # virtual box
+  # virtualisation.virtualbox.host.enable = true;
+  # virtualisation.virtualbox.host.enableExtensionPack = true;
+  # users.extraGroups.vboxusers.members = [ "user-with-access-to-virtualbox" ];
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   programs.zsh.enable = true;
-  programs.firefox.enable = true;
-  programs.git.enable = true;
   programs.tmux.enable = true;
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
 
-
-  environment.variables.EDITOR = "nvim";
-  environment.variables. BROWSER = "firefox";
-  environment.variables.TERMINAL = "kitty";
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    # Add any missing dynamic libraries for unpackaged programs
+    # here, NOT in environment.systemPackages
+  ];
 
   # Enable the Flakes feature and the accompanying new nix command-line tool
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -238,77 +371,174 @@ in
   environment.systemPackages = with pkgs; [
     # C language
     criterion
+    gdb
     gcc
     valgrind
+    clang
+    clang-tools
+    cmake
+    gnumake
+    xorg.libX11
+    xorg.libXrandr
+    xorg.libXi
+    xorg.libXcursor
+    xorg.libXinerama
+    xorg.libXrender
+    mesa
+    sfml
     # Haskell
     ghc
     stack
     # Rust
     rustup
+    # Gleam
+    # erlang
+    # rebar3
+    # gleam
     # Python
     python3
+    pipenv
+    python312Packages.pip
+    python312Packages.fastapi
+    python312Packages.python-utils
     # Go
     go
     # Node
     nodejs_22
     # Lua
     lua
+    lua-language-server
+    luajitPackages.luarocks
+    luajitPackages.jsregexp
+    # Nix
+    nixpkgs-fmt
     # Java
-    jdk
+    jdk17
     # PHP
-    php
-    php83Packages.composer
-    sqlitebrowser
+    # php83
+    # php83Packages.composer
+    # php83Extensions.xml
+    # php83Extensions.pcov
+    # php83Extensions.xdebug
+    # phpunit
+    # phpdocumentor
+    # sqlitebrowser
+    # Symfony
+    symfony-cli
     # Container
     docker-compose
     cri-tools
+    hadolint
     # Virtualisation
     virtio-win
     qemu
-    # Communication
-    discord
-    teams-for-linux
+    # vagrant
+    # Configuration management
+    ansible
+    ansible-lint
+    python312Packages.distlib
+    terraform
     # Editor
     vim
-    vscode
-    zed-editor
-    # Theme
-    lxappearance
-    arc-theme
-    flat-remix-icon-theme
-    bibata-cursors
-    darkman
+    unstable.neovim
+    unstable.vscode
+    # unstable.zed-editor
     # Debug-linux
+    moreutils
     iw
     lshw
     busybox
     policycoreutils
     inxi
     wirelesstools
+    file
+    cpu-x
+    putty
+    ntfs3g
+    smartmontools
+    xorg.xdpyinfo
+    pkg-config
+    # latex
+    ghostscript
+    tetex
+    texliveFull
+    # texliveGUST
+    # texliveMedium
+    # texliveTeTeX
+    codespell
     # Tmux
+    python312Packages.libtmux
     sesh
-    # Web Browser
-    ladybird
-    google-chrome
-    tor-browser
+    android-studio
+    android-tools
+    jq
     # Utility
-    logseq
-    rhythmbox
+    twingate
+    gource
+    textpieces
     bat
+    nushell
+    tree-sitter
+    fd
     curl
     eza
     htop
+    btop
     kitty
+    tree
+    ghostty
     neofetch
+    fastfetch
     ripgrep
     safe-rm
     vlc
     unzip
     wget
-    xclip
     xorg.xkill
     yazi
     zoxide
+    libsForQt5.dolphin
+    zip
+    xfce.thunar
+    xfce.thunar-archive-plugin
+    xfce.thunar-media-tags-plugin
+    killall
+    blueman
+    networkmanagerapplet # nm-applet
+    volumeicon
+    brightnessctl
+    parcellite
+    numlockx
+    pavucontrol
+    rustdesk
+    postman
+    man
+    man-pages
+    # X11
+    xclip
+    xorg.xhost
+    picom
+    feh
+    dunst
+    flameshot
+    xfce.xfce4-settings
+    # Wayland
+    rofi-wayland
+    slurp
+    cliphist
+    swaylock
+    grim
+    wl-clipboard
+    mako
+    waybar
+    light
+    wofi
+    hyprpaper
+    pipewire
+    wireplumber
+    xdg-desktop-portal-hyprland
+    libxkbcommon
+    alsa-lib
   ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -327,7 +557,7 @@ in
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -336,6 +566,6 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
   system.autoUpgrade.enable = true;
 }
