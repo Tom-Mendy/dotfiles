@@ -214,6 +214,10 @@ if [ -d  "${HOME}/.bun" ]; then
   export PATH="$BUN_INSTALL/bin:$PATH"
 fi
 
+if [ -d  "${HOME}/.turso" ]; then
+export PATH="${PATH}:${HOME}/.turso"
+fi
+
 # ssh
 export TERM=xterm-256color
 
