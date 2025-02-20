@@ -208,6 +208,12 @@ if [ -d  "${HOME}/Android/Sdk/" ]; then
   export PATH=$PATH:$ANDROID_HOME/platform-tools
 fi
 
+# Bun
+if [ -d  "${HOME}/.bun" ]; then
+  export BUN_INSTALL="$HOME/.bun"
+  export PATH="$BUN_INSTALL/bin:$PATH"
+fi
+
 # ssh
 export TERM=xterm-256color
 
