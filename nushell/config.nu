@@ -9,19 +9,19 @@ def command-exist [command] {
 match  (sys host | get name) {
         "Windows" => {
             $env.config.buffer_editor = "notepad"
-            if (not (command-exist $editor)) {
+            if (command-exist $editor) {
                 $env.config.buffer_editor = $editor
             }
         }
         "Linux" => {
             $env.config.buffer_editor = "nano"
-            if (not (command-exist $editor)) {
+            if (command-exist $editor) {
                 $env.config.buffer_editor = $editor
             }
         }
         "Darwin" => {
             $env.config.buffer_editor = "nano"
-            if (not (command-exist $editor)) {
+            if (command-exist $editor) {
                 $env.config.buffer_editor = $editor
             }
         }
@@ -30,7 +30,7 @@ match  (sys host | get name) {
 # auto install starship if not installed
 # starship is a cross-shell prompt that is fast, customizable and easy to configure
 # https://starship.rs/
-if not (command-exist starship) {
+if (not (command-exist starship)) {
     match (sys host | get name) {
         "Windows" => {
             winget install --id Starship.Starship
@@ -47,7 +47,7 @@ if not (command-exist starship) {
 # auto install carapace if not installed
 # carapace is a cross-shell auto-completion tool that is fast, customizable and easy to configure
 # https://carapace.sh/
-if not (command-exist carapace) {
+if (not (command-exist carapace)) {
     match (sys host | get name) {
         "Windows" => {
             winget install --id rsteube.Carapace
