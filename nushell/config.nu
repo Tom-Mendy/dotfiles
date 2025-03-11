@@ -13,7 +13,7 @@ match  (sys host | get name) {
                 $env.config.buffer_editor = $editor
             }
         }
-        "Linux" => {
+        "Ubuntu" => {
             $env.config.buffer_editor = "nano"
             if (command-exist $editor) {
                 $env.config.buffer_editor = $editor
@@ -35,7 +35,7 @@ if (not (command-exist starship)) {
         "Windows" => {
             winget install --id Starship.Starship
         }
-        "Linux" => {
+        "Ubuntu" => {
             curl -sS https://starship.rs/install.sh | sh
         }
         "Darwin" => {
@@ -52,11 +52,12 @@ if (not (command-exist carapace)) {
         "Windows" => {
             winget install --id rsteube.Carapace
         }
-        "Linux" => {
-            sudo apt-get install starship
+        "Ubuntu" => {
+            # todo
+            sudo apt-get install carapace
         }
         "Darwin" => {
-            brew install starship
+            brew install carapace
         }
     }
 }
@@ -65,5 +66,4 @@ mkdir ($nu.data-dir | path join "vendor/autoload")
 starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 
 # completion load nu
-source ~/.cache/carapace/init.nu
-
+source "~/.cache/carapace/init.nu"
