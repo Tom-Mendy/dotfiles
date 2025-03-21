@@ -13,10 +13,10 @@ confirm() {
   while true; do
     read -rp "Do you want to proceed? [Yes/No/Cancel] " yn
     case $yn in
-    [Yy]*) return 0 ;;
-    [Nn]*) return 1 ;;
-    [Cc]*) exit ;;
-    *) echo "Please answer YES, NO, or CANCEL." ;;
+      [Yy]*) return 0 ;;
+      [Nn]*) return 1 ;;
+      [Cc]*) exit ;;
+      *) echo "Please answer YES, NO, or CANCEL." ;;
     esac
   done
 }
@@ -35,8 +35,8 @@ add_to_file_if_not_in_it() {
   local string="$1"
   local path="$2"
 
-  if ! grep -q "$string" "$path" &>/dev/null; then
-    echo "$string" >>"$path"
+  if ! grep -q "$string" "$path" &> /dev/null; then
+    echo "$string" >> "$path"
     echo "$string added to $path"
   else
     echo "$string already exists in $path"
@@ -75,7 +75,7 @@ fi
 # Configuration
 START=$(date +%s)
 LOG_FILE="/var/log/installation.log"
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 mkdir -p "$HOME/Desktop" "$HOME/Documents" "$HOME/Downloads" "$HOME/Pictures" "$HOME/Music"
 mkdir -p "$HOME/.config/"
 
@@ -134,7 +134,7 @@ log "End Flatpak"
 
 display "Start Rust"
 if [ ! "$(command -v cargo)" ]; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs >/tmp/rust.sh
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
   chmod +x /tmp/rust.sh
   /tmp/rust.sh -y
   rm -f /tmp/rust.sh
@@ -189,10 +189,10 @@ if [ $INSTALL_DOCKER == true ]; then
     sudo chmod a+r /etc/apt/keyrings/docker.asc
     # Add the repository to Apt sources:
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo nala update
     sudo nala install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    if ! getent group docker >/dev/null; then
+    if ! getent group docker > /dev/null; then
       echo "Creating group: docker"
       sudo groupadd docker
     fi
@@ -436,7 +436,7 @@ if [ $INSTALL_VSCODE == true ]; then
   display "Start VSCode"
   if [ ! "$(command -v code)" ]; then
     sudo nala install -y wget gpg apt-transport-https
-    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor >packages.microsoft.gpg
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
     sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
     sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
     rm -f packages.microsoft.gpg
