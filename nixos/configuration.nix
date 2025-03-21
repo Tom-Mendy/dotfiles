@@ -9,14 +9,14 @@ let
   unstableTarball =
     fetchTarball
       "https://github.com/nixos/nixpkgs/tarball/master";
-  nvimConfig = builtins.fetchGit {
-    url = "https://github.com/Tom-Mendy/nvim.git";
-    ref = "HEAD";
-  };
-  dotfiles = builtins.fetchGit {
-    url = "https://github.com/Tom-Mendy/dotfiles.git";
-    ref = "HEAD";
-  };
+  # nvimConfig = builtins.fetchGit {
+  #   url = "https://github.com/Tom-Mendy/nvim.git";
+  #   ref = "HEAD";
+  # };
+  # dotfiles = builtins.fetchGit {
+  #   url = "https://github.com/Tom-Mendy/dotfiles.git";
+  #   ref = "HEAD";
+  # };
   tmuxTpmPlugin = builtins.fetchGit {
     url = "https://github.com/tmux-plugins/tpm";
     ref = "HEAD";
@@ -101,6 +101,9 @@ in
     WLR_NO_HARDWARE_CURSORS = "1";
     #  Hint electron apps to use wayland
     NIXOS_OZONE_WL = "1";
+    # Enable steam compatibility tools
+    STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
+
   };
   hardware = {
     #Opengl
@@ -188,19 +191,19 @@ in
       lfs.enable = true;
       delta.enable = true;
     };
-
     programs.firefox.enable = true;
+
+
     home.sessionVariables = {
-      EDITOR = "nvim";
-      TERM = "kitty";
-      BROWSER = "firefox";
+      STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
     };
+
 
     nixpkgs.config.allowUnfree = true;
     home.packages = with pkgs; [
       # Editor
-      jetbrains.clion
-      jetbrains.goland
+      # jetbrains.clion
+      # jetbrains.goland
       libreoffice
       # logseq
       # Web Browser
@@ -221,30 +224,30 @@ in
     ];
 
     home.file = {
-      ".config/nvim".source = "${nvimConfig}";
-      "my_scripts/".source = "${dotfiles}/my_scripts";
-      "dotfiles".source = "${dotfiles}";
-      ".zshrc".source = "${dotfiles}/zsh/.zshrc";
-      ".p10k.zsh".source = "${dotfiles}/zsh/.p10k.zsh";
-      ".config/kitty/kitty.conf".source = "${dotfiles}/kitty/kitty.conf";
-      ".bashrc".source = "${dotfiles}/bash/.bashrc";
-      "auto_wallpaper.sh".source = "${dotfiles}/auto_wallpaper.sh";
-      # i3
-      ".config/i3".source = "${dotfiles}/i3";
-      ".config/rofi".source = "${dotfiles}/rofi";
-      ".config/picom".source = "${dotfiles}/picom";
-      # Thunar
-      ".config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml".source = "${dotfiles}/Thunar/thunar.xml";
-      ".config/Thunar/uca.xml".source = "${dotfiles}/Thunar/uca.xml";
-      ".config/Thunar/accels.scm".source = "${dotfiles}/Thunar/accels.scm";
-      # Tmux
-      ".tmux/plugins/tpm".source = "${tmuxTpmPlugin}";
-      ".config/tmux/tmux.conf".source = "${dotfiles}/tmux/tmux.conf";
-      ".local/bin/tmux-sessionizer".source = "${dotfiles}/tmux/tmux-sessionizer";
-      # Hyprland
-      ".config/waybar".source = "${dotfiles}/waybar";
-      ".config/wofi".source = "${dotfiles}/wofi";
-      ".config/hypr/".source = "${dotfiles}/hypr/";
+      # ".config/nvim".source = "${nvimConfig}";
+      # "my_scripts/".source = "${dotfiles}/my_scripts";
+      # "dotfiles".source = "${dotfiles}";
+      # ".zshrc".source = "${dotfiles}/zsh/.zshrc";
+      # ".p10k.zsh".source = "${dotfiles}/zsh/.p10k.zsh";
+      # ".config/kitty/kitty.conf".source = "${dotfiles}/kitty/kitty.conf";
+      # ".bashrc".source = "${dotfiles}/bash/.bashrc";
+      # "auto_wallpaper.sh".source = "${dotfiles}/auto_wallpaper.sh";
+      # # i3
+      # ".config/i3".source = "${dotfiles}/i3";
+      # ".config/rofi".source = "${dotfiles}/rofi";
+      # ".config/picom".source = "${dotfiles}/picom";
+      # # Thunar
+      # ".config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml".source = "${dotfiles}/Thunar/thunar.xml";
+      # ".config/Thunar/uca.xml".source = "${dotfiles}/Thunar/uca.xml";
+      # ".config/Thunar/accels.scm".source = "${dotfiles}/Thunar/accels.scm";
+      # # Tmux
+      # ".tmux/plugins/tpm".source = "${tmuxTpmPlugin}";
+      # ".config/tmux/tmux.conf".source = "${dotfiles}/tmux/tmux.conf";
+      # ".local/bin/tmux-sessionizer".source = "${dotfiles}/tmux/tmux-sessionizer";
+      # # Hyprland
+      # ".config/waybar".source = "${dotfiles}/waybar";
+      # ".config/wofi".source = "${dotfiles}/wofi";
+      # ".config/hypr/".source = "${dotfiles}/hypr/";
     };
     home.pointerCursor = {
       gtk.enable = true;
@@ -282,11 +285,6 @@ in
     home.stateVersion = "24.05";
     programs.home-manager.enable = true;
   };
-  home-manager.users.root = { pkgs, ... }: {
-    home.file.".config/nvim".source = "${nvimConfig}";
-    home.stateVersion = "24.05";
-    programs.home-manager.enable = true;
-  };
 
   # Fonts
   fonts = {
@@ -306,6 +304,17 @@ in
       serif = [ "Noto Serif" "Source Han Serif" ];
       sansSerif = [ "Open Sans" "Source Han Sans" ];
       emoji = [ "Noto Color Emoji" ];
+    };
+  };
+
+  # Enable common container config files in /etc/containers
+  virtualisation.containers.enable = true;
+  virtualisation = {
+    podman = {
+      enable = true;
+
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
     };
   };
 
@@ -363,6 +372,20 @@ in
     # Add any missing dynamic libraries for unpackaged programs
     # here, NOT in environment.systemPackages
   ];
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+    extest.enable = true; # Enable the Steam Experimental Client for using Steam Input on Wayland)
+  };
+  # nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+  #   "steam"
+  #   "steam-original"
+  #   "steam-unwrapped"
+  #   "steam-run"
+  # ];
+
 
   # Enable the Flakes feature and the accompanying new nix command-line tool
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -413,7 +436,11 @@ in
     # Nix
     nixpkgs-fmt
     # Java
-    jdk17
+    jdk23
+    maven
+    # Kotlin
+    kotlin
+    gradle
     # PHP
     # php83
     # php83Packages.composer
@@ -424,14 +451,21 @@ in
     # phpdocumentor
     # sqlitebrowser
     # Symfony
-    symfony-cli
+    # symfony-cli
+    # Steam
+    protonup
     # Container
     docker-compose
     cri-tools
     hadolint
+    dive # look into docker image layers
+    podman-tui # status of containers in the terminal
+    podman-compose # start group of containers for dev
+    trivy
     # Virtualisation
     virtio-win
     qemu
+    k6
     # vagrant
     # Configuration management
     ansible
@@ -469,10 +503,21 @@ in
     # Tmux
     python312Packages.libtmux
     sesh
-    android-studio
+    unstable.android-studio
     android-tools
     jq
     # Utility
+    tokei
+    cypress
+    glibc
+    glib
+    atk
+    pango
+    cairo
+    gdk-pixbuf
+    gtk3
+    xorg.libxshmfence
+    pre-commit
     twingate
     gource
     textpieces
@@ -539,6 +584,8 @@ in
     xdg-desktop-portal-hyprland
     libxkbcommon
     alsa-lib
+    gnucobol
+    stow
   ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

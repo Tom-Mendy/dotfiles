@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Check if Script is Run as Root
 if [[ $EUID -ne 1000 ]]; then
@@ -13,23 +13,23 @@ if [[ "/home/$USERNAME" != "$HOME" ]]; then
 fi
 
 # Configuration
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 # take the distrubution info
 . /etc/os-release
 case $ID in
-  arch)
-    sudo pacman -Syu --noconfirm zsh ttf-font-awesome
-    ;;
-  debian)
-    sudo apt install -y zsh fonts-font-awesome
-    ;;
-  fedora)
-    sudo dnf install -y zsh fontawesome-fonts
-    ;;
-  *)
-    echo "Unsupported OS"
-    ;;
+arch)
+  sudo pacman -Syu --noconfirm zsh ttf-font-awesome
+  ;;
+debian)
+  sudo apt install -y zsh fonts-font-awesome
+  ;;
+fedora)
+  sudo dnf install -y zsh fontawesome-fonts
+  ;;
+*)
+  echo "Unsupported OS"
+  ;;
 esac
 
 # copy config

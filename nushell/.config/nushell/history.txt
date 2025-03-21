@@ -1,0 +1,2 @@
+sys host
+long_os_version

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # System Sound
 if [ "$(command -v pulseaudio)" ]; then

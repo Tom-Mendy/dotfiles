@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Enable exit on error
 set -e
@@ -13,10 +13,10 @@ confirm() {
   while true; do
     read -rp "Do you want to proceed? [Yes/No/Cancel] " yn
     case $yn in
-      [Yy]*) return 0 ;;
-      [Nn]*) return 1 ;;
-      [Cc]*) exit ;;
-      *) echo "Please answer YES, NO, or CANCEL." ;;
+    [Yy]*) return 0 ;;
+    [Nn]*) return 1 ;;
+    [Cc]*) exit ;;
+    *) echo "Please answer YES, NO, or CANCEL." ;;
     esac
   done
 }
@@ -35,8 +35,8 @@ add_to_file_if_not_in_it() {
   local string="$1"
   local path="$2"
 
-  if ! grep -q "$string" "$path" &> /dev/null; then
-    echo "$string" >> "$path"
+  if ! grep -q "$string" "$path" &>/dev/null; then
+    echo "$string" >>"$path"
     echo "$string added to $path"
   else
     echo "$string already exists in $path"
@@ -75,7 +75,7 @@ fi
 # Configuration
 START=$(date +%s)
 LOG_FILE="/var/log/installation.log"
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 mkdir -p "$HOME/Desktop" "$HOME/Documents" "$HOME/Downloads" "$HOME/Pictures" "$HOME/Music"
 mkdir -p "$HOME/.config/"
 
@@ -199,7 +199,7 @@ if [ $INSTALL_DOCKER == true ]; then
   display "Docker Engine Start"
   if [ ! "$(command -v docker)" ]; then
     sudo paru -Syu --noconfirm docker
-    if ! getent group docker > /dev/null; then
+    if ! getent group docker >/dev/null; then
       echo "Creating group: docker"
       sudo groupadd docker
     fi
