@@ -42,6 +42,6 @@ if [ ! "$(command -v stow)" ]; then
   esac
 fi
 
-stow -t $HOME -d $SCRIPT_DIR -v -R -S hypr vim i3 nushell kitty tmux zsh wofi rofi waybar
+stow -t $HOME -d $SCRIPT_DIR -v -R -S hypr vim nvim i3 nushell bash kitty tmux zsh wofi rofi waybar
 
 echo "Dotfiles installed successfully"
