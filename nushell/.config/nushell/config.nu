@@ -38,6 +38,9 @@ if (not (command-exist starship)) {
         "Ubuntu" => {
             curl -sS https://starship.rs/install.sh | sh
         }
+        "NixOS" => {
+            curl -sS https://starship.rs/install.sh | sh
+        }
         "Darwin" => {
             brew install starship
         }

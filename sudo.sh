@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/urs/bin/env bash
 
 su -
 apt install sudo git -y

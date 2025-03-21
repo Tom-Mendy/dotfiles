@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Enable exit on error
 set -e
@@ -39,7 +39,7 @@ fi
 # Configuration
 START=$(date +%s)
 LOG_FILE="/var/log/installation.log"
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 CRONTAB_ROOT="$SCRIPT_DIR/crontab/root"
 
 # define what you want to install
@@ -97,7 +97,7 @@ log "End Flatpak"
 
 display "Start Rust"
 if [ ! "$(command -v cargo)" ]; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rust.sh
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs >/tmp/rust.sh
   chmod +x /tmp/rust.sh
   /tmp/rust.sh -y
   rm -f /tmp/rust.sh
@@ -148,7 +148,7 @@ if [ $INSTALL_DOCKER == true ]; then
     sudo dnf -y install dnf-plugins-core
     sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
     sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    if ! getent group docker > /dev/null; then
+    if ! getent group docker >/dev/null; then
       echo "Creating group: docker"
       sudo groupadd docker
     fi
