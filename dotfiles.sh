@@ -16,29 +16,29 @@ if [[ "/home/$USERNAME" != "$HOME" ]]; then
 fi
 
 # Configuration
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 
 if [ ! "$(command -v stow)" ]; then
   echo "Installing stow"
   # take the distrubution info
   . /etc/os-release
   case $ID in
-  arch)
-    sudo pacman -Syu --noconfirm stow
-    ;;
-  debian | ubuntu)
-    sudo apt install -y stow
-    ;;
-  fedora)
-    sudo dnf install -y stow
-    ;;
-  nixos)
-    nix-env -iA nixos.stow
-    ;;
-  *)
-    echo "Unsupported OS"
-    echo "command \"stow\" don't exists on system"
-    ;;
+    arch)
+      sudo pacman -Syu --noconfirm stow
+      ;;
+    debian | ubuntu)
+      sudo apt install -y stow
+      ;;
+    fedora)
+      sudo dnf install -y stow
+      ;;
+    nixos)
+      nix-env -iA nixos.stow
+      ;;
+    *)
+      echo "Unsupported OS"
+      echo "command \"stow\" don't exists on system"
+      ;;
   esac
 fi
 
