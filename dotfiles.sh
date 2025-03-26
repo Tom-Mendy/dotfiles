@@ -20,7 +20,7 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 
 if [ ! "$(command -v stow)" ]; then
   echo "Installing stow"
-  # take the distrubution info
+  # take the distribution info
   . /etc/os-release
   case $ID in
     arch)
@@ -42,6 +42,6 @@ if [ ! "$(command -v stow)" ]; then
   esac
 fi
 
-stow -t $HOME -d $SCRIPT_DIR -v -R -S hypr vim nvim i3 nushell bash kitty tmux zsh wofi rofi waybar
+stow -t "${HOME}" -d "${SCRIPT_DIR}" -v -R -S hypr vim nvim i3 nushell bash kitty tmux zsh wofi rofi waybar ghostty
 
 echo "Dotfiles installed successfully"

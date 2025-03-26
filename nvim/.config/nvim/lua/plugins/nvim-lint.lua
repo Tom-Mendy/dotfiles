@@ -13,9 +13,9 @@ return {
 			javascriptreact = { "eslint_d" },
 			typescriptreact = { "eslint_d" },
 			svelte = { "eslint_d" },
-			kotlin = { "ktlint" },
-			terraform = { "tflint" },
-			ruby = { "standardrb" },
+			-- kotlin = { "ktlint" },
+			-- terraform = { "tflint" },
+			-- ruby = { "standardrb" },
 			markdown = { "markdownlint" },
 		}
 
