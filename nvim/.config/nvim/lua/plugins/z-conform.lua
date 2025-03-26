@@ -1,36 +1,39 @@
 return {
 	"stevearc/conform.nvim",
-	event = { "BufReadPre", "BufNewFile" },
+	dependencies = { "zapling/mason-conform.nvim" },
+	-- event = { "BufReadPre", "BufNewFile" },
 	config = function()
 		local conform = require("conform")
 
 		conform.setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
-				svelte = { "prettierd", "prettier" },
-				astro = { "prettierd", "prettier" },
+				-- svelte = { "prettierd", "prettier" },
+				-- astro = { "prettierd", "prettier" },
 				javascript = { "prettierd", "prettier" },
 				typescript = { "prettierd", "prettier" },
 				javascriptreact = { "prettierd", "prettier" },
 				typescriptreact = { "prettierd", "prettier" },
-				json = { "prettierd", "prettier" },
-				graphql = { "prettierd", "prettier" },
-				java = { "google-java-format" },
-				kotlin = { "ktlint" },
-				ruby = { "standardrb" },
-				markdown = { "prettierd", "prettier" },
-				erb = { "htmlbeautifier" },
-				html = { "htmlbeautifier" },
+				-- json = { "prettierd", "prettier" },
+				-- graphql = { "prettierd", "prettier" },
+				-- java = { "google-java-format" },
+				-- kotlin = { "ktlint" },
+				-- ruby = { "standardrb" },
+				nushell = { "nufmt" },
+				markdown = { "mdformat" },
+				-- erb = { "htmlbeautifier" },
+				-- html = { "htmlbeautifier" },
 				bash = { "beautysh" },
-				proto = { "buf" },
+				-- proto = { "buf" },
 				rust = { "rustfmt" },
+				zig = { "zigfmt" },
 				yaml = { "yamlfix" },
 				toml = { "taplo" },
 				css = { "prettierd", "prettier" },
-				scss = { "prettierd", "prettier" },
+				-- scss = { "prettierd", "prettier" },
 				sh = { "shellcheck" },
-				go = { "gofmt", "goimports" },
-				nix = { "nixpkgs_fmt" },
+				go = { "gofumpt", "goimports" },
+				-- nix = { "nixpkgs_fmt" },
 				-- Use the "*" filetype to run formatters on all filetypes.
 				["*"] = { "codespell" },
 				-- Use the "_" filetype to run formatters on filetypes that don't
@@ -71,5 +74,7 @@ return {
 				timeout_ms = 1000,
 			})
 		end, { desc = "Format file or range (in visual mode)" })
+
+		require("mason-conform").setup()
 	end,
 }

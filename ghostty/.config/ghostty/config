@@ -1,0 +1,5 @@
+# theme = dark:catppuccin-frappe,light:catppuccin-latte
+theme = catppuccin-frappe
+
+background-opacity = 0.9
+
