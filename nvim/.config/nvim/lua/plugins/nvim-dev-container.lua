@@ -64,14 +64,14 @@ return {
 				},
 				neovim_data = {
 					-- enables mounting local data to /root/.local/share/nvim in container
-					enabled = true,
+					enabled = false,
 					-- no options by default
 					options = {},
 				},
 				-- Only useful if using neovim 0.8.0+
 				neovim_state = {
 					-- enables mounting local state to /root/.local/state/nvim in container
-					enabled = true,
+					enabled = false,
 					-- no options by default
 					options = {},
 				},

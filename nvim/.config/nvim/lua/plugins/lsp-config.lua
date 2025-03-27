@@ -66,15 +66,33 @@ return {
 		--
 		--  If you want to override the default filetypes that your language server will attach to you can
 		--  define the property 'filetypes' to the map in question.
-		local servers = {
-			clangd = {},
-			dockerls = {},
-			docker_compose_language_service = {},
-			pyright = {},
-			rust_analyzer = {},
-			ts_ls = {},
-			gopls = {},
-			rnix = {}, -- Nix language server
+		local command_exists = require("utils").command_exists
+
+		local servers = {}
+		if command_exists("go") then
+			servers.gopls = {}
+		end
+		if command_exists("npm") then
+			servers.ts_ls = {}
+		end
+		if command_exists("cargo") then
+			servers.rust_analyzer = {}
+		end
+		if command_exists("gcc") then
+			servers.clangd = {}
+		end
+		if command_exists("docker") or command_exists("podman") then
+			servers.dockerls = {}
+			servers.docker_compose_language_service = {}
+		end
+		if command_exists("python") then
+			servers.pyright = {}
+		end
+		if command_exists("nix") then
+			servers.rnix = {} -- Nix language server
+		end
+
+		servers = {
 			html = { filetypes = { "html", "twig", "hbs" } },
 			lua_ls = {
 				Lua = {

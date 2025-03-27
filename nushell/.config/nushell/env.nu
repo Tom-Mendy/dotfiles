@@ -17,6 +17,10 @@ if ((which carapace | length) > 0) {
 
 alias c = clear
 
+# tmux
+$env.Path = $env.Path + $":($env.HOME)/.local/bin"
+# $env.PATH = ($env.PATH | prepend $"($env.HOME)/.local/bin")
+alias ts = zsh -c ~/.local/bin/tmux-sessionizer
 
 # language specific paths
 if (command-exist cargo) {

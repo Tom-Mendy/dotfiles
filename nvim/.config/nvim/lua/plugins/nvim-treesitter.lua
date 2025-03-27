@@ -7,9 +7,7 @@ return {
 	},
 	build = ":TSUpdate",
 	config = function()
-		local conform = require("conform")
-
-		conform.setup({
+		require("nvim-treesitter.configs").setup({
 			ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "jsonc" },
 		})
 	end,
