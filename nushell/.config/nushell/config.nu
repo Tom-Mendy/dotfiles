@@ -75,6 +75,25 @@ if (not (command-exist carapace)) {
 # completion load nu
 source "~/.cache/carapace/init.nu"
 
+
+# auto install fzf if not installed
+if (not (command-exist fzf)) {
+    match (sys host | get name) {
+        "Windows" => {
+            winget install --id junegunn.fzf
+        }
+        "Ubuntu" => {
+            sudo apt install fzf
+        }
+        "NixOS" => {
+            nix-env -iA nixos.fzf
+        }
+        "Darwin" => {
+            brew install fzf
+        }
+    }
+}
+
 mkdir ($nu.data-dir | path join "vendor/plugins")
 # alias finder
 if (not  (echo ($nu.data-dir | path join "vendor/plugins/alias-finder.nu") | path exists)) {

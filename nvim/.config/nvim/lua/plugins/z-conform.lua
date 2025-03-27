@@ -4,42 +4,37 @@ return {
 	-- event = { "BufReadPre", "BufNewFile" },
 	config = function()
 		local conform = require("conform")
+		local command_exists = require("utils").command_exists
 
+		local formatters_list = {
+			lua = { "stylua" },
+			markdown = { "mdformat" },
+			bash = { "beautysh" },
+			yaml = { "yamlfix" },
+			toml = { "taplo" },
+			css = { "prettierd", "prettier" },
+			sh = { "shellcheck" },
+			-- Use the "*" filetype to run formatters on all filetypes.
+			["*"] = { "codespell" },
+			-- Use the "_" filetype to run formatters on filetypes that don't
+			-- have other formatters configured.
+			["_"] = { "trim_whitespace" },
+		}
+		if command_exists("npm") then
+			formatters_list.javascript = { "prettierd", "prettier" }
+			formatters_list.typescript = { "prettierd", "prettier" }
+			formatters_list.javascriptreact = { "prettierd", "prettier" }
+			formatters_list.typescriptreact = { "prettierd", "prettier" }
+			formatters_list.svelte = { "prettierd", "prettier" }
+		end
+		if command_exists("go") then
+			formatters_list.go = { "gofumpt", "goimports" }
+		end
+		if command_exists("cargo") then
+			formatters_list.rust = { "rustfmt" }
+		end
 		conform.setup({
-			formatters_by_ft = {
-				lua = { "stylua" },
-				-- svelte = { "prettierd", "prettier" },
-				-- astro = { "prettierd", "prettier" },
-				javascript = { "prettierd", "prettier" },
-				typescript = { "prettierd", "prettier" },
-				javascriptreact = { "prettierd", "prettier" },
-				typescriptreact = { "prettierd", "prettier" },
-				-- json = { "prettierd", "prettier" },
-				-- graphql = { "prettierd", "prettier" },
-				-- java = { "google-java-format" },
-				-- kotlin = { "ktlint" },
-				-- ruby = { "standardrb" },
-				nushell = { "nufmt" },
-				markdown = { "mdformat" },
-				-- erb = { "htmlbeautifier" },
-				-- html = { "htmlbeautifier" },
-				bash = { "beautysh" },
-				-- proto = { "buf" },
-				rust = { "rustfmt" },
-				zig = { "zigfmt" },
-				yaml = { "yamlfix" },
-				toml = { "taplo" },
-				css = { "prettierd", "prettier" },
-				-- scss = { "prettierd", "prettier" },
-				sh = { "shellcheck" },
-				go = { "gofumpt", "goimports" },
-				-- nix = { "nixpkgs_fmt" },
-				-- Use the "*" filetype to run formatters on all filetypes.
-				["*"] = { "codespell" },
-				-- Use the "_" filetype to run formatters on filetypes that don't
-				-- have other formatters configured.
-				["_"] = { "trim_whitespace" },
-			},
+			formatters_by_ft = formatters_list,
 			-- Set this to change the default values when calling conform.format()
 			-- This will also affect the default values for format_on_save/format_after_save
 			default_format_opts = {
