@@ -5,8 +5,7 @@ def command-exist [command] {
 
 
 if (echo "/usr/local/bin" | path exists) {
-    $env.Path = ($env.Path | append "/usr/local/bin")
-
+    $env.Path = $env.Path | append "/usr/local/bin"
 }
 
 # carapace
@@ -19,21 +18,21 @@ if ((which carapace | length) > 0) {
 alias c = clear
 
 # tmux
-$env.Path = ($env.Path | append $"($env.HOME)/.local/bin")
+$env.Path = $env.Path | append $"($env.HOME)/.local/bin"
 alias ts = zsh -c ~/.local/bin/tmux-sessionizer
 
 # language specific paths
 if (command-exist cargo) {
-  $env.Path = ($env.Path |  append ($env.HOME | path join ".cargo/bin"))
+  $env.Path = $env.Path |  append ($env.HOME | path join ".cargo/bin")
 }
 if (command-exist flatpak) {
-  $env.Path = ($env.Path |  append "/var/lib/flatpak/exports/bin")
+  $env.Path = $env.Path |  append "/var/lib/flatpak/exports/bin"
 }
 if (command-exist go) {
-  $env.Path = ($env.Path |  append (go env GOPATH) | append "/bin")
+  $env.Path = $env.Path |  append ((go env GOPATH) + "/bin")
 }
 if (command-exist composer) {
-  $env.Path = ($env.Path |  append (composer global config bin-dir --absolute err> /dev/null))
+  $env.Path = $env.Path |  append (composer global config bin-dir --absolute err> /dev/null)
 }
 
 # Android SDK
