@@ -32,7 +32,30 @@ zinit light junegunn/fzf
 zinit light Aloxaf/fzf-tab
 
 zinit load agkozak/zsh-z
-zinit light ajeetdsouza/zoxide
+
+if [ -n "$(command -v zoxide)" ]; then
+  . /etc/os-release
+  case "${$ID}" in
+    ubuntu|debian)
+      curl -fsSL https://apt.cli.rs/pubkey.asc | sudo tee -a /usr/share/keyrings/rust-tools.asc
+      curl -fsSL https://apt.cli.rs/rust-tools.list | sudo tee /etc/apt/sources.list.d/rust-tools.list
+      sudo apt update
+      sudo apt install -y zoxide
+    ;;
+    fedora|centos|rocky)
+      sudo dnf install -y zoxide
+    ;;
+    arch|manjaro)
+      sudo pacman -S --noconfirm zoxide
+    ;;
+    *)
+      echo "Unsupported OS: $ID to install zoxide manually visit https://github.com/ajeetdsouza/zoxide#installation"
+    ;;
+  esac
+fi
+if [ -n "$(command -v zoxide)" ]; then
+  zinit light ajeetdsouza/zoxide
+fi
 
 zinit ice lucid wait='0' atinit='zpcompinit'
 zinit light zdharma-continuum/fast-syntax-highlighting
