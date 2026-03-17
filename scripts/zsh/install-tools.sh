@@ -35,7 +35,7 @@ use_tarball() {
   local checksum="$2"
   local dest="$3"
 
-  if [[ -f "$tarball" && -f "$checksum" ]]; then
+  if [[ -f $tarball && -f $checksum ]]; then
     if (cd "$(dirname "$tarball")" && sha256sum -c "$(basename "$checksum")"); then
       log "Using offline cache $(basename "$tarball")"
       rm -rf "$dest"
