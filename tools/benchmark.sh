@@ -20,7 +20,7 @@ else
   echo "[bench] updating zsh-bench" >&2
   git -C "$BENCH_DIR" pull --ff-only || true
 fi
-if [[ -n "$ZSH_BENCH_REF" ]]; then
+if [[ -n $ZSH_BENCH_REF ]]; then
   git -C "$BENCH_DIR" checkout -q "$ZSH_BENCH_REF" || echo "[bench] warning: cannot checkout $ZSH_BENCH_REF"
 fi
 
@@ -48,7 +48,7 @@ parse_exit_ms() {
 COLD_MS=$(parse_exit_ms "$OUT_TXT")
 WARM_MS=$(parse_exit_ms "$OUT_TXT_WARM")
 # Detect bench ref if available
-BENCH_REF_RESOLVED=$(git -C "$BENCH_DIR" rev-parse --short HEAD 2>/dev/null || echo "n/a")
+BENCH_REF_RESOLVED=$(git -C "$BENCH_DIR" rev-parse --short HEAD 2> /dev/null || echo "n/a")
 
 {
   echo "# zsh-bench"
@@ -73,9 +73,9 @@ echo "[bench] report generated at $OUT_MD"
 
 # Optional: compinit profiling (top 5)
 PROF_TXT="$ARTIFACT_DIR/zsh-prof.txt"
-if command -v zsh >/dev/null; then
-  ZDOTDIR="$ROOT/zsh" zsh -lc 'zmodload zsh/zprof; source "$ZDOTDIR/.zshrc"; zprof' >"$PROF_TXT" 2>&1 || true
-  if [[ -s "$PROF_TXT" ]]; then
+if command -v zsh > /dev/null; then
+  ZDOTDIR="$ROOT/zsh" zsh -lc 'zmodload zsh/zprof; source "$ZDOTDIR/.zshrc"; zprof' > "$PROF_TXT" 2>&1 || true
+  if [[ -s $PROF_TXT ]]; then
     {
       echo
       echo "## zprof (top 10)"
