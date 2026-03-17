@@ -20,6 +20,7 @@ fi
 # -----------------------------
 ZSH_COMPLETION_DIR="$HOME/.zsh/completions"
 [[ -d $ZSH_COMPLETION_DIR ]] || mkdir -p $ZSH_COMPLETION_DIR
+# Prepend our cached completions but keep system fpath so compinit can find its definitions
 fpath=($ZSH_COMPLETION_DIR $fpath)
 autoload -Uz compinit
 compinit -C
@@ -36,15 +37,22 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice wait'1' lucid
 zinit light Aloxaf/fzf-tab
 
-zinit ice wait'1'
-zinit light junegunn/fzf
+# Lazy fzf: only load binary completion/helper when fzf functions are invoked
+zfzi() {
+  unset -f zfzi
+  zinit ice wait'1'
+  zinit light junegunn/fzf
+  command -v fzf >/dev/null && { fzf --zsh || true; }
+}
+autoload -Uz zfzi
+zle -N zfzi
 
-zinit ice lucid wait='1'
+zinit ice lucid wait='2'
 zinit light-mode lucid wait for \
   MichaelAquilina/zsh-you-should-use \
   zdharma-continuum/history-search-multi-word
 
-zinit ice lucid wait='0'
+zinit ice lucid wait='0' atinit='zicompinit; zicdreplay'
 zinit light zsh-users/zsh-completions
 
 zinit ice lucid wait='1'
@@ -174,7 +182,7 @@ fi
 
 if (( $+commands[kubectl] )); then
   alias k=kubectl
-  compdef k=kubectl
+  (( $+functions[_kubectl] )) && compdef k=kubectl
 fi
 
 # trash in terminal
