@@ -18,7 +18,7 @@ fi
 source ~/.zinit/bin/zinit.zsh
 
 autoload -Uz compinit
-compinit
+compinit -C
 
 zinit ice lucid wait='1'
 # Turbo mode with "wait"
@@ -33,9 +33,9 @@ zinit light Aloxaf/fzf-tab
 
 zinit load agkozak/zsh-z
 
-if [ -n "$(command -v zoxide)" ]; then
+if [ -z "$(command -v zoxide)" ]; then
   . /etc/os-release
-  case "${$ID}" in
+  case "$ID" in
     ubuntu|debian)
       curl -fsSL https://apt.cli.rs/pubkey.asc | sudo tee -a /usr/share/keyrings/rust-tools.asc
       curl -fsSL https://apt.cli.rs/rust-tools.list | sudo tee /etc/apt/sources.list.d/rust-tools.list
@@ -53,7 +53,7 @@ if [ -n "$(command -v zoxide)" ]; then
     ;;
   esac
 fi
-if [ -n "$(command -v zoxide)" ]; then
+if [ "$(command -v zoxide)" ]; then
   zinit light ajeetdsouza/zoxide
 fi
 
@@ -115,7 +115,7 @@ zinit ice wait"2" lucid
 zinit load voronkovich/gitignore.plugin.zsh
 
 # zinit light denysdovhan/spaceship-prompt
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+# zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # Load custom snippets if needed
 # zinit snippet https://gist.githubusercontent.com/hightemp/5071909/raw/
@@ -241,6 +241,14 @@ if [ -d  "${HOME}/.turso" ]; then
 export PATH="${PATH}:${HOME}/.turso"
 fi
 
+if [ -d  "/opt/nvim-linux-x86_64/bin" ]; then
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+fi
+
+if [ "$(command -v direnv)" ]; then
+  eval "$(direnv hook zsh)"
+fi
+
 # ssh
 export TERM=xterm-256color
 
@@ -251,3 +259,6 @@ export PATH=$HOME/my_scripts:$PATH
 export PATH=/usr/bin:$PATH
 # to make bin in $HOME/.local/bin in the PATH
 export PATH="$HOME/.local/bin":"$PATH"
+
+# bun completions
+[ -s "/home/tmendy/.bun/_bun" ] && source "/home/tmendy/.bun/_bun"
