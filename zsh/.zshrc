@@ -23,6 +23,7 @@ ZSH_COMPLETION_DIR="$HOME/.zsh/completions"
 fpath=($ZSH_COMPLETION_DIR $fpath)
 # Defer compinit to zinit helper (zicompinit + zicdreplay) to avoid double runs with Turbo mode
 ZINIT[COMPINIT_OPTS]=-C
+ZINIT[COMPDUMP_PATH]="$HOME/.zcompdump"
 
 # -----------------------------
 # ⚡ PLUGINS (LAZY)
