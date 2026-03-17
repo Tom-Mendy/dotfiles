@@ -21,6 +21,28 @@ source ~/.zinit/bin/zinit.zsh
 # -----------------------------
 # ⚡ COMPLETION (CACHED)
 # -----------------------------
+ZSH_COMPLETION_DIR="$HOME/.zsh/completions"
+# ensure directory exists (cheap check)
+[[ -d $ZSH_COMPLETION_DIR ]] || mkdir -p $ZSH_COMPLETION_DIR
+# -----------------------------
+# ⚡ DOCKER COMPLETION (AUTO, ONE-TIME GENERATION)
+# -----------------------------
+DOCKER_COMPLETION_FILE="$ZSH_COMPLETION_DIR/_docker"
+DOCKER_COMPOSE_FILE="$ZSH_COMPLETION_DIR/_docker-compose"
+if (( $+commands[docker] )) && [[ ! -f $DOCKER_COMPLETION_FILE ]]; then
+  docker completion zsh >! $DOCKER_COMPLETION_FILE 2>/dev/null
+  cp $DOCKER_COMPLETION_FILE $DOCKER_COMPOSE_FILE
+fi
+# -----------------------------
+# ⚡ KUBECTL COMPLETION (AUTO, ONE-TIME)
+# -----------------------------
+KUBE_COMPLETION_FILE="$ZSH_COMPLETION_DIR/_kubectl"
+if (( $+commands[kubectl] )) && [[ ! -f $KUBE_COMPLETION_FILE ]]; then
+  kubectl completion zsh >! $KUBE_COMPLETION_FILE 2>/dev/null
+fi
+
+# add to fpath (only once)
+fpath=($ZSH_COMPLETION_DIR $fpath)
 autoload -Uz compinit
 compinit -C
 
@@ -36,7 +58,7 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice wait'1' lucid
 zinit light Aloxaf/fzf-tab
 
-zinit ice wait'1' lucid
+zinit ice wait'1'
 zinit light junegunn/fzf
 
 zinit ice lucid wait='1'
@@ -51,70 +73,14 @@ zinit light zsh-users/zsh-completions
 # -----------------------------
 # ⚡ NAVIGATION (FAST)
 # -----------------------------
-if (( ! $+commands[zoxide] )); then
-  . /etc/os-release
-  case "$ID" in
-    ubuntu|debian)
-      curl -fsSL https://apt.cli.rs/pubkey.asc | sudo tee -a /usr/share/keyrings/rust-tools.asc
-      curl -fsSL https://apt.cli.rs/rust-tools.list | sudo tee /etc/apt/sources.list.d/rust-tools.list
-      sudo apt update
-      sudo apt install -y zoxide
-    ;;
-    fedora|centos|rocky)
-      sudo dnf install -y zoxide
-    ;;
-    arch|manjaro)
-      sudo pacman -S --noconfirm zoxide
-    ;;
-    *)
-      echo "Unsupported OS: $ID to install zoxide manually visit https://github.com/ajeetdsouza/zoxide#installation"
-    ;;
-  esac
-fi
+(( ! $+commands[zoxide] )) && curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 (( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
 
 # -----------------------------
 # ⚡ MINIMAL OMZ (ONLY WHAT MATTERS)
 # -----------------------------
-#zinit snippet OMZ::lib/completion.zsh
-zinit snippet OMZ::lib/grep.zsh
-zinit snippet OMZ::lib/history.zsh
-zinit snippet OMZ::lib/key-bindings.zsh
-zinit snippet OMZ::lib/theme-and-appearance.zsh
-zinit snippet OMZP::colored-man-pages
-zinit snippet OMZP::colorize
-zinit snippet OMZP::command-not-found
-#zinit snippet OMZP::common-aliases
-#zinit snippet OMZP::complete
-zinit snippet OMZP::sudo
-(( $+commands[podman] )) && zinit snippet OMZP::podman
-# plugin for language
-(( $+commands[mvn] )) &&zinit snippet OMZP::mvn
-(( $+commands[node] )) &&zinit snippet OMZP::node
-(( $+commands[npm] )) &&zinit snippet OMZP::npm
-(( $+commands[pip] )) &&zinit snippet OMZP::pip
-(( $+commands[go] )) &&zinit snippet OMZP::golang
-(( $+commands[php] )) && zinit snippet OMZP::laravel
-# take the distribution info
-. /etc/os-release
-if [[ $ID == "debian" ]]; then
-  zinit snippet OMZP::debian
-fi
-if [[ $ID == "fedora" ]]; then
-  zinit snippet OMZP::dnf
-fi
 zinit ice lucid wait='1'
 zinit snippet OMZP::git
-
-# Gitignore plugin – commands gii and gi
-zinit ice wait"2" lucid
-zinit load voronkovich/gitignore.plugin.zsh
-
-# zinit light denysdovhan/spaceship-prompt
-# zinit ice depth=1; zinit light romkatv/powerlevel10k
-
-# Load custom snippets if needed
-# zinit snippet https://gist.githubusercontent.com/hightemp/5071909/raw/
 
 # -----------------------------
 # ⚡ POWERLEVEL10K (LOAD ONCE)
@@ -134,19 +100,35 @@ ZSH_DISABLE_COMPFIX=true
 # -----------------------------
 # ⚡ COMPLETION STYLING
 # -----------------------------
-# zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-# zstyle ':completion:*' menu no
-
-# Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-if (( $+commands[zoxide] )); then
-  zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
-  eval "$(zoxide init --cmd cd zsh)"
+(( $+commands[zoxide] )) && zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+if (( $+commands[docker] )); then
+zstyle ':completion:*:*:docker:*' menu no
+zstyle ':fzf-tab:complete:docker-*:*' fzf-preview '
+docker inspect $word 2>/dev/null | jq . 2>/dev/null || echo $word
+'
 fi
-
+if (( $+commands[kubectl] )); then
+zstyle ':fzf-tab:complete:kubectl-*:*' fzf-preview '
+kubectl get $word -o yaml 2>/dev/null || echo $word
+'
+zstyle ':fzf-tab:complete:kubectl-get:*' fzf-preview '
+case $group in
+  "pods")
+    kubectl describe pod $word 2>/dev/null
+  ;;
+  "services")
+    kubectl describe svc $word 2>/dev/null
+  ;;
+  *)
+    echo $word
+  ;;
+esac
+'
+fi
 # -----------------------------
 # ⚡ ENV (LIGHT)
 # -----------------------------
@@ -187,27 +169,30 @@ export PATH="${PATH}:${HOME}/.turso"
 fi
 
 if [[ -d  "/opt/nvim-linux-x86_64/bin" ]]; then
-export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+  export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 fi
+
+# to make bin in /usr/bin in the PATH
+export PATH=/usr/bin:$PATH
+# to make bin in $HOME/.local/bin in the PATH
+export PATH="$HOME/.local/bin":"$PATH"
 
 # -----------------------------
 # ⚡ OPTIONAL TOOLS (LAZY SAFE)
 # -----------------------------
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 # Load Angular CLI autocompletion.
-(( $+commands[ng] )) && source <(ng completion script)
+if (( $+commands[ng] )) then;
+  NG_COMPLETION="$ZSH_COMPLETION_DIR/_ng"
+
+  if (( $+commands[ng] )) && [[ ! -f $NG_COMPLETION ]]; then
+    ng completion script >! $NG_COMPLETION 2>/dev/null
+  fi
+fi
 # ghcup-env Haskell
 [[ -f "/home/tmendy/.ghcup/env" ]] && source "/home/tmendy/.ghcup/env" # ghcup-env
 # bun completions
 [ -s "/home/tmendy/.bun/_bun" ] && source "/home/tmendy/.bun/_bun"
-
-# to make bin in $HOME/my_scripts in the PATH
-mkdir -p $HOME/my_scripts
-export PATH=$HOME/my_scripts:$PATH
-# to make bin in /usr/bin in the PATH
-export PATH=/usr/bin:$PATH
-# to make bin in $HOME/.local/bin in the PATH
-export PATH="$HOME/.local/bin":"$PATH"
 
 # -----------------------------
 # ⚡ ALIASES (ESSENTIAL ONLY)
@@ -221,11 +206,6 @@ alias gitlog="git ls-files -z | xargs -0n1 git blame -w --show-email | perl -n -
 alias proxy='export http_proxy=http://127.0.0.1:1080 https_proxy=http://127.0.0.1:1080 all_proxy=socks5://127.0.0.1:1080'
 alias unproxy='unset http_proxy;unset https_proxy;unset all_proxy'
 alias proxy_http='export all_proxy=http://127.0.0.1:1081'
-
-# Flatpak
-(( $+commands[com.discordapp.Discord] )) && alias Discord="com.discordapp.Discord"
-(( $+commands[com.github.IsmaelMartinez.teams_for_linux] )) && alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"
-(( $+commands[com.spotify.Client] )) && alias spotify="com.spotify.Client"
 
 # Fedora & Arch
 if (( $+commands[bat] )); then
@@ -246,13 +226,17 @@ if (( $+commands[eza] )); then
   alias tree="eza --icons --color=always --group-directories-first --tree"
 fi
 
+if (( $+commands[kubectl] )); then
+  alias k=kubectl
+  compdef k=kubectl
+fi
+
 # trash in terminal
 (( $+commands[safe-rm] )) && alias rm="safe-rm"
 
 # -----------------------------
 # ⚡ TMUX
 # -----------------------------
-export PATH="$HOME/.local/bin":"$PATH"
 bindkey -s ^f "tmux-sessionizer\n"
 
 # -----------------------------
