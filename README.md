@@ -20,6 +20,14 @@ Ce script :
 - génère les complétions zsh (docker, kubectl, bun, gh, ng) ;
 - laisse `.zshrc` 100% runtime-only : aucune installation ne bloque l'ouverture d'un shell.
 
+## 🧪 Repro & Perf
+
+- Dev shell reproductible : `nix develop` (zsh, fzf, zoxide, eza, bat, git, kubectl, docker-client, shellcheck).
+- Install sans Nix : `./install_zsh.sh`.
+- Benchmark prompt : `./tools/benchmark.sh` (génère `artifacts/zsh-bench.md`). GitHub Actions publie l'artifact sur chaque PR.
+- Lint shell : CI exécute `shellcheck` via Nix.
+- Cache offline optionnel : placez `cache/zinit.tar.gz` et `cache/zinit.tar.gz.sha256` (sha256sum) pour installer zinit sans réseau.
+
 Work In Progress
 ![exemple i3](exemple.png)
 

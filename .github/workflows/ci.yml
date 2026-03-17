@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: DeterminateSystems/nix-installer-action@v10
+      - uses: DeterminateSystems/magic-nix-cache-action@v6
+      - name: ShellCheck
+        run: |
+          nix develop -c shellcheck $(find scripts -name '*.sh' -type f) install.sh install_zsh.sh tools/benchmark.sh
+
+  zsh-bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: DeterminateSystems/nix-installer-action@v10
+      - uses: DeterminateSystems/magic-nix-cache-action@v6
+      - name: Run benchmark
+        run: |
+          nix develop -c ./tools/benchmark.sh
+      - name: Upload benchmark artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: zsh-bench
+          path: artifacts/

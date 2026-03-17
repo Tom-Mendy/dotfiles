@@ -6,7 +6,8 @@ ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 source "$ROOT_DIR/utils.sh"
 
 CACHE_DIR="$HOME/.cache/dotfiles"
-mkdir -p "$CACHE_DIR"
+REPO_CACHE_DIR="$ROOT_DIR/cache"
+mkdir -p "$CACHE_DIR" "$REPO_CACHE_DIR"
 
 clone_or_update() {
   local repo="$1"
@@ -23,10 +24,34 @@ clone_or_update() {
   fi
 }
 
-# Zinit (plugin manager)
+# Zinit (plugin manager) with optional offline tarball
 ZINIT_REPO="https://github.com/zdharma-continuum/zinit"
 ZINIT_DIR="$HOME/.zinit/bin"
-clone_or_update "$ZINIT_REPO" "$ZINIT_DIR"
+ZINIT_TAR="$REPO_CACHE_DIR/zinit.tar.gz"
+ZINIT_SHA="$ZINIT_TAR.sha256"
+
+use_tarball() {
+  local tarball="$1"
+  local checksum="$2"
+  local dest="$3"
+
+  if [[ -f "$tarball" && -f "$checksum" ]]; then
+    if (cd "$(dirname "$tarball")" && sha256sum -c "$(basename "$checksum")"); then
+      log "Using offline cache $(basename "$tarball")"
+      rm -rf "$dest"
+      mkdir -p "$dest"
+      tar -xzf "$tarball" -C "$dest"
+      return 0
+    else
+      warn "Checksum failed for $(basename "$tarball"); ignoring cache."
+    fi
+  fi
+  return 1
+}
+
+if ! use_tarball "$ZINIT_TAR" "$ZINIT_SHA" "$ZINIT_DIR"; then
+  clone_or_update "$ZINIT_REPO" "$ZINIT_DIR"
+fi
 
 # Zoxide (cached installer)
 install_zoxide() {
