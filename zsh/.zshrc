@@ -20,19 +20,20 @@ fi
 # -----------------------------
 ZSH_COMPLETION_DIR="$HOME/.zsh/completions"
 [[ -d $ZSH_COMPLETION_DIR ]] || mkdir -p $ZSH_COMPLETION_DIR
-# Prepend our cached completions but keep system fpath so compinit can find its definitions
 fpath=($ZSH_COMPLETION_DIR $fpath)
-autoload -Uz compinit
-compinit -C
+# Defer compinit to zinit helper (zicompinit + zicdreplay) to avoid double runs with Turbo mode
+ZINIT[COMPINIT_OPTS]=-C
 
 # -----------------------------
 # ⚡ PLUGINS (LAZY)
 # -----------------------------
-zinit ice wait'0' lucid
-zinit light zdharma-continuum/fast-syntax-highlighting
-
-zinit ice wait'0' lucid atload='_zsh_autosuggest_start'
-zinit light zsh-users/zsh-autosuggestions
+zinit wait lucid light-mode for \
+  atinit"zicompinit; zicdreplay" compile'(fast-syntax-highlighting.plugin.zsh)' \
+    zdharma-continuum/fast-syntax-highlighting \
+  atload"_zsh_autosuggest_start" compile'(zsh-autosuggestions.zsh)' \
+    zsh-users/zsh-autosuggestions \
+  blockf atpull'zinit creinstall -q .' \
+    zsh-users/zsh-completions
 
 zinit ice wait'1' lucid
 zinit light Aloxaf/fzf-tab
@@ -47,18 +48,15 @@ zfzi() {
 autoload -Uz zfzi
 zle -N zfzi
 
-zinit ice lucid wait='2'
+zinit ice lucid wait='4'
 zinit light-mode lucid wait for \
   MichaelAquilina/zsh-you-should-use \
   zdharma-continuum/history-search-multi-word
 
-zinit ice lucid wait='0' atinit='zicompinit; zicdreplay'
-zinit light zsh-users/zsh-completions
-
 zinit ice lucid wait='1'
 zinit snippet OMZP::git
 
-zinit ice depth=1
+zinit ice depth=1 compile'(powerlevel10k.zsh-theme)'
 zinit light romkatv/powerlevel10k
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
