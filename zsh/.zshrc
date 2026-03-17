@@ -6,49 +6,27 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # -----------------------------
-# ⚡ ZINIT INSTALL (ONE TIME ONLY)
+# ⚡ ZINIT (NO INSTALL LOGIC HERE)
 # -----------------------------
-if [[ ! -f ~/.zinit/bin/zinit.zsh ]]; then
-  mkdir -p "$HOME/.zinit"
-  git clone https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin"
+if [[ -f $HOME/.zinit/bin/zinit.zsh ]]; then
+  source $HOME/.zinit/bin/zinit.zsh
+else
+  print "[dotfiles] zinit manquant. Lance ./install.sh depuis le repo pour le bootstrap."
+  return
 fi
 
 # -----------------------------
-# ⚡ LOAD ZINIT
-# -----------------------------
-source ~/.zinit/bin/zinit.zsh
-
-# -----------------------------
-# ⚡ COMPLETION (CACHED)
+# ⚡ COMPLETIONS (ONLY LOAD)
 # -----------------------------
 ZSH_COMPLETION_DIR="$HOME/.zsh/completions"
-# ensure directory exists (cheap check)
 [[ -d $ZSH_COMPLETION_DIR ]] || mkdir -p $ZSH_COMPLETION_DIR
-# -----------------------------
-# ⚡ DOCKER COMPLETION (AUTO, ONE-TIME GENERATION)
-# -----------------------------
-DOCKER_COMPLETION_FILE="$ZSH_COMPLETION_DIR/_docker"
-DOCKER_COMPOSE_FILE="$ZSH_COMPLETION_DIR/_docker-compose"
-if (( $+commands[docker] )) && [[ ! -f $DOCKER_COMPLETION_FILE ]]; then
-  docker completion zsh >! $DOCKER_COMPLETION_FILE 2>/dev/null
-  cp $DOCKER_COMPLETION_FILE $DOCKER_COMPOSE_FILE
-fi
-# -----------------------------
-# ⚡ KUBECTL COMPLETION (AUTO, ONE-TIME)
-# -----------------------------
-KUBE_COMPLETION_FILE="$ZSH_COMPLETION_DIR/_kubectl"
-if (( $+commands[kubectl] )) && [[ ! -f $KUBE_COMPLETION_FILE ]]; then
-  kubectl completion zsh >! $KUBE_COMPLETION_FILE 2>/dev/null
-fi
-
-# add to fpath (only once)
 fpath=($ZSH_COMPLETION_DIR $fpath)
 autoload -Uz compinit
 compinit -C
 
 # -----------------------------
-# ⚡ CORE PLUGINS (LAZY)
-# ----------------------------
+# ⚡ PLUGINS (LAZY)
+# -----------------------------
 zinit ice wait'0' lucid
 zinit light zdharma-continuum/fast-syntax-highlighting
 
@@ -62,7 +40,6 @@ zinit ice wait'1'
 zinit light junegunn/fzf
 
 zinit ice lucid wait='1'
-# Turbo mode with "wait"
 zinit light-mode lucid wait for \
   MichaelAquilina/zsh-you-should-use \
   zdharma-continuum/history-search-multi-word
@@ -70,32 +47,21 @@ zinit light-mode lucid wait for \
 zinit ice lucid wait='0'
 zinit light zsh-users/zsh-completions
 
-# -----------------------------
-# ⚡ NAVIGATION (FAST)
-# -----------------------------
-(( ! $+commands[zoxide] )) && curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-(( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
-
-# -----------------------------
-# ⚡ MINIMAL OMZ (ONLY WHAT MATTERS)
-# -----------------------------
 zinit ice lucid wait='1'
 zinit snippet OMZP::git
 
-# -----------------------------
-# ⚡ POWERLEVEL10K (LOAD ONCE)
-# -----------------------------
-# Load Powerlevel10k theme
 zinit ice depth=1
 zinit light romkatv/powerlevel10k
 
-# Set your preferred theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
 ZSH_DISABLE_COMPFIX=true
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
+# -----------------------------
+# ⚡ NAVIGATION (FAST)
+# -----------------------------
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
 
 # -----------------------------
 # ⚡ COMPLETION STYLING
@@ -106,34 +72,33 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 (( $+commands[zoxide] )) && zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 if (( $+commands[docker] )); then
-zstyle ':completion:*:*:docker:*' menu no
-zstyle ':fzf-tab:complete:docker-*:*' fzf-preview '
-docker inspect $word 2>/dev/null | jq . 2>/dev/null || echo $word
-'
+  zstyle ':completion:*:*:docker:*' menu no
+  zstyle ':fzf-tab:complete:docker-*:*' fzf-preview '
+  docker inspect $word 2>/dev/null | jq . 2>/dev/null || echo $word
+  '
 fi
 if (( $+commands[kubectl] )); then
-zstyle ':fzf-tab:complete:kubectl-*:*' fzf-preview '
-kubectl get $word -o yaml 2>/dev/null || echo $word
-'
-zstyle ':fzf-tab:complete:kubectl-get:*' fzf-preview '
-case $group in
-  "pods")
-    kubectl describe pod $word 2>/dev/null
-  ;;
-  "services")
-    kubectl describe svc $word 2>/dev/null
-  ;;
-  *)
-    echo $word
-  ;;
-esac
-'
+  zstyle ':fzf-tab:complete:kubectl-*:*' fzf-preview '
+  kubectl get $word -o yaml 2>/dev/null || echo $word
+  '
+  zstyle ':fzf-tab:complete:kubectl-get:*' fzf-preview '
+  case $group in
+    "pods")
+      kubectl describe pod $word 2>/dev/null
+    ;;
+    "services")
+      kubectl describe svc $word 2>/dev/null
+    ;;
+    *)
+      echo $word
+    ;;
+  esac
+  '
 fi
+
 # -----------------------------
 # ⚡ ENV (LIGHT)
 # -----------------------------
-
-# to make nvim default editor
 (( $+commands[nvim] )) && export EDITOR=nvim
 
 typeset -U path PATH
@@ -150,7 +115,6 @@ done
 
 export PATH
 
-# language specific paths
 if (( $+commands[flatpak] )); then
   export PATH="${PATH}":"/var/lib/flatpak/exports/bin"
 fi
@@ -164,7 +128,6 @@ if [[ -d  "${HOME}/.bun" ]]; then
   export BUN_INSTALL="$HOME/.bun"
 fi
 
-# Android SDK
 if [[ -d  "${HOME}/Android/Sdk/" ]]; then
   export ANDROID_HOME="${HOME}/Android/Sdk/"
   export PATH=$PATH:$ANDROID_HOME/emulator
@@ -175,18 +138,8 @@ fi
 # ⚡ OPTIONAL TOOLS (LAZY SAFE)
 # -----------------------------
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
-# Load Angular CLI autocompletion.
-if (( $+commands[ng] )) then;
-  NG_COMPLETION="$ZSH_COMPLETION_DIR/_ng"
-
-  if (( $+commands[ng] )) && [[ ! -f $NG_COMPLETION ]]; then
-    ng completion script >! $NG_COMPLETION 2>/dev/null
-  fi
-fi
-# ghcup-env Haskell
-[[ -f "/home/tmendy/.ghcup/env" ]] && source "/home/tmendy/.ghcup/env" # ghcup-env
-# bun completions
-[ -s "/home/tmendy/.bun/_bun" ] && source "/home/tmendy/.bun/_bun"
+[[ -f "$HOME/.ghcup/env" ]] && source "$HOME/.ghcup/env"
+[[ -f "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
 
 # -----------------------------
 # ⚡ ALIASES (ESSENTIAL ONLY)
@@ -194,7 +147,6 @@ fi
 alias grep="grep --color=auto"
 alias e=$EDITOR
 
-# https://stackoverflow.com/a/15503178/1820217
 alias gitlog="git ls-files -z | xargs -0n1 git blame -w --show-email | perl -n -e '/^.*?\((.*?)\s+[\d]{4}/; print $1,"\n"' | sort -f | uniq -c | sort -n"
 
 alias proxy='export http_proxy=http://127.0.0.1:1080 https_proxy=http://127.0.0.1:1080 all_proxy=socks5://127.0.0.1:1080'
