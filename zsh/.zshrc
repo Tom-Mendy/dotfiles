@@ -1,39 +1,57 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# -----------------------------
+# ⚡ POWERLEVEL10K INSTANT PROMPT
+# -----------------------------
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Check if zinit is already installed, if not, install it
+# -----------------------------
+# ⚡ ZINIT INSTALL (ONE TIME ONLY)
+# -----------------------------
 if [[ ! -f ~/.zinit/bin/zinit.zsh ]]; then
-  print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma-continuum/zinit)…%f"
-  command mkdir -p $HOME/.zinit
-  command git clone https://github.com/zdharma-continuum/zinit $HOME/.zinit/bin && \
-  print -P "%F{33}▓▒░ %F{34}Installation successful.%F" || \
-  print -P "%F{160}▓▒░ The clone has failed.%F"
+  mkdir -p "$HOME/.zinit"
+  git clone https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin"
 fi
 
-# Load zinit
+# -----------------------------
+# ⚡ LOAD ZINIT
+# -----------------------------
 source ~/.zinit/bin/zinit.zsh
 
+# -----------------------------
+# ⚡ COMPLETION (CACHED)
+# -----------------------------
 autoload -Uz compinit
 compinit -C
+
+# -----------------------------
+# ⚡ CORE PLUGINS (LAZY)
+# ----------------------------
+zinit ice wait'0' lucid
+zinit light zdharma-continuum/fast-syntax-highlighting
+
+zinit ice wait'0' lucid atload='_zsh_autosuggest_start'
+zinit light zsh-users/zsh-autosuggestions
+
+zinit ice wait'1' lucid
+zinit light Aloxaf/fzf-tab
+
+zinit ice wait'1' lucid
+zinit light junegunn/fzf
 
 zinit ice lucid wait='1'
 # Turbo mode with "wait"
 zinit light-mode lucid wait for \
-  is-snippet OMZ::lib/history.zsh \
   MichaelAquilina/zsh-you-should-use \
   zdharma-continuum/history-search-multi-word
 
-zinit ice from"gh-r" as"program"
-zinit light junegunn/fzf
-zinit light Aloxaf/fzf-tab
+zinit ice lucid wait='0'
+zinit light zsh-users/zsh-completions
 
-zinit load agkozak/zsh-z
-
-if [ -z "$(command -v zoxide)" ]; then
+# -----------------------------
+# ⚡ NAVIGATION (FAST)
+# -----------------------------
+if (( ! $+commands[zoxide] )); then
   . /etc/os-release
   case "$ID" in
     ubuntu|debian)
@@ -53,19 +71,11 @@ if [ -z "$(command -v zoxide)" ]; then
     ;;
   esac
 fi
-if [ "$(command -v zoxide)" ]; then
-  zinit light ajeetdsouza/zoxide
-fi
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
 
-zinit ice lucid wait='0' atinit='zpcompinit'
-zinit light zdharma-continuum/fast-syntax-highlighting
-
-zinit ice lucid wait="0" atload='_zsh_autosuggest_start'
-zinit light zsh-users/zsh-autosuggestions
-
-zinit ice lucid wait='0'
-zinit light zsh-users/zsh-completions
-
+# -----------------------------
+# ⚡ MINIMAL OMZ (ONLY WHAT MATTERS)
+# -----------------------------
 #zinit snippet OMZ::lib/completion.zsh
 zinit snippet OMZ::lib/grep.zsh
 zinit snippet OMZ::lib/history.zsh
@@ -77,28 +87,14 @@ zinit snippet OMZP::command-not-found
 #zinit snippet OMZP::common-aliases
 #zinit snippet OMZP::complete
 zinit snippet OMZP::sudo
-if [ "$(command -v podman)" ]; then
-zinit snippet OMZP::podman
-fi
+(( $+commands[podman] )) && zinit snippet OMZP::podman
 # plugin for language
-if [ "$(command -v mvn)" ]; then
-zinit snippet OMZP::mvn
-fi
-if [ "$(command -v node)" ]; then
-zinit snippet OMZP::node
-fi
-if [ "$(command -v npm)" ]; then
-zinit snippet OMZP::npm
-fi
-if [ "$(command -v pip)" ]; then
-zinit snippet OMZP::pip
-fi
-if [ "$(command -v go)" ]; then
-zinit snippet OMZP::golang
-fi
-if [ "$(command -v php)" ]; then
-zinit snippet OMZP::laravel
-fi
+(( $+commands[mvn] )) &&zinit snippet OMZP::mvn
+(( $+commands[node] )) &&zinit snippet OMZP::node
+(( $+commands[npm] )) &&zinit snippet OMZP::npm
+(( $+commands[pip] )) &&zinit snippet OMZP::pip
+(( $+commands[go] )) &&zinit snippet OMZP::golang
+(( $+commands[php] )) && zinit snippet OMZP::laravel
 # take the distribution info
 . /etc/os-release
 if [[ $ID == "debian" ]]; then
@@ -120,45 +116,102 @@ zinit load voronkovich/gitignore.plugin.zsh
 # Load custom snippets if needed
 # zinit snippet https://gist.githubusercontent.com/hightemp/5071909/raw/
 
+# -----------------------------
+# ⚡ POWERLEVEL10K (LOAD ONCE)
+# -----------------------------
 # Load Powerlevel10k theme
-zinit ice depth"1" # git clone depth
+zinit ice depth=1
 zinit light romkatv/powerlevel10k
 
 # Set your preferred theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
-
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
-
 ZSH_DISABLE_COMPFIX=true
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+
+# -----------------------------
+# ⚡ COMPLETION STYLING
+# -----------------------------
+# zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+# zstyle ':completion:*' menu no
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-if [ "$(command -v zoxide)" ]; then
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
-
-eval "$(zoxide init --cmd cd zsh)"
+if (( $+commands[zoxide] )); then
+  zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+  eval "$(zoxide init --cmd cd zsh)"
 fi
 
-# ghcup-env Haskell
-[ -f "/home/tmendy/.ghcup/env" ] && source "/home/tmendy/.ghcup/env" # ghcup-env
+# -----------------------------
+# ⚡ ENV (LIGHT)
+# -----------------------------
 
+# to make nvim default editor
+if (( $+commands[nvim] )); then
+  export EDITOR=nvim
+fi
+# language specific paths
+if (( $+commands[cargo] )); then
+  export PATH="${PATH}":"${HOME}/.cargo/bin"
+fi
+if (( $+commands[flatpak] )); then
+  export PATH="${PATH}":"/var/lib/flatpak/exports/bin"
+fi
+if (( $+commands[go] )); then
+  export PATH=${PATH}:"$(go env GOPATH)/bin"
+fi
+if (( $+commands[composer] )); then
+  export PATH="${PATH}":"$(composer global config bin-dir --absolute 2> /dev/null)"
+fi
+
+# Android SDK
+if [[ -d  "${HOME}/Android/Sdk/" ]]; then
+  export ANDROID_HOME="${HOME}/Android/Sdk/"
+  export PATH=$PATH:$ANDROID_HOME/emulator
+  export PATH=$PATH:$ANDROID_HOME/platform-tools
+fi
+
+# Bun
+if [[ -d  "${HOME}/.bun" ]]; then
+  export BUN_INSTALL="$HOME/.bun"
+  export PATH="$BUN_INSTALL/bin:$PATH"
+fi
+
+if [[ -d  "${HOME}/.turso" ]]; then
+export PATH="${PATH}:${HOME}/.turso"
+fi
+
+if [[ -d  "/opt/nvim-linux-x86_64/bin" ]]; then
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+fi
+
+# -----------------------------
+# ⚡ OPTIONAL TOOLS (LAZY SAFE)
+# -----------------------------
+(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 # Load Angular CLI autocompletion.
-if [ "$(command -v ng)" ]; then
-  source <(ng completion script)
-fi
+(( $+commands[ng] )) && source <(ng completion script)
+# ghcup-env Haskell
+[[ -f "/home/tmendy/.ghcup/env" ]] && source "/home/tmendy/.ghcup/env" # ghcup-env
+# bun completions
+[ -s "/home/tmendy/.bun/_bun" ] && source "/home/tmendy/.bun/_bun"
 
-# TMUX
+# to make bin in $HOME/my_scripts in the PATH
+mkdir -p $HOME/my_scripts
+export PATH=$HOME/my_scripts:$PATH
+# to make bin in /usr/bin in the PATH
+export PATH=/usr/bin:$PATH
+# to make bin in $HOME/.local/bin in the PATH
 export PATH="$HOME/.local/bin":"$PATH"
-bindkey -s ^f "tmux-sessionizer\n"
 
-
-### ALIAS ###
+# -----------------------------
+# ⚡ ALIASES (ESSENTIAL ONLY)
+# -----------------------------
 alias grep="grep --color=auto"
 alias e=$EDITOR
 
@@ -170,29 +223,23 @@ alias unproxy='unset http_proxy;unset https_proxy;unset all_proxy'
 alias proxy_http='export all_proxy=http://127.0.0.1:1081'
 
 # Flatpak
-if [ "$(command -v com.discordapp.Discord)" ]; then
-  alias Discord="com.discordapp.Discord"
-fi
-if [ "$(command -v com.github.IsmaelMartinez.teams_for_linux)" ]; then
-  alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"
-fi
-if [ "$(command -v com.spotify.Client)" ]; then
-  alias spotify="com.spotify.Client"
-fi
+(( $+commands[com.discordapp.Discord] )) && alias Discord="com.discordapp.Discord"
+(( $+commands[com.github.IsmaelMartinez.teams_for_linux] )) && alias teams-for-linux="com.github.IsmaelMartinez.teams_for_linux"
+(( $+commands[com.spotify.Client] )) && alias spotify="com.spotify.Client"
 
 # Fedora & Arch
-if [ "$(command -v bat)" ]; then
+if (( $+commands[bat] )); then
   alias bat="bat"
   alias cat="bat --paging=never"
 fi
 # Debian & Ubuntu
-if [ "$(command -v batcat)" ]; then
+if (( $+commands[batcat] )); then
     alias bat="batcat"
     alias cat="batcat --paging=never"
 fi
 
 # ls replacement
-if [ "$(command -v eza)" ]; then
+if (( $+commands[eza] )); then
   alias ls="eza --icons --color=always --group-directories-first"
   alias la="eza --icons --color=always --group-directories-first -a"
   alias ll="eza --icons --color=always --group-directories-first -l"
@@ -200,65 +247,15 @@ if [ "$(command -v eza)" ]; then
 fi
 
 # trash in terminal
-if [ "$(command -v safe-rm)" ]; then
-  alias rm="safe-rm"
-fi
+(( $+commands[safe-rm] )) && alias rm="safe-rm"
 
-### ENV ###
-
-# to make nvim default editor
-if [ "$(command -v nvim)" ]; then
-  export EDITOR=nvim
-fi
-# language specific paths
-if [ "$(command -v cargo)" ]; then
-  export PATH="${PATH}":"${HOME}/.cargo/bin"
-fi
-if [ "$(command -v flatpak)" ]; then
-  export PATH="${PATH}":"/var/lib/flatpak/exports/bin"
-fi
-if [ "$(command -v go)" ]; then
-  export PATH=${PATH}:"$(go env GOPATH)/bin"
-fi
-if [ "$(command -v composer)" ]; then
-  export PATH="${PATH}":"$(composer global config bin-dir --absolute 2> /dev/null)"
-fi
-
-# Android SDK
-if [ -d  "${HOME}/Android/Sdk/" ]; then
-  export ANDROID_HOME="${HOME}/Android/Sdk/"
-  export PATH=$PATH:$ANDROID_HOME/emulator
-  export PATH=$PATH:$ANDROID_HOME/platform-tools
-fi
-
-# Bun
-if [ -d  "${HOME}/.bun" ]; then
-  export BUN_INSTALL="$HOME/.bun"
-  export PATH="$BUN_INSTALL/bin:$PATH"
-fi
-
-if [ -d  "${HOME}/.turso" ]; then
-export PATH="${PATH}:${HOME}/.turso"
-fi
-
-if [ -d  "/opt/nvim-linux-x86_64/bin" ]; then
-export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
-fi
-
-if [ "$(command -v direnv)" ]; then
-  eval "$(direnv hook zsh)"
-fi
-
-# ssh
-export TERM=xterm-256color
-
-# to make bin in $HOME/my_scripts in the PATH
-mkdir -p $HOME/my_scripts
-export PATH=$HOME/my_scripts:$PATH
-# to make bin in /usr/bin in the PATH
-export PATH=/usr/bin:$PATH
-# to make bin in $HOME/.local/bin in the PATH
+# -----------------------------
+# ⚡ TMUX
+# -----------------------------
 export PATH="$HOME/.local/bin":"$PATH"
+bindkey -s ^f "tmux-sessionizer\n"
 
-# bun completions
-[ -s "/home/tmendy/.bun/_bun" ] && source "/home/tmendy/.bun/_bun"
+# -----------------------------
+# ⚡ FINAL
+# -----------------------------
+export TERM=xterm-256color
