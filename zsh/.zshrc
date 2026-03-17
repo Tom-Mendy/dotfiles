@@ -134,13 +134,23 @@ fi
 # -----------------------------
 
 # to make nvim default editor
-if (( $+commands[nvim] )); then
-  export EDITOR=nvim
-fi
+(( $+commands[nvim] )) && export EDITOR=nvim
+
+typeset -U path PATH
+
+for p in \
+  /usr/bin \
+  $HOME/.local/bin \
+  $HOME/.cargo/bin \
+  $HOME/.bun/bin \
+  /opt/nvim-linux-x86_64/bin
+do
+  [[ -d $p ]] && path=($p $path)
+done
+
+export PATH
+
 # language specific paths
-if (( $+commands[cargo] )); then
-  export PATH="${PATH}":"${HOME}/.cargo/bin"
-fi
 if (( $+commands[flatpak] )); then
   export PATH="${PATH}":"/var/lib/flatpak/exports/bin"
 fi
@@ -150,6 +160,9 @@ fi
 if (( $+commands[composer] )); then
   export PATH="${PATH}":"$(composer global config bin-dir --absolute 2> /dev/null)"
 fi
+if [[ -d  "${HOME}/.bun" ]]; then
+  export BUN_INSTALL="$HOME/.bun"
+fi
 
 # Android SDK
 if [[ -d  "${HOME}/Android/Sdk/" ]]; then
@@ -157,25 +170,6 @@ if [[ -d  "${HOME}/Android/Sdk/" ]]; then
   export PATH=$PATH:$ANDROID_HOME/emulator
   export PATH=$PATH:$ANDROID_HOME/platform-tools
 fi
-
-# Bun
-if [[ -d  "${HOME}/.bun" ]]; then
-  export BUN_INSTALL="$HOME/.bun"
-  export PATH="$BUN_INSTALL/bin:$PATH"
-fi
-
-if [[ -d  "${HOME}/.turso" ]]; then
-export PATH="${PATH}:${HOME}/.turso"
-fi
-
-if [[ -d  "/opt/nvim-linux-x86_64/bin" ]]; then
-  export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
-fi
-
-# to make bin in /usr/bin in the PATH
-export PATH=/usr/bin:$PATH
-# to make bin in $HOME/.local/bin in the PATH
-export PATH="$HOME/.local/bin":"$PATH"
 
 # -----------------------------
 # ⚡ OPTIONAL TOOLS (LAZY SAFE)
