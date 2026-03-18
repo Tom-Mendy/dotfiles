@@ -11,7 +11,7 @@ fi
 if [[ -f $HOME/.zinit/bin/zinit.zsh ]]; then
   source $HOME/.zinit/bin/zinit.zsh
 else
-  print "[dotfiles] zinit manquant. Lance ./install.sh depuis le repo pour le bootstrap."
+  print "[dotfiles] zinit manquant. Lance ./install_zsh.sh depuis le repo pour le bootstrap."
   return
 fi
 
@@ -21,9 +21,22 @@ fi
 ZSH_COMPLETION_DIR="$HOME/.zsh/completions"
 [[ -d $ZSH_COMPLETION_DIR ]] || mkdir -p $ZSH_COMPLETION_DIR
 fpath=($ZSH_COMPLETION_DIR $fpath)
-# Defer compinit to zinit helper (zicompinit + zicdreplay) to avoid double runs with Turbo mode
+# Defer compinit to zinit helper (zicompinit + zicdreplay) to avoid double runs with Turbo mode.
+# Use a dedicated cache dump for this profile to keep startup fast and isolated.
+ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+[[ -d $ZSH_CACHE_DIR ]] || mkdir -p $ZSH_CACHE_DIR
 ZINIT[COMPINIT_OPTS]=-C
-ZINIT[COMPDUMP_PATH]="$HOME/.zcompdump"
+ZINIT[COMPDUMP_PATH]="$ZSH_CACHE_DIR/.zcompdump-${HOST}-${ZSH_VERSION}"
+
+# If local completion files are newer than the cache, force a one-time rebuild.
+if [[ -f "${ZINIT[COMPDUMP_PATH]}" ]]; then
+  for comp_file in "$ZSH_COMPLETION_DIR"/_*(N); do
+    if [[ "$comp_file" -nt "${ZINIT[COMPDUMP_PATH]}" ]]; then
+      rm -f "${ZINIT[COMPDUMP_PATH]}"
+      break
+    fi
+  done
+fi
 
 # -----------------------------
 # ⚡ PLUGINS (LAZY)
