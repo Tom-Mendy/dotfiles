@@ -18,12 +18,12 @@ fi
 # -----------------------------
 # ⚡ COMPLETIONS (ONLY LOAD)
 # -----------------------------
-ZSH_COMPLETION_DIR="$HOME/.zsh/completions"
+ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+ZSH_COMPLETION_DIR="$ZSH_CACHE_DIR/completions"
 [[ -d $ZSH_COMPLETION_DIR ]] || mkdir -p $ZSH_COMPLETION_DIR
 fpath=($ZSH_COMPLETION_DIR $fpath)
 # Defer compinit to zinit helper (zicompinit + zicdreplay) to avoid double runs with Turbo mode.
 # Use a dedicated cache dump for this profile to keep startup fast and isolated.
-ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 [[ -d $ZSH_CACHE_DIR ]] || mkdir -p $ZSH_CACHE_DIR
 ZINIT[COMPINIT_OPTS]=-C
 ZINIT[COMPDUMP_PATH]="$ZSH_CACHE_DIR/.zcompdump-${HOST}-${ZSH_VERSION}"

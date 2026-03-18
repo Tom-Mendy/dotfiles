@@ -5,7 +5,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 source "$ROOT_DIR/utils.sh"
 
-COMP_DIR="$HOME/.zsh/completions"
+ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+COMP_DIR="$ZSH_CACHE_DIR/completions"
 mkdir -p "$COMP_DIR"
 
 mk_completion() {
