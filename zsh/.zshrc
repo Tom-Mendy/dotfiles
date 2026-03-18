@@ -113,6 +113,7 @@ typeset -U path PATH
 for p in \
   /usr/bin \
   $HOME/.local/bin \
+  $HOME/.atuin/bin \
   $HOME/.cargo/bin \
   $HOME/.bun/bin \
   /opt/nvim-linux-x86_64/bin
@@ -145,6 +146,10 @@ fi
 # ⚡ OPTIONAL TOOLS (LAZY SAFE)
 # -----------------------------
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
+if (( $+commands[atuin] )); then
+  export ATUIN_SYNC_ADDRESS="https://atuin.home.tom-mendy.com"
+  eval "$(atuin init zsh)"
+fi
 [[ -f "$HOME/.ghcup/env" ]] && source "$HOME/.ghcup/env"
 [[ -f "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
 
@@ -196,3 +201,5 @@ bindkey -s ^f "tmux-sessionizer\n"
 # ⚡ FINAL
 # -----------------------------
 export TERM=xterm-256color
+
+. "$HOME/.atuin/bin/env"
