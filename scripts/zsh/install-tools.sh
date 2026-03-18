@@ -69,4 +69,21 @@ install_zoxide() {
   bash "$script" --yes
 }
 
+install_atuin() {
+  if command -v atuin > /dev/null; then
+    return
+  fi
+
+  local script="$CACHE_DIR/atuin-installer.sh"
+  if [[ ! -f $script ]]; then
+    log "Fetching atuin installer"
+    curl -sSfL https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh -o "$script"
+  else
+    log "Using cached atuin installer"
+  fi
+
+  sh "$script"
+}
+
 install_zoxide
+install_atuin
