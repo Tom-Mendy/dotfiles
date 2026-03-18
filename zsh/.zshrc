@@ -40,6 +40,9 @@ fi
 # -----------------------------
 # ⚡ PLUGINS (LAZY)
 # -----------------------------
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+
 zinit wait lucid light-mode for \
   atinit"zicompinit; zicdreplay" compile'(fast-syntax-highlighting.plugin.zsh)' \
     zdharma-continuum/fast-syntax-highlighting \
@@ -71,12 +74,21 @@ ZSH_DISABLE_COMPFIX=true
 # -----------------------------
 # ⚡ NAVIGATION (FAST)
 # -----------------------------
-(( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh --cmd cd)"
 
 # -----------------------------
 # ⚡ COMPLETION STYLING
 # -----------------------------
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+export FZF_DEFAULT_OPTS="
+  --height 40%
+  --layout=reverse
+  --border
+  --preview 'bat --style=numbers --color=always {}'
+"
+zstyle ':completion:*' matcher-list \
+  'm:{a-z}={A-Za-z}' \
+  'r:|=*' \
+  'l:|=*'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':completion:*' use-cache on
@@ -152,6 +164,15 @@ export PATH
 # ⚡ OPTIONAL TOOLS (LAZY SAFE)
 # -----------------------------
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+export ATUIN_FILTER_MODE=global
+export ATUIN_SEARCH_MODE=fuzzy
+export ATUIN_STYLE=compact
 if (( $+commands[atuin] )); then
   export ATUIN_SYNC_ADDRESS="https://atuin.home.tom-mendy.com"
   eval "$(atuin init zsh)"
@@ -197,6 +218,18 @@ fi
 
 # trash in terminal
 (( $+commands[safe-rm] )) && alias rm="safe-rm"
+
+# -----------------------------
+# ⚡ AUTO FUNCTION
+# -----------------------------
+chpwd() {
+  eza --icons --color=always --group-directories-first --tree -L 2
+}
+
+REPORTTIME=5
+precmd() {
+  [[ $? -ne 0 ]] && echo "❌ error"
+}
 
 # -----------------------------
 # ⚡ TMUX
