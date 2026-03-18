@@ -42,7 +42,7 @@ zinit light Aloxaf/fzf-tab
 # Lazy fzf: only load binary completion/helper when fzf functions are invoked
 zfzi() {
   unset -f zfzi
-  zinit ice wait'1'
+  zinit ice wait lucid
   zinit light junegunn/fzf
   command -v fzf >/dev/null && { fzf --zsh || true; }
 }
@@ -51,10 +51,9 @@ zle -N zfzi
 
 zinit ice lucid wait='4'
 zinit light-mode lucid wait for \
-  MichaelAquilina/zsh-you-should-use \
-  zdharma-continuum/history-search-multi-word
+  MichaelAquilina/zsh-you-should-use
 
-zinit ice lucid wait='1'
+zinit ice lucid wait
 zinit snippet OMZP::git
 
 zinit ice depth=1 compile'(powerlevel10k.zsh-theme)'
@@ -196,6 +195,30 @@ fi
 # ⚡ TMUX
 # -----------------------------
 bindkey -s ^f "tmux-sessionizer\n"
+
+# Ctrl+Arrow word jump (OMZ-like behavior) across common terminal escape sequences
+for keymap in emacs viins; do
+  bindkey -M "$keymap" '^[[1;5D' backward-word          # Ctrl+Left
+  bindkey -M "$keymap" '^[[1;5C' forward-word           # Ctrl+Right
+  bindkey -M "$keymap" '^[[5D' backward-word            # Ctrl+Left (alt sequence)
+  bindkey -M "$keymap" '^[[5C' forward-word             # Ctrl+Right (alt sequence)
+
+  # Alt+b / Alt+f word navigation (classic shell behavior)
+  bindkey -M "$keymap" '^[b' backward-word              # Alt+b
+  bindkey -M "$keymap" '^[f' forward-word               # Alt+f
+
+  # Home / End across common terminal sequences
+  bindkey -M "$keymap" '^[[H' beginning-of-line         # Home
+  bindkey -M "$keymap" '^[[F' end-of-line               # End
+  bindkey -M "$keymap" '^[[1~' beginning-of-line        # Home (alt sequence)
+  bindkey -M "$keymap" '^[[4~' end-of-line              # End (alt sequence)
+  bindkey -M "$keymap" '^[OH' beginning-of-line         # Home (SS3 sequence)
+  bindkey -M "$keymap" '^[OF' end-of-line               # End (SS3 sequence)
+
+  # Forward/backward word deletion for terminals supporting CSI-u / modified keys
+  bindkey -M "$keymap" '^[[3;5~' kill-word              # Ctrl+Delete
+  bindkey -M "$keymap" '^[[127;5u' backward-kill-word   # Ctrl+Backspace (kitty/CSI-u)
+done
 
 # -----------------------------
 # ⚡ FINAL
