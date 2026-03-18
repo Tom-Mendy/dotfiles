@@ -20,13 +20,12 @@ fi
 # -----------------------------
 ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 ZSH_COMPLETION_DIR="$ZSH_CACHE_DIR/completions"
-[[ -d $ZSH_COMPLETION_DIR ]] || mkdir -p $ZSH_COMPLETION_DIR
 fpath=($ZSH_COMPLETION_DIR $fpath)
 # Defer compinit to zinit helper (zicompinit + zicdreplay) to avoid double runs with Turbo mode.
 # Use a dedicated cache dump for this profile to keep startup fast and isolated.
-[[ -d $ZSH_CACHE_DIR ]] || mkdir -p $ZSH_CACHE_DIR
-ZINIT[COMPINIT_OPTS]=-C
+ZINIT[COMPINIT_OPTS]="-C -d $ZSH_CACHE_DIR/.zcompdump"
 ZINIT[COMPDUMP_PATH]="$ZSH_CACHE_DIR/.zcompdump-${HOST}-${ZSH_VERSION}"
+ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
 
 # If local completion files are newer than the cache, force a one-time rebuild.
 if [[ -f "${ZINIT[COMPDUMP_PATH]}" ]]; then
@@ -49,22 +48,14 @@ zinit wait lucid light-mode for \
   blockf atpull'zinit creinstall -q .' \
     zsh-users/zsh-completions
 
-zinit ice wait'1' lucid
+zinit ice wait'3' lucid
 zinit light Aloxaf/fzf-tab
 
-# Lazy fzf: only load binary completion/helper when fzf functions are invoked
-zfzi() {
-  unset -f zfzi
-  zinit ice wait lucid
-  zinit light junegunn/fzf
-  command -v fzf >/dev/null && { fzf --zsh || true; }
-}
-autoload -Uz zfzi
-zle -N zfzi
+zinit ice wait'3' lucid
+zinit light junegunn/fzf
 
-zinit ice lucid wait='4'
-zinit light-mode lucid wait for \
-  MichaelAquilina/zsh-you-should-use
+zinit ice wait'4' lucid
+zinit light MichaelAquilina/zsh-you-should-use
 
 zinit ice lucid wait
 zinit snippet OMZP::git
@@ -88,6 +79,8 @@ ZSH_DISABLE_COMPFIX=true
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$ZSH_CACHE_DIR"
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 (( $+commands[zoxide] )) && zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 if (( $+commands[docker] )); then
@@ -98,7 +91,7 @@ if (( $+commands[docker] )); then
 fi
 if (( $+commands[kubectl] )); then
   zstyle ':fzf-tab:complete:kubectl-*:*' fzf-preview '
-  kubectl get $word -o yaml 2>/dev/null || echo $word
+  kubectl get pod $word -o name 2>/dev/null|| echo $word
   '
   zstyle ':fzf-tab:complete:kubectl-get:*' fzf-preview '
   case $group in
@@ -133,16 +126,15 @@ do
   [[ -d $p ]] && path=($p $path)
 done
 
-export PATH
 
 if (( $+commands[flatpak] )); then
-  export PATH="${PATH}":"/var/lib/flatpak/exports/bin"
+  path+=(/var/lib/flatpak/exports/bin)
 fi
 if (( $+commands[go] )); then
-  export PATH=${PATH}:"$(go env GOPATH)/bin"
+  path+=("$(go env GOPATH)/bin")
 fi
 if (( $+commands[composer] )); then
-  export PATH="${PATH}":"$(composer global config bin-dir --absolute 2> /dev/null)"
+  path+=("$(composer global config bin-dir --absolute 2> /dev/null)")
 fi
 if [[ -d  "${HOME}/.bun" ]]; then
   export BUN_INSTALL="$HOME/.bun"
@@ -150,9 +142,11 @@ fi
 
 if [[ -d  "${HOME}/Android/Sdk/" ]]; then
   export ANDROID_HOME="${HOME}/Android/Sdk/"
-  export PATH=$PATH:$ANDROID_HOME/emulator
-  export PATH=$PATH:$ANDROID_HOME/platform-tools
+  path+=($ANDROID_HOME/emulator)
+  path+=($ANDROID_HOME/platform-tools)
 fi
+
+export PATH
 
 # -----------------------------
 # ⚡ OPTIONAL TOOLS (LAZY SAFE)
@@ -236,6 +230,4 @@ done
 # -----------------------------
 # ⚡ FINAL
 # -----------------------------
-export TERM=xterm-256color
-
-. "$HOME/.atuin/bin/env"
+[[ -z "$TERM" ]] && export TERM=xterm-256color
