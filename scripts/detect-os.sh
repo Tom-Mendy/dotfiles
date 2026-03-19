@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Prevent re-detection when already sourced
 if [[ -n ${OS:-} && -n ${DISTRO:-} ]]; then
-  return 0 2> /dev/null || true
+  return 0 2> /dev/null || exit 0
 fi
 
 OS="unknown"

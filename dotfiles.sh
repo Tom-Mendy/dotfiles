@@ -17,12 +17,35 @@ if ! command -v stow > /dev/null 2>&1; then
 fi
 
 # Only stow directories that actually exist in the repo
+DRY_RUN=0
 STOW_DIRS=(hypr vim nvim nushell bash tmux zsh wofi rofi ghostty)
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -n|--dry-run)
+      DRY_RUN=1
+      shift
+      ;;
+    -h|--help)
+      echo "Usage: $0 [--dry-run] [dir1 dir2 ...]"
+      exit 0
+      ;;
+    *)
+      STOW_DIRS=("$@")
+      break
+      ;;
+  esac
+done
+
 for dir in "${STOW_DIRS[@]}"; do
   if [[ -d "$SCRIPT_DIR/$dir" ]]; then
-    stow -t "${HOME}" -d "${SCRIPT_DIR}" -v -R -S "$dir"
+    if [[ $DRY_RUN -eq 1 ]]; then
+      log "Would stow: $dir"
+    else
+      stow -t "${HOME}" -d "${SCRIPT_DIR}" -v -R -S "$dir"
+    fi
   else
-    warn "Répertoire manquant, ignoré: $dir"
+    warn "Missing directory, skipped: $dir"
   fi
 done
 
