@@ -1,32 +1,34 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 # Documentation
 # https://www.gnu.org/software/stow/manual/stow.html
 
-# Check if Script is Run as Root
-if [[ $EUID -ne 1000 ]]; then
-  echo "You must be a normal user to run this script, please run ./install_zsh.sh" 2>&1
-  exit 1
-fi
-
-USERNAME=$(id -u -n 1000)
-
-if [[ "/home/$USERNAME" != "$HOME" ]]; then
-  exit 1
-fi
-
-# Configuration
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+source "$SCRIPT_DIR/scripts/utils.sh"
 
-if [ ! "$(command -v stow)" ]; then
+# Avoid running as root to prevent writing configs in /root
+if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
+  die "Ne pas lancer en root"
+fi
+
+if ! command -v stow > /dev/null 2>&1; then
   "$SCRIPT_DIR/install_stow.sh"
 fi
 
-stow -t "${HOME}" -d "${SCRIPT_DIR}" -v -R -S hypr vim nvim i3 nushell bash kitty tmux zsh wofi rofi waybar ghostty
+# Only stow directories that actually exist in the repo
+STOW_DIRS=(hypr vim nvim nushell bash tmux zsh wofi rofi ghostty)
+for dir in "${STOW_DIRS[@]}"; do
+  if [[ -d "$SCRIPT_DIR/$dir" ]]; then
+    stow -t "${HOME}" -d "${SCRIPT_DIR}" -v -R -S "$dir"
+  else
+    warn "Répertoire manquant, ignoré: $dir"
+  fi
+done
 
 # tmux plugin manager
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
   git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
 fi
 
-echo "Dotfiles installed successfully"
+log "Dotfiles installés"

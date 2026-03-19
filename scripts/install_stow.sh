@@ -2,8 +2,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/scripts/utils.sh"
-source "$SCRIPT_DIR/scripts/detect-os.sh"
+source "$SCRIPT_DIR/utils.sh"
+source "$SCRIPT_DIR/detect-os.sh"
 
 if command -v stow > /dev/null 2>&1; then
   log "stow déjà installé"
