@@ -16,6 +16,10 @@ run_parallel \
 
 "$SCRIPT_DIR/scripts/zsh/install-completions.sh"
 
+if [ ! "$(command -v stow)" ]; then
+  "$SCRIPT_DIR/scripts/install_stow.sh"
+fi
+
 stow -t "${HOME}" -d "${SCRIPT_DIR}" -v -R -S zsh
 
 log "✔ Installation completed"
