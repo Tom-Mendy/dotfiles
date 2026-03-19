@@ -16,7 +16,7 @@ case "$DISTRO" in
   arch)
     sudo pacman -Sy --noconfirm stow
     ;;
-  debian|ubuntu)
+  debian | ubuntu)
     sudo apt-get update -y
     sudo apt-get install -y stow
     ;;
