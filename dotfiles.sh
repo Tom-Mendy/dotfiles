@@ -22,11 +22,11 @@ STOW_DIRS=(hypr vim nvim nushell bash tmux zsh wofi rofi ghostty)
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    -n|--dry-run)
+    -n | --dry-run)
       DRY_RUN=1
       shift
       ;;
-    -h|--help)
+    -h | --help)
       echo "Usage: $0 [--dry-run] [dir1 dir2 ...]"
       exit 0
       ;;
