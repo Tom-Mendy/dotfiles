@@ -1,0 +1,13 @@
+repos:
+  - repo: local
+    hooks:
+      - id: shellcheck-all-sh
+        name: shellcheck -x ./*.sh
+        entry: bash -c 'shellcheck -x ./*.sh'
+        language: system
+        pass_filenames: false
+      - id: format-all-sh
+        name: shfmt
+        entry: bash -c './format.sh'
+        language: system
+        pass_filenames: false
