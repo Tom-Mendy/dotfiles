@@ -12,13 +12,13 @@ on:
 jobs:
   auto_format:
     # Check if the PR is not from a fork
-    runs-on: ubuntu-latest
+    runs-on: arc-runner-set-dotfiles
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
     if: github.repository == 'Tom-Mendy/dotfiles'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }}
       - name: Install shfmt
