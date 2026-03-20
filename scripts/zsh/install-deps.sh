@@ -2,26 +2,39 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-source "$ROOT_DIR/utils.sh"
-source "$ROOT_DIR/detect-os.sh"
+ROOT_SCRIPTS_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+source "$ROOT_SCRIPTS_DIR/utils.sh"
+source "$ROOT_SCRIPTS_DIR/detect-os.sh"
 
 PACKAGES=(git curl zsh fzf bat eza)
 
 install_apt() {
   log "Installing base packages via apt${auth_msg}"
-  sudo apt-get update -y
-  sudo apt-get install -y "${PACKAGES[@]}" ca-certificates
+  if [[ $EUID -eq 0 ]]; then
+    apt-get update -y
+    apt-get install -y "${PACKAGES[@]}" ca-certificates
+  else
+    sudo apt-get update -y
+    sudo apt-get install -y "${PACKAGES[@]}" ca-certificates
+  fi
 }
 
 install_dnf() {
   log "Installing base packages via dnf${auth_msg}"
-  sudo dnf install -y "${PACKAGES[@]}" ca-certificates
+  if [[ $EUID -eq 0 ]]; then
+    dnf install -y "${PACKAGES[@]}" ca-certificates
+  else
+    sudo dnf install -y "${PACKAGES[@]}" ca-certificates
+  fi
 }
 
 install_pacman() {
   log "Installing base packages via pacman${auth_msg}"
-  sudo pacman -Sy --noconfirm "${PACKAGES[@]}" ca-certificates
+  if [[ $EUID -eq 0 ]]; then
+    pacman -Sy --noconfirm "${PACKAGES[@]}" ca-certificates
+  else
+    sudo pacman -Sy --noconfirm "${PACKAGES[@]}" ca-certificates
+  fi
 }
 
 install_brew() {
@@ -52,3 +65,5 @@ case "$OS" in
     warn "OS inconnu : saute l'installation des dépendances système."
     ;;
 esac
+
+log "✔ Dépendances système installées"

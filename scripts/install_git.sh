@@ -5,43 +5,43 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/utils.sh"
 source "$SCRIPT_DIR/detect-os.sh"
 
-if command -v stow > /dev/null 2>&1; then
-  log "stow déjà installé"
+if command -v git > /dev/null 2>&1; then
+  log "git déjà installé"
   exit 0
 fi
 
-log "Installation de stow pour ${DISTRO}${auth_msg}"
+log "Installation de git pour ${DISTRO}${auth_msg}"
 
 case "$DISTRO" in
   arch)
     if [[ $EUID -eq 0 ]]; then
-      pacman -Sy --noconfirm stow
+      pacman -Sy --noconfirm git
     else
-      sudo pacman -Sy --noconfirm stow
+      sudo pacman -Sy --noconfirm git
     fi
     ;;
   debian | ubuntu)
     if [[ $EUID -eq 0 ]]; then
       apt-get update -y
-      apt-get install -y stow
+      apt-get install -y git
     else
       sudo apt-get update -y
-      sudo apt-get install -y stow
+      sudo apt-get install -y git
     fi
     ;;
   fedora)
     if [[ $EUID -eq 0 ]]; then
-      dnf install -y stow
+      dnf install -y git
     else
-      sudo dnf install -y stow
+      sudo dnf install -y git
     fi
     ;;
   nixos)
-    nix-env -iA nixos.stow
+    nix-env -iA nixos.git
     ;;
   macos)
     if command -v brew > /dev/null 2>&1; then
-      brew install stow
+      brew install git
     else
       warn "Homebrew non installé — installez-le puis relancez."
       exit 1
@@ -51,13 +51,13 @@ case "$DISTRO" in
     if command -v apt-get > /dev/null 2>&1; then
       if [[ $EUID -eq 0 ]]; then
         apt-get update -y
-        apt-get install -y stow
+        apt-get install -y git
       else
         sudo apt-get update -y
-        sudo apt-get install -y stow
+        sudo apt-get install -y git
       fi
     else
-      warn "WSL détecté mais aucun gestionnaire apt trouvé. Installez stow manuellement."
+      warn "WSL détecté mais aucun gestionnaire apt trouvé. Installez git manuellement."
       exit 1
     fi
     ;;
@@ -66,4 +66,4 @@ case "$DISTRO" in
     ;;
 esac
 
-log "✔ stow installé"
+log "✔ git installé"

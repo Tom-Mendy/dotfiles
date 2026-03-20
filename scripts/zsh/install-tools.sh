@@ -2,11 +2,13 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-source "$ROOT_DIR/utils.sh"
+ROOT_SCRIPTS_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+source "$ROOT_SCRIPTS_DIR/utils.sh"
+source "$ROOT_SCRIPTS_DIR/install_git.sh"
+source "$ROOT_SCRIPTS_DIR/install_curl.sh"
 
 CACHE_DIR="$HOME/.cache/dotfiles"
-REPO_CACHE_DIR="$ROOT_DIR/cache"
+REPO_CACHE_DIR="$ROOT_SCRIPTS_DIR/cache"
 mkdir -p "$CACHE_DIR" "$REPO_CACHE_DIR"
 
 clone_or_update() {
@@ -66,7 +68,9 @@ install_zoxide() {
   else
     log "Using cached zoxide installer"
   fi
-  bash "$script" --yes
+  bash "$script"
+
+  log "zoxide installed successfully"
 }
 
 install_atuin() {
@@ -83,6 +87,8 @@ install_atuin() {
   fi
 
   sh "$script"
+
+  log "atuin installed successfully"
 }
 
 install_zoxide

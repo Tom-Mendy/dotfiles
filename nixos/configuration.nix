@@ -57,6 +57,8 @@ in
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
+  # Avoid embedding real credentials in this file; use environment variables or
+  # separate, non-versioned configuration if a proxy with authentication is required.
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
@@ -598,13 +600,20 @@ in
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  # services.openssh = {
+  #   enable = true;
+  #   # For better security, prefer key‑based auth and disable password login:
+  #   # settings.PasswordAuthentication = false;
+  #   # settings.PermitRootLogin = "no";
+  # };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = false;
+  # Firewall: keep it enabled by default and only open what you need.
+  networking.firewall = {
+    enable = true;
+    # Example: explicitly open ports here instead of disabling the firewall:
+    # allowedTCPPorts = [ 22 ];
+    # allowedUDPPorts = [ ];
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

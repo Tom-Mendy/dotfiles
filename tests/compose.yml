@@ -1,0 +1,8 @@
+name: tests-dotfiles
+services:
+  test-zsh-ubuntu:
+    image: docker.io/library/ubuntu:latest
+    volumes:
+      - ../:/app
+    working_dir: /app
+    command: ["/app/install_zsh.sh"]
