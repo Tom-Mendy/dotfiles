@@ -4,8 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_SCRIPTS_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 source "$ROOT_SCRIPTS_DIR/utils.sh"
-source "$ROOT_SCRIPTS_DIR/install_git.sh"
-source "$ROOT_SCRIPTS_DIR/install_curl.sh"
+install_packages git curl
 
 CACHE_DIR="$HOME/.cache/dotfiles"
 REPO_CACHE_DIR="$ROOT_SCRIPTS_DIR/cache"

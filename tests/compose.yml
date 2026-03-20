@@ -6,3 +6,15 @@ services:
       - ../:/app
     working_dir: /app
     command: ["/app/install_zsh.sh"]
+  test-zsh-arch:
+    image: docker.io/library/archlinux:latest
+    volumes:
+      - ../:/app
+    working_dir: /app
+    command: ["/app/install_zsh.sh"]
+  test-zsh-fedora:
+    image: docker.io/library/fedora:latest
+    volumes:
+      - ../:/app
+    working_dir: /app
+    command: ["/app/install_zsh.sh"]
