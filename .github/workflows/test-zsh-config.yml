@@ -1,0 +1,28 @@
+name: Test Zsh Config
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  test-zsh-ubuntu:
+    runs-on: arc-runner-set-dotfiles
+    steps:
+      - uses: actions/checkout@v6
+      - name: Test zsh config on Ubuntu
+        run:  docker compose -f tests/compose.yml up --build test-zsh-ubuntu
+
+  test-zsh-arch:
+    runs-on: arc-runner-set-dotfiles
+    steps:
+      - uses: actions/checkout@v6
+      - name: Test zsh config on Arch Linux
+        run:  docker compose -f tests/compose.yml up --build test-zsh-arch
+
+  test-zsh-fedora:
+    runs-on: arc-runner-set-dotfiles
+    steps:
+      - uses: actions/checkout@v6
+      - name: Test zsh config on Fedora
+        run:  docker compose -f tests/compose.yml up --build test-zsh-fedora
