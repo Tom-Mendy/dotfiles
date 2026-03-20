@@ -9,15 +9,14 @@ log "Detected OS: $OS (${DISTRO})"
 
 "${SCRIPT_DIR}/scripts/zsh/install-deps.sh"
 "${SCRIPT_DIR}/scripts/zsh/install-tools.sh"
-
-# wait is handled inside run_parallel via wait loop
-
-if [ ! "$(command -v stow)" ]; then
-  "${SCRIPT_DIR}/scripts/install_stow.sh"
-fi
-
-stow -t "${HOME}" -d "${SCRIPT_DIR}" -v -R -S zsh
-
 "${SCRIPT_DIR}/scripts/zsh/install-completions.sh"
+
+install_packages stow
+
+if [ -f "${HOME}/.zshrc" ] && [ ! -L "${HOME}/.zshrc" ]; then
+  mv "${HOME}/.zshrc" "${HOME}/.zshrc.backup"
+  echo "Backed up existing .zshrc to .zshrc.backup"
+fi
+stow -t "${HOME}" -d "${SCRIPT_DIR}" -v -R -S zsh
 
 log "✔ Installation completed"
