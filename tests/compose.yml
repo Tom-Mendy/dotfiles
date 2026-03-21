@@ -5,16 +5,19 @@ services:
     volumes:
       - ../:/app
     working_dir: /app
-    command: ["/app/install_zsh.sh"]
+    command: ["/bin/sh", "-c", "/app/install_zsh.sh && echo 'running instantiat of zsh' && zsh -f -c 'source ~/.zshrc && zsh -f -c \"source ~/.zshrc\"' "]
+
   test-zsh-arch:
     image: docker.io/library/archlinux:latest
     volumes:
       - ../:/app
     working_dir: /app
-    command: ["/app/install_zsh.sh"]
+    command: ["/bin/sh", "-c", "/app/install_zsh.sh && echo 'running instantiat of zsh' && zsh -f -c 'source ~/.zshrc && zsh -f -c \"source ~/.zshrc\"' "]
+
+
   test-zsh-fedora:
     image: docker.io/library/fedora:latest
     volumes:
       - ../:/app
     working_dir: /app
-    command: ["/app/install_zsh.sh"]
+    command: ["/bin/sh", "-c", "/app/install_zsh.sh && echo 'running instantiat of zsh' && zsh -f -c 'source ~/.zshrc && zsh -f -c \"source ~/.zshrc\"' "]

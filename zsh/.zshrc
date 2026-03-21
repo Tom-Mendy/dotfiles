@@ -1,4 +1,9 @@
 # -----------------------------
+# ⚡ ENVIRONMENT FIXES (EARLY)
+# -----------------------------
+[[ -z "$TERM" ]] && export TERM=xterm-256color
+
+# -----------------------------
 # ⚡ POWERLEVEL10K INSTANT PROMPT
 # -----------------------------
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -133,6 +138,7 @@ for p in \
   $HOME/.atuin/bin \
   $HOME/.cargo/bin \
   $HOME/.bun/bin \
+  $HOME/.opencode/bin \
   /opt/nvim-linux-x86_64/bin
 do
   [[ -d $p ]] && path=($p $path)
@@ -223,12 +229,7 @@ fi
 # ⚡ AUTO FUNCTION
 # -----------------------------
 chpwd() {
-  eza --icons --color=always --group-directories-first --tree -L 2
-}
-
-REPORTTIME=5
-precmd() {
-  [[ $? -ne 0 ]] && echo "❌ error"
+  eza --icons --color=always --group-directories-first --tree -L 1
 }
 
 # -----------------------------
@@ -259,8 +260,3 @@ for keymap in emacs viins; do
   bindkey -M "$keymap" '^[[3;5~' kill-word              # Ctrl+Delete
   bindkey -M "$keymap" '^[[127;5u' backward-kill-word   # Ctrl+Backspace (kitty/CSI-u)
 done
-
-# -----------------------------
-# ⚡ FINAL
-# -----------------------------
-[[ -z "$TERM" ]] && export TERM=xterm-256color
