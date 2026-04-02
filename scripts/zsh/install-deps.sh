@@ -6,7 +6,7 @@ ROOT_SCRIPTS_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 source "$ROOT_SCRIPTS_DIR/utils.sh"
 source "$ROOT_SCRIPTS_DIR/detect-os.sh"
 
-PACKAGES=(git curl zsh fzf bat)
+PACKAGES=(git curl zsh fzf bat ripgrep)
 
 install_packages "${PACKAGES[@]}"
 
