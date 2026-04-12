@@ -260,3 +260,6 @@ for keymap in emacs viins; do
   bindkey -M "$keymap" '^[[3;5~' kill-word              # Ctrl+Delete
   bindkey -M "$keymap" '^[[127;5u' backward-kill-word   # Ctrl+Backspace (kitty/CSI-u)
 done
+
+# bun completions
+[ -s "/home/tmendy/.bun/_bun" ] && source "/home/tmendy/.bun/_bun"
