@@ -2,7 +2,7 @@ return {
   -- Set lualine as statusline
   'nvim-lualine/lualine.nvim',
   dependencies = {
-    'kyazdani42/nvim-web-devicons',
+    'nvim-tree/nvim-web-devicons',
   },
   opts = {
     options = {
