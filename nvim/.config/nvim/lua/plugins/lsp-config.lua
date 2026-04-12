@@ -28,6 +28,9 @@ return {
 				opts.servers.rnix = opts.servers.rnix or {}
 			end
 
+			opts.servers.bashls = opts.servers.bashls or {}
+			opts.servers.bashls.enabled = command_exists("node")
+
 			opts.servers.html = vim.tbl_deep_extend("force", opts.servers.html or {}, {
 				filetypes = { "html", "twig", "hbs" },
 			})
