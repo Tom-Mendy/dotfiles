@@ -18,7 +18,7 @@
       },
     },
     dependencies = {
-      'echasnovski/mini.nvim',
+      'nvim-mini/mini.nvim',
       'nvim-tree/nvim-web-devicons'
     },
   }
