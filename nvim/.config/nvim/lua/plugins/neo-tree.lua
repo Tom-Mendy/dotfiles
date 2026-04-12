@@ -6,7 +6,7 @@ return {
 			function()
 				require("neo-tree.command").execute({ source = "filesystem", reveal = true, position = "right" })
 			end,
-			desc = "Project Filesystem",
+			desc = "Project: File Explorer",
 		},
 	},
 	opts = function(_, opts)
