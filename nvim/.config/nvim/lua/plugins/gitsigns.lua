@@ -9,11 +9,11 @@ return {
       end
 
       vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
-        { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+        { buffer = bufnr, desc = 'Git: Previous Hunk' })
       vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk,
-        { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
+        { buffer = bufnr, desc = 'Git: Next Hunk' })
       vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk,
-        { buffer = bufnr, desc = '[P]review [H]unk' })
+        { buffer = bufnr, desc = 'Git: Preview Hunk' })
     end
   end,
 }
