@@ -1,0 +1,26 @@
+cache = true
+dir_length = 2
+separator_aware = true
+blacklist = ["node_modules", ".git", ".direnv"]
+sort_order = ["config", "tmux", "zoxide"]
+
+[default_session]
+startup_command = "nvim"
+preview_command = "eza --all --icons --git --color=always {}"
+
+[[session]]
+name = "dotfiles"
+path = "~/dotfiles"
+startup_command = "nvim"
+
+[[wildcard]]
+pattern = "~/projects/*"
+startup_command = "nvim"
+
+[[wildcard]]
+pattern = "~/work/*"
+startup_command = "nvim"
+
+[[wildcard]]
+pattern = "~/tests/*"
+startup_command = "nvim"

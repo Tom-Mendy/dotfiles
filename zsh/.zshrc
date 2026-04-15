@@ -235,7 +235,26 @@ chpwd() {
 # -----------------------------
 # ⚡ TMUX
 # -----------------------------
-bindkey -s ^f "tmux-sessionizer\n"
+function sesh-sessions() {
+  {
+    exec </dev/tty
+    exec <&1
+    local session
+    local candidates
+    candidates=$( {
+      sesh list -t -c -z 2> /dev/null || true
+      find ~/projects ~/work ~/tests -mindepth 1 -maxdepth 1 -type d 2> /dev/null || true
+    } | awk '!seen[$0]++')
+    session=$(printf '%s\n' "$candidates" | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
+    zle reset-prompt > /dev/null 2>&1 || true
+    [[ -z "$session" ]] && return
+    sesh connect "$session"
+  }
+}
+
+zle -N sesh-sessions
+bindkey -M emacs '^F' sesh-sessions
+bindkey -M viins '^F' sesh-sessions
 
 # Ctrl+Arrow word jump (OMZ-like behavior) across common terminal escape sequences
 for keymap in emacs viins; do

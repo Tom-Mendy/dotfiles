@@ -21,6 +21,7 @@ mk_completion() {
 mk_completion docker "$COMP_DIR/_docker"
 mk_completion kubectl "$COMP_DIR/_kubectl"
 mk_completion bun "$COMP_DIR/_bun"
+mk_completion sesh "$COMP_DIR/_sesh"
 
 # GitHub CLI (gh)
 if command -v gh > /dev/null && [[ ! -f "$COMP_DIR/_gh" ]]; then

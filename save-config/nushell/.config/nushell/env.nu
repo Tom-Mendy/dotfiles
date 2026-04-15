@@ -19,7 +19,7 @@ alias c = clear
 
 # tmux
 $env.Path = $env.Path | append $"($env.HOME)/.local/bin"
-alias ts = zsh -c ~/.local/bin/tmux-sessionizer
+alias ts = sesh connect
 
 # language specific paths
 if (command-exist cargo) {

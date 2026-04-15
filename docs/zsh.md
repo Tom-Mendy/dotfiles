@@ -107,7 +107,7 @@ Conditional aliases:
 
 Keybindings:
 
-- `Ctrl-F` inserts `tmux-sessionizer`
+- `Ctrl-F` opens `sesh` picker and connects to selected session
 - `Ctrl-Left` / `Ctrl-Right` move by word
 - `Alt-B` / `Alt-F` move by word
 - `Home` / `End` jump to line boundaries
