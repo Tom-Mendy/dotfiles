@@ -1,24 +1,16 @@
-  return {
+return {
+  {
     "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts_extend = { "spec" },
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
-    end,
-    opts = {
-      spec = {
+    opts = function(_, opts)
+      opts.spec = opts.spec or {}
+
+      vim.list_extend(opts.spec, {
         { "<leader>b", group = "buffer" },
-        { "<leader>f", group = "format/file/find" },
+        { "<leader>f", group = "file/find" },
         { "<leader>g", group = "git" },
-        { "<leader>l", group = "lint" },
-        { "<leader>p", group = "project" },
-        { "<leader>r", group = "replace/refactor" },
-        { "<leader>t", group = "terminal" },
-      },
-    },
-    dependencies = {
-      'nvim-mini/mini.nvim',
-      'nvim-tree/nvim-web-devicons'
-    },
-  }
+        { "<leader>s", group = "search" },
+        { "<leader>w", group = "windows" },
+      })
+    end,
+  },
+}
