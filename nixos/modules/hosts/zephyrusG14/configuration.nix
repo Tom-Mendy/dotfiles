@@ -1,104 +1,113 @@
-{ self, inputs, ... }: {
+{ self, inputs, ... }:
+{
 
-  flake.nixosModules.zephyrusG14Configuration = { pkgs, lib, ... }: {
-    # import any other modules from here
-    imports = [
-      self.nixosModules.zephyrusG14Hardware
-      self.nixosModules.neovim
-      self.nixosModules.niri
-      self.nixosModules.zsh
-    ];
+  flake.nixosModules.zephyrusG14Configuration =
+    { pkgs, lib, ... }:
+    {
+      # import any other modules from here
+      imports = [
+        self.nixosModules.zephyrusG14Hardware
+        self.nixosModules.neovim
+        self.nixosModules.niri
+        self.nixosModules.zsh
+      ];
 
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+      nix.settings.experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
 
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+      boot.loader.grub.enable = true;
+      boot.loader.grub.device = "/dev/sda";
+      boot.loader.grub.useOSProber = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+      # Use latest kernel.
+      boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+      networking.hostName = "nixos"; # Define your hostname.
+      # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Enable networking
-  networking.networkmanager.enable = true;
+      # Configure network proxy if necessary
+      # networking.proxy.default = "http://user:password@proxy:port/";
+      # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Set your time zone.
-  time.timeZone = "Asia/Seoul";
+      # Enable networking
+      networking.networkmanager.enable = true;
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+      # Set your time zone.
+      time.timeZone = "Asia/Seoul";
 
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "ko_KR.UTF-8";
-    LC_IDENTIFICATION = "ko_KR.UTF-8";
-    LC_MEASUREMENT = "ko_KR.UTF-8";
-    LC_MONETARY = "ko_KR.UTF-8";
-    LC_NAME = "ko_KR.UTF-8";
-    LC_NUMERIC = "ko_KR.UTF-8";
-    LC_PAPER = "ko_KR.UTF-8";
-    LC_TELEPHONE = "ko_KR.UTF-8";
-    LC_TIME = "ko_KR.UTF-8";
-  };
+      # Select internationalisation properties.
+      i18n.defaultLocale = "en_US.UTF-8";
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "fr";
-    variant = "";
-  };
+      i18n.extraLocaleSettings = {
+        LC_ADDRESS = "ko_KR.UTF-8";
+        LC_IDENTIFICATION = "ko_KR.UTF-8";
+        LC_MEASUREMENT = "ko_KR.UTF-8";
+        LC_MONETARY = "ko_KR.UTF-8";
+        LC_NAME = "ko_KR.UTF-8";
+        LC_NUMERIC = "ko_KR.UTF-8";
+        LC_PAPER = "ko_KR.UTF-8";
+        LC_TELEPHONE = "ko_KR.UTF-8";
+        LC_TIME = "ko_KR.UTF-8";
+      };
 
-  # Configure console keymap
-  console.keyMap = "fr";
+      # Configure keymap in X11
+      services.xserver.xkb = {
+        layout = "fr";
+        variant = "";
+      };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.tmendy = {
-    isNormalUser = true;
-    description = "Tom Mendy";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
-  };
+      # Configure console keymap
+      console.keyMap = "fr";
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+      # Define a user account. Don't forget to set a password with ‘passwd’.
+      users.users.tmendy = {
+        isNormalUser = true;
+        description = "Tom Mendy";
+        extraGroups = [
+          "networkmanager"
+          "wheel"
+        ];
+        packages = with pkgs; [ ];
+      };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-  ];
+      # Allow unfree packages
+      nixpkgs.config.allowUnfree = true;
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+      # List packages installed in system profile. To search, run:
+      # $ nix search wget
+      environment.systemPackages = with pkgs; [
+        vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+        #  wget
+      ];
 
-  # List services that you want to enable:
+      # Some programs need SUID wrappers, can be configured further or are
+      # started in user sessions.
+      # programs.mtr.enable = true;
+      # programs.gnupg.agent = {
+      #   enable = true;
+      #   enableSSHSupport = true;
+      # };
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+      # List services that you want to enable:
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+      # Enable the OpenSSH daemon.
+      services.openssh.enable = true;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11"; # Did you read the comment?
-  };
+      # Open ports in the firewall.
+      # networking.firewall.allowedTCPPorts = [ ... ];
+      # networking.firewall.allowedUDPPorts = [ ... ];
+      # Or disable the firewall altogether.
+      # networking.firewall.enable = false;
+
+      # This value determines the NixOS release from which the default
+      # settings for stateful data, like file locations and database versions
+      # on your system were taken. It‘s perfectly fine and recommended to leave
+      # this value at the release version of the first install of this system.
+      # Before changing this value read the documentation for this option
+      # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+      system.stateVersion = "25.11"; # Did you read the comment?
+    };
 
 }
