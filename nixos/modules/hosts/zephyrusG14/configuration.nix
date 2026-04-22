@@ -4,6 +4,7 @@
     # import any other modules from here
     imports = [
       self.nixosModules.zephyrusG14Hardware
+      self.nixosModules.neovim
       self.nixosModules.niri
     ];
 

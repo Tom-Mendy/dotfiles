@@ -80,11 +80,24 @@
         "type": "github"
       }
     },
+    "nvim-config": {
+      "flake": false,
+      "locked": {
+        "path": "../nvim/.config/nvim",
+        "type": "path"
+      },
+      "original": {
+        "path": "../nvim/.config/nvim",
+        "type": "path"
+      },
+      "parent": []
+    },
     "root": {
       "inputs": {
         "flake-parts": "flake-parts",
         "import-tree": "import-tree",
         "nixpkgs": "nixpkgs",
+        "nvim-config": "nvim-config",
         "wrapper-modules": "wrapper-modules"
       }
     },
