@@ -10,6 +10,11 @@
       flake = false;
     };
 
+    zsh-config = {
+      url = "path:../zsh";
+      flake = false;
+    };
+
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
   };
 

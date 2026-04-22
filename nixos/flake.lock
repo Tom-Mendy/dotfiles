@@ -98,7 +98,8 @@
         "import-tree": "import-tree",
         "nixpkgs": "nixpkgs",
         "nvim-config": "nvim-config",
-        "wrapper-modules": "wrapper-modules"
+        "wrapper-modules": "wrapper-modules",
+        "zsh-config": "zsh-config"
       }
     },
     "wrapper-modules": {
@@ -118,6 +119,18 @@
         "repo": "nix-wrapper-modules",
         "type": "github"
       }
+    },
+    "zsh-config": {
+      "flake": false,
+      "locked": {
+        "path": "../zsh",
+        "type": "path"
+      },
+      "original": {
+        "path": "../zsh",
+        "type": "path"
+      },
+      "parent": []
     }
   },
   "root": "root",

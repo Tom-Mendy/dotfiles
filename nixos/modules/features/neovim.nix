@@ -1,6 +1,6 @@
 { self, inputs, ... }:
-{
-  flake.modules.neovim.main =
+let
+  mainModule =
     {
       config,
       lib,
@@ -43,7 +43,7 @@
       };
     };
 
-  flake.modules.neovim.lua =
+  luaModule =
     { pkgs, ... }:
     {
       extraPackages = with pkgs; [
@@ -52,7 +52,7 @@
       ];
     };
 
-  flake.modules.neovim.nix =
+  nixModule =
     { pkgs, ... }:
     {
       extraPackages = with pkgs; [
@@ -61,11 +61,18 @@
         nixd
       ];
     };
+in
+{
+  flake.modules.neovim.main = mainModule;
+
+  flake.modules.neovim.lua = luaModule;
+
+  flake.modules.neovim.nix = nixModule;
 
   flake.modules.neovim.allServers = {
     imports = [
-      self.modules.neovim.lua
-      self.modules.neovim.nix
+      luaModule
+      nixModule
     ];
   };
 
@@ -85,9 +92,9 @@
       packages.neovim = inputs.wrapper-modules.wrappers.neovim.wrap {
         inherit pkgs;
         imports = [
-          self.modules.neovim.main
-          self.modules.neovim.lua
-          self.modules.neovim.nix
+          mainModule
+          luaModule
+          nixModule
         ];
       };
 
@@ -95,8 +102,9 @@
         inherit pkgs;
         dynamicMode = true;
         imports = [
-          self.modules.neovim.main
-          self.modules.neovim.allServers
+          mainModule
+          luaModule
+          nixModule
         ];
       };
     };
