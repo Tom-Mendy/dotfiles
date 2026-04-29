@@ -96,57 +96,20 @@ install_sesh() {
     return
   fi
 
-  log "Installing sesh from pre-built binary or Go..."
+  log "Installing sesh with Go..."
 
-  ARCH=$(uname -m)
-  OS=$(uname -s)
-  case "${ARCH}" in
-    x86_64)
-      SESH_ARCH="x86_64"
-      ;;
-    aarch64)
-      SESH_ARCH="aarch64"
-      ;;
-    *)
-      warn "Unknown architecture ${ARCH}, trying Go install fallback"
-      if command -v go > /dev/null; then
-        go install github.com/joshmedeski/sesh/v2@latest
-        log "✔ sesh installed via Go"
-        return
-      fi
-      die "Cannot install sesh: unsupported architecture and Go not found"
-      ;;
-  esac
-
-  OS_LOWER=$(echo "$OS" | tr '[:upper:]' '[:lower:]')
-  SESH_API_URL="https://api.github.com/repos/joshmedeski/sesh/releases/latest"
-  ASSET_URL=$(curl -sSfL "${SESH_API_URL}" | grep browser_download_url | grep "${OS_LOWER}" | grep "${SESH_ARCH}" | grep -v '.sha256' | head -n1 | cut -d '"' -f4)
-
-  if [[ -z ${ASSET_URL} ]]; then
-    warn "No binary release for ${OS_LOWER}/${SESH_ARCH}, trying Go install"
-    if command -v go > /dev/null; then
-      go install github.com/joshmedeski/sesh/v2@latest
-      log "✔ sesh installed via Go"
-      return
-    else
-      warn "Go not found, sesh install skipped"
-      return
-    fi
+  if ! command -v go > /dev/null; then
+    log "Go not found, installing golang"
+    install_packages "golang"
   fi
 
-  TMP_DIR="$(mktemp -d)"
-  curl -sSfL "${ASSET_URL}" -o "$TMP_DIR/sesh.tar.gz" || curl -sSfL "${ASSET_URL}" -o "$TMP_DIR/sesh.zip"
-
-  if [[ -f "$TMP_DIR/sesh.tar.gz" ]]; then
-    tar -xzf "$TMP_DIR/sesh.tar.gz" -C "$TMP_DIR"
-  elif [[ -f "$TMP_DIR/sesh.zip" ]]; then
-    unzip -q "$TMP_DIR/sesh.zip" -d "$TMP_DIR"
+  if ! command -v go > /dev/null; then
+    warn "Go not found, sesh install skipped"
+    return
   fi
 
-  auto_sudo mv "$TMP_DIR/sesh" /usr/local/bin/sesh 2> /dev/null || auto_sudo cp "$TMP_DIR/sesh" /usr/local/bin/sesh
-  auto_sudo chmod +x /usr/local/bin/sesh
-  rm -rf "$TMP_DIR"
-  log "✔ sesh installed"
+  go install github.com/joshmedeski/sesh/v2@latest
+  log "✔ sesh installed via Go"
 }
 
 install_zoxide
