@@ -225,6 +225,26 @@ fi
 # trash in terminal
 (( $+commands[safe-rm] )) && alias rm="safe-rm"
 
+rsyncsafe() {
+  local mode="$1"
+
+  case "$mode" in
+    check)
+      shift
+      rsync -avhP --checksum "$@"
+      ;;
+
+    mirror)
+      shift
+      rsync -avhP --partial --checksum --delete "$@"
+      ;;
+
+    *)
+      rsync -avhP --partial --inplace "$@"
+      ;;
+  esac
+}
+
 # -----------------------------
 # ⚡ AUTO FUNCTION
 # -----------------------------
