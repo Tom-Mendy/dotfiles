@@ -39,8 +39,28 @@ if grep -Eiq 'neovim|noctalia|niri' "$drv_json"; then
   exit 1
 fi
 
-if ! grep -q 'export EDITOR=vim' "$drv_json"; then
-  echo "./nixos#zsh should export EDITOR=vim without a Nix store vim path" >&2
+if ! grep -q 'export EDITOR=/nix/store/.*/bin/vim' "$drv_json"; then
+  echo "./nixos#zsh should export EDITOR to the packaged Vim binary" >&2
+  exit 1
+fi
+
+if ! grep -q '/nix/store/.*/bin/zsh' "$drv_json"; then
+  echo "./nixos#zsh should add the packaged zsh binary path" >&2
+  exit 1
+fi
+
+if ! grep -q 'LC_CTYPE=C.UTF-8' "$drv_json"; then
+  echo "./nixos#zsh should set a UTF-8 locale fallback for Powerlevel10k" >&2
+  exit 1
+fi
+
+if ! grep -q '/nix/var/nix/profiles/default/bin' "$drv_json"; then
+  echo "./nixos#zsh should add the default Nix profile bin path" >&2
+  exit 1
+fi
+
+if ! grep -q '.nix-profile/bin' "$drv_json"; then
+  echo "./nixos#zsh should add the user Nix profile bin path" >&2
   exit 1
 fi
 
@@ -50,8 +70,11 @@ if ! grep -q '/nixos/../zsh/.p10k.zsh' "$drv_json"; then
 fi
 
 if [[ ${SKIP_ZSH_RUNTIME_TEST:-0} != "1" ]]; then
-  echo "checking wrapped zsh EDITOR at runtime"
-  "${nix_cmd[@]}" run ./nixos#zsh -- -c '[[ "$EDITOR" = vim ]]'
+  echo "checking wrapped zsh runtime"
+  "${nix_cmd[@]}" run ./nixos#zsh -- -ic '
+    [[ "$EDITOR" = /nix/store/*/bin/vim ]] &&
+    [[ "$(command -v zsh)" = /nix/store/*/bin/zsh ]]
+  '
 fi
 
 echo "checking nixosModules.zsh evaluation"
