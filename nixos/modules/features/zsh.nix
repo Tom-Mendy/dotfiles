@@ -1,7 +1,7 @@
 { self, inputs, ... }:
 let
   promptModule = import ./prompt.nix {
-    inherit inputs;
+    inherit inputs self;
     asWrapperModule = true;
   };
 
@@ -105,7 +105,7 @@ let
               esac
             '
 
-            export EDITOR=${pkgs.neovim}/bin/nvim
+            export EDITOR=${pkgs.vim}/bin/vim
 
             typeset -U path PATH
 

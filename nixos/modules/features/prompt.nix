@@ -1,7 +1,4 @@
-{
-  inputs,
-  ...
-}@args:
+{ inputs, ... }@args:
 let
   promptModule =
     {
@@ -26,7 +23,11 @@ let
 
         zdotdirPath = lib.mkOption {
           type = wlib.types.stringable;
-          default = inputs.zsh-config.outPath;
+          default =
+            if args ? self then
+              "${args.self}/../zsh"
+            else
+              inputs.zsh-config.outPath;
         };
 
         dynamicZdotdirPath = lib.mkOption {
