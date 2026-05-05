@@ -1,0 +1,12 @@
+[user]
+	email = tom.mendy@epitech.eu
+	name = Tom-Mendy
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[safe]
+	directory = /home/tmendy/dotfiles
