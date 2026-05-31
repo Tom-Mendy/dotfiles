@@ -1,7 +1,7 @@
 { self, inputs, ... }:
 let
   promptModule = import ./prompt.nix {
-    inherit inputs;
+    inherit inputs self;
     asWrapperModule = true;
   };
 
@@ -31,6 +31,11 @@ let
         ];
 
         zshenv.content = ''
+          if [[ -z "''${LC_ALL:-}" && -z "''${LC_CTYPE:-}" && -z "''${LANG:-}" ]]; then
+            export LANG=C.UTF-8
+            export LC_CTYPE=C.UTF-8
+          fi
+
           HELPDIR="${pkgs.zsh}/share/zsh/$ZSH_VERSION/help"
           fpath=(${pkgs.zsh-completions}/share/zsh/site-functions $fpath)
 
@@ -105,11 +110,13 @@ let
               esac
             '
 
-            export EDITOR=${pkgs.neovim}/bin/nvim
+            export EDITOR=${pkgs.vim}/bin/vim
 
             typeset -U path PATH
 
             for p in \
+              /nix/var/nix/profiles/default/bin \
+              $HOME/.nix-profile/bin \
               /usr/bin \
               $HOME/.local/bin \
               $HOME/.atuin/bin \
@@ -120,6 +127,8 @@ let
             do
               [[ -d $p ]] && path=($p $path)
             done
+
+            path=(${pkgs.zsh}/bin $path)
 
             if (( $+commands[flatpak] )); then
               path+=(/var/lib/flatpak/exports/bin)

@@ -1,5 +1,14 @@
 name: tests-dotfiles
 services:
+  test-nixos-modules:
+    image: docker.io/nixos/nix:latest
+    volumes:
+      - ../:/app
+    working_dir: /app
+    environment:
+      SKIP_ZSH_RUNTIME_TEST: "1"
+    command: ["/app/tests/test-nixos-modules.sh"]
+
   test-zsh-ubuntu:
     image: docker.io/library/ubuntu:latest
     volumes:
