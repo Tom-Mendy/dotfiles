@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+{ self, ... }:
 {
 
   flake.nixosModules.zephyrusG14Configuration =
