@@ -61,15 +61,13 @@
           ntfs3g
           numlockx
           policycoreutils
-          postman
+          bruno
           proton-vpn-cli
-          putty
           rustdesk
           smartmontools
           stow
           textpieces
           tokei
-          tree
           unzip
           vesktop
           vim
