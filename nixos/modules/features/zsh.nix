@@ -142,6 +142,8 @@ let
 
             export PATH
 
+            export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+
             eval "$(${pkgs.direnv}/bin/direnv hook zsh)"
             HISTFILE=~/.zsh_history
             HISTSIZE=10000
