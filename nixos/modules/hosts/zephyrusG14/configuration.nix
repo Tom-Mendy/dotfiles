@@ -2,7 +2,7 @@
 {
 
   flake.nixosModules.zephyrusG14Configuration =
-    { pkgs, lib, ... }:
+    { pkgs, lib, unstable, ... }:
     {
       # import any other modules from here
       imports = [
@@ -136,12 +136,15 @@
     bitwarden-desktop
     proton-vpn-cli
     vesktop
-    codex
+    unstable.codex
+    fastfetch
+    btop
     localsend
-    vscode
-    zed-editor
+    unstable.vscode
+    unstable.zed-editor
     stow
-  #  wget
+    wget
+    curl
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
