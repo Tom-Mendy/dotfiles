@@ -86,7 +86,9 @@
           inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
           inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
           unstable.codex
-          unstable.vscode
+          (unstable.vscode.override {
+            commandLineArgs = "--password-store=gnome-libsecret";
+          })
           unstable.zed-editor
         ];
     };

@@ -66,6 +66,7 @@
         jq
         pre-commit
         tree-sitter
+        ghostty
       ];
     };
 }

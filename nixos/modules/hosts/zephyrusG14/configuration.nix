@@ -131,6 +131,7 @@
       environment.systemPackages = with pkgs; [
         bitwarden-desktop
         git
+        git-lfs
       ];
 
       # Some programs need SUID wrappers, can be configured further or are

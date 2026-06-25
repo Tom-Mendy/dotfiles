@@ -1,9 +1,10 @@
 {
   flake.nixosModules.devExtra =
-    { pkgs, unstable, ... }:
+    { pkgs, ... }:
     {
-      environment.systemPackages =
-        (with pkgs; [
+      environment.systemPackages = (
+        with pkgs;
+        [
           ansible
           ansible-lint
           codespell
@@ -13,6 +14,10 @@
           python312Packages.libtmux
           stack
           terraform
-        ]);
+          playwright
+          nil
+          nixd
+        ]
+      );
     };
 }
