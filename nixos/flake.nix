@@ -5,6 +5,15 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
 
+    zen-browser = {
+          url = "github:youwen5/zen-browser-flake";
+          inputs.nixpkgs.follows = "nixpkgs";
+    };
+    helium = {
+      url = "github:amaanq/helium-flake";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     nvim-config = {
       url = "path:../nvim/.config/nvim";
       flake = false;

@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.nixosModules.workstation =
     { pkgs, unstable, ... }:
@@ -81,8 +82,11 @@
           xhost
           xkill
           zip
+
         ])
         ++ [
+          inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+          inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
           unstable.codex
           unstable.vscode
           unstable.zed-editor

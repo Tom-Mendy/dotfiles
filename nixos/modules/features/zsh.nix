@@ -15,7 +15,7 @@ let
         hmSessionVariables = null;
         skipGlobalRC = true;
 
-        extraPackages = with pkgs; [
+        runtimePkgs = with pkgs; [
           atuin
           bat
           direnv

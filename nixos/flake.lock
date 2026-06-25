@@ -18,6 +18,26 @@
         "type": "github"
       }
     },
+    "helium": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782327667,
+        "narHash": "sha256-0jHJ3mmO+EbLI6WJoXa4IrE54qOVlBTTyN3MKxsviu0=",
+        "owner": "amaanq",
+        "repo": "helium-flake",
+        "rev": "6418ab25db1b01aa0946dd4c69e50ffda975dab6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "amaanq",
+        "repo": "helium-flake",
+        "type": "github"
+      }
+    },
     "import-tree": {
       "locked": {
         "lastModified": 1778781969,
@@ -111,6 +131,7 @@
     "root": {
       "inputs": {
         "flake-parts": "flake-parts",
+        "helium": "helium",
         "import-tree": "import-tree",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",

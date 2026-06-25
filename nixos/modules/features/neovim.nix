@@ -32,7 +32,7 @@ let
       config = {
         settings.config_directory = if config.dynamicMode then config.dynamicInitLua else config.initLua;
 
-        extraPackages = with pkgs; [
+        runtimePkgs = with pkgs; [
           fd
           git
           gnumake
@@ -46,7 +46,7 @@ let
   luaModule =
     { pkgs, ... }:
     {
-      extraPackages = with pkgs; [
+      runtimePkgs = with pkgs; [
         lua-language-server
         stylua
       ];
@@ -55,7 +55,7 @@ let
   nixModule =
     { pkgs, ... }:
     {
-      extraPackages = with pkgs; [
+      runtimePkgs = with pkgs; [
         alejandra
         nil
         nixd
