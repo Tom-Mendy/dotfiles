@@ -1,7 +1,12 @@
 { inputs, ... }:
 {
   flake.nixosModules.workstation =
-    { pkgs, unstable, ... }:
+    {
+      pkgs,
+      master,
+      unstable,
+      ...
+    }:
     {
       networking.firewall.enable = true;
 
@@ -63,7 +68,6 @@
           policycoreutils
           bruno
           proton-vpn-cli
-          rustdesk
           smartmontools
           stow
           textpieces
@@ -83,13 +87,14 @@
 
         ])
         ++ [
+          master.rustdesk
           inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
           inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
-          unstable.codex
+          master.codex
           (unstable.vscode.override {
             commandLineArgs = "--password-store=gnome-libsecret";
           })
-          unstable.zed-editor
+          master.zed-editor
         ];
     };
 }
