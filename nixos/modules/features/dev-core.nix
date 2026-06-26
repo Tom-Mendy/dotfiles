@@ -65,6 +65,7 @@
         # Common development tools
         jq
         pre-commit
+        prek
         tree-sitter
         ghostty
       ];
