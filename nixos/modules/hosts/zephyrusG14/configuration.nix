@@ -14,6 +14,7 @@
         self.nixosModules.zephyrusG14Hardware
         self.nixosModules.neovim
         self.nixosModules.niri
+        self.nixosModules.rog
         self.nixosModules.virtualisation
         self.nixosModules.workstation
         self.nixosModules.zsh
