@@ -9,6 +9,8 @@
           ansible-lint
           codespell
           openssl
+          nfs-utils
+          arp-scan
           prisma_7
           prisma-engines_7
           k6
