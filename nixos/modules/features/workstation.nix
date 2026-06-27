@@ -74,7 +74,7 @@
           textpieces
           tokei
           unzip
-          vesktop
+          (vesktop.override { withTTS = false; })
           vim
           vlc
           volumeicon

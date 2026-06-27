@@ -1,0 +1,8 @@
+[user]
+	email = tom.mendy@epitech.eu
+	name = Tom Mendy
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
