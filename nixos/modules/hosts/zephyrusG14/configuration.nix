@@ -33,8 +33,18 @@
       # Use latest kernel.
       boot.kernelPackages = pkgs.linuxPackages_latest;
 
-      boot.initrd.luks.devices."luks-e9e0e2e3-aedc-447b-b7f8-22d88b5a9138".device =
-        "/dev/disk/by-uuid/e9e0e2e3-aedc-447b-b7f8-22d88b5a9138";
+      zramSwap = {
+        enable = true;
+        algorithm = "zstd";
+        memoryPercent = 50;
+        priority = 100;
+      };
+
+      boot.kernel.sysctl = {
+        "vm.swappiness" = 10;
+        "vm.page-cluster" = 0;
+      };
+
       networking.hostName = "zephyrusG14"; # Define your hostname.
       # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
