@@ -17,6 +17,7 @@
           stack
           terraform
           playwright-driver
+          rumdl
           nil
           nixd
         ]

@@ -18,6 +18,7 @@
         self.nixosModules.virtualisation
         self.nixosModules.workstation
         self.nixosModules.zsh
+        self.nixosModules.synologySftp
       ];
 
       nix.settings.experimental-features = [
@@ -131,6 +132,7 @@
 
       environment.systemPackages = with pkgs; [
         bitwarden-desktop
+        supersonic
         git
         git-lfs
       ];

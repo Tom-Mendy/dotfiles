@@ -25,5 +25,3 @@ Host hstgr
 Host synology
  HostName nainjoueur.synology.me
  User tom
- Port 5555
- AddressFamily inet
