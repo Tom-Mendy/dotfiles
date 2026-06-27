@@ -6,9 +6,7 @@
 
 let
   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz";
-  unstableTarball =
-    fetchTarball
-      "https://github.com/nixos/nixpkgs/tarball/master";
+  unstableTarball = fetchTarball "https://github.com/nixos/nixpkgs/tarball/master";
   # nvimConfig = builtins.fetchGit {
   #   url = "https://github.com/Tom-Mendy/nvim.git";
   #   ref = "HEAD";
@@ -26,12 +24,11 @@ let
 in
 
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      (import "${home-manager}/nixos")
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    (import "${home-manager}/nixos")
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -46,11 +43,12 @@ in
   ];
 
   nixpkgs.config = {
-    packageOverrides = pkgs: with pkgs; {
-      unstable = import unstableTarball {
-        config = config.nixpkgs.config;
+    packageOverrides =
+      pkgs: with pkgs; {
+        unstable = import unstableTarball {
+          config = config.nixpkgs.config;
+        };
       };
-    };
   };
 
   networking.hostName = "Tom-M-Nixos-Laptop"; # Define your hostname.
@@ -137,8 +135,6 @@ in
     };
   };
 
-
-
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
@@ -180,7 +176,13 @@ in
     isNormalUser = true;
     description = "Tom Mendy";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "input" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "libvirtd"
+      "input"
+    ];
 
   };
 
@@ -195,11 +197,9 @@ in
     };
     programs.firefox.enable = true;
 
-
     home.sessionVariables = {
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
     };
-
 
     nixpkgs.config.allowUnfree = true;
     home.packages = with pkgs; [
@@ -303,8 +303,14 @@ in
       source-han-serif-japanese
     ];
     fontconfig.defaultFonts = {
-      serif = [ "Noto Serif" "Source Han Serif" ];
-      sansSerif = [ "Open Sans" "Source Han Sans" ];
+      serif = [
+        "Noto Serif"
+        "Source Han Serif"
+      ];
+      sansSerif = [
+        "Open Sans"
+        "Source Han Sans"
+      ];
       emoji = [ "Noto Color Emoji" ];
     };
   };
@@ -365,7 +371,6 @@ in
   # virtualisation.virtualbox.host.enableExtensionPack = true;
   # users.extraGroups.vboxusers.members = [ "user-with-access-to-virtualbox" ];
 
-
   programs.zsh.enable = true;
   programs.tmux.enable = true;
 
@@ -388,9 +393,11 @@ in
   #   "steam-run"
   # ];
 
-
   # Enable the Flakes feature and the accompanying new nix command-line tool
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -614,6 +621,10 @@ in
     # allowedTCPPorts = [ 22 ];
     # allowedUDPPorts = [ ];
   };
+
+  networking.extraHosts = ''
+    192.168.1.254 mabbox.bytel.fr
+  '';
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
