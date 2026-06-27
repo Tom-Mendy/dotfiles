@@ -1,36 +1,40 @@
 { self, inputs, ... }:
 let
+  runtimePkgsFor = pkgs:
+    with pkgs; [
+      atuin
+      bat
+      direnv
+      eza
+      fd
+      fzf
+      git
+      kubectl
+      ripgrep
+      safe-rm
+      sesh
+      zoxide
+    ];
+
   promptModule = import ./prompt.nix {
     inherit inputs;
     asWrapperModule = true;
   };
 
   mainModule =
-    {
-      pkgs,
-      ...
+    { pkgs
+    , ...
     }:
     {
       config = {
         hmSessionVariables = null;
         skipGlobalRC = true;
 
-        runtimePkgs = with pkgs; [
-          atuin
-          bat
-          direnv
-          eza
-          fd
-          fzf
-          git
-          kubectl
-          ripgrep
-          safe-rm
-          sesh
-          zoxide
-        ];
+        runtimePkgs = runtimePkgsFor pkgs;
 
         zshenv.content = ''
+          [[ -r /etc/set-environment ]] && source /etc/set-environment
+
           HELPDIR="${pkgs.zsh}/share/zsh/$ZSH_VERSION/help"
           fpath=(${pkgs.zsh-completions}/share/zsh/site-functions $fpath)
 
@@ -252,7 +256,7 @@ in
       programs.zsh.enable = true;
       environment.pathsToLink = [ "/share/zsh" ];
       environment.shells = [ zshPackage ];
-      environment.systemPackages = [ zshPackage ];
+      environment.systemPackages = [ zshPackage ] ++ runtimePkgsFor pkgs;
       users.users.tmendy.shell = zshPackage;
     };
 

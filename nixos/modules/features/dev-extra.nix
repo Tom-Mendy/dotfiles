@@ -8,6 +8,7 @@
           ansible
           ansible-lint
           codespell
+          openssl
           prisma_7
           prisma-engines_7
           k6
@@ -20,5 +21,7 @@
           nixd
         ]
       );
+
+      environment.variables.PRISMA_SCHEMA_ENGINE_BINARY = "${pkgs.prisma-engines_7}/bin/schema-engine";
     };
 }

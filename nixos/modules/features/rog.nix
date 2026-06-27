@@ -3,7 +3,10 @@
     services.asusd.enable = true;
     systemd.services.asusd.wantedBy = [ "multi-user.target" ];
 
-    environment.etc."asusd/slash.ron".text = ''
+    system.activationScripts.asusdSlashConfig.text = ''
+      mkdir -p /etc/asusd
+      rm -f /etc/asusd/slash.ron
+      install -m 0644 /dev/stdin /etc/asusd/slash.ron <<'EOF'
       (
           enabled: false,
           brightness: 255,
@@ -16,6 +19,7 @@
           show_battery_warning: false,
           show_on_lid_closed: false,
       )
+      EOF
     '';
   };
 }
