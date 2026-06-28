@@ -216,7 +216,14 @@ let
             bindkey -M emacs '^F' sesh-sessions
             bindkey -M viins '^F' sesh-sessions
 
+            bindkey -e
+
             for keymap in emacs viins; do
+              bindkey -M "$keymap" '^?' backward-delete-char
+              bindkey -M "$keymap" '^H' backward-delete-char
+              bindkey -M "$keymap" '^[[3~' delete-char
+              bindkey -M "$keymap" '^[[127u' backward-delete-char
+              bindkey -M "$keymap" '^[[3u' delete-char
               bindkey -M "$keymap" '^[[1;5D' backward-word
               bindkey -M "$keymap" '^[[1;5C' forward-word
               bindkey -M "$keymap" '^[[5D' backward-word
