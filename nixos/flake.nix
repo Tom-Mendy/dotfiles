@@ -4,7 +4,7 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-master.url = "github:nixOS/nixpkgs/master";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    import-tree.url = "github:vic/import-tree";
+    import-tree.url = "github:denful/import-tree";
 
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";

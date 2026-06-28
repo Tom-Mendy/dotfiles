@@ -77,6 +77,10 @@
       # You can disable this if you're only using the Wayland session.
       # services.xserver.enable = true;
 
+      environment.sessionVariables = {
+        NIXOS_OZONE_WL = "1";
+      };
+
       hardware.graphics.enable = true;
       services.xserver.videoDrivers = [
         "amdgpu"
@@ -140,11 +144,18 @@
         "electron-39.8.10" # bitwarden-desktop
       ];
 
+      programs.git = {
+        enable = true;
+        lfs.enable = true;
+        config = {
+          user.name = "Tom Mendy";
+          user.email = "tom.mendy@epitech.eu";
+        };
+      };
+
       environment.systemPackages = with pkgs; [
         bitwarden-desktop
         supersonic
-        git
-        git-lfs
       ];
 
       # Some programs need SUID wrappers, can be configured further or are
