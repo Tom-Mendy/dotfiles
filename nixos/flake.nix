@@ -14,6 +14,7 @@
       url = "github:amaanq/helium-flake";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    handy.url = "github:cjpais/Handy";
 
     nvim-config = {
       url = "path:../nvim/.config/nvim";

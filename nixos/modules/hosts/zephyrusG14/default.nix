@@ -23,6 +23,10 @@ in
     };
     modules = [
       self.nixosModules.zephyrusG14Configuration
+      inputs.handy.nixosModules.default
+      {
+        programs.handy.enable = true;
+      }
     ];
   };
 }
