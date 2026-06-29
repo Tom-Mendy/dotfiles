@@ -156,6 +156,8 @@
       environment.systemPackages = with pkgs; [
         bitwarden-desktop
         supersonic
+        gh
+        speedtest
       ];
 
       # Some programs need SUID wrappers, can be configured further or are
