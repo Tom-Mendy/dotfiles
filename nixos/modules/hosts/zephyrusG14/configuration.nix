@@ -10,6 +10,7 @@
         self.nixosModules.devCore
         self.nixosModules.devExtra
         self.nixosModules.gaming
+        self.nixosModules.howdy
         self.nixosModules.kdePlasma
         self.nixosModules.zephyrusG14Hardware
         self.nixosModules.neovim
@@ -141,7 +142,7 @@
       nixpkgs.config.allowUnfree = true;
 
       nixpkgs.config.permittedInsecurePackages = [
-        "electron-39.8.10" # bitwarden-desktop
+        "electron-39.8.10" # bitwarden-desktop & vesktop (Electron 40/41 have SIGILL bug on AMD Ryzen AI 9)
       ];
 
       programs.git = {
@@ -158,6 +159,7 @@
         supersonic
         gh
         speedtest
+        teams-for-linux
       ];
 
       # Some programs need SUID wrappers, can be configured further or are

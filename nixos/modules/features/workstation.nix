@@ -74,8 +74,13 @@
           textpieces
           tokei
           unzip
-          (vesktop.override { withTTS = false; })
+          # NOTE: Electron 40.10.3 and 41.7.2 have a SIGILL bug on AMD Ryzen AI 9 HX 370.
+          # Not due to missing CPU features (AMD Ryzen AI 9 has AVX512, AVX2, etc.),
+          # but a bug in those specific Electron versions on AMD hardware.
+          # Using electron_39 which works correctly on this CPU.
+          (vesktop.overrideAttrs (old: { inherit (old); electron = pkgs.electron_39; withTTS = false; }))
           vim
+          dav1d
           vlc
           volumeicon
           wget
