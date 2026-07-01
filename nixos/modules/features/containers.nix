@@ -18,6 +18,7 @@
         hadolint
         podman-compose
         podman-tui
+        helm
         trivy
         kubectl
       ];

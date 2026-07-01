@@ -78,6 +78,9 @@
           stow
           textpieces
           tokei
+          yq
+          dig
+          talosctl
           unzip
           # NOTE: Electron 40.10.3 and 41.7.2 have a SIGILL bug on AMD Ryzen AI 9 HX 370.
           # Not due to missing CPU features (AMD Ryzen AI 9 has AVX512, AVX2, etc.),
