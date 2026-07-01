@@ -144,6 +144,7 @@
 
       nixpkgs.config.permittedInsecurePackages = [
         "electron-39.8.10" # bitwarden-desktop & vesktop (Electron 40/41 have SIGILL bug on AMD Ryzen AI 9)
+        "pnpm-10.29.2" # vesktop build dependency; pnpm 11 does not match its lockfile
       ];
 
       programs.git = {
