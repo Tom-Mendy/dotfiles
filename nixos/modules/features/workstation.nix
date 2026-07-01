@@ -8,7 +8,12 @@
       ...
     }:
     {
-      networking.firewall.enable = true;
+      networking.firewall = {
+        enable = true;
+        # 53317 localsend
+        allowedTCPPorts = [ 53317 ];
+        allowedUDPPorts = [ 53317 ];
+      };
 
       programs.tmux.enable = true;
       programs.nix-ld.enable = true;
