@@ -102,6 +102,7 @@
 
       # Configure console keymap
       console.keyMap = "fr";
+      console.earlySetup = true;
 
       # Enable CUPS to print documents.
       services.printing.enable = true;
