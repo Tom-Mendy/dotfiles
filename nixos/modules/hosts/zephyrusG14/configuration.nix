@@ -33,6 +33,8 @@
 
       # Use latest kernel.
       boot.kernelPackages = pkgs.linuxPackages_latest;
+      boot.resumeDevice = "/dev/mapper/luks-fff3f818-7e03-48e0-ae07-a149b29524ec";
+      boot.kernelParams = [ "resume_offset=84489648" ];
 
       zramSwap = {
         enable = true;

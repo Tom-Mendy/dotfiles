@@ -15,6 +15,7 @@
         cri-tools
         dive
         docker-compose
+        lazydocker
         hadolint
         podman-compose
         podman-tui
