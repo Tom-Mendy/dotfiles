@@ -165,6 +165,7 @@
         speedtest
         teams-for-linux
         veracrypt
+        t3code
       ];
 
       # Some programs need SUID wrappers, can be configured further or are
