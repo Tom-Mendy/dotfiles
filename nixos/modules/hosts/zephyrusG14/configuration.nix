@@ -141,6 +141,8 @@
       # Install firefox.
       programs.firefox.enable = true;
 
+      programs.jujutsu.enable = true;
+
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
 
