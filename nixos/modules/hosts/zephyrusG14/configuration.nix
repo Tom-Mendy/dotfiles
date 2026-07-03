@@ -141,8 +141,6 @@
       # Install firefox.
       programs.firefox.enable = true;
 
-      programs.jujutsu.enable = true;
-
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
 
@@ -168,6 +166,7 @@
         teams-for-linux
         veracrypt
         t3code
+        jujutsu
       ];
 
       # Some programs need SUID wrappers, can be configured further or are
