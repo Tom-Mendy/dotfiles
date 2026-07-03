@@ -17,6 +17,7 @@
         docker-compose
         lazydocker
         hadolint
+        devcontainer
         podman-compose
         podman-tui
         helm

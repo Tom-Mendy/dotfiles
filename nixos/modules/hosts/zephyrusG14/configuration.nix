@@ -82,6 +82,7 @@
 
       environment.sessionVariables = {
         NIXOS_OZONE_WL = "1";
+        SSH_AUTH_SOCK = "/home/tmendy/.bitwarden-ssh-agent.sock";
       };
 
       hardware.graphics.enable = true;
