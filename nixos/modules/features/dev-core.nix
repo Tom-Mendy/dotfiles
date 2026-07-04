@@ -46,6 +46,7 @@
         # Node
         bun
         nodejs_26
+        typescript
 
         # Lua
         lua

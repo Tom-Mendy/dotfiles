@@ -9,6 +9,12 @@
         [General]
         TerminalApplication=ghostty
         TerminalService=com.mitchellh.ghostty.desktop
+
+        [KDE]
+        AutomaticLookAndFeel=true
+        AutomaticLookAndFeelOnIdle=false
+        DefaultLightLookAndFeel=org.kde.breeze.desktop
+        DefaultDarkLookAndFeel=org.kde.breezedark.desktop
       '';
       environment.etc."xdg/klipperrc".text = ''
         [General]

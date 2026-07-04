@@ -15,6 +15,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     handy.url = "github:cjpais/Handy";
+    nix-amd-ai.url = "github:noamsto/nix-amd-ai";
 
     nvim-config = {
       url = "path:../nvim/.config/nvim";

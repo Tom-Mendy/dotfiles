@@ -1,6 +1,13 @@
 {
   flake.nixosModules.synologySftp =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
+    let
+      user = "tmendy";
+      home = config.users.users.${user}.home;
+      # synologyHost = "nainjoueur.synology.me";
+      synologyHost = "10.0.0.11";
+      synologyUser = "tom";
+    in
     {
       environment.systemPackages = with pkgs; [
         sshfs
@@ -9,12 +16,12 @@
       programs.fuse.userAllowOther = true;
 
       systemd.tmpfiles.rules = [
-        "d /mnt/synology 0755 tmendy users -"
-        "d /mnt/synology/Downloads 0755 tmendy users -"
-        "d /mnt/synology/video 0755 tmendy users -"
-        "d /mnt/synology/Document 0755 tmendy users -"
-        "d /mnt/synology/music 0755 tmendy users -"
-        "d /mnt/synology/home 0755 tmendy users -"
+        "d /mnt/synology 0755 ${user} users -"
+        "d /mnt/synology/Downloads 0755 ${user} users -"
+        "d /mnt/synology/video 0755 ${user} users -"
+        "d /mnt/synology/Document 0755 ${user} users -"
+        "d /mnt/synology/music 0755 ${user} users -"
+        "d /mnt/synology/home 0755 ${user} users -"
       ];
 
       systemd.user.services.sshfs-synology-downloads = {
@@ -26,12 +33,12 @@
           Type = "simple";
 
           Environment = [
-            "SSH_AUTH_SOCK=/home/tmendy/.bitwarden-ssh-agent.sock"
+            "SSH_AUTH_SOCK=${home}/.bitwarden-ssh-agent.sock"
           ];
 
           ExecStart = ''
             ${pkgs.sshfs}/bin/sshfs -f \
-              tom@nainjoueur.synology.me:/Downloads \
+              ${synologyUser}@${synologyHost}:/Downloads \
               /mnt/synology/Downloads \
               -o reconnect \
               -o ServerAliveInterval=15 \
@@ -59,12 +66,12 @@
           Type = "simple";
 
           Environment = [
-            "SSH_AUTH_SOCK=/home/tmendy/.bitwarden-ssh-agent.sock"
+            "SSH_AUTH_SOCK=${home}/.bitwarden-ssh-agent.sock"
           ];
 
           ExecStart = ''
             ${pkgs.sshfs}/bin/sshfs -f \
-              tom@nainjoueur.synology.me:/video \
+              ${synologyUser}@${synologyHost}:/video \
               /mnt/synology/video \
               -o reconnect \
               -o ServerAliveInterval=15 \
@@ -92,12 +99,12 @@
           Type = "simple";
 
           Environment = [
-            "SSH_AUTH_SOCK=/home/tmendy/.bitwarden-ssh-agent.sock"
+            "SSH_AUTH_SOCK=${home}/.bitwarden-ssh-agent.sock"
           ];
 
           ExecStart = ''
             ${pkgs.sshfs}/bin/sshfs -f \
-              tom@nainjoueur.synology.me:/Document \
+              ${synologyUser}@${synologyHost}:/Document \
               /mnt/synology/Document \
               -o reconnect \
               -o ServerAliveInterval=15 \
@@ -125,12 +132,12 @@
           Type = "simple";
 
           Environment = [
-            "SSH_AUTH_SOCK=/home/tmendy/.bitwarden-ssh-agent.sock"
+            "SSH_AUTH_SOCK=${home}/.bitwarden-ssh-agent.sock"
           ];
 
           ExecStart = ''
             ${pkgs.sshfs}/bin/sshfs -f \
-              tom@nainjoueur.synology.me:/music \
+              ${synologyUser}@${synologyHost}:/music \
               /mnt/synology/music \
               -o reconnect \
               -o ServerAliveInterval=15 \
@@ -158,12 +165,12 @@
           Type = "simple";
 
           Environment = [
-            "SSH_AUTH_SOCK=/home/tmendy/.bitwarden-ssh-agent.sock"
+            "SSH_AUTH_SOCK=${home}/.bitwarden-ssh-agent.sock"
           ];
 
           ExecStart = ''
             ${pkgs.sshfs}/bin/sshfs -f \
-              tom@nainjoueur.synology.me:/home \
+              ${synologyUser}@${synologyHost}:/home \
               /mnt/synology/home \
               -o reconnect \
               -o ServerAliveInterval=15 \

@@ -1,4 +1,4 @@
-{ self, ... }:
+{ self, inputs, ... }:
 {
 
   flake.nixosModules.zephyrusG14Configuration =
@@ -12,6 +12,7 @@
         self.nixosModules.gaming
         self.nixosModules.howdy
         self.nixosModules.kdePlasma
+        inputs.nix-amd-ai.nixosModules.default
         self.nixosModules.zephyrusG14Hardware
         self.nixosModules.neovim
         self.nixosModules.niri
@@ -86,6 +87,16 @@
       };
 
       hardware.graphics.enable = true;
+      hardware.amd-npu = {
+        enable = true;
+        enableNPU = true;
+        enableFastFlowLM = true;
+        enableLemonade = true;
+        enableROCm = true;
+        enableVulkan = true;
+
+        lemonade.user = "tmendy";
+      };
       services.xserver.videoDrivers = [
         "amdgpu"
         "nvidia"
@@ -135,6 +146,8 @@
         description = "Tom Mendy";
         extraGroups = [
           "networkmanager"
+          "render"
+          "video"
           "wheel"
         ];
       };
@@ -166,7 +179,6 @@
         speedtest
         teams-for-linux
         veracrypt
-        t3code
         jujutsu
       ];
 
