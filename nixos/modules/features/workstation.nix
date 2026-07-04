@@ -73,7 +73,6 @@
           policycoreutils
           bruno
           proton-vpn-cli
-          pangolin-cli
           rustdesk
           smartmontools
           stow
@@ -124,6 +123,7 @@
             commandLineArgs = "--password-store=gnome-libsecret";
           })
           unstable.zed-editor
+          unstable.pangolin-cli
         ];
     };
 }
