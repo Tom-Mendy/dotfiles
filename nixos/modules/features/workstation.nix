@@ -18,6 +18,12 @@
       programs.tmux.enable = true;
       programs.nix-ld.enable = true;
 
+      hardware.bluetooth = {
+        enable = true;
+        powerOnBoot = true;
+      };
+      services.blueman.enable = true;
+
       fonts = {
         enableDefaultPackages = true;
         packages = with pkgs; [
@@ -49,7 +55,6 @@
         (with pkgs; [
           alsa-lib
           atk
-          blueman
           brightnessctl
           btop
           busybox
