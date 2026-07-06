@@ -251,22 +251,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-master": {
-      "locked": {
-        "lastModified": 1782894117,
-        "narHash": "sha256-jG9sSnIvROUqahBUUx9Cl/ONJylu1XAgiT/MOMLggqU=",
-        "owner": "nixOS",
-        "repo": "nixpkgs",
-        "rev": "bae9b1b412900c2e55f4801bd94375cea4f2fcce",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixOS",
-        "ref": "master",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1782723713,
@@ -351,7 +335,6 @@
         "import-tree": "import-tree_2",
         "nix-amd-ai": "nix-amd-ai",
         "nixpkgs": "nixpkgs_3",
-        "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nvim-config": "nvim-config",
         "wrapper-modules": "wrapper-modules",

@@ -3,7 +3,6 @@
   flake.nixosModules.workstation =
     {
       pkgs,
-      master,
       unstable,
       ...
     }:

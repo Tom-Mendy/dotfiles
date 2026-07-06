@@ -87,16 +87,16 @@
       };
 
       hardware.graphics.enable = true;
-      hardware.amd-npu = {
-        enable = true;
-        enableNPU = true;
-        enableFastFlowLM = true;
-        enableLemonade = true;
-        enableROCm = true;
-        enableVulkan = true;
+      # hardware.amd-npu = {
+      #   enable = true;
+      # enableNPU = true;
+      # enableFastFlowLM = true;
+      # enableLemonade = true;
+      # enableROCm = true;
+      # enableVulkan = true;
 
-        lemonade.user = "tmendy";
-      };
+      # lemonade.user = "tmendy";
+      # };
       services.xserver.videoDrivers = [
         "amdgpu"
         "nvidia"
