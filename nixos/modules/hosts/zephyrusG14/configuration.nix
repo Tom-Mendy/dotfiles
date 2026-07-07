@@ -180,6 +180,7 @@
         teams-for-linux
         veracrypt
         jujutsu
+        signal-desktop
       ];
 
       # Some programs need SUID wrappers, can be configured further or are
