@@ -20,12 +20,12 @@ let
 
         initLua = lib.mkOption {
           type = wlib.types.stringable;
-          default = inputs.nvim-config.outPath;
+          default = pkgs.emptyDirectory;
         };
 
         dynamicInitLua = lib.mkOption {
           type = lib.types.either wlib.types.stringable lib.types.luaInline;
-          default = lib.generators.mkLuaInline "vim.uv.os_homedir() .. '/dotfiles/nvim/.config/nvim'";
+          default = pkgs.emptyDirectory;
         };
       };
 

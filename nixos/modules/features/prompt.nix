@@ -26,12 +26,12 @@ let
 
         zdotdirPath = lib.mkOption {
           type = wlib.types.stringable;
-          default = inputs.zsh-config.outPath;
+          default = config.generated_zdotdir;
         };
 
         dynamicZdotdirPath = lib.mkOption {
           type = wlib.types.stringable;
-          default = "~/dotfiles/zsh";
+          default = config.generated_zdotdir;
         };
       };
 
