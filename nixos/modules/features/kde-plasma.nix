@@ -3,8 +3,13 @@
     { pkgs, lib, ... }:
     {
       services.displayManager.sddm.enable = true;
+      services.displayManager.sddm.autoNumlock = true;
       services.desktopManager.plasma6.enable = true;
 
+      environment.etc."xdg/kcminputrc".text = ''
+        [Keyboard]
+        NumLock=0
+      '';
       environment.etc."xdg/kdeglobals".text = ''
         [General]
         TerminalApplication=ghostty

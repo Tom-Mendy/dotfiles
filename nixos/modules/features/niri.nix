@@ -27,7 +27,10 @@
 
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
 
-          input.keyboard.xkb.layout = "fr";
+          input.keyboard = {
+            xkb.layout = "fr";
+            numlock = true;
+          };
 
           layout = {
             gaps = 5;

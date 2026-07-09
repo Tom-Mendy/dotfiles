@@ -73,7 +73,6 @@
           moreutils
           networkmanagerapplet
           ntfs3g
-          numlockx
           policycoreutils
           bruno
           proton-vpn-cli
