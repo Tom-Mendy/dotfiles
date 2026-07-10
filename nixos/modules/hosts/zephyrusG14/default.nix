@@ -10,16 +10,12 @@ let
       ];
     };
   };
-  master = import inputs.nixpkgs-master {
-    inherit system;
-    config.allowUnfree = true;
-  };
 in
 {
   flake.nixosConfigurations.zephyrusG14 = inputs.nixpkgs.lib.nixosSystem {
     inherit system;
     specialArgs = {
-      inherit unstable master;
+      inherit unstable;
     };
     modules = [
       self.nixosModules.zephyrusG14Configuration

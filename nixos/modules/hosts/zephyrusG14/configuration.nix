@@ -12,7 +12,6 @@
         self.nixosModules.gaming
         self.nixosModules.howdy
         self.nixosModules.kdePlasma
-        inputs.nix-amd-ai.nixosModules.default
         self.nixosModules.zephyrusG14Hardware
         self.nixosModules.neovim
         self.nixosModules.niri

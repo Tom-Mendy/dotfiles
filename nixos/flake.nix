@@ -13,7 +13,6 @@
       url = "github:amaanq/helium-flake";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    nix-amd-ai.url = "github:noamsto/nix-amd-ai";
 
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
   };

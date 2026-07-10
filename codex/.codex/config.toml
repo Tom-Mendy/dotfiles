@@ -1,0 +1,48 @@
+approvals_reviewer = "guardian_subagent"
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+
+[marketplaces.wakatime]
+last_updated = "2026-06-25T11:51:00Z"
+last_revision = "a0218436d549915c521287b9436782891e75e856"
+source_type = "git"
+source = "https://github.com/wakatime/codex-cli-wakatime.git"
+
+[marketplaces.ponytail]
+last_updated = "2026-07-10T16:55:35Z"
+last_revision = "14a0d79548d4de8fc2de95c1b94bb0de63a739d3"
+source_type = "git"
+source = "https://github.com/DietrichGebert/ponytail.git"
+
+[marketplaces.caveman]
+last_updated = "2026-07-03T12:04:39Z"
+last_revision = "0d95a81d35a9f2d123a5e9430d1cfc43d55f1bb0"
+source_type = "git"
+source = "https://github.com/JuliusBrussee/caveman.git"
+
+[plugins."codex-cli-wakatime@wakatime"]
+enabled = true
+
+[plugins."ponytail@ponytail"]
+enabled = true
+
+[hooks.state]
+
+[hooks.state."codex-cli-wakatime@wakatime:hooks/hooks.json:post_tool_use:0:0"]
+trusted_hash = "sha256:3019b5f39b02025bd4c40a156aef99bda28389107c16b8fa6ed6bc691a3928e4"
+
+[hooks.state."codex-cli-wakatime@wakatime:hooks/hooks.json:session_start:0:0"]
+trusted_hash = "sha256:3793f33bb324020d43751b6ce8548d7a1a2791fec8b4c76fc1dcc689f6671b7b"
+
+[hooks.state."codex-cli-wakatime@wakatime:hooks/hooks.json:user_prompt_submit:0:0"]
+trusted_hash = "sha256:84094d8aa7937a8545ef4d87ef03a0309f77bd2670fbc74560c922f3fe653dcc"
+
+[hooks.state."ponytail@ponytail:hooks/claude-codex-hooks.json:session_start:0:0"]
+trusted_hash = "sha256:5f81d38f47448a1581c08ec877e044d9e04dd6f814dce3f2671f7a8edadd719b"
+
+[hooks.state."ponytail@ponytail:hooks/claude-codex-hooks.json:user_prompt_submit:0:0"]
+trusted_hash = "sha256:6a6f42bc3b58d6262db38bfd74d7f340fcca2b09cdb134aad365063f0bfefca4"
+
+[hooks.state."ponytail@ponytail:hooks/claude-codex-hooks.json:subagent_start:0:0"]
+trusted_hash = "sha256:1423b56c1322f96c8f74c51c1e7ae9a047b904c1fa43ee9165d462fd7a6e70ef"

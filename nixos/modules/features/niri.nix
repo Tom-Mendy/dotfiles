@@ -31,6 +31,14 @@
             xkb.layout = "fr";
             numlock = true;
           };
+          input.touchpad.scroll-factor = _: {
+            props = {
+              vertical = 1.0;
+              horizontal = -1.0;
+            };
+          };
+          input.touchpad.tap = _: { };
+          input.touchpad.natural-scroll = _: { };
 
           layout = {
             gaps = 5;
