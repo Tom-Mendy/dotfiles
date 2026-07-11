@@ -89,18 +89,7 @@
           # Not due to missing CPU features (AMD Ryzen AI 9 has AVX512, AVX2, etc.),
           # but a bug in those specific Electron versions on AMD hardware.
           # Using electron_39 which works correctly on this CPU.
-          (
-            (vesktop.override {
-              electron_40 = pkgs.electron_39;
-              withTTS = false;
-            }).overrideAttrs
-            {
-              preBuild = ''
-                cp -r ${pkgs.electron_39.dist} electron-dist
-                chmod -R u+w electron-dist
-              '';
-            }
-          )
+          vesktop
           vim
           dav1d
           vlc
