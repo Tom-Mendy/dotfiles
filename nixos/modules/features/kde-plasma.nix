@@ -30,6 +30,21 @@
         IgnoreImages=true
         URLGrabberEnabled=false
       '';
+      environment.etc."xdg/kwinrc".text = ''
+        [ElectricBorders]
+        Top=None
+        TopRight=None
+        Right=None
+        BottomRight=None
+        Bottom=None
+        BottomLeft=None
+        Left=None
+        TopLeft=None
+
+        [Windows]
+        ElectricBorderMaximize=false
+        ElectricBorderTiling=false
+      '';
       environment.etc."xdg/autostart/cliphist-text.desktop".text = ''
         [Desktop Entry]
         Type=Application

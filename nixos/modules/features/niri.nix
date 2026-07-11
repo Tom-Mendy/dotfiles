@@ -48,6 +48,7 @@
               { proportion = 2.0 / 3.0; }
             ];
           };
+          gestures.hot-corners.off = _: { };
 
           binds =
             let
