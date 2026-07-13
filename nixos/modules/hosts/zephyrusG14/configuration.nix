@@ -101,6 +101,7 @@
         "nvidia"
       ];
       hardware.nvidia.open = true;
+      hardware.nvidia.powerManagement.enable = true;
 
       hardware.nvidia.prime = {
         nvidiaBusId = "PCI:100@0:0:0";
