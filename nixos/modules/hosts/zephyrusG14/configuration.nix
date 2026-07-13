@@ -183,6 +183,7 @@
         veracrypt
         jujutsu
         signal-desktop
+        karere # WhatsApp desktop alternative
       ];
 
       # Some programs need SUID wrappers, can be configured further or are
