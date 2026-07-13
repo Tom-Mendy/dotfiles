@@ -100,12 +100,14 @@
         "amdgpu"
         "nvidia"
       ];
-      hardware.nvidia.open = true;
-      hardware.nvidia.powerManagement.enable = true;
 
-      hardware.nvidia.prime = {
-        nvidiaBusId = "PCI:100@0:0:0";
-        amdgpuBusId = "PCI:101@0:0:0";
+      hardware.nvidia = {
+        open = true;
+        powerManagement.enable = true;
+        prime = {
+          nvidiaBusId = "PCI:100@0:0:0";
+          amdgpuBusId = "PCI:101@0:0:0";
+        };
       };
 
       # Configure keymap in X11
