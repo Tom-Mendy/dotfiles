@@ -1,8 +1,8 @@
-{ self, inputs, ... }:
+{ self, ... }:
 {
 
   flake.nixosModules.zephyrusG14Configuration =
-    { pkgs, unstable, ... }:
+    { pkgs, ... }:
     {
       # import any other modules from here
       imports = [
@@ -12,6 +12,7 @@
         self.nixosModules.gaming
         self.nixosModules.howdy
         self.nixosModules.kdePlasma
+        self.nixosModules.keyguard
         self.nixosModules.zephyrusG14Hardware
         self.nixosModules.neovim
         self.nixosModules.niri
@@ -82,7 +83,7 @@
 
       environment.sessionVariables = {
         NIXOS_OZONE_WL = "1";
-        SSH_AUTH_SOCK = "/home/tmendy/.bitwarden-ssh-agent.sock";
+        SSH_AUTH_SOCK = "/run/user/1000/keyguard-ssh-agent.sock";
       };
 
       hardware.graphics.enable = true;
@@ -174,7 +175,6 @@
       };
 
       environment.systemPackages = with pkgs; [
-        unstable.bitwarden-desktop
         supersonic
         gh
         speedtest

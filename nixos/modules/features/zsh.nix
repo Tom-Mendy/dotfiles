@@ -146,7 +146,7 @@ let
 
             export PATH
 
-            export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+            export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyguard-ssh-agent.sock"
 
             eval "$(${pkgs.direnv}/bin/direnv hook zsh)"
             HISTFILE=~/.zsh_history

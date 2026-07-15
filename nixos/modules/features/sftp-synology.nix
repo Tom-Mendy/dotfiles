@@ -1,9 +1,8 @@
 {
   flake.nixosModules.synologySftp =
-    { config, pkgs, ... }:
+    { pkgs, ... }:
     let
       user = "tmendy";
-      home = config.users.users.${user}.home;
       # synologyHost = "nainjoueur.synology.me";
       synologyHost = "10.0.0.11";
       synologyUser = "tom";
@@ -33,7 +32,7 @@
           Type = "simple";
 
           Environment = [
-            "SSH_AUTH_SOCK=${home}/.bitwarden-ssh-agent.sock"
+            "SSH_AUTH_SOCK=%t/keyguard-ssh-agent.sock"
           ];
 
           ExecStart = ''
@@ -66,7 +65,7 @@
           Type = "simple";
 
           Environment = [
-            "SSH_AUTH_SOCK=${home}/.bitwarden-ssh-agent.sock"
+            "SSH_AUTH_SOCK=%t/keyguard-ssh-agent.sock"
           ];
 
           ExecStart = ''
@@ -99,7 +98,7 @@
           Type = "simple";
 
           Environment = [
-            "SSH_AUTH_SOCK=${home}/.bitwarden-ssh-agent.sock"
+            "SSH_AUTH_SOCK=%t/keyguard-ssh-agent.sock"
           ];
 
           ExecStart = ''
@@ -132,7 +131,7 @@
           Type = "simple";
 
           Environment = [
-            "SSH_AUTH_SOCK=${home}/.bitwarden-ssh-agent.sock"
+            "SSH_AUTH_SOCK=%t/keyguard-ssh-agent.sock"
           ];
 
           ExecStart = ''
@@ -165,7 +164,7 @@
           Type = "simple";
 
           Environment = [
-            "SSH_AUTH_SOCK=${home}/.bitwarden-ssh-agent.sock"
+            "SSH_AUTH_SOCK=%t/keyguard-ssh-agent.sock"
           ];
 
           ExecStart = ''
