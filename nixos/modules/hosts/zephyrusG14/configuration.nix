@@ -161,10 +161,6 @@
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
 
-      nixpkgs.config.permittedInsecurePackages = [
-        "pnpm-10.29.2" # vesktop build dependency; pnpm 11 does not match its lockfile
-      ];
-
       programs.git = {
         enable = true;
         lfs.enable = true;
