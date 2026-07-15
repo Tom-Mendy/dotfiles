@@ -1,6 +1,6 @@
 {
   flake.nixosModules.keyguard =
-    { pkgs, ... }:
+    { lib, pkgs, ... }:
     {
       environment.systemPackages = [
         (pkgs.stdenv.mkDerivation {
@@ -13,7 +13,7 @@
           };
 
           sourceRoot = "Keyguard";
-          nativeBuildInputs = [ pkgs.autoPatchelfHook ];
+          nativeBuildInputs = [ pkgs.autoPatchelfHook pkgs.makeWrapper ];
           buildInputs = with pkgs; [
             fontconfig
             libxinerama
@@ -26,9 +26,16 @@
             lcms2
             alsa-lib
             libglvnd
+            dbus
           ];
 
           installPhase = "cp -r . $out; chmod +x $out/bin/Keyguard";
+          postFixup = ''
+            mkdir -p $out/libexec
+            mv $out/bin/Keyguard $out/libexec/Keyguard
+            makeWrapper $out/libexec/Keyguard $out/bin/Keyguard \
+              --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [ pkgs.dbus ]}"
+          '';
         })
       ];
     };
