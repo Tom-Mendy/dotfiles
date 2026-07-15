@@ -35,6 +35,11 @@ let
         };
       };
 
+      config.constructFiles.powerlevel10k = {
+        content = builtins.readFile ../../../zsh/.p10k.zsh;
+        relPath = "${config.zdotFilesDirname}/.p10k.zsh";
+      };
+
       config.zshrc.content = lib.mkBefore ''
         _load_powerlevel10k_prompt() {
           [[ -t 1 ]] || return
