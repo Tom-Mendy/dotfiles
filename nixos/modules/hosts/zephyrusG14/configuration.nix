@@ -37,6 +37,20 @@
       boot.resumeDevice = "/dev/mapper/luks-fff3f818-7e03-48e0-ae07-a149b29524ec";
       boot.kernelParams = [ "resume_offset=84489648" ];
 
+      systemd.services.rtsx-pci-sleep = {
+        description = "Unload Realtek card reader before sleep";
+        requiredBy = [ "sleep.target" ];
+        before = [ "sleep.target" ];
+        unitConfig.StopWhenUnneeded = true;
+
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          ExecStart = "${pkgs.kmod}/bin/modprobe -r rtsx_pci_sdmmc rtsx_pci";
+          ExecStop = "${pkgs.kmod}/bin/modprobe rtsx_pci_sdmmc";
+        };
+      };
+
       zramSwap = {
         enable = true;
         algorithm = "zstd";
