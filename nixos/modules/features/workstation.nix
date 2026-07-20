@@ -110,9 +110,7 @@
           unstable.codex
           unstable.opencode
           unstable.t3code
-          (unstable.vscode.override {
-            commandLineArgs = "--password-store=gnome-libsecret";
-          })
+          unstable.vscode
           unstable.zed-editor
           unstable.pangolin-cli
         ];
