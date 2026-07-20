@@ -28,6 +28,19 @@
         "flakes"
       ];
 
+      system.autoUpgrade = {
+        enable = true;
+        flake = "/home/tmendy/dotfiles/nixos#zephyrusG14";
+        dates = "Sun *-*-* 04:40:00";
+        persistent = true;
+        allowReboot = false;
+        upgrade = false;
+        flags = [
+          "--recreate-lock-file"
+          "--commit-lock-file"
+        ];
+      };
+
       # Bootloader.
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
@@ -181,6 +194,7 @@
         config = {
           user.name = "Tom Mendy";
           user.email = "tom.mendy@epitech.eu";
+          safe.directory = "/home/tmendy/dotfiles";
         };
       };
 
