@@ -13,7 +13,10 @@
           };
 
           sourceRoot = "Keyguard";
-          nativeBuildInputs = [ pkgs.autoPatchelfHook pkgs.makeWrapper ];
+          nativeBuildInputs = [
+            pkgs.autoPatchelfHook
+            pkgs.makeWrapper
+          ];
           buildInputs = with pkgs; [
             fontconfig
             libxinerama
@@ -34,9 +37,19 @@
             mkdir -p $out/libexec
             mv $out/bin/Keyguard $out/libexec/Keyguard
             makeWrapper $out/libexec/Keyguard $out/bin/Keyguard \
+              --set SKIKO_RENDER_API SOFTWARE_FAST \
               --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [ pkgs.dbus ]}"
           '';
         })
       ];
+
+      environment.etc."xdg/autostart/keyguard.desktop".text = ''
+        [Desktop Entry]
+        Type=Application
+        Name=Keyguard
+        Exec=Keyguard
+        OnlyShowIn=KDE;
+        X-KDE-autostart-after=panel
+      '';
     };
 }

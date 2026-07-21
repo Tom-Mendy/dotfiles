@@ -23,9 +23,18 @@
         settings = {
           spawn-at-startup = [
             (lib.getExe self'.packages.myNoctalia)
+            (lib.getExe' pkgs.kdePackages.plasma-workspace "xembedsniproxy")
+            "Keyguard"
           ];
 
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
+
+          window-rules = [
+            {
+              matches = [ { app-id = "^com-artemchep-keyguard-MainKt$"; } ];
+              open-focused = true;
+            }
+          ];
 
           input.keyboard = {
             xkb.layout = "fr";
@@ -54,19 +63,30 @@
             let
               noctalia = lib.getExe self'.packages.myNoctalia;
               action = _: { };
+              workspaceKeys = [
+                "ampersand"
+                "eacute"
+                "quotedbl"
+                "apostrophe"
+                "parenleft"
+                "minus"
+                "egrave"
+                "underscore"
+                "ccedilla"
+              ];
               workspaces = builtins.listToAttrs (
                 builtins.concatMap (
                   workspace:
                   let
-                    number = toString workspace;
+                    key = builtins.elemAt workspaceKeys (workspace - 1);
                   in
                   [
                     {
-                      name = "Mod+${number}";
+                      name = "Mod+${key}";
                       value.focus-workspace = workspace;
                     }
                     {
-                      name = "Mod+Shift+${number}";
+                      name = "Mod+Shift+${key}";
                       value.move-column-to-workspace = workspace;
                     }
                   ]
@@ -79,7 +99,7 @@
               "Mod+S".spawn-sh = "${noctalia} ipc call launcher toggle";
               "Mod+V".spawn-sh = "${noctalia} ipc call launcher clipboard";
               "Mod+Shift+E".quit = action;
-              "Super+Alt+L".spawn-sh = "${noctalia} ipc call lockScreen lock";
+              "Mod+X".spawn-sh = "${noctalia} ipc call lockScreen lock";
               "Mod+Escape".spawn-sh = "${noctalia} ipc call sessionMenu toggle";
 
               "Mod+Left".focus-column-left = action;
@@ -99,14 +119,22 @@
               "Mod+Shift+J".move-window-down = action;
               "Mod+Shift+K".move-window-up = action;
 
+              "Mod+Ctrl+Left".focus-monitor-left = action;
+              "Mod+Ctrl+Down".focus-monitor-down = action;
+              "Mod+Ctrl+Up".focus-monitor-up = action;
+              "Mod+Ctrl+Right".focus-monitor-right = action;
+
+              "Mod+Ctrl+Shift+Left".move-window-to-monitor-left = action;
+              "Mod+Ctrl+Shift+Down".move-window-to-monitor-down = action;
+              "Mod+Ctrl+Shift+Up".move-window-to-monitor-up = action;
+              "Mod+Ctrl+Shift+Right".move-window-to-monitor-right = action;
+
               "Mod+Page_Down".focus-workspace-down = action;
               "Mod+Page_Up".focus-workspace-up = action;
               "Mod+Shift+Page_Down".move-column-to-workspace-down = action;
               "Mod+Shift+Page_Up".move-column-to-workspace-up = action;
 
               "Mod+R".switch-preset-column-width = action;
-              "Mod+Minus".set-column-width = "-10%";
-              "Mod+Equal".set-column-width = "+10%";
               "Mod+F".maximize-column = action;
               "Mod+Shift+F".fullscreen-window = action;
               "Mod+O".toggle-overview = action;
