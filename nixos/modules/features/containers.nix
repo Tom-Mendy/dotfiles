@@ -20,7 +20,7 @@
         devcontainer
         podman-compose
         podman-tui
-        helm
+        kubernetes-helm
         trivy
         kubectl
       ];
