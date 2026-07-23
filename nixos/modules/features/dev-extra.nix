@@ -21,6 +21,7 @@
           playwright-driver
           rumdl
           nil
+          wrkflw
           nixd
         ]
       );
