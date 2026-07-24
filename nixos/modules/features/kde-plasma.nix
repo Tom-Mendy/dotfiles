@@ -21,6 +21,22 @@
         DefaultLightLookAndFeel=org.kde.breeze.desktop
         DefaultDarkLookAndFeel=org.kde.breezedark.desktop
       '';
+      environment.etc."xdg/powerdevilrc".text = ''
+        [AC][Display]
+        LockBeforeTurnOffDisplay=false
+        TurnOffDisplayIdleTimeoutSec=300
+        TurnOffDisplayWhenIdle=true
+
+        [Battery][Display]
+        LockBeforeTurnOffDisplay=false
+        TurnOffDisplayIdleTimeoutSec=300
+        TurnOffDisplayWhenIdle=true
+
+        [LowBattery][Display]
+        LockBeforeTurnOffDisplay=false
+        TurnOffDisplayIdleTimeoutSec=300
+        TurnOffDisplayWhenIdle=true
+      '';
       environment.etc."xdg/klipperrc".text = ''
         [General]
         KeepClipboardContents=false

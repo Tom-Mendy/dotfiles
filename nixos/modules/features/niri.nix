@@ -25,6 +25,15 @@
             (lib.getExe self'.packages.myNoctalia)
             (lib.getExe' pkgs.kdePackages.plasma-workspace "xembedsniproxy")
             "Keyguard"
+            [
+              (lib.getExe pkgs.swayidle)
+              "-w"
+              "timeout"
+              "300"
+              "${lib.getExe pkgs.niri} msg action power-off-monitors"
+              "resume"
+              "${lib.getExe pkgs.niri} msg action power-on-monitors"
+            ]
           ];
 
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
