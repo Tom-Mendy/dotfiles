@@ -1,4 +1,6 @@
 # theme = dark:catppuccin-frappe,light:catppuccin-latte
 theme = Catppuccin Frappe
 
+window-decoration = none
+confirm-close-surface = false
 background-opacity = 0.9
