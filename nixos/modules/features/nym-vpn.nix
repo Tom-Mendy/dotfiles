@@ -6,15 +6,15 @@
       ...
     }:
     let
-      nymVpnAppVersion = "1.29.4";
+      nymVpnAppVersion = "2026.11.0";
 
       nym-vpn-app = pkgs.appimageTools.wrapType2 {
         pname = "nym-vpn-app";
         version = nymVpnAppVersion;
 
         src = pkgs.fetchurl {
-          url = "https://github.com/nymtech/nym-vpn-client/releases/download/nym-vpn-app-v${nymVpnAppVersion}/NymVPN_${nymVpnAppVersion}_amd64.AppImage";
-          sha256 = "sha256-9JGJZfLtju8PLDj6az0o2U4UYNZ/4hmERHAjx9Ya4+0=";
+          url = "https://github.com/nymtech/nym-vpn-client/releases/download/nym-vpn-v${nymVpnAppVersion}/NymVPN_${nymVpnAppVersion}_amd64.AppImage";
+          sha256 = "sha256-QWd3YpX9exi1aR+8nJ6Tcl7x3D9ZHJSYeCw8uFvPdaU=";
         };
 
         extraPkgs =
@@ -45,15 +45,15 @@
         ];
       };
 
-      nymVpnCoreVersion = "1.29.3";
+      nymVpnCoreVersion = "2026.11.0";
 
       nym-vpn-core = pkgs.stdenv.mkDerivation {
         pname = "nym-vpn-core";
         version = nymVpnCoreVersion;
 
         src = pkgs.fetchurl {
-          url = "https://github.com/nymtech/nym-vpn-client/releases/download/nym-vpn-core-v${nymVpnCoreVersion}/nym-vpn-core-v${nymVpnCoreVersion}_linux_x86_64.tar.gz";
-          sha256 = "sha256-6A6pLj9VW9uZCOLZs1p+aEIYt0ArGZIhRYTwuyYyrRs=";
+          url = "https://github.com/nymtech/nym-vpn-client/releases/download/nym-vpn-v${nymVpnCoreVersion}/nym-vpn-core-v${nymVpnCoreVersion}_linux_x86_64.tar.gz";
+          sha256 = "sha256-KaGGyc6wejfZdlF3GBiL9f1RDVd5zN+Tc48ShZRQrdY=";
         };
 
         sourceRoot = "nym-vpn-core-v${nymVpnCoreVersion}_linux_x86_64";

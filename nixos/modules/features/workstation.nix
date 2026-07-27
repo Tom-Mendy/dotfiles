@@ -112,6 +112,7 @@
           unstable.opencode
           unstable.t3code
           unstable.vscode
+          unstable.herdr
           unstable.zed-editor
           unstable.pangolin-cli
         ];
