@@ -76,6 +76,7 @@
           policycoreutils
           bruno
           proton-vpn-cli
+          nym
           rustdesk
           smartmontools
           stow

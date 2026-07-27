@@ -206,6 +206,7 @@
         veracrypt
         jujutsu
         signal-desktop
+        qalculate-gtk
         karere # WhatsApp desktop alternative
       ];
 
