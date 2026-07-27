@@ -30,7 +30,7 @@
       nym-vpn-desktop = pkgs.makeDesktopItem {
         name = "nym-vpn";
         desktopName = "NymVPN";
-        exec = "${nym-vpn-app}/bin/nym-vpn-app -l %U";
+        exec = "${nym-vpn-app}/bin/nym-vpn-app %U";
         terminal = false;
         type = "Application";
 
