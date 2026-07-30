@@ -28,8 +28,35 @@ Ce script :
 - Lint shell : CI exécute `shellcheck` via Nix.
 - Cache offline optionnel : placez `cache/zinit.tar.gz` et `cache/zinit.tar.gz.sha256` (sha256sum) pour installer zinit sans réseau.
 
-Work In Progress
-![exemple i3](exemple.png)
+## NixOS
+
+The NixOS flake is intentionally kept under `nixos/`. The
+`zephyrusG14` host selects optional features by importing modules from
+`nixos/modules/features/`.
+
+Rebuild the host:
+
+```bash
+sudo nixos-rebuild switch --flake ./nixos#zephyrusG14
+```
+
+Format or check the nested flake:
+
+```bash
+(cd nixos && nix fmt)
+nix flake check ./nixos
+```
+
+The wrapped Zsh package is portable to any Nix-enabled Dev Container. It does
+not load the NixOS, desktop, Neovim, or development-tool modules:
+
+```bash
+nix run ./nixos#zsh
+```
+
+From another checkout, replace `./nixos` with the path to this repository's
+`nixos/` directory.
+
 
 ## A list of (cool) programs & tools I am currently using
 

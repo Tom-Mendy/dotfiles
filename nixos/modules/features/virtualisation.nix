@@ -1,6 +1,11 @@
 {
   flake.nixosModules.virtualisation =
-    { lib, pkgs, ... }:
+    {
+      lib,
+      pkgs,
+      username,
+      ...
+    }:
     {
       virtualisation.libvirtd = {
         enable = true;
@@ -12,7 +17,7 @@
       };
 
       programs.virt-manager.enable = true;
-      users.users.tmendy.extraGroups = lib.mkAfter [
+      users.users.${username}.extraGroups = lib.mkAfter [
         "input"
         "libvirtd"
       ];

@@ -2,18 +2,18 @@
   flake.nixosModules.nymVpn =
     {
       pkgs,
-      lib,
+      username,
       ...
     }:
     let
-      nymVpnAppVersion = "2026.11.0";
+      version = "2026.11.0";
 
       nym-vpn-app = pkgs.appimageTools.wrapType2 {
         pname = "nym-vpn-app";
-        version = nymVpnAppVersion;
+        inherit version;
 
         src = pkgs.fetchurl {
-          url = "https://github.com/nymtech/nym-vpn-client/releases/download/nym-vpn-v${nymVpnAppVersion}/NymVPN_${nymVpnAppVersion}_amd64.AppImage";
+          url = "https://github.com/nymtech/nym-vpn-client/releases/download/nym-vpn-v${version}/NymVPN_${version}_amd64.AppImage";
           sha256 = "sha256-QWd3YpX9exi1aR+8nJ6Tcl7x3D9ZHJSYeCw8uFvPdaU=";
         };
 
@@ -45,18 +45,16 @@
         ];
       };
 
-      nymVpnCoreVersion = "2026.11.0";
-
       nym-vpn-core = pkgs.stdenv.mkDerivation {
         pname = "nym-vpn-core";
-        version = nymVpnCoreVersion;
+        inherit version;
 
         src = pkgs.fetchurl {
-          url = "https://github.com/nymtech/nym-vpn-client/releases/download/nym-vpn-v${nymVpnCoreVersion}/nym-vpn-core-v${nymVpnCoreVersion}_linux_x86_64.tar.gz";
+          url = "https://github.com/nymtech/nym-vpn-client/releases/download/nym-vpn-v${version}/nym-vpn-core-v${version}_linux_x86_64.tar.gz";
           sha256 = "sha256-KaGGyc6wejfZdlF3GBiL9f1RDVd5zN+Tc48ShZRQrdY=";
         };
 
-        sourceRoot = "nym-vpn-core-v${nymVpnCoreVersion}_linux_x86_64";
+        sourceRoot = "nym-vpn-core-v${version}_linux_x86_64";
 
         nativeBuildInputs = [ pkgs.autoPatchelfHook ];
 
@@ -118,7 +116,6 @@
         nym-vpnd-polkit-policy
         nym-vpn-app
         nym-vpn-desktop
-        pkgs.kdePackages.polkit-kde-agent-1
         pkgs.xdg-utils
       ];
 
@@ -128,24 +125,11 @@
         extraConfig = ''
           polkit.addRule(function(action, subject) {
             if (action.id == "com.nymvpn.vpnd.unix-access" &&
-                subject.user == "tmendy") {
+                subject.user == "${username}") {
               return polkit.Result.YES;
             }
           });
         '';
-      };
-
-      systemd.user.services.polkit-kde-agent = {
-        description = "KDE Polkit authentication agent";
-
-        wantedBy = [ "graphical-session.target" ];
-        partOf = [ "graphical-session.target" ];
-
-        serviceConfig = {
-          Type = "simple";
-          ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
-          Restart = "on-failure";
-        };
       };
 
       systemd.services.nym-vpnd = {

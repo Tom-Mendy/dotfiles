@@ -1,11 +1,36 @@
 { self, inputs, ... }:
 {
   flake.nixosModules.niri =
-    { pkgs, lib, ... }:
+    {
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
     {
       programs.niri = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
+      };
+
+      services.greetd = {
+        enable = true;
+        settings.default_session = {
+          command = "${lib.getExe pkgs.tuigreet} --time --remember --remember-user-session --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";
+          user = "greeter";
+        };
+      };
+
+      security.polkit.enable = true;
+      systemd.user.services.polkit-gnome-agent = {
+        description = "GNOME Polkit authentication agent";
+        wantedBy = [ "graphical-session.target" ];
+        partOf = [ "graphical-session.target" ];
+        after = [ "graphical-session.target" ];
+        serviceConfig = {
+          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+          Restart = "on-failure";
+        };
       };
     };
 

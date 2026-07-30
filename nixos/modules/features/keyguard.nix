@@ -2,6 +2,8 @@
   flake.nixosModules.keyguard =
     { lib, pkgs, ... }:
     {
+      environment.sessionVariables.SSH_AUTH_SOCK = "/run/user/1000/keyguard-ssh-agent.sock";
+
       environment.systemPackages = [
         (pkgs.stdenv.mkDerivation {
           pname = "keyguard";
@@ -43,13 +45,5 @@
         })
       ];
 
-      environment.etc."xdg/autostart/keyguard.desktop".text = ''
-        [Desktop Entry]
-        Type=Application
-        Name=Keyguard
-        Exec=Keyguard
-        OnlyShowIn=KDE;
-        X-KDE-autostart-after=panel
-      '';
     };
 }

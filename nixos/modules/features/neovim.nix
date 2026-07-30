@@ -63,19 +63,6 @@ let
     };
 in
 {
-  flake.modules.neovim.main = mainModule;
-
-  flake.modules.neovim.lua = luaModule;
-
-  flake.modules.neovim.nix = nixModule;
-
-  flake.modules.neovim.allServers = {
-    imports = [
-      luaModule
-      nixModule
-    ];
-  };
-
   flake.nixosModules.neovim =
     { pkgs, ... }:
     {

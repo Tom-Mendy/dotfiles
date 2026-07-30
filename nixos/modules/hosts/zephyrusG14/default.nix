@@ -13,6 +13,7 @@ in
     inherit system;
     specialArgs = {
       inherit unstable;
+      username = "tmendy";
     };
     modules = [
       self.nixosModules.zephyrusG14Configuration

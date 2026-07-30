@@ -1,6 +1,11 @@
 {
   flake.nixosModules.containers =
-    { lib, pkgs, ... }:
+    {
+      lib,
+      pkgs,
+      username,
+      ...
+    }:
     {
       virtualisation.containers.enable = true;
       virtualisation.docker.enable = true;
@@ -9,7 +14,7 @@
         defaultNetwork.settings.dns_enabled = true;
       };
 
-      users.users.tmendy.extraGroups = lib.mkAfter [ "docker" ];
+      users.users.${username}.extraGroups = lib.mkAfter [ "docker" ];
 
       environment.systemPackages = with pkgs; [
         cri-tools

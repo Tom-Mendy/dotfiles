@@ -1,7 +1,7 @@
 { self, inputs, ... }:
 let
-  runtimePkgsFor = pkgs:
-    with pkgs; [
+  runtimePkgsFor =
+    pkgs: with pkgs; [
       atuin
       bat
       direnv
@@ -22,8 +22,9 @@ let
   };
 
   mainModule =
-    { pkgs
-    , ...
+    {
+      pkgs,
+      ...
     }:
     {
       config = {
@@ -146,8 +147,6 @@ let
 
             export PATH
 
-            export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyguard-ssh-agent.sock"
-
             eval "$(${pkgs.direnv}/bin/direnv hook zsh)"
             HISTFILE=~/.zsh_history
             HISTSIZE=10000
@@ -254,7 +253,7 @@ let
 in
 {
   flake.nixosModules.zsh =
-    { pkgs, ... }:
+    { pkgs, username, ... }:
     let
       zshPackage = self.packages.${pkgs.stdenv.hostPlatform.system}.zsh;
     in
@@ -264,7 +263,7 @@ in
       environment.pathsToLink = [ "/share/zsh" ];
       environment.shells = [ zshPackage ];
       environment.systemPackages = [ zshPackage ] ++ runtimePkgsFor pkgs;
-      users.users.tmendy.shell = zshPackage;
+      users.users.${username}.shell = zshPackage;
     };
 
   perSystem =
