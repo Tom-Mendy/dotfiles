@@ -99,15 +99,6 @@
 
       services.howdy.settings.video.device_path = "/dev/video2";
 
-      environment.systemPackages = with pkgs; [
-        gh
-        jujutsu
-        qalculate-gtk
-        speedtest
-        supersonic
-        veracrypt
-      ];
-
       system.stateVersion = "26.05";
     };
 }

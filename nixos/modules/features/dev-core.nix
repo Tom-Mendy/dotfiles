@@ -64,7 +64,9 @@
         maven
 
         # Common development tools
+        gh
         jq
+        jujutsu
         pre-commit
         prek
         tree-sitter

@@ -74,11 +74,14 @@
           networkmanagerapplet
           ntfs3g
           policycoreutils
+          qalculate-gtk
           bruno
           proton-vpn-cli
           rustdesk
           smartmontools
           stow
+          speedtest
+          supersonic
           textpieces
           tokei
           yq
@@ -91,6 +94,7 @@
           # Using electron_39 which works correctly on this CPU.
           vesktop
           tutanota-desktop
+          veracrypt
           vim
           dav1d
           vlc
