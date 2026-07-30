@@ -1,0 +1,21 @@
+{ inputs, ... }:
+{
+  flake.nixosModules.workstationDevApps =
+    {
+      pkgs,
+      unstable,
+      ...
+    }:
+    {
+      environment.systemPackages = [
+        inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+        inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
+        unstable.codex
+        unstable.opencode
+        unstable.vscode
+        unstable.herdr
+        unstable.zed-editor
+        unstable.pangolin-cli
+      ];
+    };
+}

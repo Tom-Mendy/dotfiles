@@ -1,12 +1,19 @@
-{ inputs, ... }:
+{ self, ... }:
 {
   flake.nixosModules.workstation =
     {
       pkgs,
-      unstable,
       ...
     }:
     {
+      imports = [
+        self.nixosModules.workstationCli
+        self.nixosModules.workstationCommunication
+        self.nixosModules.workstationDesktop
+        self.nixosModules.workstationDevApps
+        self.nixosModules.workstationMedia
+      ];
+
       networking.firewall = {
         enable = true;
         # 53317 localsend
@@ -50,77 +57,5 @@
         };
       };
 
-      environment.systemPackages =
-        (with pkgs; [
-          alsa-lib
-          atk
-          brightnessctl
-          btop
-          busybox
-          cpu-x
-          curl
-          eza
-          fastfetch
-          file
-          htop
-          inxi
-          iw
-          killall
-          localsend
-          lshw
-          man
-          man-pages
-          moreutils
-          networkmanagerapplet
-          ntfs3g
-          policycoreutils
-          qalculate-gtk
-          bruno
-          proton-vpn-cli
-          rustdesk
-          smartmontools
-          stow
-          speedtest
-          supersonic
-          textpieces
-          tokei
-          yq
-          dig
-          talosctl
-          unzip
-          # NOTE: Electron 40.10.3 and 41.7.2 have a SIGILL bug on AMD Ryzen AI 9 HX 370.
-          # Not due to missing CPU features (AMD Ryzen AI 9 has AVX512, AVX2, etc.),
-          # but a bug in those specific Electron versions on AMD hardware.
-          # Using electron_39 which works correctly on this CPU.
-          vesktop
-          tutanota-desktop
-          veracrypt
-          vim
-          dav1d
-          vlc
-          libreoffice
-          ffmpeg
-          volumeicon
-          wget
-          wirelesstools
-          xclip
-          xdpyinfo
-          xhost
-          xkill
-          teams-for-linux
-          signal-desktop
-          karere
-          zip
-        ])
-        ++ [
-          inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-          inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
-          unstable.codex
-          unstable.opencode
-          unstable.vscode
-          unstable.herdr
-          unstable.zed-editor
-          unstable.pangolin-cli
-        ];
     };
 }
