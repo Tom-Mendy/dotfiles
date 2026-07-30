@@ -110,7 +110,6 @@
           inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
           unstable.codex
           unstable.opencode
-          unstable.t3code
           unstable.vscode
           unstable.herdr
           unstable.zed-editor
