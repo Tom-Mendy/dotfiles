@@ -102,12 +102,9 @@
       environment.systemPackages = with pkgs; [
         gh
         jujutsu
-        karere
         qalculate-gtk
-        signal-desktop
         speedtest
         supersonic
-        teams-for-linux
         veracrypt
       ];
 
