@@ -103,6 +103,9 @@
           xdpyinfo
           xhost
           xkill
+          teams-for-linux
+          signal-desktop
+          karere
           zip
         ])
         ++ [
