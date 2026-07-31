@@ -43,7 +43,9 @@
                 -o ServerAliveCountMax=3 \
                 -o allow_other \
                 -o nodev \
-                -o noatime
+                -o noatime \
+                -o x-gvfs-show \
+                -o "x-gvfs-name=Synology ${share}"
             '';
             ExecStop = "${pkgs.fuse3}/bin/fusermount3 -u /mnt/synology/${share}";
             Restart = "on-failure";

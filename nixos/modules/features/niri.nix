@@ -13,6 +13,12 @@
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
       };
 
+      environment.systemPackages = [ pkgs.nautilus ];
+
+      services.gvfs.enable = true;
+      services.udisks2.enable = true;
+      programs.dconf.enable = true;
+
       services.greetd = {
         enable = true;
         settings.default_session = {
@@ -129,6 +135,7 @@
             in
             {
               "Mod+Return".spawn = lib.getExe pkgs.ghostty;
+              "Mod+E".spawn = lib.getExe pkgs.nautilus;
               "Mod+Q".close-window = _: { };
               "Mod+S".spawn-sh = "${noctalia} ipc call launcher toggle";
               "Mod+V".spawn-sh = "${noctalia} ipc call launcher clipboard";
