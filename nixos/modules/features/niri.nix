@@ -56,15 +56,6 @@
             (lib.getExe self'.packages.myNoctalia)
             (lib.getExe' pkgs.kdePackages.plasma-workspace "xembedsniproxy")
             "Keyguard"
-            [
-              (lib.getExe pkgs.swayidle)
-              "-w"
-              "timeout"
-              "300"
-              "${lib.getExe pkgs.niri} msg action power-off-monitors"
-              "resume"
-              "${lib.getExe pkgs.niri} msg action power-on-monitors"
-            ]
           ];
 
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
@@ -159,16 +150,25 @@
               "Mod+Shift+H".move-column-left = action;
               "Mod+Shift+J".move-window-down = action;
               "Mod+Shift+K".move-window-up = action;
+              "Mod+Shift+L".move-column-right = action;
 
               "Mod+Ctrl+Left".focus-monitor-left = action;
               "Mod+Ctrl+Down".focus-monitor-down = action;
               "Mod+Ctrl+Up".focus-monitor-up = action;
               "Mod+Ctrl+Right".focus-monitor-right = action;
+              "Mod+Ctrl+H".focus-monitor-left = action;
+              "Mod+Ctrl+J".focus-monitor-down = action;
+              "Mod+Ctrl+K".focus-monitor-up = action;
+              "Mod+Ctrl+L".focus-monitor-right = action;
 
               "Mod+Ctrl+Shift+Left".move-window-to-monitor-left = action;
               "Mod+Ctrl+Shift+Down".move-window-to-monitor-down = action;
               "Mod+Ctrl+Shift+Up".move-window-to-monitor-up = action;
               "Mod+Ctrl+Shift+Right".move-window-to-monitor-right = action;
+              "Mod+Ctrl+Shift+H".move-window-to-monitor-left = action;
+              "Mod+Ctrl+Shift+J".move-window-to-monitor-down = action;
+              "Mod+Ctrl+Shift+K".move-window-to-monitor-up = action;
+              "Mod+Ctrl+Shift+L".move-window-to-monitor-right = action;
 
               "Mod+Page_Down".focus-workspace-down = action;
               "Mod+Page_Up".focus-workspace-up = action;

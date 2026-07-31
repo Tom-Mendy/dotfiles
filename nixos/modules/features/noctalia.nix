@@ -14,6 +14,7 @@
           };
 
           appLauncher = {
+            position = "top_center";
             enableClipboardHistory = true;
             autoPasteClipboard = true;
             enableClipPreview = true;
@@ -24,12 +25,20 @@
             terminalCommand = "${lib.getExe pkgs.ghostty} -e";
           };
 
+          dock.enabled = false;
+
+          nightLight = {
+            enabled = true;
+            autoSchedule = true;
+          };
+
+          idle.enabled = true;
+
           wallpaper = {
             enabled = true;
             directory = "/home/tmendy/Pictures/Wallpapers";
-            automationEnabled = true;
-            wallpaperChangeMode = "random";
-            randomIntervalSec = 86400;
+            automationEnabled = false;
+            linkLightAndDarkWallpapers = false;
             setWallpaperOnAllMonitors = true;
           };
         };
