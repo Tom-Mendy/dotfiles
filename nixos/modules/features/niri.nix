@@ -178,6 +178,7 @@
               "Mod+R".switch-preset-column-width = action;
               "Mod+F".maximize-column = action;
               "Mod+Shift+F".fullscreen-window = action;
+              "Mod+Space".toggle-window-floating = action;
               "Mod+O".toggle-overview = action;
 
               "Print".screenshot = action;
