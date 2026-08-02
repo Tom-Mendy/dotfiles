@@ -5,6 +5,7 @@
     {
       packages.myNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
         inherit pkgs;
+        preInstalledPlugins.rbw.src = ./noctalia-rbw;
         settings = {
           settingsVersion = 59;
 
@@ -15,6 +16,8 @@
 
           appLauncher = {
             position = "top_center";
+            overviewLayer = true;
+            viewMode = "grid";
             enableClipboardHistory = true;
             autoPasteClipboard = true;
             enableClipPreview = true;
@@ -26,6 +29,10 @@
           };
 
           dock.enabled = false;
+
+          colorSchemes.useWallpaperColors = true;
+
+          location.autoLocate = true;
 
           nightLight = {
             enabled = true;

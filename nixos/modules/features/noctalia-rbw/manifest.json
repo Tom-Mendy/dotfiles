@@ -1,0 +1,19 @@
+{
+  "id": "rbw",
+  "name": "rbw",
+  "version": "1.0.0",
+  "description": "Search Bitwarden entries with rbw",
+  "tags": ["Launcher"],
+  "minNoctaliaVersion": "4.7.6",
+  "author": "Tom Mendy",
+  "license": "MIT",
+  "entryPoints": {
+    "launcherProvider": "LauncherProvider.qml"
+  },
+  "dependencies": {
+    "plugins": []
+  },
+  "metadata": {
+    "commandPrefix": "rbw"
+  }
+}
