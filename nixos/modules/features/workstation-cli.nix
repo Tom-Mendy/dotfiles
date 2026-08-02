@@ -3,7 +3,10 @@
     { pkgs, ... }:
     {
       environment.systemPackages = with pkgs; [
-        btop
+        (btop.override {
+          cudaSupport = true;
+          rocmSupport = true;
+        })
         busybox
         curl
         dig
@@ -18,6 +21,7 @@
         man
         man-pages
         moreutils
+        rocmPackages.rocm-smi
         smartmontools
         stow
         talosctl

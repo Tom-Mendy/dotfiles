@@ -18,7 +18,7 @@ fi
 
 # Only stow directories that actually exist in the repo
 DRY_RUN=0
-STOW_DIRS=(sesh nvim tmux zsh wofi ghostty ssh git)
+STOW_DIRS=(sesh nvim tmux zsh wofi ghostty ssh git btop)
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
