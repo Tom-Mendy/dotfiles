@@ -7,14 +7,21 @@
       ...
     }:
     {
-      virtualisation.containers.enable = true;
-      virtualisation.docker.enable = true;
-      virtualisation.podman = {
-        enable = true;
-        defaultNetwork.settings.dns_enabled = true;
+      virtualisation = {
+        containers.enable = true;
+        docker.enable = false;
+        podman = {
+          enable = true;
+          # Create a `docker` alias for podman, to use it as a drop-in replacement
+          dockerCompat = true;
+          defaultNetwork.settings.dns_enabled = true;
+        };
       };
 
-      users.users.${username}.extraGroups = lib.mkAfter [ "docker" ];
+      users.users.${username}.extraGroups = lib.mkAfter [
+        "docker"
+        "podman"
+      ];
 
       environment.systemPackages = with pkgs; [
         cri-tools
@@ -23,7 +30,6 @@
         lazydocker
         hadolint
         devcontainer
-        podman-compose
         podman-tui
         kubernetes-helm
         trivy
