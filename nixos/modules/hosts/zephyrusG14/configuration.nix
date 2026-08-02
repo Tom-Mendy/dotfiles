@@ -10,7 +10,7 @@
         self.nixosModules.devExtra
         self.nixosModules.gaming
         self.nixosModules.howdy
-        self.nixosModules.keyguard
+        self.nixosModules.rbw
         self.nixosModules.zephyrusG14Hardware
         self.nixosModules.neovim
         self.nixosModules.niri

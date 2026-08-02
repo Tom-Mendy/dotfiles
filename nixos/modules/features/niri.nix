@@ -136,17 +136,16 @@
           spawn-at-startup = [
             (lib.getExe self'.packages.myNoctalia)
             (lib.getExe' pkgs.kdePackages.plasma-workspace "xembedsniproxy")
-            "Keyguard"
+            [
+              (lib.getExe pkgs.rbw)
+              "unlock"
+            ]
           ];
 
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
 
           window-rules = [
             { open-maximized = true; }
-            {
-              matches = [ { app-id = "^com-artemchep-keyguard-MainKt$"; } ];
-              open-focused = true;
-            }
           ] ++ workspaceRules;
 
           input.keyboard = {

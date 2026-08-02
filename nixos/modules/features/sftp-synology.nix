@@ -23,8 +23,7 @@
 
       systemd.tmpfiles.rules = [
         "d /mnt/synology 0755 ${username} users -"
-      ]
-      ++ lib.mapAttrsToList (_: share: "d /mnt/synology/${share} 0755 ${username} users -") shares;
+      ] ++ lib.mapAttrsToList (_: share: "d /mnt/synology/${share} 0755 ${username} users -") shares;
 
       systemd.user.services = lib.mapAttrs' (
         name: share:
@@ -33,7 +32,7 @@
           wantedBy = [ "default.target" ];
           serviceConfig = {
             Type = "simple";
-            Environment = [ "SSH_AUTH_SOCK=%t/keyguard-ssh-agent.sock" ];
+            Environment = [ "SSH_AUTH_SOCK=%t/rbw/ssh-agent-socket" ];
             ExecStart = ''
               ${pkgs.sshfs}/bin/sshfs -f \
                 ${synologyUser}@${synologyHost}:/${share} \
