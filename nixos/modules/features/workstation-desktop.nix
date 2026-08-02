@@ -15,7 +15,6 @@
         policycoreutils
         proton-vpn-cli
         qalculate-gtk
-        rustdesk
         speedtest
         veracrypt
         volumeicon

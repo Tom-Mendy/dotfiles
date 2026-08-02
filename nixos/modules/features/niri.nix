@@ -47,10 +47,91 @@
       self',
       ...
     }:
+    let
+      workspaceDefs = [
+        {
+          key = "ampersand";
+          name = "1:  Terminal";
+        }
+        {
+          key = "eacute";
+          name = "2:  Code";
+          matches = [
+            { app-id = "^(Code|code|t3code|dev\\.zed\\.Zed)$"; }
+          ];
+        }
+        {
+          key = "quotedbl";
+          name = "3:  Browser";
+          matches = [
+            { app-id = "^(zen|helium)$"; }
+          ];
+        }
+        {
+          key = "apostrophe";
+          name = "4:  Games";
+          matches = [
+            { app-id = "^(Steam|steam|steam_app_[0-9]+|heroic|com\\.heroicgameslauncher\\.hgl)$"; }
+          ];
+        }
+        {
+          key = "parenleft";
+          name = "5:  Files";
+          matches = [
+            { app-id = "^org\\.gnome\\.Nautilus$"; }
+            { title = "^(xplr|yazi)$"; }
+          ];
+        }
+        {
+          key = "minus";
+          name = "6:  Documents";
+          matches = [
+            { app-id = "^(Logseq|libreoffice-.*)$"; }
+          ];
+        }
+        {
+          key = "egrave";
+          name = "7:  Media";
+          matches = [
+            { app-id = "^(vlc|io\\.bassi\\.Amberol|supersonic)$"; }
+            { title = "^(termusic|spotify_player)$"; }
+          ];
+        }
+        {
+          key = "underscore";
+          name = "8:  Virtualization";
+          matches = [
+            { app-id = "^(\\.virt-manager-wrapped|virt-manager)$"; }
+          ];
+        }
+        {
+          key = "ccedilla";
+          name = "9:  Chat";
+          matches = [
+            {
+              app-id = "^(Vesktop|vesktop|teams-for-linux|signal|Element|element|karere|io\\.github\\.tobagin\\.karere|Tuta Mail)$";
+            }
+          ];
+        }
+        {
+          key = "agrave";
+          name = "10:  General";
+          matches = [
+            { app-id = "^(Pavucontrol|pavucontrol|blueman-manager|\\.blueman-manager-wrapped)$"; }
+          ];
+        }
+      ];
+      workspaceRules = map (workspace: {
+        inherit (workspace) matches;
+        open-on-workspace = workspace.name;
+      }) (builtins.filter (workspace: workspace ? matches) workspaceDefs);
+    in
     {
       packages.myNiri = inputs.wrapper-modules.wrappers.niri.wrap {
         inherit pkgs;
-        v2-settings = true;
+        extraSettings = map (workspace: {
+          workspace = _: { props = workspace.name; };
+        }) workspaceDefs;
         settings = {
           spawn-at-startup = [
             (lib.getExe self'.packages.myNoctalia)
@@ -61,11 +142,12 @@
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
 
           window-rules = [
+            { open-maximized = true; }
             {
               matches = [ { app-id = "^com-artemchep-keyguard-MainKt$"; } ];
               open-focused = true;
             }
-          ];
+          ] ++ workspaceRules;
 
           input.keyboard = {
             xkb.layout = "fr";
@@ -94,34 +176,17 @@
             let
               noctalia = lib.getExe self'.packages.myNoctalia;
               action = _: { };
-              workspaceKeys = [
-                "ampersand"
-                "eacute"
-                "quotedbl"
-                "apostrophe"
-                "parenleft"
-                "minus"
-                "egrave"
-                "underscore"
-                "ccedilla"
-              ];
-              workspaces = builtins.listToAttrs (
-                builtins.concatMap (
-                  workspace:
-                  let
-                    key = builtins.elemAt workspaceKeys (workspace - 1);
-                  in
-                  [
-                    {
-                      name = "Mod+${key}";
-                      value.focus-workspace = workspace;
-                    }
-                    {
-                      name = "Mod+Shift+${key}";
-                      value.move-column-to-workspace = workspace;
-                    }
-                  ]
-                ) (lib.range 1 9)
+              workspaceBinds = builtins.listToAttrs (
+                builtins.concatMap (workspace: [
+                  {
+                    name = "Mod+${workspace.key}";
+                    value.focus-workspace = workspace.name;
+                  }
+                  {
+                    name = "Mod+Shift+${workspace.key}";
+                    value.move-column-to-workspace = workspace.name;
+                  }
+                ]) workspaceDefs
               );
             in
             {
@@ -192,7 +257,7 @@
               "XF86MonBrightnessUp".spawn-sh = "${noctalia} ipc call brightness increase";
               "XF86MonBrightnessDown".spawn-sh = "${noctalia} ipc call brightness decrease";
             }
-            // workspaces;
+            // workspaceBinds;
         };
       };
     };
