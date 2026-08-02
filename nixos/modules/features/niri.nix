@@ -146,7 +146,8 @@
 
           window-rules = [
             { open-maximized = true; }
-          ] ++ workspaceRules;
+          ]
+          ++ workspaceRules;
 
           input.keyboard = {
             xkb.layout = "fr";
@@ -251,6 +252,7 @@
               "Mod+O".toggle-overview = action;
 
               "Print".screenshot = action;
+              "Mod+Shift+S".screenshot = action;
               "Ctrl+Print".screenshot-screen = action;
               "Alt+Print".screenshot-window = action;
 
