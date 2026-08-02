@@ -204,8 +204,8 @@
               "Mod+Up".focus-window-up = action;
               "Mod+Right".focus-column-right = action;
               "Mod+H".focus-column-left = action;
-              "Mod+J".focus-window-down = action;
-              "Mod+K".focus-window-up = action;
+              "Mod+J".focus-workspace-down = action;
+              "Mod+K".focus-workspace-up = action;
               "Mod+L".focus-column-right = action;
 
               "Mod+Shift+Left".move-column-left = action;
