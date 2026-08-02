@@ -12,6 +12,24 @@
           bar = {
             position = "top";
             density = "mini";
+            widgets = {
+              left = [
+                { id = "Launcher"; }
+                { id = "Clock"; }
+                { id = "ActiveWindow"; }
+              ];
+              center = [
+                { id = "Workspace"; }
+              ];
+              right = [
+                { id = "Tray"; }
+                { id = "NotificationHistory"; }
+                { id = "Battery"; }
+                { id = "Volume"; }
+                { id = "Brightness"; }
+                { id = "ControlCenter"; }
+              ];
+            };
           };
 
           appLauncher = {
@@ -32,7 +50,52 @@
 
           colorSchemes.useWallpaperColors = true;
 
-          location.autoLocate = true;
+          calendar.cards = [
+            {
+              id = "calendar-header-card";
+              enabled = false;
+            }
+            {
+              id = "calendar-month-card";
+              enabled = true;
+            }
+            {
+              id = "weather-card";
+              enabled = true;
+            }
+          ];
+
+          controlCenter.cards = [
+            {
+              id = "profile-card";
+              enabled = true;
+            }
+            {
+              id = "shortcuts-card";
+              enabled = true;
+            }
+            {
+              id = "audio-card";
+              enabled = true;
+            }
+            {
+              id = "brightness-card";
+              enabled = false;
+            }
+            {
+              id = "weather-card";
+              enabled = false;
+            }
+            {
+              id = "media-sysmon-card";
+              enabled = true;
+            }
+          ];
+
+          location = {
+            autoLocate = true;
+            weatherShowEffects = false;
+          };
 
           nightLight = {
             enabled = true;
