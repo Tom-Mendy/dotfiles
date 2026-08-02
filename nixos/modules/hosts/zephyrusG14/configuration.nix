@@ -17,6 +17,7 @@
         self.nixosModules.nymVpn
         self.nixosModules.rog
         self.nixosModules.virtualisation
+        self.nixosModules.whisperDictation
         self.nixosModules.workstation
         self.nixosModules.zsh
         self.nixosModules.synologySftp

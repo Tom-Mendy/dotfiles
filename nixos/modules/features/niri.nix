@@ -174,6 +174,7 @@
           binds =
             let
               noctalia = lib.getExe self'.packages.myNoctalia;
+              whisperDictation = lib.getExe self'.packages.myWhisperDictation;
               action = _: { };
               workspaceBinds = builtins.listToAttrs (
                 builtins.concatMap (workspace: [
@@ -242,7 +243,11 @@
               "Mod+R".switch-preset-column-width = action;
               "Mod+F".maximize-column = action;
               "Mod+Shift+F".fullscreen-window = action;
-              "Mod+Space".toggle-window-floating = action;
+              "Mod+Alt+F".toggle-window-floating = action;
+              "Mod+Space" = _: {
+                props.repeat = false;
+                content.spawn = whisperDictation;
+              };
               "Mod+O".toggle-overview = action;
 
               "Print".screenshot = action;
