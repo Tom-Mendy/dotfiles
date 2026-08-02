@@ -22,7 +22,6 @@ Ce script :
 
 ## 🧪 Repro & Perf
 
-- Dev shell reproductible : `nix develop` (zsh, fzf, zoxide, eza, bat, git, kubectl, docker-client, shellcheck).
 - Install sans Nix : `./install_zsh.sh`.
 - Benchmark prompt : `./tools/benchmark.sh` (génère `artifacts/zsh-bench.md`). GitHub Actions publie l'artifact sur chaque PR.
 - Lint shell : CI exécute `shellcheck` via Nix.
