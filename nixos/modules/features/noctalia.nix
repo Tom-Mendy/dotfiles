@@ -12,6 +12,12 @@
           bar = {
             position = "top";
             density = "mini";
+            screenOverrides = [
+              {
+                name = "eDP-1";
+                displayMode = "auto_hide";
+              }
+            ];
             widgets = {
               left = [
                 { id = "Launcher"; }
@@ -102,7 +108,10 @@
             autoSchedule = true;
           };
 
-          idle.enabled = true;
+          idle = {
+            enabled = true;
+            screenOffTimeout = 300;
+          };
 
           wallpaper = {
             enabled = true;

@@ -13,7 +13,10 @@
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
       };
 
-      environment.systemPackages = [ pkgs.nautilus ];
+      environment.systemPackages = [
+        pkgs.bibata-cursors
+        pkgs.nautilus
+      ];
 
       services.gvfs.enable = true;
       services.udisks2.enable = true;
@@ -143,6 +146,8 @@
           ];
 
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
+
+          cursor.xcursor-theme = "Bibata-Modern-Amber";
 
           window-rules = [
             { open-maximized = true; }
