@@ -15,6 +15,7 @@
 
       environment.systemPackages = [
         pkgs.bibata-cursors
+        pkgs.kdePackages.breeze-icons
         pkgs.nautilus
       ];
 
