@@ -56,6 +56,9 @@
         {
           key = "ampersand";
           name = "1:  Terminal";
+          matches = [
+            { app-id = "^com\\.mitchellh\\.ghostty$"; }
+          ];
         }
         {
           key = "eacute";
@@ -83,7 +86,6 @@
           name = "5:  Files";
           matches = [
             { app-id = "^org\\.gnome\\.Nautilus$"; }
-            { title = "^(xplr|yazi)$"; }
           ];
         }
         {

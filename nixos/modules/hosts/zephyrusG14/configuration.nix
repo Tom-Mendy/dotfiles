@@ -21,7 +21,6 @@
         self.nixosModules.workstation
         self.nixosModules.zsh
         self.nixosModules.synologySftp
-        self.nixosModules.t3Code
       ];
 
       system.autoUpgrade = {
