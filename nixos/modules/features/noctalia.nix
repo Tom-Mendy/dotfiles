@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+{ inputs, ... }:
 {
   perSystem =
     { pkgs, lib, ... }:
@@ -54,8 +54,6 @@
 
           dock.enabled = false;
 
-          colorSchemes.useWallpaperColors = true;
-
           calendar.cards = [
             {
               id = "calendar-header-card";
@@ -69,6 +67,14 @@
               id = "weather-card";
               enabled = true;
             }
+          ];
+
+          controlCenter.shortcuts.right = [
+            { id = "Notifications"; }
+            { id = "PowerProfile"; }
+            { id = "KeepAwake"; }
+            { id = "NightLight"; }
+            { id = "DarkMode"; }
           ];
 
           controlCenter.cards = [

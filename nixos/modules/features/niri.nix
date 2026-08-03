@@ -152,7 +152,13 @@
           window-rules = [
             { open-maximized = true; }
           ]
-          ++ workspaceRules;
+          ++ workspaceRules
+          ++ [
+            {
+              matches = [ { is-floating = true; } ];
+              border.off = _: { };
+            }
+          ];
 
           input.keyboard = {
             xkb.layout = "fr";
@@ -169,6 +175,18 @@
 
           layout = {
             gaps = 5;
+            focus-ring.off = _: { };
+            border = {
+              width = 2;
+              active-gradient = _: {
+                props = {
+                  from = "#33ccffee";
+                  to = "#00ff99ee";
+                  angle = 45;
+                };
+              };
+              inactive-color = "#595959aa";
+            };
             preset-column-widths = [
               { proportion = 1.0 / 3.0; }
               { proportion = 1.0 / 2.0; }
