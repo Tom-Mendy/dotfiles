@@ -84,6 +84,9 @@
       networking.hostName = "zephyrusG14";
 
       hardware.graphics.enable = true;
+      services.udev.extraRules = ''
+        ACTION=="add", SUBSYSTEM=="sound", KERNEL=="controlC*", ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="0294", RUN+="${pkgs.alsa-utils}/bin/amixer -q -c S sset Mic playback mute"
+      '';
       services.xserver.videoDrivers = [
         "amdgpu"
         "nvidia"

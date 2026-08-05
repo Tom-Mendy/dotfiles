@@ -16,12 +16,26 @@
       environment.systemPackages = [
         pkgs.bibata-cursors
         pkgs.kdePackages.breeze-icons
-        pkgs.nautilus
+        pkgs.thunar
+        pkgs.thunar-archive-plugin
+        pkgs.xarchiver
+        pkgs.unar
+        pkgs.unrar
+        pkgs.p7zip
       ];
 
       services.gvfs.enable = true;
       services.udisks2.enable = true;
       programs.dconf.enable = true;
+
+      xdg.mime = {
+        enable = true;
+        defaultApplications = {
+          "inode/directory" = "thunar.desktop";
+          "application/vnd.rar" = "xarchiver.desktop";
+          "application/x-rar" = "xarchiver.desktop";
+        };
+      };
 
       services.greetd = {
         enable = true;
@@ -85,7 +99,7 @@
           key = "parenleft";
           name = "5:  Files";
           matches = [
-            { app-id = "^org\\.gnome\\.Nautilus$"; }
+            { app-id = "^(Thunar|thunar|org\\.xfce\\.Thunar)$"; }
           ];
         }
         {
@@ -130,6 +144,7 @@
       workspaceRules = map (workspace: {
         inherit (workspace) matches;
         open-on-workspace = workspace.name;
+        open-focused = true;
       }) (builtins.filter (workspace: workspace ? matches) workspaceDefs);
     in
     {
@@ -149,6 +164,8 @@
           ];
 
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
+
+          prefer-no-csd = _: { };
 
           cursor.xcursor-theme = "Bibata-Modern-Amber";
 
@@ -218,7 +235,7 @@
             in
             {
               "Mod+Return".spawn = lib.getExe pkgs.ghostty;
-              "Mod+E".spawn = lib.getExe pkgs.nautilus;
+              "Mod+E".spawn = lib.getExe pkgs.thunar;
               "Mod+Q".close-window = _: { };
               "Mod+S".spawn-sh = "${noctalia} ipc call launcher toggle";
               "Mod+V".spawn-sh = "${noctalia} ipc call launcher clipboard";
