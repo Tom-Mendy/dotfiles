@@ -7,6 +7,19 @@
       lib,
       ...
     }:
+    let
+      ghosttyXfceHelper = pkgs.writeTextDir "share/xfce4/helpers/ghostty.desktop" ''
+        [Desktop Entry]
+        Version=1.0
+        Type=X-XFCE-Helper
+        Name=Ghostty
+        Icon=com.mitchellh.ghostty
+        X-XFCE-Binaries=ghostty;
+        X-XFCE-Category=TerminalEmulator
+        X-XFCE-Commands=${lib.getExe pkgs.ghostty};
+        X-XFCE-CommandsWithParameter=${lib.getExe pkgs.ghostty} -e "%s";
+      '';
+    in
     {
       programs.niri = {
         enable = true;
@@ -18,6 +31,8 @@
         pkgs.kdePackages.breeze-icons
         pkgs.thunar
         pkgs.thunar-archive-plugin
+        pkgs.exo
+        ghosttyXfceHelper
         pkgs.xarchiver
         pkgs.unar
         pkgs.unrar
@@ -27,6 +42,11 @@
       services.gvfs.enable = true;
       services.udisks2.enable = true;
       programs.dconf.enable = true;
+
+      environment.etc."xdg/xfce4/helpers.rc".text = ''
+        [Helpers]
+        TerminalEmulator=ghostty
+      '';
 
       xdg.mime = {
         enable = true;

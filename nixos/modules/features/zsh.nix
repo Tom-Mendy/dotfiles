@@ -187,7 +187,8 @@ let
             alias ll="${pkgs.eza}/bin/eza --icons --color=always --group-directories-first -l"
             alias tree="${pkgs.eza}/bin/eza --icons --color=always --group-directories-first --tree"
             alias k=${pkgs.kubectl}/bin/kubectl
-            (( $+functions[_kubectl] )) && compdef k=kubectl
+            autoload -Uz _kubectl
+            compdef _kubectl kubectl k
             alias rm="${pkgs.safe-rm}/bin/safe-rm"
 
             chpwd() {

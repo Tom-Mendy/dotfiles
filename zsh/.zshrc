@@ -219,7 +219,8 @@ fi
 
 if (( $+commands[kubectl] )); then
   alias k=kubectl
-  (( $+functions[_kubectl] )) && compdef k=kubectl
+  autoload -Uz _kubectl
+  compdef _kubectl kubectl k
 fi
 
 # trash in terminal
