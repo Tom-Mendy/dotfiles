@@ -176,7 +176,6 @@
         settings = {
           spawn-at-startup = [
             (lib.getExe self'.packages.myNoctalia)
-            (lib.getExe' pkgs.kdePackages.plasma-workspace "xembedsniproxy")
             [
               (lib.getExe pkgs.rbw)
               "unlock"
