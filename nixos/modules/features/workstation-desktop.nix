@@ -10,10 +10,8 @@
         cpu-x
         libreoffice
         localsend
-        networkmanagerapplet
         ntfs3g
         policycoreutils
-        proton-vpn-cli
         qalculate-gtk
         speedtest
         veracrypt
