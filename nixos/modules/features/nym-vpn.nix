@@ -119,6 +119,8 @@
         pkgs.xdg-utils
       ];
 
+      networking.firewall.checkReversePath = "loose";
+
       security.polkit = {
         enable = true;
 
