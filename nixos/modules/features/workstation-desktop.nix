@@ -15,11 +15,7 @@
         qalculate-gtk
         speedtest
         veracrypt
-        volumeicon
-        xclip
-        xdpyinfo
-        xhost
-        xkill
+        wl-clipboard
       ];
     };
 }
