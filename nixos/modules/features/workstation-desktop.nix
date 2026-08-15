@@ -14,6 +14,7 @@
         policycoreutils
         qalculate-gtk
         speedtest
+        devenv
         veracrypt
         wl-clipboard
       ];
