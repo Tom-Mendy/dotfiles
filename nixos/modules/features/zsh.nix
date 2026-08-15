@@ -12,7 +12,6 @@ let
       kubectl
       ripgrep
       safe-rm
-      sesh
       zoxide
     ];
 
@@ -194,27 +193,6 @@ let
             chpwd() {
               ${pkgs.eza}/bin/eza --icons --color=always --group-directories-first --tree -L 1
             }
-
-            function sesh-sessions() {
-              {
-                exec </dev/tty
-                exec <&1
-                local session
-                local candidates
-                candidates=$( {
-                  ${pkgs.sesh}/bin/sesh list -t -c -z 2> /dev/null || true
-                  ${pkgs.findutils}/bin/find ~/projects ~/work ~/tests -mindepth 1 -maxdepth 1 -type d 2> /dev/null || true
-                } | ${pkgs.gawk}/bin/awk '!seen[$0]++')
-                session=$(printf '%s\n' "$candidates" | ${pkgs.fzf}/bin/fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '> ')
-                zle reset-prompt > /dev/null 2>&1 || true
-                [[ -z "$session" ]] && return
-                ${pkgs.sesh}/bin/sesh connect "$session"
-              }
-            }
-
-            zle -N sesh-sessions
-            bindkey -M emacs '^F' sesh-sessions
-            bindkey -M viins '^F' sesh-sessions
 
             bindkey -e
 

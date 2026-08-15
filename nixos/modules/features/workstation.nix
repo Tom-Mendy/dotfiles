@@ -21,7 +21,6 @@
         allowedUDPPorts = [ 53317 ];
       };
 
-      programs.tmux.enable = true;
       programs.nix-ld.enable = true;
 
       hardware.bluetooth = {

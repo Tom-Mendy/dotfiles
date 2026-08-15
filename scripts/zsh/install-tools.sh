@@ -90,28 +90,5 @@ install_atuin() {
   log "atuin installed successfully"
 }
 
-install_sesh() {
-  if command -v sesh > /dev/null; then
-    log "sesh already installed"
-    return
-  fi
-
-  log "Installing sesh with Go..."
-
-  if ! command -v go > /dev/null; then
-    log "Go not found, installing golang"
-    install_packages "golang"
-  fi
-
-  if ! command -v go > /dev/null; then
-    warn "Go not found, sesh install skipped"
-    return
-  fi
-
-  go install github.com/joshmedeski/sesh/v2@latest
-  log "✔ sesh installed via Go"
-}
-
 install_zoxide
 install_atuin
-install_sesh
