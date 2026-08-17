@@ -34,6 +34,7 @@
         cri-tools
         dive
         fluxcd
+        coder
         docker-compose
         lazydocker
         hadolint
