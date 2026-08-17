@@ -120,7 +120,6 @@
       ];
 
       networking.firewall.checkReversePath = "loose";
-
       security.polkit = {
         enable = true;
 
@@ -138,11 +137,10 @@
         description = "nym-vpnd daemon";
 
         wantedBy = [ "multi-user.target" ];
-        before = [ "network-online.target" ];
+        wants = [ "network-online.target" ];
 
         after = [
-          "NetworkManager.service"
-          "systemd-resolved.service"
+          "network-online.target"
         ];
 
         path = [

@@ -33,6 +33,7 @@
       environment.systemPackages = with pkgs; [
         cri-tools
         dive
+        fluxcd
         docker-compose
         lazydocker
         hadolint

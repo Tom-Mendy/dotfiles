@@ -37,6 +37,7 @@
         pkgs.unar
         pkgs.unrar
         pkgs.p7zip
+        pkgs.seahorse
       ];
 
       services.gvfs.enable = true;
