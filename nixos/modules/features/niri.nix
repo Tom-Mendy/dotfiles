@@ -31,7 +31,6 @@
         pkgs.kdePackages.breeze-icons
         pkgs.thunar
         pkgs.thunar-archive-plugin
-        pkgs.exo
         ghosttyXfceHelper
         pkgs.xarchiver
         pkgs.unar
