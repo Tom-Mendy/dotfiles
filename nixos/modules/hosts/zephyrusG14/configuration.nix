@@ -83,6 +83,11 @@
 
       networking.hostName = "zephyrusG14";
 
+      services.openssh.enable = true;
+      users.users.tmendy.openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGndRLmp+mIsp+K1QP8uutK+u27wdkknhRaNusnb3Rn8"
+      ];
+
       hardware.graphics.enable = true;
       services.udev.extraRules = ''
         ACTION=="add", SUBSYSTEM=="sound", KERNEL=="controlC*", ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="0294", RUN+="${pkgs.alsa-utils}/bin/amixer -q -c S sset Mic playback mute"
