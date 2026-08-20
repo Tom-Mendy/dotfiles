@@ -12,10 +12,10 @@
         docker = {
           enable = true;
           # Use the rootless mode - run Docker daemon as non-root user
-          rootless = {
-            enable = true;
-            setSocketVariable = true;
-          };
+          # rootless = {
+          #   enable = true;
+          #   setSocketVariable = true;
+          # };
         };
         podman = {
           enable = true;
