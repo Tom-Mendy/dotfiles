@@ -4,7 +4,7 @@
     { pkgs, ... }:
     let
       pkgsUnstableCuda = import inputs.nixpkgs-unstable {
-        system = pkgs.system;
+        system = pkgs.stdenv.hostPlatform.system;
         config = {
           allowUnfree = true;
           cudaSupport = true;
