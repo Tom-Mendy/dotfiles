@@ -52,7 +52,7 @@
       boot = {
         loader.systemd-boot.enable = true;
         loader.efi.canTouchEfiVariables = true;
-        kernelPackages = pkgs.linuxPackages_latest;
+        kernelPackages = pkgs.linuxPackages_7_1;
         resumeDevice = "/dev/mapper/luks-fff3f818-7e03-48e0-ae07-a149b29524ec";
         kernelParams = [ "resume_offset=84489648" ];
         kernel.sysctl = {
