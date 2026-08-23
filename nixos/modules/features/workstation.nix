@@ -12,7 +12,6 @@
         self.nixosModules.workstationDesktop
         self.nixosModules.workstationDevApps
         self.nixosModules.workstationMedia
-        self.nixosModules.comfyui
       ];
 
       networking.firewall = {
