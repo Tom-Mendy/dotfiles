@@ -16,7 +16,7 @@
         self.nixosModules.niri
         self.nixosModules.nymVpn
         self.nixosModules.rog
-        self.nixosModules.virtualisation
+        # self.nixosModules.virtualisation
         self.nixosModules.whisperDictation
         self.nixosModules.workstation
         self.nixosModules.zsh
@@ -53,8 +53,6 @@
         loader.systemd-boot.enable = true;
         loader.efi.canTouchEfiVariables = true;
         kernelPackages = pkgs.linuxPackages_7_1;
-        resumeDevice = "/dev/mapper/luks-fff3f818-7e03-48e0-ae07-a149b29524ec";
-        kernelParams = [ "resume_offset=84489648" ];
         kernel.sysctl = {
           "vm.swappiness" = 10;
           "vm.page-cluster" = 0;

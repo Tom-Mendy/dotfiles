@@ -16,6 +16,7 @@
         speedtest
         devenv
         veracrypt
+        gparted
         wl-clipboard
       ];
     };
