@@ -56,6 +56,21 @@ nix run ./nixos#zsh
 From another checkout, replace `./nixos` with the path to this repository's
 `nixos/` directory.
 
+## Poste Windows DevOps
+
+Ouvre PowerShell et colle cette ligne. Elle télécharge le menu depuis GitHub,
+sans cloner le dépôt sur le poste de travail :
+
+```powershell
+irm https://raw.githubusercontent.com/Tom-Mendy/dotfiles/main/auto-install-os/install_windows.ps1 | iex
+```
+
+Le menu propose une installation de base, une base avec Docker et WSL, un
+poste DevOps complet, ou le choix groupe par groupe. Il couvre aussi Java 21,
+Maven, Eclipse, Zed et Codex. Les outils classiques passent par `winget`.
+Codex passe par l'installeur PowerShell officiel et le script propose ensuite
+`codex --login`. Aucun jeu n'est inclus.
+
 
 ## A list of (cool) programs & tools I am currently using
 
