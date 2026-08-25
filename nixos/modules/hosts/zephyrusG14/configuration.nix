@@ -79,6 +79,11 @@
         priority = 100;
       };
 
+      # The dual-boot layout intentionally has no persistent swap device.
+      # Keep hibernation unavailable until a dedicated swapfile/partition and
+      # matching resume configuration are added.
+      systemd.sleep.settings.Sleep.AllowHibernation = false;
+
       networking.hostName = "zephyrusG14";
 
       services.openssh.enable = true;

@@ -1,6 +1,7 @@
 {
   flake.nixosModules.synologySftp =
     {
+      config,
       lib,
       pkgs,
       username,
@@ -16,6 +17,8 @@
         music = "music";
         home = "home";
       };
+      sshfsServices = lib.mapAttrsToList (name: _: "sshfs-synology-${name}.service") shares;
+      sshfsServiceList = lib.concatStringsSep " " sshfsServices;
     in
     {
       environment.systemPackages = [ pkgs.sshfs ];
@@ -46,11 +49,27 @@
                 -o x-gvfs-show \
                 -o "x-gvfs-name=Synology ${share}"
             '';
-            ExecStop = "${pkgs.fuse3}/bin/fusermount3 -u /mnt/synology/${share}";
+            ExecStop = "${pkgs.fuse3}/bin/fusermount3 -uz /mnt/synology/${share}";
             Restart = "on-failure";
             RestartSec = "5s";
           };
         }
       ) shares;
+
+      # FUSE requests can remain blocked when the network disappears during
+      # suspend. Stop the mounts before freezing user.slice and restore them
+      # after resume so systemd can complete the suspend operation.
+      systemd.services.sshfs-synology-sleep = {
+        description = "Stop Synology SSHFS mounts before sleep";
+        requiredBy = [ "sleep.target" ];
+        before = [ "sleep.target" ];
+        unitConfig.StopWhenUnneeded = true;
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          ExecStart = "${pkgs.systemd}/bin/systemctl --user --machine=${username}@.host stop ${sshfsServiceList}";
+          ExecStop = "${pkgs.systemd}/bin/systemctl --user --machine=${username}@.host start ${sshfsServiceList}";
+        };
+      };
     };
 }
