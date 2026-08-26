@@ -40,6 +40,7 @@
         hadolint
         devcontainer
         podman-tui
+        kubeconform
         kubernetes-helm
         trivy
         kubectl
