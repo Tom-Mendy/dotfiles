@@ -243,7 +243,7 @@ if [ $INSTALL_TUI_FILE_MANAGER == true ]; then
 fi
 # GUI
 if [ ! "$(command -v thunar)" ]; then
-  sudo nala install -y thunar thunar-archive-plugin thunar-media-tags-plugin
+  sudo nala install -y thunar thunar-archive-plugin thunar-media-tags-plugin tumbler
   mkdir -p "$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/"
   cp "$SCRIPT_DIR/Thunar/thunar.xml" "$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/"
   mkdir -p "$HOME/.config/Thunar"

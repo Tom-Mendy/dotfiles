@@ -32,6 +32,7 @@
         pkgs.loupe
         pkgs.thunar
         pkgs.thunar-archive-plugin
+        pkgs.tumbler
         ghosttyXfceHelper
         pkgs.xarchiver
         pkgs.unar
