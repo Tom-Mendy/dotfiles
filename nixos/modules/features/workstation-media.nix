@@ -6,8 +6,8 @@
         dav1d
         ffmpeg
         termusic
-        supersonic
         vlc
+        mpv
       ];
 
       systemd.user.services.termusic-server = {
