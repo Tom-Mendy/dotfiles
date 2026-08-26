@@ -175,166 +175,185 @@
       }) (builtins.filter (workspace: workspace ? matches) workspaceDefs);
     in
     {
-      packages.myNiri = inputs.wrapper-modules.wrappers.niri.wrap {
-        inherit pkgs;
-        extraSettings = map (workspace: {
-          workspace = _: { props = workspace.name; };
-        }) workspaceDefs;
-        settings = {
-          spawn-at-startup = [
-            (lib.getExe self'.packages.myNoctalia)
-            [
-              (lib.getExe pkgs.rbw)
-              "unlock"
-            ]
-          ];
+      packages.myNiri =
+        let
+          wrappedNiri = inputs.wrapper-modules.wrappers.niri.wrap {
+            inherit pkgs;
+            extraSettings = map (workspace: {
+              workspace = _: { props = workspace.name; };
+            }) workspaceDefs;
+            settings = {
+              spawn-at-startup = [
+                (lib.getExe self'.packages.myNoctalia)
+                [
+                  (lib.getExe pkgs.rbw)
+                  "unlock"
+                ]
+              ];
 
-          xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
+              xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
 
-          prefer-no-csd = _: { };
+              prefer-no-csd = _: { };
 
-          cursor.xcursor-theme = "Bibata-Modern-Amber";
+              cursor.xcursor-theme = "Bibata-Modern-Amber";
 
-          window-rules = [
-            { open-maximized = true; }
-          ]
-          ++ workspaceRules
-          ++ [
-            {
-              matches = [ { is-floating = true; } ];
-              border.off = _: { };
-            }
-          ];
+              window-rules = [
+                { open-maximized = true; }
+              ]
+              ++ workspaceRules
+              ++ [
+                {
+                  matches = [ { is-floating = true; } ];
+                  border.off = _: { };
+                }
+              ];
 
-          input.keyboard = {
-            xkb.layout = "fr";
-            numlock = true;
-          };
-          input.touchpad.scroll-factor = _: {
-            props = {
-              vertical = 1.0;
-              horizontal = -1.0;
-            };
-          };
-          input.touchpad.tap = _: { };
-          input.touchpad.natural-scroll = _: { };
-
-          layout = {
-            gaps = 5;
-            focus-ring.off = _: { };
-            border = {
-              width = 2;
-              active-gradient = _: {
+              input.keyboard = {
+                xkb.layout = "fr";
+                numlock = true;
+              };
+              input.touchpad.scroll-factor = _: {
                 props = {
-                  from = "#33ccffee";
-                  to = "#00ff99ee";
-                  angle = 45;
+                  vertical = 1.0;
+                  horizontal = -1.0;
                 };
               };
-              inactive-color = "#595959aa";
-            };
-            preset-column-widths = [
-              { proportion = 1.0 / 3.0; }
-              { proportion = 1.0 / 2.0; }
-              { proportion = 2.0 / 3.0; }
-            ];
-          };
-          gestures.hot-corners.off = _: { };
+              input.touchpad.tap = _: { };
+              input.touchpad.natural-scroll = _: { };
 
-          binds =
-            let
-              noctalia = lib.getExe self'.packages.myNoctalia;
-              whisperDictation = lib.getExe self'.packages.myWhisperDictation;
-              action = _: { };
-              workspaceBinds = builtins.listToAttrs (
-                builtins.concatMap (workspace: [
-                  {
-                    name = "Mod+${workspace.key}";
-                    value.focus-workspace = workspace.name;
-                  }
-                  {
-                    name = "Mod+Shift+${workspace.key}";
-                    value.move-column-to-workspace = workspace.name;
-                  }
-                ]) workspaceDefs
-              );
-            in
-            {
-              "Mod+Return".spawn = lib.getExe pkgs.ghostty;
-              "Mod+E".spawn = lib.getExe pkgs.thunar;
-              "Mod+I".spawn = lib.getExe pkgs.loupe;
-              "Mod+Q".close-window = _: { };
-              "Mod+S".spawn-sh = "${noctalia} ipc call launcher toggle";
-              "Mod+V".spawn-sh = "${noctalia} ipc call launcher clipboard";
-              "Mod+Shift+E".quit = action;
-              "Mod+X".spawn-sh = "${noctalia} ipc call lockScreen lock";
-              "Mod+Escape".spawn-sh = "${noctalia} ipc call sessionMenu toggle";
-
-              "Mod+Left".focus-column-left = action;
-              "Mod+Down".focus-window-down = action;
-              "Mod+Up".focus-window-up = action;
-              "Mod+Right".focus-column-right = action;
-              "Mod+H".focus-column-left = action;
-              "Mod+J".focus-workspace-down = action;
-              "Mod+K".focus-workspace-up = action;
-              "Mod+L".focus-column-right = action;
-
-              "Mod+Shift+Left".move-column-left = action;
-              "Mod+Shift+Down".move-window-down = action;
-              "Mod+Shift+Up".move-window-up = action;
-              "Mod+Shift+Right".move-column-right = action;
-              "Mod+Shift+H".move-column-left = action;
-              "Mod+Shift+J".move-window-down = action;
-              "Mod+Shift+K".move-window-up = action;
-              "Mod+Shift+L".move-column-right = action;
-
-              "Mod+Ctrl+Left".focus-monitor-left = action;
-              "Mod+Ctrl+Down".focus-monitor-down = action;
-              "Mod+Ctrl+Up".focus-monitor-up = action;
-              "Mod+Ctrl+Right".focus-monitor-right = action;
-              "Mod+Ctrl+H".focus-monitor-left = action;
-              "Mod+Ctrl+J".focus-monitor-down = action;
-              "Mod+Ctrl+K".focus-monitor-up = action;
-              "Mod+Ctrl+L".focus-monitor-right = action;
-
-              "Mod+Ctrl+Shift+Left".move-window-to-monitor-left = action;
-              "Mod+Ctrl+Shift+Down".move-window-to-monitor-down = action;
-              "Mod+Ctrl+Shift+Up".move-window-to-monitor-up = action;
-              "Mod+Ctrl+Shift+Right".move-window-to-monitor-right = action;
-              "Mod+Ctrl+Shift+H".move-window-to-monitor-left = action;
-              "Mod+Ctrl+Shift+J".move-window-to-monitor-down = action;
-              "Mod+Ctrl+Shift+K".move-window-to-monitor-up = action;
-              "Mod+Ctrl+Shift+L".move-window-to-monitor-right = action;
-
-              "Mod+Page_Down".focus-workspace-down = action;
-              "Mod+Page_Up".focus-workspace-up = action;
-              "Mod+Shift+Page_Down".move-column-to-workspace-down = action;
-              "Mod+Shift+Page_Up".move-column-to-workspace-up = action;
-
-              "Mod+R".switch-preset-column-width = action;
-              "Mod+F".maximize-column = action;
-              "Mod+Shift+F".fullscreen-window = action;
-              "Mod+Alt+F".toggle-window-floating = action;
-              "Mod+Space" = _: {
-                props.repeat = false;
-                content.spawn = whisperDictation;
+              layout = {
+                gaps = 5;
+                focus-ring.off = _: { };
+                border = {
+                  width = 2;
+                  active-gradient = _: {
+                    props = {
+                      from = "#33ccffee";
+                      to = "#00ff99ee";
+                      angle = 45;
+                    };
+                  };
+                  inactive-color = "#595959aa";
+                };
+                preset-column-widths = [
+                  { proportion = 1.0 / 3.0; }
+                  { proportion = 1.0 / 2.0; }
+                  { proportion = 2.0 / 3.0; }
+                ];
               };
-              "Mod+O".toggle-overview = action;
+              gestures.hot-corners.off = _: { };
 
-              "Print".screenshot = action;
-              "Mod+Shift+S".screenshot = action;
-              "Ctrl+Print".screenshot-screen = action;
-              "Alt+Print".screenshot-window = action;
+              hotkey-overlay.skip-at-startup = _: { };
 
-              "XF86AudioRaiseVolume".spawn-sh = "${noctalia} ipc call volume increase";
-              "XF86AudioLowerVolume".spawn-sh = "${noctalia} ipc call volume decrease";
-              "XF86AudioMute".spawn-sh = "${noctalia} ipc call volume muteOutput";
-              "XF86AudioMicMute".spawn-sh = "${noctalia} ipc call volume muteInput";
-              "XF86MonBrightnessUp".spawn-sh = "${noctalia} ipc call brightness increase";
-              "XF86MonBrightnessDown".spawn-sh = "${noctalia} ipc call brightness decrease";
-            }
-            // workspaceBinds;
-        };
-      };
+              binds =
+                let
+                  noctalia = lib.getExe self'.packages.myNoctalia;
+                  whisperDictation = lib.getExe self'.packages.myWhisperDictation;
+                  action = _: { };
+                  workspaceBinds = builtins.listToAttrs (
+                    builtins.concatMap (workspace: [
+                      {
+                        name = "Mod+${workspace.key}";
+                        value.focus-workspace = workspace.name;
+                      }
+                      {
+                        name = "Mod+Shift+${workspace.key}";
+                        value.move-column-to-workspace = workspace.name;
+                      }
+                    ]) workspaceDefs
+                  );
+                in
+                {
+                  "Mod+Return".spawn = lib.getExe pkgs.ghostty;
+                  "Mod+E".spawn = lib.getExe pkgs.thunar;
+                  "Mod+I".spawn = lib.getExe pkgs.loupe;
+                  "Mod+Q".close-window = _: { };
+                  "Mod+S".spawn-sh = "${noctalia} ipc call launcher toggle";
+                  "Mod+V".spawn-sh = "${noctalia} ipc call launcher clipboard";
+                  "Mod+Shift+E".quit = action;
+                  "Mod+X".spawn-sh = "${noctalia} ipc call lockScreen lock";
+                  "Mod+Escape".spawn-sh = "${noctalia} ipc call sessionMenu toggle";
+
+                  "Mod+Left".focus-column-left = action;
+                  "Mod+Down".focus-window-down = action;
+                  "Mod+Up".focus-window-up = action;
+                  "Mod+Right".focus-column-right = action;
+                  "Mod+H".focus-column-left = action;
+                  "Mod+J".focus-workspace-down = action;
+                  "Mod+K".focus-workspace-up = action;
+                  "Mod+L".focus-column-right = action;
+
+                  "Mod+Shift+Left".move-column-left = action;
+                  "Mod+Shift+Down".move-window-down = action;
+                  "Mod+Shift+Up".move-window-up = action;
+                  "Mod+Shift+Right".move-column-right = action;
+                  "Mod+Shift+H".move-column-left = action;
+                  "Mod+Shift+J".move-window-down = action;
+                  "Mod+Shift+K".move-window-up = action;
+                  "Mod+Shift+L".move-column-right = action;
+
+                  "Mod+Ctrl+Left".focus-monitor-left = action;
+                  "Mod+Ctrl+Down".focus-monitor-down = action;
+                  "Mod+Ctrl+Up".focus-monitor-up = action;
+                  "Mod+Ctrl+Right".focus-monitor-right = action;
+                  "Mod+Ctrl+H".focus-monitor-left = action;
+                  "Mod+Ctrl+J".focus-monitor-down = action;
+                  "Mod+Ctrl+K".focus-monitor-up = action;
+                  "Mod+Ctrl+L".focus-monitor-right = action;
+
+                  "Mod+Ctrl+Shift+Left".move-window-to-monitor-left = action;
+                  "Mod+Ctrl+Shift+Down".move-window-to-monitor-down = action;
+                  "Mod+Ctrl+Shift+Up".move-window-to-monitor-up = action;
+                  "Mod+Ctrl+Shift+Right".move-window-to-monitor-right = action;
+                  "Mod+Ctrl+Shift+H".move-window-to-monitor-left = action;
+                  "Mod+Ctrl+Shift+J".move-window-to-monitor-down = action;
+                  "Mod+Ctrl+Shift+K".move-window-to-monitor-up = action;
+                  "Mod+Ctrl+Shift+L".move-window-to-monitor-right = action;
+
+                  "Mod+Page_Down".focus-workspace-down = action;
+                  "Mod+Page_Up".focus-workspace-up = action;
+                  "Mod+Shift+Page_Down".move-column-to-workspace-down = action;
+                  "Mod+Shift+Page_Up".move-column-to-workspace-up = action;
+
+                  "Mod+R".switch-preset-column-width = action;
+                  "Mod+F".maximize-column = action;
+                  "Mod+Shift+F".fullscreen-window = action;
+                  "Mod+Alt+F".toggle-window-floating = action;
+                  "Mod+Space" = _: {
+                    props.repeat = false;
+                    content.spawn = whisperDictation;
+                  };
+                  "Mod+O".toggle-overview = action;
+
+                  "Print".screenshot = action;
+                  "Mod+Shift+S".screenshot = action;
+                  "Ctrl+Print".screenshot-screen = action;
+                  "Alt+Print".screenshot-window = action;
+
+                  "XF86AudioRaiseVolume".spawn-sh = "${noctalia} ipc call volume increase";
+                  "XF86AudioLowerVolume".spawn-sh = "${noctalia} ipc call volume decrease";
+                  "XF86AudioMute".spawn-sh = "${noctalia} ipc call volume muteOutput";
+                  "XF86AudioMicMute".spawn-sh = "${noctalia} ipc call volume muteInput";
+                  "XF86MonBrightnessUp".spawn-sh = "${noctalia} ipc call brightness increase";
+                  "XF86MonBrightnessDown".spawn-sh = "${noctalia} ipc call brightness decrease";
+                }
+                // workspaceBinds;
+            };
+          };
+        in
+        wrappedNiri.overrideAttrs (old: {
+          postBuild = (old.postBuild or "") + ''
+            sessionScript="$out/bin/niri-session"
+            if [ -L "$sessionScript" ]; then
+              sessionScriptSource="$(readlink -f "$sessionScript")"
+              rm "$sessionScript"
+              substitute "$sessionScriptSource" "$sessionScript" \
+                --replace-fail \
+                  'systemctl --user import-environment' \
+                  'systemctl --user import-environment $(printenv | cut -d= -f1 | tr "\n" " ")'
+              chmod +x "$sessionScript"
+            fi
+          '';
+        });
     };
 }
