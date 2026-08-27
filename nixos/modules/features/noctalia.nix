@@ -5,9 +5,19 @@
     {
       packages.myNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
         inherit pkgs;
+        # Noctalia writes downloaded color schemes and GUI changes at runtime.
+        # Keep that state outside the Nix store, which is read-only.
+        outOfStoreConfig = "/home/tmendy/.config/noctalia";
         preInstalledPlugins.rbw.src = ./noctalia-rbw;
         settings = {
           settingsVersion = 59;
+
+          colorSchemes = {
+            darkMode = true;
+            predefinedScheme = "Noctalia (default)";
+            syncGsettings = true;
+            useWallpaperColors = false;
+          };
 
           bar = {
             position = "top";
@@ -112,6 +122,17 @@
           nightLight = {
             enabled = true;
             autoSchedule = true;
+          };
+
+          osd = {
+            autoHideMs = 1000;
+            backgroundOpacity = 0.5;
+            location = "bottom_center";
+          };
+
+          notifications = {
+            backgroundOpacity = 0.5;
+            location = "bottom_center";
           };
 
           idle = {
