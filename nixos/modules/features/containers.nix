@@ -35,6 +35,7 @@
         dive
         fluxcd
         coder
+        crane
         docker-compose
         lazydocker
         hadolint
