@@ -29,7 +29,7 @@ SCRIPT_DIR="$TEST_TMP/script"
 source <(sed '/^banner "Dual-boot/,$d' "$WIZARD")
 
 FOUND_ISO=$(find_local_iso "ubuntu-test.iso")
-if [[ "$FOUND_ISO" != "$TEST_TMP/home/Downloads/ubuntu-test.iso" ]]; then
+if [[ $FOUND_ISO != "$TEST_TMP/home/Downloads/ubuntu-test.iso" ]]; then
   printf 'FAIL: find_local_iso did not detect the ISO in ~/Downloads\n' >&2
   exit 1
 fi
