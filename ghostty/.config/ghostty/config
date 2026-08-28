@@ -4,3 +4,8 @@ theme = Catppuccin Frappe
 window-decoration = none
 confirm-close-surface = false
 background-opacity = 0.9
+
+# Keep Ghostty aware of the shell and preserve the working directory when
+# opening a new terminal surface.
+shell-integration = detect
+working-directory = inherit

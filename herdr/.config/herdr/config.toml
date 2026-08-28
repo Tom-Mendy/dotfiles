@@ -1,0 +1,9 @@
+# Keep Herdr quiet during first launch; the configuration is managed by Stow.
+onboarding = false
+
+[ui]
+window_title = "{hostname}: {workspace}"
+
+[ui.toast]
+delivery = "terminal"
+delay_seconds = 1

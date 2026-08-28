@@ -179,6 +179,9 @@ let
             alias unproxy='unset http_proxy;unset https_proxy;unset all_proxy'
             alias proxy_http='export all_proxy=http://127.0.0.1:1081'
 
+            alias h=herdr
+            alias hr='herdr --remote'
+
             alias bat="${pkgs.bat}/bin/bat"
             alias cat="${pkgs.bat}/bin/bat --paging=never"
             alias ls="${pkgs.eza}/bin/eza --icons --color=always --group-directories-first"

@@ -264,7 +264,7 @@
                   );
                 in
                 {
-                  "Mod+Return".spawn = lib.getExe pkgs.ghostty;
+                  "Mod+Return".spawn-sh = "${lib.getExe pkgs.ghostty} -e herdr";
                   "Mod+E".spawn = lib.getExe pkgs.thunar;
                   "Mod+I".spawn = lib.getExe pkgs.loupe;
                   "Mod+Q".close-window = _: { };
