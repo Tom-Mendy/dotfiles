@@ -12,11 +12,22 @@ set -euo pipefail
 # Wizard library — delightful, consistent UX. Identical across every wizard.
 # ──────────────────────────────────────────────────────────────────────────
 
-if [[ -t 1 ]] && command -v tput >/dev/null 2>&1 && [[ "$(tput colors 2>/dev/null || echo 0)" -ge 8 ]]; then
-  BOLD=$(tput bold); DIM=$(tput dim); RESET=$(tput sgr0)
-  BLUE=$(tput setaf 4); GREEN=$(tput setaf 2); YELLOW=$(tput setaf 3); RED=$(tput setaf 1)
+if [[ -t 1 ]] && command -v tput > /dev/null 2>&1 && [[ "$(tput colors 2> /dev/null || echo 0)" -ge 8 ]]; then
+  BOLD=$(tput bold)
+  DIM=$(tput dim)
+  RESET=$(tput sgr0)
+  BLUE=$(tput setaf 4)
+  GREEN=$(tput setaf 2)
+  YELLOW=$(tput setaf 3)
+  RED=$(tput setaf 1)
 else
-  BOLD=""; DIM=""; RESET=""; BLUE=""; GREEN=""; YELLOW=""; RED=""
+  BOLD=""
+  DIM=""
+  RESET=""
+  BLUE=""
+  GREEN=""
+  YELLOW=""
+  RED=""
 fi
 
 # Author sets this at the top of the stages section.
@@ -32,7 +43,7 @@ SKIPPED=()        # things we couldn't do (e.g. gh missing)
 # output isn't a terminal, so piped logs stay readable.
 _clear() {
   [[ -t 1 ]] || return 0
-  if command -v tput >/dev/null 2>&1; then tput clear; else printf '\033[2J\033[3J\033[H'; fi
+  if command -v tput > /dev/null 2>&1; then tput clear; else printf '\033[2J\033[3J\033[H'; fi
 }
 
 # banner "Title" — opening frame: what this wizard does.
@@ -56,7 +67,7 @@ stage() {
 }
 
 # say "..." — a plain instruction line.
-say()  { printf '  %s\n' "$1"; }
+say() { printf '  %s\n' "$1"; }
 # step "..." — a numbered-feeling action the human takes in the browser.
 step() { printf '  %s•%s %s\n' "$BLUE" "$RESET" "$1"; }
 note() { printf '  %s%s%s\n' "$DIM" "$1" "$RESET"; }
@@ -66,16 +77,20 @@ warn() { printf '  %s⚠ %s%s\n' "$YELLOW" "$1" "$RESET"; }
 open_url() {
   local url="$1" opener=""
   printf '  %s↗ opening%s %s\n' "$GREEN" "$RESET" "$url"
-  if   command -v wslview      >/dev/null 2>&1; then opener="wslview"
-  elif command -v explorer.exe >/dev/null 2>&1; then opener="explorer.exe"
-  elif command -v xdg-open     >/dev/null 2>&1; then opener="xdg-open"
-  elif command -v open         >/dev/null 2>&1; then opener="open"
+  if command -v wslview > /dev/null 2>&1; then
+    opener="wslview"
+  elif command -v explorer.exe > /dev/null 2>&1; then
+    opener="explorer.exe"
+  elif command -v xdg-open > /dev/null 2>&1; then
+    opener="xdg-open"
+  elif command -v open > /dev/null 2>&1; then
+    opener="open"
   else
     warn "couldn't open a browser — visit it manually: $url"
     return
   fi
 
-  "$opener" "$url" </dev/null >/dev/null 2>&1 &
+  "$opener" "$url" < /dev/null > /dev/null 2>&1 &
 }
 
 # pause "msg" — wait for the human to confirm they've done the manual part.
@@ -89,13 +104,14 @@ confirm() {
   local reply=""
   printf '  %s? %s [y/N] ' "$YELLOW" "$1"
   read -r reply || true
-  [[ "$reply" =~ ^[Yy] ]]
+  [[ $reply =~ ^[Yy] ]]
 }
 
 # _existing KEY — current value of KEY in ENV_FILE, if any.
 _existing() {
-  [[ -f "$ENV_FILE" ]] || return 1
-  local line; line=$(grep -E "^${1}=" "$ENV_FILE" | tail -n1) || return 1
+  [[ -f $ENV_FILE ]] || return 1
+  local line
+  line=$(grep -E "^${1}=" "$ENV_FILE" | tail -n1) || return 1
   printf '%s' "${line#*=}"
 }
 
@@ -104,13 +120,13 @@ _existing() {
 ask() {
   local key="$1" prompt="$2" current input
   current=$(_existing "$key" || true)
-  if [[ -n "$current" ]]; then
+  if [[ -n $current ]]; then
     printf '  %s%s%s %s[Enter keeps current]%s ' "$BOLD" "$prompt" "$RESET" "$DIM" "$RESET"
   else
     printf '  %s%s%s ' "$BOLD" "$prompt" "$RESET"
   fi
   read -r input || true
-  [[ -z "$input" && -n "$current" ]] && input="$current"
+  [[ -z $input && -n $current ]] && input="$current"
   printf -v "$key" '%s' "$input"
 }
 
@@ -118,14 +134,14 @@ ask() {
 ask_secret() {
   local key="$1" prompt="$2" current input
   current=$(_existing "$key" || true)
-  if [[ -n "$current" ]]; then
+  if [[ -n $current ]]; then
     printf '  %s%s%s %s[Enter keeps current]%s ' "$BOLD" "$prompt" "$RESET" "$DIM" "$RESET"
   else
     printf '  %s%s%s ' "$BOLD" "$prompt" "$RESET"
   fi
   read -rs input || true
   printf '\n'
-  [[ -z "$input" && -n "$current" ]] && input="$current"
+  [[ -z $input && -n $current ]] && input="$current"
   printf -v "$key" '%s' "$input"
 }
 
@@ -146,8 +162,8 @@ write_env() {
 # to a warning (and records it) if gh is unavailable or unauthenticated.
 set_secret() {
   local name="$1" value="$2"
-  if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-    if printf '%s' "$value" | gh secret set "$name" >/dev/null 2>&1; then
+  if command -v gh > /dev/null 2>&1 && gh auth status > /dev/null 2>&1; then
+    if printf '%s' "$value" | gh secret set "$name" > /dev/null 2>&1; then
       WRITTEN_SECRET+=("$name")
       printf '  %s✓ set%s GitHub secret %s\n' "$GREEN" "$RESET" "$name"
       return
@@ -160,8 +176,8 @@ set_secret() {
 # set_var NAME VALUE — set a GitHub Actions repo variable (non-secret).
 set_var() {
   local name="$1" value="$2"
-  if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-    if gh variable set "$name" --body "$value" >/dev/null 2>&1; then
+  if command -v gh > /dev/null 2>&1 && gh auth status > /dev/null 2>&1; then
+    if gh variable set "$name" --body "$value" > /dev/null 2>&1; then
       printf '  %s✓ set%s GitHub variable %s\n' "$GREEN" "$RESET" "$name"
       return
     fi
@@ -174,10 +190,11 @@ set_var() {
 finish() {
   _clear
   printf '\n%s%s  ✓ Setup complete%s\n' "$BOLD" "$GREEN" "$RESET"
-  (( ${#WRITTEN_ENV[@]} ))    && note "wrote ${#WRITTEN_ENV[@]} value(s) to $ENV_FILE: ${WRITTEN_ENV[*]}"
-  (( ${#WRITTEN_SECRET[@]} )) && note "set ${#WRITTEN_SECRET[@]} GitHub secret(s): ${WRITTEN_SECRET[*]}"
-  if (( ${#SKIPPED[@]} )); then
-    printf '\n'; warn "still to do by hand:"
+  ((${#WRITTEN_ENV[@]})) && note "wrote ${#WRITTEN_ENV[@]} value(s) to $ENV_FILE: ${WRITTEN_ENV[*]}"
+  ((${#WRITTEN_SECRET[@]})) && note "set ${#WRITTEN_SECRET[@]} GitHub secret(s): ${WRITTEN_SECRET[*]}"
+  if ((${#SKIPPED[@]})); then
+    printf '\n'
+    warn "still to do by hand:"
     for s in "${SKIPPED[@]}"; do note "  - $s"; done
   fi
   printf '\n'
@@ -203,8 +220,8 @@ NIXOS_PREPARED_MARKER="/var/tmp/dual-boot-nixos-prepared"
 
 download_dir() {
   local directory=""
-  if command -v xdg-user-dir >/dev/null 2>&1; then
-    directory=$(xdg-user-dir DOWNLOAD 2>/dev/null || true)
+  if command -v xdg-user-dir > /dev/null 2>&1; then
+    directory=$(xdg-user-dir DOWNLOAD 2> /dev/null || true)
   fi
   printf '%s' "${directory:-$HOME/Downloads}"
 }
@@ -212,7 +229,7 @@ download_dir() {
 find_local_iso() {
   local iso="$1" directory
   for directory in "${VENTOY_DIR:-}" "$SCRIPT_DIR" "$(download_dir)" "$HOME/Downloads" "$HOME/Téléchargements"; do
-    if [[ -n "$directory" && -f "$directory/$iso" ]]; then
+    if [[ -n $directory && -f "$directory/$iso" ]]; then
       printf '%s' "$directory/$iso"
       return 0
     fi
@@ -221,22 +238,22 @@ find_local_iso() {
 }
 
 detect_ventoy_dir() {
-  command -v findmnt >/dev/null 2>&1 || return 1
-  findmnt -rn -o TARGET,LABEL 2>/dev/null |
+  command -v findmnt > /dev/null 2>&1 || return 1
+  findmnt -rn -o TARGET,LABEL 2> /dev/null |
     awk '$2 == "Ventoy" { print $1; exit }'
 }
 
 copy_iso_to_ventoy() {
   local source="$1" destination="$2" iso="$3"
   [[ -f "$destination/$iso" ]] && return 0
-  [[ -n "$source" && -f "$source" ]] || return 1
+  [[ -n $source && -f $source ]] || return 1
 
   say "Copie de $iso vers Ventoy. Le fichier est volumineux, patientez quelques minutes."
   cp -- "$source" "$destination/$iso"
 }
 
 os_id() {
-  sed -n 's/^ID=//p' /etc/os-release 2>/dev/null | tr -d '"' | head -n1
+  sed -n 's/^ID=//p' /etc/os-release 2> /dev/null | tr -d '"' | head -n1
 }
 
 unallocated_mib_after_p2() {
@@ -244,7 +261,7 @@ unallocated_mib_after_p2() {
   disk_size=$(< /sys/class/block/nvme0n1/size)
   p2_start=$(< /sys/class/block/nvme0n1p2/start)
   p2_size=$(< /sys/class/block/nvme0n1p2/size)
-  printf '%s' "$(( (disk_size - p2_start - p2_size) / 2048 ))"
+  printf '%s' "$(((disk_size - p2_start - p2_size) / 2048))"
 }
 
 copy_checklists() {
@@ -313,7 +330,7 @@ else
     exit 0
   fi
 
-  if swapon --show=NAME --noheadings 2>/dev/null | grep -qx '/swapfile'; then
+  if swapon --show=NAME --noheadings 2> /dev/null | grep -qx '/swapfile'; then
     warn "/swapfile est encore actif alors que resume_offset a disparu."
     say "Redemarrez sur la nouvelle generation avant de relancer le wizard."
     exit 1
@@ -329,7 +346,7 @@ else
     fi
   fi
 
-  if [[ ! -e "$NIXOS_PREPARED_MARKER" ]]; then
+  if [[ ! -e $NIXOS_PREPARED_MARKER ]]; then
     step "Scrub Btrfs complet avant le redimensionnement. Cette operation peut durer."
     sudo btrfs scrub start -Bd /
     sudo btrfs device stats /
@@ -347,22 +364,22 @@ VENTOY_DIR="${VENTOY_DIR:-$(detect_ventoy_dir || true)}"
 UBUNTU_SOURCE=$(find_local_iso "$UBUNTU_ISO" || true)
 GPARTED_SOURCE=$(find_local_iso "$GPARTED_ISO" || true)
 
-if [[ -z "$UBUNTU_SOURCE" ]]; then
+if [[ -z $UBUNTU_SOURCE ]]; then
   open_url "https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso"
 fi
-if [[ -z "$GPARTED_SOURCE" ]]; then
+if [[ -z $GPARTED_SOURCE ]]; then
   open_url "https://downloads.sourceforge.net/gparted/gparted-live-1.8.1-3-amd64.iso"
 fi
-if [[ -z "$UBUNTU_SOURCE" || -z "$GPARTED_SOURCE" ]]; then
+if [[ -z $UBUNTU_SOURCE || -z $GPARTED_SOURCE ]]; then
   say "Telechargez les ISO manquantes, puis relancez le wizard."
   exit 0
 fi
 
-if [[ -z "$VENTOY_DIR" ]]; then
+if [[ -z $VENTOY_DIR ]]; then
   ask VENTOY_DIR "Chemin du volume Ventoy monte, par exemple /run/media/tmendy/Ventoy:"
 fi
 
-if [[ ! -d "$VENTOY_DIR" ]]; then
+if [[ ! -d $VENTOY_DIR ]]; then
   warn "Le chemin Ventoy n'existe pas: $VENTOY_DIR"
   exit 1
 fi
@@ -396,7 +413,7 @@ printf '%s  %s\n' "$GPARTED_SHA256" "$VENTOY_DIR/$GPARTED_ISO" | sha256sum --che
 }
 say "ISO GParted valide."
 copy_checklists "$VENTOY_DIR"
-if [[ "$SCRIPT_DIR" != "$VENTOY_DIR" ]]; then
+if [[ $SCRIPT_DIR != "$VENTOY_DIR" ]]; then
   cp -- "${BASH_SOURCE[0]}" "$VENTOY_DIR/dual-boot-ubuntu-wizard.sh"
   chmod +x "$VENTOY_DIR/dual-boot-ubuntu-wizard.sh"
 fi
@@ -413,10 +430,10 @@ fi
 FREE_MIB=$(unallocated_mib_after_p2)
 if [[ -b /dev/nvme0n1p3 ]]; then
   note "La partition p3 existe deja. Le redimensionnement est considere termine."
-elif (( FREE_MIB >= 51000 && FREE_MIB <= 51400 )); then
+elif ((FREE_MIB >= 51000 && FREE_MIB <= 51400)); then
   say "Espace non alloue detecte apres p2: ${FREE_MIB} MiB."
   say "Le redimensionnement a la taille attendue."
-elif (( FREE_MIB < 51000 )); then
+elif ((FREE_MIB < 51000)); then
   warn "Le disque ne contient pas encore les 51200 MiB non alloues."
   step "Ouvrez GPARTED-CHECKLIST.txt sur Ventoy et suivez chaque ligne."
   step "Au redemarrage, choisissez GParted Live en mode UEFI."
@@ -434,7 +451,7 @@ if [[ "$(os_id)" == "ubuntu" ]]; then
   ROOT_SOURCE=$(findmnt -no SOURCE /)
   ROOT_FSTYPE=$(findmnt -no FSTYPE /)
   say "Ubuntu demarre depuis $ROOT_SOURCE avec $ROOT_FSTYPE."
-  if [[ "$ROOT_SOURCE" != *"nvme0n1p3"* || "$ROOT_FSTYPE" != "ext4" ]]; then
+  if [[ $ROOT_SOURCE != *"nvme0n1p3"* || $ROOT_FSTYPE != "ext4" ]]; then
     warn "La racine Ubuntu n'utilise pas la p3 ext4 attendue."
     exit 1
   fi
@@ -462,7 +479,7 @@ if [[ ! -e "$VENTOY_DIR/.dual-boot-nixos-verified" ]]; then
   exit 0
 fi
 say "Ubuntu et NixOS ont tous les deux demarre depuis la nouvelle table GPT."
-if command -v efibootmgr >/dev/null 2>&1; then
+if command -v efibootmgr > /dev/null 2>&1; then
   efibootmgr | sed -n '1,30p'
 fi
 
@@ -476,10 +493,10 @@ step "Deconnectez tout ecran supplementaire et gardez une seule camera et un seu
 step "Coupez les VPN. Utilisez les haut-parleurs, jamais un casque ou des ecouteurs."
 step "Dans Parametres > Son, testez l'entree micro et les haut-parleurs."
 step "Testez la webcam avec Cheese ou dans le diagnostic video."
-if command -v xrandr >/dev/null 2>&1; then
+if command -v xrandr > /dev/null 2>&1; then
   xrandr --listmonitors || true
 fi
-if command -v nmcli >/dev/null 2>&1; then
+if command -v nmcli > /dev/null 2>&1; then
   nmcli connection show --active || true
 fi
 open_url "https://video-diagnostics.twilio.com/"
