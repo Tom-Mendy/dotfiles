@@ -11,6 +11,7 @@
           openssl
           nfs-utils
           arp-scan
+          gitleaks
           prisma_7
           prisma-engines_7
           k6

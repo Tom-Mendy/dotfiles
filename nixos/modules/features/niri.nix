@@ -30,6 +30,7 @@
         pkgs.bibata-cursors
         pkgs.kdePackages.breeze-icons
         pkgs.loupe
+        pkgs.loupe
         pkgs.thunar
         pkgs.thunar-archive-plugin
         pkgs.tumbler
@@ -59,6 +60,7 @@
         defaultApplications = {
           "inode/directory" = "thunar.desktop";
           "image/*" = "org.gnome.Loupe.desktop";
+          "application/pdf" = "org.gnome.Papers.desktop";
           "application/vnd.rar" = "xarchiver.desktop";
           "application/x-rar" = "xarchiver.desktop";
         };
@@ -266,7 +268,6 @@
                 {
                   "Mod+Return".spawn-sh = "${lib.getExe pkgs.ghostty} -e herdr";
                   "Mod+E".spawn = lib.getExe pkgs.thunar;
-                  "Mod+I".spawn = lib.getExe pkgs.loupe;
                   "Mod+Q".close-window = _: { };
                   "Mod+S".spawn-sh = "${noctalia} ipc call launcher toggle";
                   "Mod+V".spawn-sh = "${noctalia} ipc call launcher clipboard";
