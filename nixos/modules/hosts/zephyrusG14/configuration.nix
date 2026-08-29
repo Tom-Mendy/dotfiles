@@ -1,7 +1,7 @@
 { self, ... }:
 {
   flake.nixosModules.zephyrusG14Configuration =
-    { pkgs, ... }:
+    { pkgs, unstable, ... }:
     {
       imports = [
         self.nixosModules.common
@@ -52,7 +52,7 @@
       boot = {
         loader.systemd-boot.enable = true;
         loader.efi.canTouchEfiVariables = true;
-        kernelPackages = pkgs.linuxPackages_7_1;
+        kernelPackages = pkgs.linuxPackages_latest;
         kernel.sysctl = {
           "vm.swappiness" = 10;
           "vm.page-cluster" = 0;
@@ -100,6 +100,9 @@
         "nvidia"
       ];
       hardware.nvidia = {
+        package =
+          (unstable.linuxPackagesFor pkgs.linuxPackages_latest.kernel)
+          .nvidiaPackages.production;
         open = true;
         powerManagement.enable = true;
         prime = {
