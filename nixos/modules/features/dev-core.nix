@@ -44,7 +44,6 @@
         go
 
         # Node
-        bun
         nodejs_26
         typescript
 

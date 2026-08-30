@@ -5,9 +5,6 @@
     {
       packages.myNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
         inherit pkgs;
-        # Noctalia writes downloaded color schemes and GUI changes at runtime.
-        # Keep that state outside the Nix store, which is read-only.
-        outOfStoreConfig = "/home/tmendy/.config/noctalia";
         preInstalledPlugins.rbw.src = ./noctalia-rbw;
         settings = {
           settingsVersion = 59;
