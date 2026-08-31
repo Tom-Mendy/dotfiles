@@ -39,6 +39,23 @@ Rebuild the host:
 sudo nixos-rebuild switch --flake ./nixos#zephyrusG14
 ```
 
+### Développement mobile Android
+
+La feature `devMobile` installe le SDK Android, `adb`, le NDK, Watchman et un
+émulateur avec une image `google_apis`. Node.js, npm, Kotlin et Gradle sont
+déjà fournis par `devCore`.
+
+Après le rebuild, créer un AVD avec une image installée :
+
+```bash
+sdkmanager --list
+avdmanager create avd --name mobile-dev --package "system-images;android-<API>;google_apis;x86_64"
+emulator -avd mobile-dev
+```
+
+Les projets React Native peuvent ensuite utiliser leur CLI locale avec
+`npx react-native`, et les projets Kotlin Android leur wrapper Gradle.
+
 Format or check the nested flake:
 
 ```bash

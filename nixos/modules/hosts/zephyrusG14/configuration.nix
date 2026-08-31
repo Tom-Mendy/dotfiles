@@ -8,6 +8,7 @@
         self.nixosModules.containers
         self.nixosModules.devCore
         self.nixosModules.devExtra
+        self.nixosModules.devMobile
         self.nixosModules.gaming
         self.nixosModules.howdy
         self.nixosModules.rbw
