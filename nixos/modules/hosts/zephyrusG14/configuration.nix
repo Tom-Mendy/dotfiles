@@ -101,9 +101,7 @@
         "nvidia"
       ];
       hardware.nvidia = {
-        package =
-          (unstable.linuxPackagesFor pkgs.linuxPackages_latest.kernel)
-          .nvidiaPackages.production;
+        package = (unstable.linuxPackagesFor pkgs.linuxPackages_latest.kernel).nvidiaPackages.production;
         open = true;
         powerManagement.enable = true;
         prime = {

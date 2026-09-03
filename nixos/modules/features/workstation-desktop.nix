@@ -1,6 +1,6 @@
 {
   flake.nixosModules.workstationDesktop =
-    { pkgs, ... }:
+    { pkgs, unstable, ... }:
     {
       environment.systemPackages = with pkgs; [
         alsa-lib
@@ -14,7 +14,8 @@
         policycoreutils
         qalculate-gtk
         speedtest
-        devenv
+        coder
+        unstable.devenv
         veracrypt
         gparted
         wl-clipboard

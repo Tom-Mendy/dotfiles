@@ -7,7 +7,7 @@
         remotePlay.openFirewall = true;
         dedicatedServer.openFirewall = true;
         localNetworkGameTransfers.openFirewall = true;
-        extest.enable = true;
+        extest.enable = false;
       };
       programs.gamescope.enable = true;
 
