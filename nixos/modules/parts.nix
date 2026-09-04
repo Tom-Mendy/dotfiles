@@ -9,6 +9,14 @@
     perSystem =
       { pkgs, lib, ... }:
       {
+        devShells.default = pkgs.mkShellNoCC {
+          packages = with pkgs; [
+            git
+            shellcheck
+            zsh
+          ];
+        };
+
         formatter = pkgs.writeShellApplication {
           name = "dotfiles-nixfmt";
           text = ''
