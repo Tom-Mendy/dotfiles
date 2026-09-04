@@ -2,16 +2,16 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
 
 jobs:
   lint:
     runs-on: arc-runner-set-dotfiles
     steps:
-      - uses: actions/checkout@v6
-      - uses: DeterminateSystems/nix-installer-action@v10
-      - uses: DeterminateSystems/magic-nix-cache-action@v6
+      - uses: actions/checkout@v7
+      - uses: DeterminateSystems/nix-installer-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@v14
       - name: ShellCheck
         run: |
           nix develop -c shellcheck $(find scripts -name '*.sh' -type f) install.sh install_zsh.sh tools/benchmark.sh
@@ -19,9 +19,9 @@ jobs:
   nixos:
     runs-on: arc-runner-set-dotfiles
     steps:
-      - uses: actions/checkout@v6
-      - uses: DeterminateSystems/nix-installer-action@v10
-      - uses: DeterminateSystems/magic-nix-cache-action@v6
+      - uses: actions/checkout@v7
+      - uses: DeterminateSystems/nix-installer-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@v14
       - name: Evaluate Nix flake
         run: nix flake check ./nixos --no-build
       - name: Check Nix formatting
@@ -35,9 +35,9 @@ jobs:
   zsh-bench:
     runs-on: arc-runner-set-dotfiles
     steps:
-      - uses: actions/checkout@v6
-      - uses: DeterminateSystems/nix-installer-action@v10
-      - uses: DeterminateSystems/magic-nix-cache-action@v6
+      - uses: actions/checkout@v7
+      - uses: DeterminateSystems/nix-installer-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@v14
       - name: Run benchmark
         run: |
           nix develop -c ./tools/benchmark.sh
