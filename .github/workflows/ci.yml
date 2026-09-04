@@ -13,10 +13,15 @@ jobs:
       - name: Install runner prerequisites
         run: sudo apt-get update && sudo apt-get install -y xz-utils
       - uses: DeterminateSystems/nix-installer-action@v22
+        with:
+          extra-conf: |
+            lazy-trees = false
       - uses: DeterminateSystems/magic-nix-cache-action@v14
+        with:
+          use-flakehub: "disabled"
       - name: ShellCheck
         run: |
-          nix develop -c shellcheck $(find scripts -name '*.sh' -type f) install.sh install_zsh.sh tools/benchmark.sh
+          nix develop ./nixos -c shellcheck $(find scripts -name '*.sh' -type f) install.sh install_zsh.sh tools/benchmark.sh
 
   nixos:
     runs-on: arc-runner-set-dotfiles
@@ -25,7 +30,12 @@ jobs:
       - name: Install runner prerequisites
         run: sudo apt-get update && sudo apt-get install -y xz-utils
       - uses: DeterminateSystems/nix-installer-action@v22
+        with:
+          extra-conf: |
+            lazy-trees = false
       - uses: DeterminateSystems/magic-nix-cache-action@v14
+        with:
+          use-flakehub: "disabled"
       - name: Evaluate Nix flake
         run: nix flake check ./nixos --no-build
       - name: Check Nix formatting
@@ -43,10 +53,15 @@ jobs:
       - name: Install runner prerequisites
         run: sudo apt-get update && sudo apt-get install -y xz-utils
       - uses: DeterminateSystems/nix-installer-action@v22
+        with:
+          extra-conf: |
+            lazy-trees = false
       - uses: DeterminateSystems/magic-nix-cache-action@v14
+        with:
+          use-flakehub: "disabled"
       - name: Run benchmark
         run: |
-          nix develop -c ./tools/benchmark.sh
+          nix develop ./nixos -c ./tools/benchmark.sh
       - name: Upload benchmark artifact
         uses: actions/upload-artifact@v7
         with:
