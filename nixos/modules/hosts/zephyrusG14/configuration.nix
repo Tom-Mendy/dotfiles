@@ -1,7 +1,12 @@
 { self, ... }:
 {
   flake.nixosModules.zephyrusG14Configuration =
-    { pkgs, unstable, ... }:
+    {
+      pkgs,
+      unstable,
+      username,
+      ...
+    }:
     {
       imports = [
         self.nixosModules.common
@@ -26,7 +31,7 @@
 
       system.autoUpgrade = {
         enable = true;
-        flake = "/home/tmendy/dotfiles/nixos#zephyrusG14";
+        flake = "/home/${username}/dotfiles/nixos#zephyrusG14";
         dates = "Sun *-*-* 04:40:00";
         persistent = true;
         allowReboot = false;
@@ -87,8 +92,15 @@
 
       networking.hostName = "zephyrusG14";
 
-      services.openssh.enable = true;
-      users.users.tmendy.openssh.authorizedKeys.keys = [
+      services.openssh = {
+        enable = true;
+        settings = {
+          PasswordAuthentication = false;
+          KbdInteractiveAuthentication = false;
+          PermitRootLogin = "no";
+        };
+      };
+      users.users.${username}.openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGndRLmp+mIsp+K1QP8uutK+u27wdkknhRaNusnb3Rn8"
       ];
 
