@@ -16,6 +16,22 @@ jobs:
         run: |
           nix develop -c shellcheck $(find scripts -name '*.sh' -type f) install.sh install_zsh.sh tools/benchmark.sh
 
+  nixos:
+    runs-on: arc-runner-set-dotfiles
+    steps:
+      - uses: actions/checkout@v6
+      - uses: DeterminateSystems/nix-installer-action@v10
+      - uses: DeterminateSystems/magic-nix-cache-action@v6
+      - name: Evaluate Nix flake
+        run: nix flake check ./nixos --no-build
+      - name: Check Nix formatting
+        run: |
+          cd nixos
+          nix fmt
+          git diff --exit-code -- '*.nix'
+      - name: Build Zephyrus G14 configuration
+        run: nix build ./nixos#nixosConfigurations.zephyrusG14.config.system.build.toplevel --no-link
+
   zsh-bench:
     runs-on: arc-runner-set-dotfiles
     steps:
