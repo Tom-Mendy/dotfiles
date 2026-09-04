@@ -134,6 +134,7 @@
 
             notifications = {
               backgroundOpacity = 0.5;
+              autoHideMs = 1000;
               location = "bottom_center";
             };
 
