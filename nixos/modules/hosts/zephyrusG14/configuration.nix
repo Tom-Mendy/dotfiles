@@ -55,7 +55,7 @@
         loader.efi.canTouchEfiVariables = true;
         kernelPackages = pkgs.linuxPackages_latest;
         kernel.sysctl = {
-          "vm.swappiness" = 10;
+          "vm.swappiness" = 0;
           "vm.page-cluster" = 0;
         };
       };
