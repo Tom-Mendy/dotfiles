@@ -73,11 +73,8 @@ jobs:
           use-flakehub: "disabled"
       - name: Prepare Zsh benchmark
         run: |
-          mkdir -p "$HOME/.zinit"
-          git clone --depth=1 https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin"
-          ln -s "$GITHUB_WORKSPACE/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
-          env ZDOTDIR="$GITHUB_WORKSPACE/zsh" \
-            nix develop ./nixos -c zsh -dfc 'source "$ZDOTDIR/.zshrc"'
+          ./install_zsh.sh
+          zsh -f -c 'source "$HOME/.zshrc"'
       - name: Run benchmark
         timeout-minutes: 8
         env:
