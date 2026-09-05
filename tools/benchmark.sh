@@ -7,6 +7,9 @@ CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles"
 BENCH_DIR="$CACHE_DIR/zsh-bench"
 # Optional: pin zsh-bench commit for stability (set ZSH_BENCH_REF to a valid hash)
 ZSH_BENCH_REF="${ZSH_BENCH_REF:-}"
+# Keep upstream defaults for local use; CI can override these to avoid requiring zsh as login shell.
+ZSH_BENCH_LOGIN="${ZSH_BENCH_LOGIN:-yes}"
+ZSH_BENCH_ITERS="${ZSH_BENCH_ITERS:-16}"
 # Jobs flag disabled because some zsh-bench revisions don't support -j; keep env for future
 JOBS="${ZSH_BENCH_JOBS:-}"
 
@@ -29,7 +32,10 @@ OUT_MD="$ARTIFACT_DIR/zsh-bench.md"
 
 run_once() {
   local outfile="$1"
-  ZDOTDIR="$ROOT/zsh" "$BENCH_DIR"/zsh-bench | tee "$outfile"
+  ZDOTDIR="$ROOT/zsh" "$BENCH_DIR"/zsh-bench \
+    --login "$ZSH_BENCH_LOGIN" \
+    --iters "$ZSH_BENCH_ITERS" \
+    | tee "$outfile"
 }
 
 echo "[bench] cold run..."
@@ -52,10 +58,10 @@ BENCH_REF_RESOLVED=$(git -C "$BENCH_DIR" rev-parse --short HEAD 2> /dev/null || 
 {
   echo "# zsh-bench"
   echo
-  echo "| run  | total (ms) | ref | jobs |"
-  echo "| --- | --- | --- | --- |"
-  echo "| cold | ${COLD_MS:-n/a} | ${ZSH_BENCH_REF:-$BENCH_REF_RESOLVED} | ${JOBS:-n/a} |"
-  echo "| warm | ${WARM_MS:-n/a} | ${ZSH_BENCH_REF:-$BENCH_REF_RESOLVED} | ${JOBS:-n/a} |"
+  echo "| run  | total (ms) | ref | login | iters | jobs |"
+  echo "| --- | --- | --- | --- | --- | --- |"
+  echo "| cold | ${COLD_MS:-n/a} | ${ZSH_BENCH_REF:-$BENCH_REF_RESOLVED} | $ZSH_BENCH_LOGIN | $ZSH_BENCH_ITERS | ${JOBS:-n/a} |"
+  echo "| warm | ${WARM_MS:-n/a} | ${ZSH_BENCH_REF:-$BENCH_REF_RESOLVED} | $ZSH_BENCH_LOGIN | $ZSH_BENCH_ITERS | ${JOBS:-n/a} |"
   echo
   echo "## raw output (cold)"
   echo '```'

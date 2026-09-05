@@ -5,9 +5,14 @@ on:
     branches: [main, master]
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     runs-on: arc-runner-set-dotfiles
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
       - name: Install runner prerequisites
@@ -30,6 +35,7 @@ jobs:
 
   nixos:
     runs-on: arc-runner-set-dotfiles
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7
       - name: Install runner prerequisites
@@ -42,7 +48,7 @@ jobs:
         with:
           use-flakehub: "disabled"
       - name: Evaluate NixOS configuration
-        run: nix eval ./nixos#nixosConfigurations.zephyrusG14.config.system.build.toplevel.drvPath
+        run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.stateVersion
       - name: Check Nix formatting
         run: |
           cd nixos
@@ -53,6 +59,7 @@ jobs:
 
   zsh-bench:
     runs-on: arc-runner-set-dotfiles
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
       - name: Install runner prerequisites
@@ -64,10 +71,19 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@v14
         with:
           use-flakehub: "disabled"
+      - name: Prepare Zsh benchmark
+        run: |
+          mkdir -p "$HOME/.zinit"
+          git clone --depth=1 https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin"
       - name: Run benchmark
+        timeout-minutes: 8
+        env:
+          ZSH_BENCH_LOGIN: "no"
+          ZSH_BENCH_ITERS: "4"
         run: |
           nix develop ./nixos -c ./tools/benchmark.sh
       - name: Upload benchmark artifact
+        if: always()
         uses: actions/upload-artifact@v7
         with:
           name: zsh-bench
