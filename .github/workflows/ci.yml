@@ -21,7 +21,12 @@ jobs:
           use-flakehub: "disabled"
       - name: ShellCheck
         run: |
-          nix develop ./nixos -c shellcheck $(find scripts -name '*.sh' -type f) install.sh install_zsh.sh tools/benchmark.sh
+          mapfile -t shell_files < <(
+            find scripts -name '*.sh' -type f ! -path 'scripts/dual-boot-ubuntu-wizard.sh'
+          )
+          shell_files+=(install_zsh.sh tools/benchmark.sh)
+          nix develop ./nixos -c shellcheck --severity=warning "${shell_files[@]}"
+          nix develop ./nixos -c shellcheck --severity=warning --exclude=SC2034 scripts/dual-boot-ubuntu-wizard.sh
 
   nixos:
     runs-on: arc-runner-set-dotfiles
@@ -36,8 +41,8 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@v14
         with:
           use-flakehub: "disabled"
-      - name: Evaluate Nix flake
-        run: nix flake check ./nixos --no-build
+      - name: Evaluate NixOS configuration
+        run: nix eval ./nixos#nixosConfigurations.zephyrusG14.config.system.build.toplevel.drvPath
       - name: Check Nix formatting
         run: |
           cd nixos

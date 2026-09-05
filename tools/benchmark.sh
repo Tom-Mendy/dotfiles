@@ -28,17 +28,16 @@ OUT_TXT="$ARTIFACT_DIR/zsh-bench.txt"
 OUT_MD="$ARTIFACT_DIR/zsh-bench.md"
 
 run_once() {
-  local label="$1"
-  local outfile="$2"
+  local outfile="$1"
   ZDOTDIR="$ROOT/zsh" "$BENCH_DIR"/zsh-bench | tee "$outfile"
 }
 
 echo "[bench] cold run..."
-run_once "cold" "$OUT_TXT"
+run_once "$OUT_TXT"
 
 echo "[bench] warm run..."
 OUT_TXT_WARM="$ARTIFACT_DIR/zsh-bench-warm.txt"
-run_once "warm" "$OUT_TXT_WARM"
+run_once "$OUT_TXT_WARM"
 
 # Extract exit_time_ms as total
 parse_exit_ms() {
