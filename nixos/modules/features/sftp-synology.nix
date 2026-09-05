@@ -26,7 +26,8 @@
 
       systemd.tmpfiles.rules = [
         "d /mnt/synology 0755 ${username} users -"
-      ] ++ lib.mapAttrsToList (_: share: "d /mnt/synology/${share} 0755 ${username} users -") shares;
+      ]
+      ++ lib.mapAttrsToList (_: share: "d /mnt/synology/${share} 0755 ${username} users -") shares;
 
       systemd.user.services = lib.mapAttrs' (
         name: share:
