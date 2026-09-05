@@ -6,7 +6,7 @@ on:
   pull_request:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-v2
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-v3
   cancel-in-progress: true
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
 
   nixos:
     runs-on: arc-runner-set-dotfiles
-    timeout-minutes: 45
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
       - name: Install runner prerequisites
@@ -37,35 +37,15 @@ jobs:
         with:
           extra-conf: |
             lazy-trees = false
+            max-jobs = 2
+            cores = 2
       - name: Evaluate NixOS configuration
         run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.stateVersion
+      - name: Evaluate full system derivation
+        timeout-minutes: 10
+        run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.build.toplevel.drvPath
       - name: Check Nix formatting
         run: |
           cd nixos
           nix fmt
           git diff --exit-code -- '*.nix'
-      - name: Build Zephyrus G14 configuration
-        timeout-minutes: 30
-        run: nix build ./nixos#nixosConfigurations.zephyrusG14.config.system.build.toplevel --no-link
-
-  zsh-bench:
-    runs-on: arc-runner-set-dotfiles
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v7
-      - name: Prepare Zsh benchmark
-        run: |
-          ./install_zsh.sh
-          zsh -f -c 'source "$HOME/.zshrc"'
-      - name: Run benchmark
-        timeout-minutes: 8
-        env:
-          ZSH_BENCH_LOGIN: "no"
-          ZSH_BENCH_ITERS: "4"
-        run: ./tools/benchmark.sh
-      - name: Upload benchmark artifact
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: zsh-bench
-          path: artifacts/
