@@ -34,8 +34,8 @@ run_once() {
   local outfile="$1"
   ZDOTDIR="$ROOT/zsh" "$BENCH_DIR"/zsh-bench \
     --login "$ZSH_BENCH_LOGIN" \
-    --iters "$ZSH_BENCH_ITERS" \
-    | tee "$outfile"
+    --iters "$ZSH_BENCH_ITERS" |
+    tee "$outfile"
 }
 
 echo "[bench] cold run..."
