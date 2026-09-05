@@ -15,23 +15,16 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
-      - name: Install runner prerequisites
-        run: sudo apt-get update && sudo apt-get install -y xz-utils
-      - uses: DeterminateSystems/nix-installer-action@v22
-        with:
-          extra-conf: |
-            lazy-trees = false
-      - uses: DeterminateSystems/magic-nix-cache-action@v14
-        with:
-          use-flakehub: "disabled"
+      - name: Install ShellCheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
       - name: ShellCheck
         run: |
           mapfile -t shell_files < <(
             find scripts -name '*.sh' -type f ! -path 'scripts/dual-boot-ubuntu-wizard.sh'
           )
           shell_files+=(install_zsh.sh tools/benchmark.sh)
-          nix develop ./nixos -c shellcheck --severity=warning "${shell_files[@]}"
-          nix develop ./nixos -c shellcheck --severity=warning --exclude=SC2034 scripts/dual-boot-ubuntu-wizard.sh
+          shellcheck --severity=warning "${shell_files[@]}"
+          shellcheck --severity=warning --exclude=SC2034 scripts/dual-boot-ubuntu-wizard.sh
 
   nixos:
     runs-on: arc-runner-set-dotfiles
@@ -44,9 +37,6 @@ jobs:
         with:
           extra-conf: |
             lazy-trees = false
-      - uses: DeterminateSystems/magic-nix-cache-action@v14
-        with:
-          use-flakehub: "disabled"
       - name: Evaluate NixOS configuration
         run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.stateVersion
       - name: Check Nix formatting
@@ -55,6 +45,7 @@ jobs:
           nix fmt
           git diff --exit-code -- '*.nix'
       - name: Build Zephyrus G14 configuration
+        timeout-minutes: 30
         run: nix build ./nixos#nixosConfigurations.zephyrusG14.config.system.build.toplevel --no-link
 
   zsh-bench:
@@ -62,15 +53,6 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
-      - name: Install runner prerequisites
-        run: sudo apt-get update && sudo apt-get install -y xz-utils
-      - uses: DeterminateSystems/nix-installer-action@v22
-        with:
-          extra-conf: |
-            lazy-trees = false
-      - uses: DeterminateSystems/magic-nix-cache-action@v14
-        with:
-          use-flakehub: "disabled"
       - name: Prepare Zsh benchmark
         run: |
           ./install_zsh.sh
@@ -80,8 +62,7 @@ jobs:
         env:
           ZSH_BENCH_LOGIN: "no"
           ZSH_BENCH_ITERS: "4"
-        run: |
-          nix develop ./nixos -c ./tools/benchmark.sh
+        run: ./tools/benchmark.sh
       - name: Upload benchmark artifact
         if: always()
         uses: actions/upload-artifact@v7
