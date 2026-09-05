@@ -6,12 +6,12 @@ on:
   pull_request:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-v4
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-v5
   cancel-in-progress: true
 
 jobs:
   lint:
-    runs-on: arc-runner-set-dotfiles
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
@@ -27,7 +27,7 @@ jobs:
           shellcheck --severity=warning --exclude=SC2034 scripts/dual-boot-ubuntu-wizard.sh
 
   nixos:
-    runs-on: arc-runner-set-dotfiles
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
