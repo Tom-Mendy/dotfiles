@@ -14,7 +14,6 @@
         policycoreutils
         qalculate-gtk
         speedtest
-        coder
         unstable.devenv
         veracrypt
         gparted

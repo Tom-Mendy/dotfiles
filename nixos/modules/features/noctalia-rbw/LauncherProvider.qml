@@ -137,12 +137,12 @@ Item {
         root.selectedEntry = null
         launcher.updateResults()
       }
-    }, copyAction("Password", "copy", ["rbw", "get", "--clipboard", entry.id])]
+    }, copyAction("Password", "copy", ["rbw-copy-sensitive", "password", entry.id])]
 
     if (entry.user)
-      results.push(copyAction("Username", "user", ["rbw", "get", "--field", "username", "--clipboard", entry.id]))
+      results.push(copyAction("Username", "user", ["rbw-copy-sensitive", "username", entry.id]))
     if (entry.entry_type === "Login")
-      results.push(copyAction("OTP", "shield-lock", ["rbw", "code", "--clipboard", entry.id]))
+      results.push(copyAction("OTP", "shield-lock", ["rbw-copy-sensitive", "otp", entry.id]))
 
     return results
   }

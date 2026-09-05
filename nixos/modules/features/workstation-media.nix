@@ -15,8 +15,8 @@
         wantedBy = [ "default.target" ];
         serviceConfig = {
           ExecStart = "${pkgs.termusic}/bin/termusic-server";
-          Restart = "always";
-          RestartSec = "1s";
+          Restart = "on-failure";
+          RestartSec = "5s";
         };
       };
     };

@@ -28,7 +28,7 @@ install_eza() {
       EZA_ARCH="aarch64-unknown-linux-gnu"
       ;;
     *)
-      warn "Unknown architecture "${ARCH}", defaulting to x86_64-unknown-linux-gnu"
+      warn "Unknown architecture ${ARCH}, defaulting to x86_64-unknown-linux-gnu"
       EZA_ARCH="x86_64-unknown-linux-gnu"
       ;;
   esac

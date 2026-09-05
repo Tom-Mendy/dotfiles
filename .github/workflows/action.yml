@@ -1,5 +1,5 @@
 name: action
-run-name: ${{github.actor}} verifying my code
+run-name: ${{ github.actor }} verifying my code
 
 on:
   push:
@@ -9,25 +9,30 @@ on:
     branches-ignore:
       - " ga-ignore-"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-v2
+  cancel-in-progress: true
+
 jobs:
   auto_format:
     # Check if the PR is not from a fork
-    runs-on: arc-runner-set-dotfiles
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
     if: github.repository == 'Tom-Mendy/dotfiles'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.head_ref || github.ref_name }}
       - name: Install shfmt
-        run: sudo apt update && sudo apt install shfmt -y
-      - name: format file
+        run: sudo apt-get update && sudo apt-get install -y shfmt
+      - name: Format files
         run: ./format.sh
       - name: Check for modified files
         id: git-check
-        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
+        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo false; else echo true; fi)" >> "$GITHUB_OUTPUT"
       - name: Push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         if: steps.git-check.outputs.modified == 'true'

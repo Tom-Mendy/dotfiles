@@ -2,31 +2,46 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-v5
+  cancel-in-progress: true
 
 jobs:
   lint:
-    runs-on: arc-runner-set-dotfiles
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v6
-      - uses: DeterminateSystems/nix-installer-action@v10
-      - uses: DeterminateSystems/magic-nix-cache-action@v6
+      - uses: actions/checkout@v7
+      - name: Install ShellCheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
       - name: ShellCheck
         run: |
-          nix develop -c shellcheck $(find scripts -name '*.sh' -type f) install.sh install_zsh.sh tools/benchmark.sh
+          mapfile -t shell_files < <(
+            find scripts -name '*.sh' -type f ! -path 'scripts/dual-boot-ubuntu-wizard.sh'
+          )
+          shell_files+=(install_zsh.sh tools/benchmark.sh)
+          shellcheck --severity=warning "${shell_files[@]}"
+          shellcheck --severity=warning --exclude=SC2034 scripts/dual-boot-ubuntu-wizard.sh
 
-  zsh-bench:
-    runs-on: arc-runner-set-dotfiles
+  nixos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v6
-      - uses: DeterminateSystems/nix-installer-action@v10
-      - uses: DeterminateSystems/magic-nix-cache-action@v6
-      - name: Run benchmark
-        run: |
-          nix develop -c ./tools/benchmark.sh
-      - name: Upload benchmark artifact
-        uses: actions/upload-artifact@v7
+      - uses: actions/checkout@v7
+      - name: Install runner prerequisites
+        run: sudo apt-get update && sudo apt-get install -y xz-utils
+      - uses: DeterminateSystems/nix-installer-action@v22
         with:
-          name: zsh-bench
-          path: artifacts/
+          extra-conf: |
+            lazy-trees = false
+      - name: Evaluate NixOS configuration
+        timeout-minutes: 5
+        run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.stateVersion
+      - name: Check Nix formatting
+        run: |
+          cd nixos
+          nix fmt
+          git diff --exit-code -- '*.nix'

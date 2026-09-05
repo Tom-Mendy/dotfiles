@@ -79,104 +79,85 @@ ZSH_DISABLE_COMPFIX=true
 # -----------------------------
 # ⚡ NAVIGATION (FAST)
 # -----------------------------
-(( $+commands[zoxide] )) && eval "$(zoxide init zsh --cmd cd)"
-
-# -----------------------------
-# ⚡ COMPLETION STYLING
-# -----------------------------
-export FZF_DEFAULT_OPTS="
-  --height 40%
-  --layout=reverse
-  --border
-  --preview 'bat --style=numbers --color=always {}'
-"
-zstyle ':completion:*' matcher-list \
-  'm:{a-z}={A-Za-z}' \
-  'r:|=*' \
-  'l:|=*'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu no
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "$ZSH_CACHE_DIR"
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-(( $+commands[zoxide] )) && zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
-if (( $+commands[docker] )); then
-  zstyle ':completion:*:*:docker:*' menu no
-  zstyle ':fzf-tab:complete:docker-*:*' fzf-preview '
-  docker inspect $word 2>/dev/null | jq . 2>/dev/null || echo $word
-  '
-fi
-if (( $+commands[kubectl] )); then
-  zstyle ':fzf-tab:complete:kubectl-*:*' fzf-preview '
-  kubectl get pod $word -o name 2>/dev/null|| echo $word
-  '
-  zstyle ':fzf-tab:complete:kubectl-get:*' fzf-preview '
-  case $group in
-    "pods")
-      kubectl describe pod $word 2>/dev/null
-    ;;
-    "services")
-      kubectl describe svc $word 2>/dev/null
-    ;;
-    *)
-      echo $word
-    ;;
-  esac
-  '
+if (( $+commands[zoxide] )); then
+  eval "$(zoxide init zsh)"
 fi
 
 # -----------------------------
-# ⚡ ENV (LIGHT)
+# ⚡ HISTORY
 # -----------------------------
-(( $+commands[nvim] )) && export EDITOR=nvim
-
-typeset -U path PATH
-
-for p in \
-  /usr/bin \
-  $HOME/.local/bin \
-  $HOME/.atuin/bin \
-  $HOME/.cargo/bin \
-  $HOME/.bun/bin \
-  $HOME/.opencode/bin \
-  /opt/nvim-linux-x86_64/bin
-do
-  [[ -d $p ]] && path=($p $path)
-done
-
-
-if (( $+commands[flatpak] )); then
-  path+=(/var/lib/flatpak/exports/bin)
-fi
-if (( $+commands[go] )); then
-  path+=("$(go env GOPATH)/bin")
-fi
-if (( $+commands[composer] )); then
-  path+=("$(composer global config bin-dir --absolute 2> /dev/null)")
-fi
-if [[ -d  "${HOME}/.bun" ]]; then
-  export BUN_INSTALL="$HOME/.bun"
-fi
-
-if [[ -d  "${HOME}/Android/Sdk/" ]]; then
-  export ANDROID_HOME="${HOME}/Android/Sdk/"
-  path+=($ANDROID_HOME/emulator)
-  path+=($ANDROID_HOME/platform-tools)
-fi
-
-export PATH
-
-# -----------------------------
-# ⚡ OPTIONAL TOOLS (LAZY SAFE)
-# -----------------------------
-(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
+setopt appendhistory sharehistory hist_ignore_dups hist_ignore_space hist_verify
 
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-export ATUIN_FILTER_MODE=global
+# -----------------------------
+# ⚡ PATHS
+# -----------------------------
+typeset -U path PATH
+path=(
+  "$HOME/.local/bin"
+  "$HOME/go/bin"
+  "$HOME/.cargo/bin"
+  "$HOME/.bun/bin"
+  "$HOME/.atuin/bin"
+  "/usr/local/go/bin"
+  "/opt/homebrew/bin"
+  $path
+)
+export PATH
+
+# -----------------------------
+# ⚡ ENVIRONMENT
+# -----------------------------
+export GOPATH="$HOME/go"
+export GOBIN="$GOPATH/bin"
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export BUN_INSTALL="$HOME/.bun"
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
+export KUBECONFIG="$HOME/.kube/config"
+export KUBE_EDITOR="${EDITOR:-vim}"
+export MANPAGER='nvim +Man!'
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+# -----------------------------
+# ⚡ EDITOR
+# -----------------------------
+if (( $+commands[nvim] )); then
+  export EDITOR=nvim
+  export VISUAL=nvim
+elif (( $+commands[vim] )); then
+  export EDITOR=vim
+  export VISUAL=vim
+else
+  export EDITOR=vi
+  export VISUAL=vi
+fi
+
+# -----------------------------
+# ⚡ FZF
+# -----------------------------
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+if (( $+commands[fd] )); then
+  export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
+
+# -----------------------------
+# ⚡ TOOLS INIT
+# -----------------------------
+if (( $+commands[direnv] )); then
+  eval "$(direnv hook zsh)"
+fi
+if (( $+commands[starship] )); then
+  eval "$(starship init zsh)"
+fi
+
+# -----------------------------
+# ⚡ ATUIN
+# -----------------------------
 export ATUIN_SEARCH_MODE=fuzzy
 export ATUIN_STYLE=compact
 if (( $+commands[atuin] )); then
@@ -276,6 +257,3 @@ for keymap in emacs viins; do
   bindkey -M "$keymap" '^[[3;5~' kill-word              # Ctrl+Delete
   bindkey -M "$keymap" '^[[127;5u' backward-kill-word   # Ctrl+Backspace (kitty/CSI-u)
 done
-
-# bun completions
-[ -s "/home/tmendy/.bun/_bun" ] && source "/home/tmendy/.bun/_bun"
