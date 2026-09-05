@@ -2,33 +2,31 @@ name: Test Zsh Config
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-v2
+  cancel-in-progress: true
+
 jobs:
-  test-zsh-ubuntu:
-    runs-on: arc-runner-set-dotfiles
+  test-zsh:
+    name: test-zsh-${{ matrix.distro }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - distro: ubuntu
+            service: test-zsh-ubuntu
+          - distro: arch
+            service: test-zsh-arch
+          - distro: fedora
+            service: test-zsh-fedora
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@v2
-      - name: Test zsh config on Ubuntu
-        run:  docker compose -f tests/compose.yml up --build test-zsh-ubuntu
-
-  test-zsh-arch:
-    runs-on: arc-runner-set-dotfiles
-    steps:
-      - uses: actions/checkout@v6
-      - name: Set up Docker Compose
-        uses: docker/setup-compose-action@v2
-      - name: Test zsh config on Arch Linux
-        run:  docker compose -f tests/compose.yml up --build test-zsh-arch
-
-  test-zsh-fedora:
-    runs-on: arc-runner-set-dotfiles
-    steps:
-      - uses: actions/checkout@v6
-      - name: Set up Docker Compose
-        uses: docker/setup-compose-action@v2
-      - name: Test zsh config on Fedora
-        run:  docker compose -f tests/compose.yml up --build test-zsh-fedora
+      - name: Test zsh config on ${{ matrix.distro }}
+        run: docker compose -f tests/compose.yml up --build --abort-on-container-exit --exit-code-from ${{ matrix.service }} ${{ matrix.service }}
