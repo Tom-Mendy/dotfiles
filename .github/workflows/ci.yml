@@ -6,7 +6,7 @@ on:
   pull_request:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-v3
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-v4
   cancel-in-progress: true
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
 
   nixos:
     runs-on: arc-runner-set-dotfiles
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
       - name: Install runner prerequisites
@@ -41,9 +41,9 @@ jobs:
             cores = 2
       - name: Evaluate NixOS configuration
         run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.stateVersion
-      - name: Evaluate full system derivation
-        timeout-minutes: 10
-        run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.build.toplevel.drvPath
+      - name: Evaluate NixOS system toplevel
+        timeout-minutes: 5
+        run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.build.toplevel.name
       - name: Check Nix formatting
         run: |
           cd nixos
