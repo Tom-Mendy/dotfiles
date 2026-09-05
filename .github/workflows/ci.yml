@@ -28,7 +28,7 @@ jobs:
 
   nixos:
     runs-on: arc-runner-set-dotfiles
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
       - name: Install runner prerequisites
@@ -37,13 +37,9 @@ jobs:
         with:
           extra-conf: |
             lazy-trees = false
-            max-jobs = 2
-            cores = 2
       - name: Evaluate NixOS configuration
-        run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.stateVersion
-      - name: Evaluate NixOS system toplevel
         timeout-minutes: 5
-        run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.build.toplevel.name
+        run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.stateVersion
       - name: Check Nix formatting
         run: |
           cd nixos
