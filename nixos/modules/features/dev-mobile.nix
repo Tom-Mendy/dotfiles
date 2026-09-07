@@ -25,6 +25,7 @@
     {
       nixpkgs.config.android_sdk.accept_license = true;
 
+      programs.nix-ld.enable = true;
       programs.nix-ld.libraries = with pkgs; [
         # React Native DevTools is distributed as a prebuilt Linux binary and
         # expects GLib at its conventional system-library path.
@@ -44,6 +45,7 @@
       };
 
       networking.firewall.allowedTCPPorts = [
+        3000 # Frontend for mobile app dev
         3001 # Backend for mobile app dev
         8081 # Expo Go / Metro
       ];

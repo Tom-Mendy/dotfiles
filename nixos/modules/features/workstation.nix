@@ -21,8 +21,6 @@
         allowedUDPPorts = [ 53317 ];
       };
 
-      programs.nix-ld.enable = true;
-
       hardware.bluetooth = {
         enable = true;
         powerOnBoot = true;
