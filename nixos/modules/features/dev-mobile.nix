@@ -34,7 +34,6 @@
 
       environment.systemPackages = with pkgs; [
         androidSdk
-        nodejs_22
         watchman
       ];
 
