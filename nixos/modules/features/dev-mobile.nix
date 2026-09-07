@@ -25,6 +25,12 @@
     {
       nixpkgs.config.android_sdk.accept_license = true;
 
+      programs.nix-ld.libraries = with pkgs; [
+        # React Native DevTools is distributed as a prebuilt Linux binary and
+        # expects GLib at its conventional system-library path.
+        glib
+      ];
+
       environment.systemPackages = with pkgs; [
         androidSdk
         nodejs_22
