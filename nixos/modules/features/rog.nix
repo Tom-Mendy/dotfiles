@@ -1,6 +1,7 @@
 {
   flake.nixosModules.rog = {
     services.asusd.enable = true;
+    services.power-profiles-daemon.enable = true;
     systemd.services.asusd.wantedBy = [ "multi-user.target" ];
 
     system.activationScripts.asusdSlashConfig.text = ''
