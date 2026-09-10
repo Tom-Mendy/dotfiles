@@ -9,6 +9,7 @@
     }:
     {
       imports = [
+        self.nixosModules.ai
         self.nixosModules.common
         self.nixosModules.containers
         self.nixosModules.devCore
