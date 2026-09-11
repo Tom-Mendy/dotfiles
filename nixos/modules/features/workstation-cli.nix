@@ -25,6 +25,7 @@
         smartmontools
         stow
         talosctl
+        youtube-dl
         textpieces
         tokei
         unzip
