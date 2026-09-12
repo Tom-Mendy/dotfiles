@@ -6,6 +6,7 @@
     }:
     {
       environment.systemPackages = [
+        unstable.rtk
         unstable.codex
         unstable.antigravity-cli
         unstable.opencode

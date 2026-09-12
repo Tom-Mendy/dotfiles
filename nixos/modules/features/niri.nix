@@ -24,16 +24,30 @@
       programs.niri = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
+        # Ne pas embarquer Nautilus : le FileChooser du portail GNOME ressemble
+        # à un explorateur GNOME et entre en concurrence avec Thunar sur
+        # org.freedesktop.FileManager1. Le portail GTK suffit sous Niri.
+        useNautilus = false;
+      };
+
+      # Gestionnaire de fichiers officiel : enregistre le service D-Bus
+      # org.freedesktop.FileManager1 + systemd, et active xfconf (requis
+      # pour que Thunar reçoive le thème via xfsettingsd).
+      programs.thunar = {
+        enable = true;
+        plugins = with pkgs; [ thunar-archive-plugin ];
       };
 
       environment.systemPackages = [
+        pkgs.adw-gtk3
+        pkgs.adwaita-icon-theme
         pkgs.bibata-cursors
+        pkgs.gsettings-desktop-schemas
         pkgs.kdePackages.breeze-icons
         pkgs.loupe
-        pkgs.loupe
-        pkgs.thunar
-        pkgs.thunar-archive-plugin
+        pkgs.thunar-volman
         pkgs.tumbler
+        pkgs.xfce4-settings # fournit xfsettingsd (pont thème -> Thunar)
         ghosttyXfceHelper
         pkgs.xarchiver
         pkgs.unar
@@ -47,23 +61,67 @@
       services.gnome.gnome-keyring.enable = true;
       programs.dconf.enable = true;
 
+      # Valeurs initiales cohérentes (Noctalia syncGsettings=true les bascule
+      # ensuite à la volée via le toggle DarkMode). adw-gtk3 suit
+      # color-scheme prefer-light / prefer-dark, donc Thunar (GTK3) suit le
+      # thème global sans fichier settings.ini statique divergent.
+      programs.dconf.profiles.user.databases = [
+        {
+          settings = {
+            "org/gnome/desktop/interface" = {
+              gtk-theme = "adw-gtk3";
+              icon-theme = "Adwaita";
+              cursor-theme = "Bibata-Modern-Amber";
+              color-scheme = "prefer-light";
+            };
+          };
+        }
+      ];
+
+      # Pont XSettings pour les applis GTK3/XFCE (Thunar) : sans lui, Thunar
+      # ignore gsettings et reste figé sur settings.ini.
+      systemd.user.services.xfsettingsd = {
+        description = "XFCE settings daemon (theme bridge for Thunar)";
+        wantedBy = [ "graphical-session.target" ];
+        partOf = [ "graphical-session.target" ];
+        after = [ "graphical-session.target" ];
+        serviceConfig = {
+          ExecStart = "${pkgs.xfce4-settings}/bin/xfsettingsd --daemon --replace";
+          Restart = "on-failure";
+        };
+      };
+
       # Keep the login keyring unlocked when logging in through tuigreet.
       security.pam.services.greetd.enableGnomeKeyring = true;
 
       environment.etc."xdg/xfce4/helpers.rc".text = ''
         [Helpers]
         TerminalEmulator=ghostty
+        FileManager=thunar
       '';
 
       xdg.mime = {
         enable = true;
         defaultApplications = {
           "inode/directory" = "thunar.desktop";
+          "x-scheme-handler/file" = "thunar.desktop";
           "image/*" = "org.gnome.Loupe.desktop";
           "application/pdf" = "org.gnome.Papers.desktop";
           "application/vnd.rar" = "xarchiver.desktop";
           "application/x-rar" = "xarchiver.desktop";
         };
+      };
+
+      xdg.portal = {
+        # Le module Niri définit déjà config.niri (default gnome;gtk +
+        # FileChooser=gtk quand useNautilus=false). On force juste Settings
+        # sur gnome pour que le color-scheme se propage aux applis.
+        config.niri."org.freedesktop.impl.portal.Settings" = "gnome";
+        # Le module Niri ajoute déjà xdg-desktop-portal-gnome ; on complète
+        # avec le backend GTK (FileChooser quand useNautilus=false).
+        extraPortals = with pkgs; [
+          xdg-desktop-portal-gtk
+        ];
       };
 
       services.greetd = {
