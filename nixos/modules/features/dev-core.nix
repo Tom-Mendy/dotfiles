@@ -1,6 +1,10 @@
 {
   flake.nixosModules.devCore =
-    { pkgs, ... }:
+    {
+      pkgs,
+      unstable,
+      ...
+    }:
     {
       environment.systemPackages = with pkgs; [
         # C and C++
@@ -45,6 +49,7 @@
 
         # Node
         nodejs_26
+        unstable.bun
         typescript
 
         # Lua
