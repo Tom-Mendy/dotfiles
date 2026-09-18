@@ -1,0 +1,20 @@
+{
+  "id": "capture",
+  "name": "Capture",
+  "version": "1.0.0",
+  "description": "Capture an image or record a video",
+  "tags": ["Launcher"],
+  "minNoctaliaVersion": "4.7.6",
+  "author": "Tom Mendy",
+  "license": "MIT",
+  "entryPoints": {
+    "main": "Main.qml",
+    "launcherProvider": "LauncherProvider.qml"
+  },
+  "dependencies": {
+    "plugins": []
+  },
+  "metadata": {
+    "commandPrefix": "capture"
+  }
+}

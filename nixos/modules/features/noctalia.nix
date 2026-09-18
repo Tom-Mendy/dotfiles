@@ -12,6 +12,7 @@
           # Keep the main settings declarative while allowing theme changes at runtime.
           env.NOCTALIA_SETTINGS_FILE = "${config.configPlaceholder}/settings.json";
           preInstalledPlugins.rbw.src = ./noctalia-rbw;
+          preInstalledPlugins.capture.src = ./noctalia-capture;
           settings = {
             settingsVersion = 59;
 

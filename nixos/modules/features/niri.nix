@@ -386,6 +386,7 @@
 
                   "Print".screenshot = action;
                   "Mod+Shift+S".screenshot = action;
+                  "Ctrl+Shift+S".spawn-sh = "${noctalia} ipc call plugin:capture toggle";
                   "Ctrl+Print".screenshot-screen = action;
                   "Alt+Print".screenshot-window = action;
 
