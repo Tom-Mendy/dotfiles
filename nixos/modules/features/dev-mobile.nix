@@ -46,6 +46,7 @@
       networking.firewall.allowedTCPPorts = [
         3000 # Frontend for mobile app dev
         3001 # Backend for mobile app dev
+        5037 # adb port
         8081 # Expo Go / Metro
       ];
     };
