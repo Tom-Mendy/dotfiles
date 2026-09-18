@@ -7,11 +7,11 @@ Item {
   IpcHandler {
     target: "plugin:capture"
 
-    function toggle() {
+    function open() {
       if (!pluginApi)
         return
       pluginApi.withCurrentScreen(function(screen) {
-        pluginApi.toggleLauncher(screen)
+        pluginApi.openLauncher(screen)
       })
     }
   }
