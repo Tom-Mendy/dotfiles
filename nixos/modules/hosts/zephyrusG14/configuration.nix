@@ -17,6 +17,7 @@
         self.nixosModules.devMobile
         self.nixosModules.gaming
         self.nixosModules.howdy
+        self.nixosModules.k3s
         self.nixosModules.rbw
         self.nixosModules.zephyrusG14Hardware
         self.nixosModules.neovim
