@@ -17,17 +17,17 @@
           #   setSocketVariable = true;
           # };
         };
-        podman = {
-          enable = true;
-          # Create a `docker` alias for podman, to use it as a drop-in replacement
-          # dockerCompat = true;
-          defaultNetwork.settings.dns_enabled = true;
-        };
+        # podman = {
+        #   enable = true;
+        #   # Create a `docker` alias for podman, to use it as a drop-in replacement
+        #   # dockerCompat = true;
+        #   defaultNetwork.settings.dns_enabled = true;
+        # };
       };
 
       users.users.${username}.extraGroups = lib.mkAfter [
         "docker"
-        "podman"
+        # "podman"
       ];
 
       environment.systemPackages = with pkgs; [
