@@ -23,7 +23,7 @@
       # remain deployment-specific and must be added by the target installer.
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
-      boot.kernelPackages = pkgs.linuxPackages_latest;
+      boot.kernelPackages = pkgs.linuxPackages;
       boot.kernel.sysctl = {
         "vm.swappiness" = 10;
         "vm.page-cluster" = 0;
