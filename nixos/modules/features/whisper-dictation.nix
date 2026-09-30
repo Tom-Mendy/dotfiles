@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+{ self, ... }:
 {
   flake.nixosModules.whisperDictation =
     { pkgs, ... }:
@@ -9,29 +9,22 @@
     };
 
   perSystem =
-    {
-      pkgs,
-      system,
-      ...
-    }:
+    { pkgs, ... }:
     let
-      # CUDA build for GPU transcription. Uses nixpkgs' DEFAULT cuda
-      # capabilities (no cudaCapabilities override) because that exact
-      # variant is served as a download by the official CUDA cache (see
+      # CUDA build for GPU transcription, via .override on the shared
+      # perSystem pkgs (allowUnfree; see modules/parts.nix) instead of a
+      # separate `import nixpkgs`: one fewer full nixpkgs evaluation on
+      # every command, bit-identical result (same store path).
+      # Default cuda capabilities are used because that exact variant is
+      # served as a download by the official CUDA cache (see
       # nixosModules.common) — verified with `nix path-info --store`.
       # A custom capability like "12.0" exists on NO binary cache and
       # forces a long local CUDA compile on every bump. On Blackwell the
       # default build runs via driver JIT (cached by the driver after the
-      # first transcription); if that ever misbehaves, re-add
-      # `cudaCapabilities = [ "12.0" ];` below.
-      whisperCpp =
-        (import inputs.nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            cudaSupport = true;
-          };
-        }).whisper-cpp;
+      # first transcription); if that ever misbehaves, use
+      # `pkgs.whisper-cpp.override { cudaSupport = true; cudaPackages = ...; }`
+      # with explicit capabilities (at the cost of local builds).
+      whisperCpp = pkgs.whisper-cpp.override { cudaSupport = true; };
       whisperModel = pkgs.fetchurl {
         name = "ggml-large-v3-turbo.bin";
         url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo.bin";

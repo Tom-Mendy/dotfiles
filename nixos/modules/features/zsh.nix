@@ -160,7 +160,6 @@ let
             export ATUIN_SYNC_ADDRESS="https://atuin.home.tom-mendy.com"
             eval "$(${pkgs.atuin}/bin/atuin init zsh)"
 
-            [[ -f "$HOME/.ghcup/env" ]] && source "$HOME/.ghcup/env"
             [[ -f "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
 
             alias grep="${pkgs.gnugrep}/bin/grep --color=auto"

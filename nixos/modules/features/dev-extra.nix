@@ -17,7 +17,6 @@
           k6
           python3Packages.distlib
           python3Packages.libtmux
-          stack
           terraform
           forgejo-cli
           playwright-driver
