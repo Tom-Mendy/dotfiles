@@ -19,6 +19,7 @@
           python312Packages.libtmux
           stack
           terraform
+          forgejo-cli
           playwright-driver
           rumdl
           nil
