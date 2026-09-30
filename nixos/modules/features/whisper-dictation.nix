@@ -15,17 +15,21 @@
       ...
     }:
     let
-      # CUDA build for the RTX 5070 (Blackwell needs capability 12.0).
-      # Kept intentionally: GPU transcription is worth it, and the official
-      # CUDA cache (see nixosModules.common) serves this exact variant as
-      # a download instead of a local compile.
+      # CUDA build for GPU transcription. Uses nixpkgs' DEFAULT cuda
+      # capabilities (no cudaCapabilities override) because that exact
+      # variant is served as a download by the official CUDA cache (see
+      # nixosModules.common) — verified with `nix path-info --store`.
+      # A custom capability like "12.0" exists on NO binary cache and
+      # forces a long local CUDA compile on every bump. On Blackwell the
+      # default build runs via driver JIT (cached by the driver after the
+      # first transcription); if that ever misbehaves, re-add
+      # `cudaCapabilities = [ "12.0" ];` below.
       whisperCpp =
         (import inputs.nixpkgs {
           inherit system;
           config = {
             allowUnfree = true;
             cudaSupport = true;
-            cudaCapabilities = [ "12.0" ];
           };
         }).whisper-cpp;
       whisperModel = pkgs.fetchurl {

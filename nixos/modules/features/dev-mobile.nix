@@ -5,10 +5,7 @@
       ndkVersion = "27.1.12297006";
       androidComposition = pkgs.androidenv.composeAndroidPackages {
         platformVersions = [ "36" ];
-        buildToolsVersions = [
-          "35.0.0"
-          "36.0.0"
-        ];
+        buildToolsVersions = [ "36.0.0" ];
         includeEmulator = true;
         includeSystemImages = false;
         abiVersions = [

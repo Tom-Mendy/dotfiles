@@ -13,7 +13,7 @@
         inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
         unstable.vscode
         self.packages.${pkgs.stdenv.hostPlatform.system}.herdr-bin
-        unstable.zed-editor
+        self.packages.${pkgs.stdenv.hostPlatform.system}.zed-bin
         unstable.pangolin-cli
       ];
     };
@@ -28,6 +28,64 @@
   perSystem =
     { pkgs, ... }:
     {
+      packages.zed-bin = pkgs.stdenvNoCC.mkDerivation rec {
+        pname = "zed";
+        # Keep in sync with unstable.zed-editor: same editor, minus the
+        # full Rust-from-source nixpkgs build (the most expensive potential
+        # local compile in this config).
+        version = "1.21.0";
+        src = pkgs.fetchurl {
+          url = "https://github.com/zed-industries/zed/releases/download/v${version}/zed-linux-x86_64.tar.gz";
+          hash = "sha256-t5qZLpYO1AZ8srUNZnie2GGO6xeA7WoPjx5x3YD3QgA=";
+        };
+
+        nativeBuildInputs = with pkgs; [
+          autoPatchelfHook
+          makeWrapper
+        ];
+
+        # Mirrors nixpkgs' zed-editor runtime inputs: ldd shows glib + ALSA
+        # missing, the rest (GL/Vulkan/Wayland) is added to RPATH like
+        # nixpkgs' postFixup does. Bundled lib/ (xcb, xkbcommon, …) is kept.
+        buildInputs = with pkgs; [
+          alsa-lib
+          fontconfig
+          glib
+          libGL
+          libxkbcommon
+          openssl
+          sqlite
+          vulkan-loader
+          wayland
+          zlib
+        ];
+
+        installPhase = ''
+          runHook preInstall
+          mkdir -p "$out"
+          cp -r bin lib libexec share "$out/"
+          # Same as nixpkgs: disable self-updates, and put node + bubblewrap
+          # on PATH for extensions and collaboration sandboxing.
+          wrapProgram "$out/bin/zed" \
+            --set ZED_UPDATE_EXPLANATION "Zed has been installed using Nix. Auto-updates have thus been disabled." \
+            --suffix PATH : ${pkgs.lib.makeBinPath [ pkgs.nodejs pkgs.bubblewrap ]}
+          runHook postInstall
+        '';
+
+        doInstallCheck = true;
+        installCheckPhase = ''
+          "$out/bin/zed" --version
+        '';
+
+        meta = with pkgs.lib; {
+          description = "High-performance, multiplayer code editor from the creators of Atom and Tree-sitter";
+          homepage = "https://zed.dev";
+          changelog = "https://github.com/zed-industries/zed/releases/tag/v${version}";
+          license = licenses.gpl3Only;
+          platforms = [ "x86_64-linux" ];
+          mainProgram = "zed";
+        };
+      };
       packages.herdr-bin = pkgs.stdenvNoCC.mkDerivation rec {
         pname = "herdr";
         version = "0.9.1";

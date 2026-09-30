@@ -26,6 +26,17 @@
         auto-optimise-store = true;
         connect-timeout = 5;
         fallback = true;
+        # Your own `nix build/run/develop` calls consult the extra
+        # substituters too (without this, flake nixConfig caches are ignored
+        # with "you are not a trusted user" warnings).
+        trusted-users = [
+          "root"
+          username
+        ];
+        # Never die mid-build with ENOSPC: CUDA + Android + kernels make for
+        # a very large store. GC kicks in below 5G free until 20G is free.
+        min-free = "5G";
+        max-free = "20G";
       };
       nix.gc = {
         automatic = true;
@@ -58,7 +69,9 @@
 
       environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-      services.printing.enable = true;
+      # Printing disabled: no printer on this laptop, and CUPS +
+      # gutenprint + ghostscript is a heavy closure. Re-enable if needed.
+      services.printing.enable = false;
       services.pulseaudio.enable = false;
       security.rtkit.enable = true;
       services.pipewire = {

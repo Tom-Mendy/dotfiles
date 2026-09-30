@@ -39,13 +39,9 @@
           noto-fonts-color-emoji
           open-sans
           source-han-sans
-          source-han-serif
         ];
         fontconfig.defaultFonts = {
-          serif = [
-            "Noto Serif"
-            "Source Han Serif"
-          ];
+          serif = [ "Noto Serif" ];
           sansSerif = [
             "Open Sans"
             "Source Han Sans"
