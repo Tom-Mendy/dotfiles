@@ -16,9 +16,9 @@
     }:
     let
       # CUDA build for the RTX 5070 (Blackwell needs capability 12.0).
-      # Kept intentionally: GPU transcription is worth it, and the
-      # cuda-maintainers substituter (see nixosModules.common) serves this
-      # exact variant as a download instead of a local compile.
+      # Kept intentionally: GPU transcription is worth it, and the official
+      # CUDA cache (see nixosModules.common) serves this exact variant as
+      # a download instead of a local compile.
       whisperCpp =
         (import inputs.nixpkgs {
           inherit system;

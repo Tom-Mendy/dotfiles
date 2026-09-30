@@ -49,7 +49,12 @@
       boot = {
         loader.systemd-boot.enable = true;
         loader.efi.canTouchEfiVariables = true;
-        kernelPackages = pkgs.linuxPackages_latest;
+        # Default release kernel (currently 6.18.x), NOT linuxPackages_latest:
+        # Hydra fully builds it including the NVIDIA module, so rebuilds stay
+        # download-only. _latest moves constantly and forces local compiles of
+        # the kernel modules + initrd on every bump. If hardware ever needs a
+        # newer kernel, switch this AND hardware.nvidia.package together.
+        kernelPackages = pkgs.linuxPackages;
         kernel.sysctl = {
           "vm.swappiness" = 0;
           "vm.page-cluster" = 0;
@@ -109,9 +114,9 @@
         # driver creates a custom kernel-module derivation that must be
         # built locally. If the stable production driver ever lags behind
         # what your RTX 5070 needs, switch BOTH together instead:
-        #   boot.kernelPackages = unstable.linuxPackages_latest;
-        #   hardware.nvidia.package = unstable.linuxPackages_latest.nvidiaPackages.production;
-        package = pkgs.linuxPackages_latest.nvidiaPackages.production;
+        #   boot.kernelPackages = pkgs.linuxPackages_latest;
+        #   hardware.nvidia.package = pkgs.linuxPackages_latest.nvidiaPackages.production;
+        package = pkgs.linuxPackages.nvidiaPackages.production;
         open = true;
         powerManagement.enable = true;
         prime = {

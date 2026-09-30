@@ -15,8 +15,8 @@
           prisma_7
           prisma-engines_7
           k6
-          python312Packages.distlib
-          python312Packages.libtmux
+          python3Packages.distlib
+          python3Packages.libtmux
           stack
           terraform
           forgejo-cli

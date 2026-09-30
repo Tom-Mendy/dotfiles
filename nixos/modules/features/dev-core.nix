@@ -36,12 +36,13 @@
         # Rust
         rustup
 
-        # Python
+        # Python (default interpreter; keep everything on python3Packages so
+        # only ONE Python lives in the closure instead of 3.12 + 3.13)
         pipenv
         python3
-        python312Packages.fastapi
-        python312Packages.pip
-        python312Packages.python-utils
+        python3Packages.fastapi
+        python3Packages.pip
+        python3Packages.python-utils
         uv
 
         # Go
