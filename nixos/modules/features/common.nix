@@ -2,10 +2,31 @@
   flake.nixosModules.common =
     { username, ... }:
     {
-      nix.settings.experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
+      nix.settings = {
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
+        # Download instead of building: CUDA-enabled derivations (whisper-cpp,
+        # etc.) are generally NOT in cache.nixos.org but ARE in the
+        # cuda-maintainers cache. nix-community covers zen-browser, helium,
+        # wrapper-modules and other community flakes.
+        # NOTE: trusted-public-keys overrides the default, so the official
+        # cache key must be listed explicitly.
+        substituters = [
+          "https://cache.nixos.org/"
+          "https://cuda-maintainers.cachix.org"
+          "https://nix-community.cachix.org"
+        ];
+        trusted-public-keys = [
+          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+          "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        ];
+        auto-optimise-store = true;
+        connect-timeout = 5;
+        fallback = true;
+      };
       nix.gc = {
         automatic = true;
         dates = "weekly";

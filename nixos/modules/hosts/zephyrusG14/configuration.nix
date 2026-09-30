@@ -38,23 +38,12 @@
         persistent = true;
         allowReboot = false;
         upgrade = false;
-        flags = [
-          "--update-input"
-          "nixpkgs"
-          "--update-input"
-          "nixpkgs-unstable"
-          "--update-input"
-          "flake-parts"
-          "--update-input"
-          "import-tree"
-          "--update-input"
-          "zen-browser"
-          "--update-input"
-          "helium"
-          "--update-input"
-          "wrapper-modules"
-          "--commit-lock-file"
-        ];
+        # NOTE: intentionally no --update-input flags. Bumping nixpkgs (and
+        # especially nixpkgs-unstable) on every Sunday timer moves the lock to
+        # commits Hydra hasn't finished building yet, which turns the next
+        # rebuild into a local compile storm. Update inputs manually with
+        # `nix flake update` when you actually want new versions.
+        flags = [ ];
       };
 
       boot = {
@@ -115,7 +104,14 @@
         "nvidia"
       ];
       hardware.nvidia = {
-        package = (unstable.linuxPackagesFor pkgs.linuxPackages_latest.kernel).nvidiaPackages.production;
+        # Keep kernel AND driver from the same nixpkgs: Hydra builds and
+        # caches that exact combo. Mixing a stable kernel with an unstable
+        # driver creates a custom kernel-module derivation that must be
+        # built locally. If the stable production driver ever lags behind
+        # what your RTX 5070 needs, switch BOTH together instead:
+        #   boot.kernelPackages = unstable.linuxPackages_latest;
+        #   hardware.nvidia.package = unstable.linuxPackages_latest.nvidiaPackages.production;
+        package = pkgs.linuxPackages_latest.nvidiaPackages.production;
         open = true;
         powerManagement.enable = true;
         prime = {

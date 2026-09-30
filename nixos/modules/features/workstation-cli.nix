@@ -3,10 +3,11 @@
     { pkgs, ... }:
     {
       environment.systemPackages = with pkgs; [
-        (btop.override {
-          cudaSupport = true;
-          rocmSupport = true;
-        })
+        # NOTE: do NOT re-enable cudaSupport/rocmSupport here without a
+        # personal binary cache: any .override changes the derivation hash,
+        # so the official cache can no longer be used and btop (+ its CUDA
+        # closure) gets rebuilt locally on every bump.
+        btop
         busybox
         curl
         dig
