@@ -125,6 +125,19 @@
         };
       };
 
+      services.cardwired = {
+        enable = true;
+        package = unstable.cardwire;
+        settings = {
+          auto_apply_gpu_state = true;
+          # Nvidia blocking is still experimental in Cardwire.
+          experimental_nvidia_block = true;
+          # Keep Nvidia available on AC and block it on battery.
+          battery_auto_switch = true;
+          battery_auto_switch_mode = "integrated";
+        };
+      };
+
       services.howdy.settings.video.device_path = "/dev/video2";
 
       system.stateVersion = "26.05";

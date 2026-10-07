@@ -22,6 +22,7 @@
           playwright-driver
           rumdl
           nil
+          sqlite
           wrkflw
           nixd
         ]

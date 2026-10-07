@@ -16,6 +16,7 @@ in
       username = "tmendy";
     };
     modules = [
+      (inputs.nixpkgs-unstable + "/nixos/modules/services/hardware/cardwired.nix")
       self.nixosModules.zephyrusG14Configuration
     ];
   };

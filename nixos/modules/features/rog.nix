@@ -1,7 +1,9 @@
 {
   flake.nixosModules.rog = {
     services.asusd.enable = true;
-    services.power-profiles-daemon.enable = true;
+    # asusd owns platform-profile and CPU EPP changes on this ROG laptop.
+    # Running power-profiles-daemon alongside it can race over those settings.
+    services.power-profiles-daemon.enable = false;
     systemd.services.asusd.wantedBy = [ "multi-user.target" ];
 
     system.activationScripts.asusdSlashConfig.text = ''
