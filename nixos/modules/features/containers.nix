@@ -37,10 +37,8 @@
         coder
         crane
         docker-compose
-        lazydocker
         hadolint
         devcontainer
-        podman-tui
         kubeconform
         kubernetes-helm
         trivy

@@ -1,12 +1,10 @@
 {
   flake.nixosModules.devExtra =
-    { pkgs, ... }:
+    { pkgs, unstable, ... }:
     {
       environment.systemPackages = (
         with pkgs;
         [
-          ansible
-          ansible-lint
           codespell
           openssl
           nfs-utils
@@ -21,6 +19,7 @@
           forgejo-cli
           playwright-driver
           rumdl
+          unstable.devenv
           nil
           sqlite
           wrkflw

@@ -24,7 +24,6 @@
         mesa
         pango
         pkg-config
-        valgrind
         libx11
         libxcursor
         libxi
@@ -40,9 +39,6 @@
         # only ONE Python lives in the closure instead of 3.12 + 3.13)
         pipenv
         python3
-        python3Packages.fastapi
-        python3Packages.pip
-        python3Packages.python-utils
         uv
 
         # Go
@@ -62,17 +58,10 @@
         # Nix
         nixpkgs-fmt
 
-        # JVM
-        gradle
-        jdk
-        kotlin
-        maven
-
         # Common development tools
         gh
         jq
         jujutsu
-        pre-commit
         prek
         tree-sitter
         ghostty
