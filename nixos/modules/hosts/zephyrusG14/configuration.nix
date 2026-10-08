@@ -14,7 +14,6 @@
         self.nixosModules.containers
         self.nixosModules.devCore
         self.nixosModules.devExtra
-        self.nixosModules.devMobile
         self.nixosModules.gaming
         self.nixosModules.howdy
         self.nixosModules.rbw
@@ -86,6 +85,7 @@
       systemd.sleep.settings.Sleep.AllowHibernation = false;
 
       networking.hostName = "zephyrusG14";
+      networking.firewall.allowedTCPPorts = [ 5037 ];
 
       services.openssh = {
         enable = true;

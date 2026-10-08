@@ -1,7 +1,7 @@
 # dofiles
 
 - install_debian_i3.sh = auto install my debian configuration with i3wm
-this install script take ~ 20 min to complete
+  this install script take ~ 20 min to complete
 
 - install_fedora.sh = auto install my utily program for fedora
 
@@ -41,11 +41,7 @@ sudo nixos-rebuild switch --flake ./nixos#zephyrusG14
 
 ### Développement mobile Android
 
-La feature `devMobile` installe le SDK Android, `adb`, le NDK, Watchman et un
-émulateur avec une image `google_apis`. Node.js, npm, Kotlin et Gradle sont
-déjà fournis par `devCore`.
-
-Après le rebuild, créer un AVD avec une image installée :
+Créer ensuite un AVD avec une image système disponible :
 
 ```bash
 sdkmanager --list
@@ -87,7 +83,6 @@ poste DevOps complet, ou le choix groupe par groupe. Il couvre aussi Java 21,
 Maven, Eclipse, Zed et Codex. Les outils classiques passent par `winget`.
 Codex passe par l'installeur PowerShell officiel et le script propose ensuite
 `codex --login`. Aucun jeu n'est inclus.
-
 
 ## A list of (cool) programs & tools I am currently using
 
