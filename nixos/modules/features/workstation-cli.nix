@@ -10,6 +10,7 @@
         btop
         busybox
         curl
+        android-tools
         dig
         eza
         fastfetch
