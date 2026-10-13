@@ -56,6 +56,10 @@
         kernel.sysctl = {
           "vm.swappiness" = 0;
           "vm.page-cluster" = 0;
+          # Bound writeback batches during large Steam updates on Btrfs.
+          # Percentage defaults allow several GiB of pending writes on 32 GiB RAM.
+          "vm.dirty_background_bytes" = 64 * 1024 * 1024;
+          "vm.dirty_bytes" = 256 * 1024 * 1024;
         };
       };
 
@@ -101,6 +105,8 @@
 
       hardware.graphics.enable = true;
       services.udev.extraRules = ''
+        # Kyber regulates queue depth to target low read/write latency under load.
+        ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="nvme[0-9]*n[0-9]*", ENV{DEVTYPE}=="disk", ATTR{queue/scheduler}="kyber"
         ACTION=="add", SUBSYSTEM=="sound", KERNEL=="controlC*", ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="0294", RUN+="${pkgs.alsa-utils}/bin/amixer -q -c S sset Mic playback mute"
       '';
       services.xserver.videoDrivers = [

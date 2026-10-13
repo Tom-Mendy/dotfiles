@@ -49,11 +49,11 @@
         pkgs.tumbler
         pkgs.xfce4-settings # fournit xfsettingsd (pont thème -> Thunar)
         ghosttyXfceHelper
-        pkgs.xarchiver
         pkgs.unar
         pkgs.unrar
         pkgs.p7zip
         pkgs.seahorse
+        pkgs.file-roller
       ];
 
       services.gvfs.enable = true;
@@ -107,8 +107,10 @@
           "x-scheme-handler/file" = "thunar.desktop";
           "image/*" = "org.gnome.Loupe.desktop";
           "application/pdf" = "org.gnome.Papers.desktop";
-          "application/vnd.rar" = "xarchiver.desktop";
-          "application/x-rar" = "xarchiver.desktop";
+          "application/zip" = "org.gnome.FileRoller.desktop";
+          "application/x-zip-compressed" = "org.gnome.FileRoller.desktop";
+          "application/vnd.rar" = "org.gnome.FileRoller.desktop";
+          "application/x-rar" = "org.gnome.FileRoller.desktop";
         };
       };
 
@@ -259,6 +261,10 @@
 
               window-rules = [
                 { open-maximized = true; }
+                {
+                  matches = [ { title = "^File Operation Progress$"; } ];
+                  open-floating = true;
+                }
               ]
               ++ workspaceRules
               ++ [
