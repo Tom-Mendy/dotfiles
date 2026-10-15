@@ -281,7 +281,7 @@
               input.touchpad.scroll-factor = _: {
                 props = {
                   vertical = 1.0;
-                  horizontal = -1.0;
+                  horizontal = 1.0;
                 };
               };
               input.touchpad.tap = _: { };
