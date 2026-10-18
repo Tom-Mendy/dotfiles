@@ -6,10 +6,25 @@
       unstable,
       ...
     }:
+    let
+      system = pkgs.stdenv.hostPlatform.system;
+      zenPackages = inputs.zen-browser.packages.${system};
+      zenBrowser =
+        if system == "x86_64-linux" && zenPackages.default.version == "1.23.3b" then
+          zenPackages.default.override {
+            # The release asset was replaced after the flake recorded its hash.
+            # Remove once upstream sources.json contains the current release digest.
+            zen-browser-unwrapped = zenPackages.zen-browser-unwrapped.override {
+              hash = "sha256-uyBF0+IWVNQP6EElAJLurf0sH8gx7vtQkiJ3PIvcoUk=";
+            };
+          }
+        else
+          zenPackages.default;
+    in
     {
       # services.tailscale.enable = true;
       environment.systemPackages = [
-        inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+        zenBrowser
         inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
         unstable.vscode
         self.packages.${pkgs.stdenv.hostPlatform.system}.herdr-bin

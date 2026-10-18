@@ -15,6 +15,7 @@
           python3Packages.libtmux
           terraform
           forgejo-cli
+          playwright-driver
           rumdl
           unstable.devenv
           nil
@@ -23,5 +24,12 @@
           nixd
         ]
       );
+
+      # Use the Nix-patched browsers instead of Playwright's downloaded
+      # binaries, which cannot resolve shared libraries on NixOS.
+      environment.variables = {
+        PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
+      };
     };
 }
