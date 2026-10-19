@@ -22,6 +22,7 @@ Host hstgr
  IdentityFile ~/.ssh/github_key
  IdentitiesOnly yes
 
-Host synology
- HostName nainjoueur.synology.me
+Host synology synology-local 10.0.0.11
+ HostName 10.0.0.11
  User tom
+ PubkeyAuthentication no
