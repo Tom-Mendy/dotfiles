@@ -39,7 +39,10 @@ jobs:
             lazy-trees = false
       - name: Evaluate NixOS configuration
         timeout-minutes: 5
-        run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.stateVersion
+        run: nix eval --raw ./nixos#nixosConfigurations.zephyrusG14.config.system.build.toplevel.drvPath
+      - name: Check flake outputs
+        timeout-minutes: 5
+        run: nix flake check ./nixos --no-build
       - name: Check Nix formatting
         run: |
           cd nixos

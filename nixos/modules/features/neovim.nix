@@ -19,13 +19,13 @@ let
         };
 
         initLua = lib.mkOption {
-          type = wlib.types.stringable;
-          default = pkgs.emptyDirectory;
+          type = lib.types.either wlib.types.stringable lib.types.luaInline;
+          default = lib.generators.mkLuaInline "vim.fn.stdpath('config')";
         };
 
         dynamicInitLua = lib.mkOption {
           type = lib.types.either wlib.types.stringable lib.types.luaInline;
-          default = pkgs.emptyDirectory;
+          default = config.initLua;
         };
       };
 
@@ -65,12 +65,16 @@ in
 {
   flake.nixosModules.neovim =
     { pkgs, ... }:
+    let
+      neovim = self.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
+    in
     {
-      environment.systemPackages = [
-        self.packages.${pkgs.stdenv.hostPlatform.system}.neovim
-      ];
+      environment.systemPackages = [ neovim ];
 
-      environment.variables.EDITOR = "nvim";
+      environment.variables = {
+        EDITOR = "${neovim}/bin/nvim";
+        VISUAL = "${neovim}/bin/nvim";
+      };
     };
 
   perSystem =

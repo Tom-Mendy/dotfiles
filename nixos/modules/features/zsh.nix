@@ -109,7 +109,8 @@ let
               esac
             '
 
-            export EDITOR=${pkgs.neovim}/bin/nvim
+            export EDITOR="''${EDITOR:-nvim}"
+            export VISUAL="''${VISUAL:-$EDITOR}"
 
             typeset -U path PATH
 
@@ -122,7 +123,7 @@ let
               $HOME/.opencode/bin \
               /opt/nvim-linux-x86_64/bin
             do
-              [[ -d $p ]] && path=($p $path)
+              [[ -d $p ]] && path+=($p)
             done
 
             if (( $+commands[flatpak] )); then
@@ -159,8 +160,6 @@ let
             export ATUIN_STYLE=compact
             export ATUIN_SYNC_ADDRESS="https://atuin.home.tom-mendy.com"
             eval "$(${pkgs.atuin}/bin/atuin init zsh)"
-
-            [[ -f "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
 
             alias grep="${pkgs.gnugrep}/bin/grep --color=auto"
             alias e=$EDITOR

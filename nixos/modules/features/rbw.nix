@@ -36,7 +36,12 @@
       };
     in
     {
-      environment.sessionVariables.SSH_AUTH_SOCK = "/run/user/1000/rbw/ssh-agent-socket";
+      # pam_env runs before pam_systemd creates XDG_RUNTIME_DIR. Resolve it
+      # in the login shell and the user service manager instead.
+      environment.variables.SSH_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/rbw/ssh-agent-socket";
+      environment.etc."environment.d/60-rbw.conf".text = ''
+        SSH_AUTH_SOCK=''${XDG_RUNTIME_DIR}/rbw/ssh-agent-socket
+      '';
 
       environment.systemPackages = with pkgs; [
         pinentry-gnome3

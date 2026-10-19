@@ -39,6 +39,43 @@ Rebuild the host:
 sudo nixos-rebuild switch --flake ./nixos#zephyrusG14
 ```
 
+Les mises à jour et les reconstructions sont manuelles. Pour mettre à jour
+les dépendances, exécuter `nix flake update --flake ./nixos`, vérifier avec
+`nix flake check ./nixos --no-build`, puis reconstruire le système.
+Le menu de démarrage conserve au maximum 10 générations.
+
+`workspaceConfiguration` reste disponible dans `nixosModules` comme module
+de base pour une autre machine. Il faut lui ajouter une configuration
+matérielle avant de l'exposer dans `nixosConfigurations`.
+
+Sur le G14, un scrub Btrfs mensuel vérifie le système de fichiers. Snapper
+prend des snapshots horaires de `/home` et conserve 24 horaires, 7 quotidiens,
+4 hebdomadaires et 3 mensuels. Ils sont accessibles à root dans
+`/home/.snapshots` ; `sudo snapper -c home list` permet de les lister.
+Ces snapshots partagent le disque des données et ne remplacent pas une
+sauvegarde externe. `/nix` n'est pas inclus dans les snapshots.
+
+Restic sauvegarde `/home/tmendy` chaque jour à partir de 20 h, avec un délai
+aléatoire de 30 minutes, dans
+`sftp://synology/home/Drive/Backup/zephyrusG14`. Les caches, la corbeille,
+les jeux Steam et les dossiers `node_modules` sont exclus. La rétention
+conserve 7 sauvegardes quotidiennes, 4 hebdomadaires et 6 mensuelles ;
+Restic vérifie les métadonnées du dépôt après chaque sauvegarde.
+La clé SSH dédiée, les hôtes connus, la configuration SSH et le mot de passe
+Restic restent dans `/var/lib/restic-synology`, accessible uniquement à root.
+Le timer ne lance aucune sauvegarde avant la présence du fichier `ready`,
+à créer seulement après une initialisation et un essai de restauration.
+Conserver également le mot de passe Restic dans un gestionnaire de mots de
+passe indépendant du PC. Après configuration, utiliser
+`sudo systemctl start restic-backups-synology-home` pour sauvegarder et
+`sudo restic-synology-home snapshots` pour lister les sauvegardes.
+
+Le Neovim Nix charge la configuration de `$XDG_CONFIG_HOME/nvim`, ou de
+`~/.config/nvim` par défaut. Relier la configuration du dépôt avec
+`stow -t "$HOME" nvim` avant la première utilisation. `EDITOR` et `VISUAL`
+utilisent le même wrapper que le système. Les répertoires d'outils locaux
+du shell sont ajoutés après le PATH existant.
+
 ### Développement mobile Android
 
 Créer ensuite un AVD avec une image système disponible :

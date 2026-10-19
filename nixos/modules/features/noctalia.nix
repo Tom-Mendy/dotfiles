@@ -41,10 +41,26 @@
         { config, ... }:
         {
           inherit pkgs;
-          # Keep runtime-generated colors and downloaded plugins writable.
-          outOfStoreConfig = "/home/tmendy/.config/noctalia";
-          # Keep the main settings declarative while allowing theme changes at runtime.
-          env.NOCTALIA_SETTINGS_FILE = "${config.configPlaceholder}/settings.json";
+          # Resolve user directories at launch, including paths containing spaces.
+          env.NOCTALIA_CONFIG_DIR = lib.mkForce null;
+          env.NOCTALIA_SETTINGS_FILE = lib.mkForce null;
+          runShell = [
+            {
+              name = "PREPARE_USER_CONFIG";
+              data = ''
+                export NOCTALIA_CONFIG_DIR="''${XDG_CONFIG_HOME:-$HOME/.config}/noctalia/"
+                ${pkgs.coreutils}/bin/mkdir -p "$NOCTALIA_CONFIG_DIR"
+                ${pkgs.coreutils}/bin/cp -rn ${config.configPlaceholder}/. "$NOCTALIA_CONFIG_DIR"
+                ${pkgs.findutils}/bin/find "$NOCTALIA_CONFIG_DIR" ! -perm -u+w -exec ${pkgs.coreutils}/bin/chmod u+w {} +
+                export NOCTALIA_SETTINGS_FILE="$NOCTALIA_CONFIG_DIR/nix-settings.json"
+                settings_tmp=$(${pkgs.coreutils}/bin/mktemp "$NOCTALIA_CONFIG_DIR/.nix-settings.XXXXXX")
+                ${lib.getExe pkgs.jq} --arg wallpaper "$HOME/Pictures/Wallpapers" \
+                  '.wallpaper.directory = $wallpaper' \
+                  ${config.configPlaceholder}/settings.json > "$settings_tmp"
+                ${pkgs.coreutils}/bin/mv "$settings_tmp" "$NOCTALIA_SETTINGS_FILE"
+              '';
+            }
+          ];
           preInstalledPlugins.rbw.src = ./noctalia-rbw;
           preInstalledPlugins.capture.src = ./noctalia-capture;
           settings = {
@@ -186,7 +202,6 @@
 
             wallpaper = {
               enabled = true;
-              directory = "/home/tmendy/Pictures/Wallpapers";
               automationEnabled = false;
               linkLightAndDarkWallpapers = false;
               setWallpaperOnAllMonitors = true;

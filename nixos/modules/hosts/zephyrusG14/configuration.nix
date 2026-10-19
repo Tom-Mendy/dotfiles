@@ -7,6 +7,10 @@
       username,
       ...
     }:
+    let
+      backupSecrets = "/var/lib/restic-synology";
+      backupSsh = "${pkgs.openssh}/bin/ssh -F ${backupSecrets}/ssh_config synology-backup -s sftp";
+    in
     {
       imports = [
         self.nixosModules.ai
@@ -29,23 +33,9 @@
         self.nixosModules.synologySftp
       ];
 
-      system.autoUpgrade = {
-        enable = true;
-        flake = "/home/${username}/dotfiles/nixos#zephyrusG14";
-        dates = "Sun *-*-* 04:40:00";
-        persistent = true;
-        allowReboot = false;
-        upgrade = false;
-        # NOTE: intentionally no --update-input flags. Bumping nixpkgs (and
-        # especially nixpkgs-unstable) on every Sunday timer moves the lock to
-        # commits Hydra hasn't finished building yet, which turns the next
-        # rebuild into a local compile storm. Update inputs manually with
-        # `nix flake update` when you actually want new versions.
-        flags = [ ];
-      };
-
       boot = {
         loader.systemd-boot.enable = true;
+        loader.systemd-boot.configurationLimit = 10;
         loader.efi.canTouchEfiVariables = true;
         # Default release kernel (currently 6.18.x), NOT linuxPackages_latest:
         # Hydra fully builds it including the NVIDIA module, so rebuilds stay
@@ -89,7 +79,71 @@
       systemd.sleep.settings.Sleep.AllowHibernation = false;
 
       networking.hostName = "zephyrusG14";
-      networking.firewall.allowedTCPPorts = [ 5037 ];
+
+      services.btrfs.autoScrub = {
+        enable = true;
+        fileSystems = [ "/" ];
+        interval = "monthly";
+      };
+
+      services.snapper = {
+        snapshotInterval = "hourly";
+        persistentTimer = true;
+        configs.home = {
+          SUBVOLUME = "/home";
+          TIMELINE_CREATE = true;
+          TIMELINE_CLEANUP = true;
+          TIMELINE_LIMIT_HOURLY = 24;
+          TIMELINE_LIMIT_DAILY = 7;
+          TIMELINE_LIMIT_WEEKLY = 4;
+          TIMELINE_LIMIT_MONTHLY = 3;
+          TIMELINE_LIMIT_YEARLY = 0;
+        };
+      };
+      # Snapper needs this subvolume before its first scheduled snapshot.
+      systemd.tmpfiles.rules = [ "v /home/.snapshots 0750 root root -" ];
+
+      services.restic.backups.synology-home = {
+        repository = "sftp:synology-backup:/home/Drive/Backup/zephyrusG14";
+        passwordFile = "${backupSecrets}/password";
+        paths = [ "/home/${username}" ];
+        exclude = [
+          "/home/${username}/.cache"
+          "/home/${username}/.local/share/Trash"
+          "/home/${username}/.local/share/Steam/steamapps"
+          "node_modules"
+        ];
+        extraBackupArgs = [ "--one-file-system" ];
+        extraOptions = [ "sftp.command='${backupSsh}'" ];
+        timerConfig = {
+          OnCalendar = "*-*-* 20:00:00";
+          RandomizedDelaySec = "30m";
+          Persistent = true;
+        };
+        pruneOpts = [
+          "--host zephyrusG14"
+          "--path /home/${username}"
+          "--keep-daily 7"
+          "--keep-weekly 4"
+          "--keep-monthly 6"
+        ];
+        runCheck = true;
+      };
+      # Setup must verify a restore before scheduled backups may run.
+      systemd.services.restic-backups-synology-home = {
+        unitConfig.ConditionPathExists = [
+          "${backupSecrets}/ready"
+          "${backupSecrets}/password"
+          "${backupSecrets}/id_ed25519"
+          "${backupSecrets}/ssh_config"
+          "${backupSecrets}/known_hosts"
+        ];
+        serviceConfig = {
+          Nice = 10;
+          IOSchedulingClass = "idle";
+          TimeoutStartSec = "6h";
+        };
+      };
 
       services.openssh = {
         enable = true;
