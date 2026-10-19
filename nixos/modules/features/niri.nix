@@ -61,10 +61,8 @@
       services.gnome.gnome-keyring.enable = true;
       programs.dconf.enable = true;
 
-      # Valeurs initiales cohérentes (Noctalia syncGsettings=true les bascule
-      # ensuite à la volée via le toggle DarkMode). adw-gtk3 suit
-      # color-scheme prefer-light / prefer-dark, donc Thunar (GTK3) suit le
-      # thème global sans fichier settings.ini statique divergent.
+      # Valeurs initiales ; le hook Noctalia bascule ensuite le thème GTK3
+      # et la préférence clair/sombre ensemble.
       programs.dconf.profiles.user.databases = [
         {
           settings = {
@@ -78,15 +76,14 @@
         }
       ];
 
-      # Pont XSettings pour les applis GTK3/XFCE (Thunar) : sans lui, Thunar
-      # ignore gsettings et reste figé sur settings.ini.
+      # Le hook Noctalia met aussi à jour le thème XFCE pour Thunar.
       systemd.user.services.xfsettingsd = {
         description = "XFCE settings daemon (theme bridge for Thunar)";
         wantedBy = [ "graphical-session.target" ];
         partOf = [ "graphical-session.target" ];
         after = [ "graphical-session.target" ];
         serviceConfig = {
-          ExecStart = "${pkgs.xfce4-settings}/bin/xfsettingsd --daemon --replace";
+          ExecStart = "${pkgs.xfce4-settings}/bin/xfsettingsd --replace";
           Restart = "on-failure";
         };
       };

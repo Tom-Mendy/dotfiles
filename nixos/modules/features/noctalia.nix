@@ -2,7 +2,41 @@
 {
   perSystem =
     { pkgs, lib, ... }:
+    let
+      syncGtkTheme = pkgs.writeShellApplication {
+        name = "noctalia-sync-gtk-theme";
+        runtimeInputs = with pkgs; [
+          coreutils
+          crudini
+          dconf
+          jq
+          xfconf
+        ];
+        text = ''
+          settingsFile="''${NOCTALIA_SETTINGS_FILE:-''${XDG_CONFIG_HOME:-$HOME/.config}/noctalia/settings.json}"
+          darkMode="''${1:-$(jq -r '.colorSchemes.darkMode // false' "$settingsFile")}"
+          case "$darkMode" in
+            true) theme=adw-gtk3-dark; preference=prefer-dark ;;
+            false) theme=adw-gtk3; preference=prefer-light ;;
+            *) echo "Invalid dark mode: $darkMode" >&2; exit 1 ;;
+          esac
+
+          dconf write /org/gnome/desktop/interface/gtk-theme "'$theme'"
+          dconf write /org/gnome/desktop/interface/color-scheme "'$preference'"
+          xfconf-query -c xsettings -p /Net/ThemeName -n -t string -s "$theme"
+
+          # GTK also reads these files outside a desktop settings service.
+          for version in 3.0 4.0; do
+            directory="''${XDG_CONFIG_HOME:-$HOME/.config}/gtk-$version"
+            mkdir -p "$directory"
+            crudini --set "$directory/settings.ini" Settings gtk-theme-name "$theme"
+            crudini --set "$directory/settings.ini" Settings gtk-application-prefer-dark-theme "$darkMode"
+          done
+        '';
+      };
+    in
     {
+      packages.myNoctaliaGtkTheme = syncGtkTheme;
       packages.myNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap (
         { config, ... }:
         {
@@ -20,6 +54,12 @@
               predefinedScheme = "Noctalia (default)";
               syncGsettings = true;
               useWallpaperColors = false;
+            };
+
+            hooks = {
+              enabled = true;
+              startup = lib.getExe syncGtkTheme;
+              darkModeChange = "${lib.getExe syncGtkTheme} $1";
             };
 
             bar = {
