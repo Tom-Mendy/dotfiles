@@ -2,6 +2,7 @@
 {
   flake.nixosModules.zephyrusG14Configuration =
     {
+      config,
       pkgs,
       unstable,
       username,
@@ -37,12 +38,8 @@
         loader.systemd-boot.enable = true;
         loader.systemd-boot.configurationLimit = 10;
         loader.efi.canTouchEfiVariables = true;
-        # Default release kernel (currently 6.18.x), NOT linuxPackages_latest:
-        # Hydra fully builds it including the NVIDIA module, so rebuilds stay
-        # download-only. _latest moves constantly and forces local compiles of
-        # the kernel modules + initrd on every bump. If hardware ever needs a
-        # newer kernel, switch this AND hardware.nvidia.package together.
-        kernelPackages = pkgs.linuxPackages;
+        # Use unstable for a current kernel and compatible NVIDIA driver.
+        kernelPackages = unstable.linuxPackages_latest;
         kernel.sysctl = {
           "vm.swappiness" = 0;
           "vm.page-cluster" = 0;
@@ -168,14 +165,8 @@
         "nvidia"
       ];
       hardware.nvidia = {
-        # Keep kernel AND driver from the same nixpkgs: Hydra builds and
-        # caches that exact combo. Mixing a stable kernel with an unstable
-        # driver creates a custom kernel-module derivation that must be
-        # built locally. If the stable production driver ever lags behind
-        # what your RTX 5070 needs, switch BOTH together instead:
-        #   boot.kernelPackages = pkgs.linuxPackages_latest;
-        #   hardware.nvidia.package = pkgs.linuxPackages_latest.nvidiaPackages.production;
-        package = pkgs.linuxPackages.nvidiaPackages.production;
+        # Build the NVIDIA module for the selected kernel.
+        package = config.boot.kernelPackages.nvidiaPackages.latest;
         open = true;
         powerManagement.enable = true;
         prime = {

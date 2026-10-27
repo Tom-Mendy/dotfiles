@@ -14,7 +14,7 @@
         policycoreutils
         qalculate-gtk
         speedtest
-        veracrypt
+        # veracrypt
         gparted
         wl-clipboard
       ];
