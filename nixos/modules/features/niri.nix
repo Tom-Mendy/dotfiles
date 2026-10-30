@@ -58,6 +58,8 @@
 
       services.gvfs.enable = true;
       services.udisks2.enable = true;
+      # Noctalia reads battery percentage and charging state through UPower.
+      services.upower.enable = true;
       services.gnome.gnome-keyring.enable = true;
       programs.dconf.enable = true;
 
