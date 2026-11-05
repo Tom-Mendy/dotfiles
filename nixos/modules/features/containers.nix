@@ -31,6 +31,7 @@
       ];
 
       environment.systemPackages = with pkgs; [
+        argocd
         cri-tools
         dive
         fluxcd

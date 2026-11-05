@@ -332,7 +332,14 @@
                   "Mod+Return".spawn-sh = "${lib.getExe pkgs.ghostty} -e herdr";
                   "Mod+E".spawn = lib.getExe pkgs.thunar;
                   "Mod+Q".close-window = _: { };
-                  "Mod+S".spawn-sh = "${noctalia} ipc call launcher toggle";
+                  "Mod+S" = _: {
+                    props.repeat = false;
+                    content.spawn = [
+                      (lib.getExe pkgs.fuzzel)
+                      "--launch-prefix=${lib.getExe pkgs.app2unit} --"
+                      "--terminal=${lib.getExe pkgs.ghostty} -e"
+                    ];
+                  };
                   "Mod+V".spawn-sh = "${noctalia} ipc call launcher clipboard";
                   "Mod+Shift+E".quit = action;
                   "Mod+X".spawn-sh = "${noctalia} ipc call lockScreen lock";

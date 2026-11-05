@@ -6,25 +6,55 @@
       ...
     }:
     let
-      version = "2026.13.0";
+      version = "2026.14.0";
 
-      nym-vpn-app = pkgs.appimageTools.wrapType2 {
+      # Use NixOS GTK/WebKit instead of the AppImage's bundled graphics stack.
+      nym-vpn-app = pkgs.stdenv.mkDerivation {
         pname = "nym-vpn-app";
         inherit version;
 
-        src = pkgs.fetchurl {
-          url = "https://github.com/nymtech/nym-vpn-client/releases/download/nym-vpn-v${version}/NymVPN_${version}_amd64.AppImage";
-          sha256 = "sha256-1KCjRXkrMOwAS2qjYpL7/nI0UVnGjR+1F5+QgY6RoXk=";
+        src = pkgs.appimageTools.extractType2 {
+          pname = "nym-vpn-app";
+          inherit version;
+          src = pkgs.fetchurl {
+            url = "https://github.com/nymtech/nym-vpn-client/releases/download/nym-vpn-v${version}/NymVPN_${version}_amd64.AppImage";
+            sha256 = "sha256-kbuDcozWBmZUsT0zb5qEDx5vCaZndfAjlVLJE4HFcFA=";
+          };
         };
 
-        extraPkgs =
-          pkgs: with pkgs; [
-            xdg-utils
-            gtk3
-            glib
-            webkitgtk_4_1
-            libayatana-appindicator
-          ];
+        nativeBuildInputs = [
+          pkgs.makeWrapper
+          pkgs.wrapGAppsHook3
+        ];
+        buildInputs = with pkgs; [
+          gtk3
+          glib
+          webkitgtk_4_1
+          libsoup_3
+          openssl
+          dbus
+          libayatana-appindicator
+          stdenv.cc.cc.lib
+        ];
+
+        dontBuild = true;
+        # Preserve the upstream ELF layout; invoke the Nix loader explicitly.
+        dontPatchELF = true;
+        dontWrapGApps = true;
+        installPhase = ''
+          runHook preInstall
+          install -Dm755 usr/bin/nym-vpn-app $out/libexec/nym-vpn-app
+          mkdir -p $out/bin
+          makeWrapper ${pkgs.stdenv.cc.bintools.dynamicLinker} $out/bin/nym-vpn-app \
+            --add-flags "--library-path ${pkgs.lib.makeLibraryPath [ pkgs.gtk3 pkgs.gdk-pixbuf pkgs.cairo pkgs.glib pkgs.webkitgtk_4_1 pkgs.libsoup_3 pkgs.openssl pkgs.dbus pkgs.stdenv.cc.cc.lib ]} $out/libexec/nym-vpn-app"
+          mkdir -p $out/share
+          cp -r usr/share/icons $out/share/
+          runHook postInstall
+        '';
+        postFixup = ''
+          gappsWrapperArgs+=(--prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.xdg-utils pkgs.desktop-file-utils pkgs.pciutils ]})
+          wrapProgram $out/bin/nym-vpn-app "''${gappsWrapperArgs[@]}"
+        '';
       };
 
       nym-vpn-desktop = pkgs.makeDesktopItem {
@@ -51,7 +81,7 @@
 
         src = pkgs.fetchurl {
           url = "https://github.com/nymtech/nym-vpn-client/releases/download/nym-vpn-v${version}/nym-vpn-core-v${version}_linux_x86_64.tar.gz";
-          sha256 = "sha256-sRisxcWx3knAeVWNJ2dPa+p1GhPgDoHmgx0MLZXM1b4=";
+          sha256 = "sha256-6ciyQda54CBjA9OBJytCKq4jK5NLhchv5ymFLTxAGKg=";
         };
 
         sourceRoot = "nym-vpn-core-v${version}_linux_x86_64";
