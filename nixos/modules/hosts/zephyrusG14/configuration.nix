@@ -182,8 +182,8 @@
           auto_apply_gpu_state = true;
           # Nvidia blocking is still experimental in Cardwire.
           experimental_nvidia_block = true;
-          # Keep Nvidia available on AC and block it on battery.
-          battery_auto_switch = true;
+          # Keep the NVIDIA-wired external display available on battery too.
+          battery_auto_switch = false;
           battery_auto_switch_mode = "integrated";
         };
       };

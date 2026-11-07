@@ -16,8 +16,10 @@
 
       networking.firewall = {
         enable = true;
-        # 53317 localsend
-        allowedTCPPorts = [ 53317 ];
+        allowedTCPPorts = [
+          3773 # T3 Code LAN
+          53317 # LocalSend
+        ];
         allowedUDPPorts = [ 53317 ];
       };
 
