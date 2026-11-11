@@ -177,7 +177,14 @@
 
       services.cardwired = {
         enable = true;
-        package = unstable.cardwire;
+        # Temporary fix for cardwire 0.12.3: the vendored libsqlite3-sys links
+        # against system sqlite3, but the nixpkgs package omits it from
+        # buildInputs. Mirrors the upstream fix in nixpkgs commit 7c4b7fcb59
+        # ("cardwire: use system sqlite"). Remove once the pinned nixpkgs
+        # package includes sqlite in its build inputs.
+        package = unstable.cardwire.overrideAttrs (old: {
+          buildInputs = (old.buildInputs or [ ]) ++ [ unstable.sqlite ];
+        });
         settings = {
           auto_apply_gpu_state = true;
           # Nvidia blocking is still experimental in Cardwire.
