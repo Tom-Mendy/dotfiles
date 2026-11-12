@@ -32,8 +32,12 @@
         fsType = "btrfs";
       };
 
-      boot.initrd.luks.devices."luks-fff3f818-7e03-48e0-ae07-a149b29524ec".device =
-        "/dev/disk/by-uuid/fff3f818-7e03-48e0-ae07-a149b29524ec";
+      boot.initrd.luks.devices."luks-fff3f818-7e03-48e0-ae07-a149b29524ec" = {
+        device = "/dev/disk/by-uuid/fff3f818-7e03-48e0-ae07-a149b29524ec";
+        # Let periodic fstrim reach the NVMe through dm-crypt.
+        # This exposes which encrypted blocks are unused.
+        allowDiscards = true;
+      };
 
       fileSystems."/home" = {
         device = "/dev/mapper/luks-fff3f818-7e03-48e0-ae07-a149b29524ec";

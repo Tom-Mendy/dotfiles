@@ -77,6 +77,8 @@
 
       networking.hostName = "zephyrusG14";
 
+      services.fstrim.enable = true;
+
       services.btrfs.autoScrub = {
         enable = true;
         fileSystems = [ "/" ];
