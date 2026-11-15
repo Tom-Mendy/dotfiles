@@ -1,5 +1,5 @@
 {
-  flake.nixosModules.ai =
+  flake.nixosModules.local-ai =
     {
       ...
     }:
