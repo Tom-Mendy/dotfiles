@@ -7,7 +7,7 @@
         # personal binary cache: any .override changes the derivation hash,
         # so the official cache can no longer be used and btop (+ its CUDA
         # closure) gets rebuilt locally on every bump.
-        btop
+        btop-cuda
         busybox
         curl
         android-tools
