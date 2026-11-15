@@ -6,9 +6,11 @@
       loadModels = [ "SparkLLM/Spark-X2.6-4B:q4_k_m" ];
 
       environmentVariables = {
-        OLLAMA_CONTEXT_LENGTH = "32768";
-        OLLAMA_FLASH_ATTENTION = "1";
+        OLLAMA_CONTEXT_LENGTH = "16384";
+        OLLAMA_NUM_PARALLEL = "1";
+        OLLAMA_MAX_LOADED_MODELS = "1";
       };
+
     };
   };
 }
