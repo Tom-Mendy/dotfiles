@@ -6,7 +6,6 @@
     }:
     {
       environment.systemPackages = with unstable; [
-        rtk
         codex
         antigravity-cli
         claude-code
