@@ -268,6 +268,11 @@
               ++ workspaceRules
               ++ [
                 {
+                  matches = [ { title = "^Laptop Screen Mirror$"; } ];
+                  open-on-output = "HDMI-A-1";
+                  open-fullscreen = true;
+                }
+                {
                   matches = [ { is-floating = true; } ];
                   border.off = _: { };
                 }
@@ -331,6 +336,17 @@
                 {
                   "Mod+Return".spawn-sh = "${lib.getExe pkgs.ghostty} -e herdr";
                   "Mod+E".spawn = lib.getExe pkgs.thunar;
+                  "Mod+P" = _: {
+                    props.repeat = false;
+                    content.spawn = [
+                      (lib.getExe pkgs.wl-mirror)
+                      "--title"
+                      "Laptop Screen Mirror"
+                      "--fullscreen-output"
+                      "HDMI-A-1"
+                      "eDP-2"
+                    ];
+                  };
                   "Mod+Q".close-window = _: { };
                   "Mod+S" = _: {
                     props.repeat = false;
