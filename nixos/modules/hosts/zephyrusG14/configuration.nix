@@ -86,23 +86,6 @@
         interval = "monthly";
       };
 
-      services.snapper = {
-        snapshotInterval = "hourly";
-        persistentTimer = true;
-        configs.home = {
-          SUBVOLUME = "/home";
-          TIMELINE_CREATE = true;
-          TIMELINE_CLEANUP = true;
-          TIMELINE_LIMIT_HOURLY = 24;
-          TIMELINE_LIMIT_DAILY = 7;
-          TIMELINE_LIMIT_WEEKLY = 4;
-          TIMELINE_LIMIT_MONTHLY = 3;
-          TIMELINE_LIMIT_YEARLY = 0;
-        };
-      };
-      # Snapper needs this subvolume before its first scheduled snapshot.
-      systemd.tmpfiles.rules = [ "v /home/.snapshots 0750 root root -" ];
-
       services.restic.backups.synology-home = {
         repository = "sftp:synology-backup:/home/Drive/Backup/zephyrusG14";
         passwordFile = "${backupSecrets}/password";
