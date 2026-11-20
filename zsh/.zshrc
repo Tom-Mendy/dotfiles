@@ -151,6 +151,9 @@ fi
 if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
 fi
+if (( $+commands[devenv] )); then
+  eval "$(devenv hook zsh)"
+fi
 if (( $+commands[starship] )); then
   eval "$(starship init zsh)"
 fi

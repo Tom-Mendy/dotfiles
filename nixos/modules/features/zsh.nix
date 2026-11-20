@@ -148,6 +148,9 @@ let
             export PATH
 
             eval "$(${pkgs.direnv}/bin/direnv hook zsh)"
+            if (( $+commands[devenv] )); then
+              eval "$(devenv hook zsh)"
+            fi
             HISTFILE=~/.zsh_history
             HISTSIZE=10000
             SAVEHIST=10000
