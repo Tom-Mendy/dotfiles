@@ -3,6 +3,7 @@
   flake.nixosModules.zephyrusG14Configuration =
     {
       config,
+      lib,
       pkgs,
       unstable,
       username,
@@ -136,11 +137,19 @@
           PermitRootLogin = "no";
         };
       };
-      users.users.${username}.openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGndRLmp+mIsp+K1QP8uutK+u27wdkknhRaNusnb3Rn8"
-      ];
+      users.users.${username} = {
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGndRLmp+mIsp+K1QP8uutK+u27wdkknhRaNusnb3Rn8"
+        ];
+        extraGroups = lib.mkAfter [ "dialout" ];
+      };
 
       hardware.graphics.enable = true;
+      services.udev.packages = [
+        (pkgs.writeTextDir "lib/udev/rules.d/70-holtek-serial-uaccess.rules" ''
+          SUBSYSTEM=="tty", KERNEL=="ttyACM[0-9]*", ATTRS{idVendor}=="04d9", ATTRS{idProduct}=="b534", TAG+="uaccess"
+        '')
+      ];
       services.udev.extraRules = ''
         # Kyber regulates queue depth to target low read/write latency under load.
         ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="nvme[0-9]*n[0-9]*", ENV{DEVTYPE}=="disk", ATTR{queue/scheduler}="kyber"
