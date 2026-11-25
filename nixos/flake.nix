@@ -30,6 +30,8 @@
       url = "github:BirdeeHub/nix-wrapper-modules";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Own nixpkgs: blaze pins a nightly and a DuckDB version against it.
+    blaze.url = "github:indexable-inc/blaze";
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);

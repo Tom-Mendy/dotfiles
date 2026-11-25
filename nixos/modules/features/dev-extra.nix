@@ -11,6 +11,7 @@
           arp-scan
           gitleaks
           k6
+          tailwindcss_4
           python3Packages.distlib
           python3Packages.libtmux
           terraform
