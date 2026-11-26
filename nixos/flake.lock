@@ -7,11 +7,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1795589029,
-        "narHash": "sha256-USGBYYxPAn8z+7d8+EfzoMhwwK/w8KrqK5HFQ4dnaLI=",
+        "lastModified": 1795695999,
+        "narHash": "sha256-hbB+M9ChyLelgbApP8netWnrlPeuC9rw2cl3JFFJv+A=",
         "owner": "indexable-inc",
         "repo": "blaze",
-        "rev": "bbdb3ec1901d53b7c46ef3a682c8b53eb65e95c3",
+        "rev": "66a53577ad6c780261e8824b89814f6b16116950",
         "type": "github"
       },
       "original": {
@@ -63,11 +63,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795574150,
-        "narHash": "sha256-/kwonUht3jjzWopfYqeUD0SyK0VV7LB+83elhk83PZI=",
+        "lastModified": 1795607293,
+        "narHash": "sha256-a0Q3+z23BSIvsQaiz4fInmIbEuCEDgG+w0wh2hASu8g=",
         "owner": "amaanq",
         "repo": "helium-flake",
-        "rev": "35412533c45852bade0a0e57d2eecbaccddeb329",
+        "rev": "077f04d80e1ddd98ff86b0709d9916f86385d12f",
         "type": "github"
       },
       "original": {

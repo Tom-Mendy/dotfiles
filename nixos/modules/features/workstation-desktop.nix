@@ -1,6 +1,6 @@
 {
   flake.nixosModules.workstationDesktop =
-    { pkgs, ... }:
+    { pkgs, unstable, ... }:
     {
       environment.systemPackages = with pkgs; [
         alsa-lib
@@ -14,6 +14,7 @@
         xmind
         arduino-ide
         policycoreutils
+        unstable.ladybird
         qalculate-gtk
         speedtest
         # veracrypt
