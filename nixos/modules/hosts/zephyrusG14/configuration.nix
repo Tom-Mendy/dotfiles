@@ -16,7 +16,7 @@
     {
       imports = [
         self.nixosModules.ai
-        self.nixosModules.local-ai
+        # self.nixosModules.local-ai
         self.nixosModules.common
         self.nixosModules.containers
         self.nixosModules.devCore

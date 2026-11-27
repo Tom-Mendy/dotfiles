@@ -2,6 +2,7 @@
   flake.nixosModules.workstationCli =
     { pkgs, ... }:
     {
+      services.tailscale.enable = true;
       environment.systemPackages = with pkgs; [
         # NOTE: do NOT re-enable cudaSupport/rocmSupport here without a
         # personal binary cache: any .override changes the derivation hash,

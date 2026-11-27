@@ -7,11 +7,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1795695999,
-        "narHash": "sha256-hbB+M9ChyLelgbApP8netWnrlPeuC9rw2cl3JFFJv+A=",
+        "lastModified": 1795768109,
+        "narHash": "sha256-2JO2KgLTqDgyly42Fz1uhk1Pm+MWHBja4KE2kAwhMV8=",
         "owner": "indexable-inc",
         "repo": "blaze",
-        "rev": "66a53577ad6c780261e8824b89814f6b16116950",
+        "rev": "4eec83b1e02887335332bc7f1bf4a88bcf07cd2e",
         "type": "github"
       },
       "original": {
@@ -63,11 +63,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795607293,
-        "narHash": "sha256-a0Q3+z23BSIvsQaiz4fInmIbEuCEDgG+w0wh2hASu8g=",
+        "lastModified": 1795732087,
+        "narHash": "sha256-Qwy97hBOaFd1Om3X3vEJ73rYO1vb9hJk6Zbt4GJqH5o=",
         "owner": "amaanq",
         "repo": "helium-flake",
-        "rev": "077f04d80e1ddd98ff86b0709d9916f86385d12f",
+        "rev": "8f978b543fe1863c84c543d379c543b21eacbb0e",
         "type": "github"
       },
       "original": {
@@ -88,6 +88,25 @@
       "original": {
         "owner": "denful",
         "repo": "import-tree",
+        "type": "github"
+      }
+    },
+    "luciole": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1795747531,
+        "narHash": "sha256-LeMhoQtV2J74MH+QiqPZ5Ng9XU+lTkyjfDTCcM48//U=",
+        "owner": "noctalia-dev",
+        "repo": "luciole",
+        "rev": "179bc55ced1cf69acfcb58e0dd287c3e2c4e4ffe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noctalia-dev",
+        "ref": "cachix",
+        "repo": "luciole",
         "type": "github"
       }
     },
@@ -140,6 +159,19 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1795234589,
+        "narHash": "sha256-pAEASBc6wof0S58XcSEdZoQ2iFQDkCnZwH+wFLrkd1Q=",
+        "rev": "2786a2a72088ecf32aea5b3ec52099e6a7cff78f",
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1125864.2786a2a72088/nixexprs.tar.zst"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1795370043,
         "narHash": "sha256-s/0jq8usZtLVOolYBwmyUmd3JsfAu7w3FU+a0dgMqSY=",
         "owner": "nixos",
@@ -160,7 +192,8 @@
         "flake-parts": "flake-parts",
         "helium": "helium",
         "import-tree": "import-tree",
-        "nixpkgs": "nixpkgs_2",
+        "luciole": "luciole",
+        "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "wrapper-modules": "wrapper-modules",
         "zen-browser": "zen-browser"

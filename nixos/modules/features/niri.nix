@@ -8,6 +8,19 @@
       ...
     }:
     let
+      luciole = config.programs.luciole.package;
+      lucioleDesktop = "dev.noctalia.luciole.desktop";
+      lucioleXfceHelper = pkgs.writeTextDir "share/xfce4/helpers/luciole.desktop" ''
+        [Desktop Entry]
+        Version=1.0
+        Type=X-XFCE-Helper
+        Name=Luciole
+        Icon=dev.noctalia.luciole
+        X-XFCE-Binaries=luciole;
+        X-XFCE-Category=FileManager
+        X-XFCE-Commands=${lib.getExe luciole};
+        X-XFCE-CommandsWithParameter=${lib.getExe luciole} "%s";
+      '';
       ghosttyXfceHelper = pkgs.writeTextDir "share/xfce4/helpers/ghostty.desktop" ''
         [Desktop Entry]
         Version=1.0
@@ -21,22 +34,17 @@
       '';
     in
     {
+      imports = [ inputs.luciole.nixosModules.default ];
+
       programs.niri = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
-        # Ne pas embarquer Nautilus : le FileChooser du portail GNOME ressemble
-        # à un explorateur GNOME et entre en concurrence avec Thunar sur
-        # org.freedesktop.FileManager1. Le portail GTK suffit sous Niri.
+        # Luciole provides the FileManager1 service.
         useNautilus = false;
       };
 
-      # Gestionnaire de fichiers officiel : enregistre le service D-Bus
-      # org.freedesktop.FileManager1 + systemd, et active xfconf (requis
-      # pour que Thunar reçoive le thème via xfsettingsd).
-      programs.thunar = {
-        enable = true;
-        plugins = with pkgs; [ thunar-archive-plugin ];
-      };
+      programs.luciole.enable = true;
+      programs.xfconf.enable = true;
 
       environment.systemPackages = [
         pkgs.adw-gtk3
@@ -45,10 +53,9 @@
         pkgs.gsettings-desktop-schemas
         pkgs.kdePackages.breeze-icons
         pkgs.loupe
-        pkgs.thunar-volman
-        pkgs.tumbler
-        pkgs.xfce4-settings # fournit xfsettingsd (pont thème -> Thunar)
+        pkgs.xfce4-settings
         ghosttyXfceHelper
+        lucioleXfceHelper
         pkgs.unar
         pkgs.unrar
         pkgs.p7zip
@@ -78,9 +85,8 @@
         }
       ];
 
-      # Le hook Noctalia met aussi à jour le thème XFCE pour Thunar.
       systemd.user.services.xfsettingsd = {
-        description = "XFCE settings daemon (theme bridge for Thunar)";
+        description = "XFCE settings daemon";
         wantedBy = [ "graphical-session.target" ];
         partOf = [ "graphical-session.target" ];
         after = [ "graphical-session.target" ];
@@ -96,14 +102,14 @@
       environment.etc."xdg/xfce4/helpers.rc".text = ''
         [Helpers]
         TerminalEmulator=ghostty
-        FileManager=thunar
+        FileManager=luciole
       '';
 
       xdg.mime = {
         enable = true;
         defaultApplications = {
-          "inode/directory" = "thunar.desktop";
-          "x-scheme-handler/file" = "thunar.desktop";
+          "inode/directory" = lucioleDesktop;
+          "x-scheme-handler/file" = lucioleDesktop;
           "image/*" = "org.gnome.Loupe.desktop";
           "application/pdf" = "org.gnome.Papers.desktop";
           "application/zip" = "org.gnome.FileRoller.desktop";
@@ -114,14 +120,13 @@
       };
 
       xdg.portal = {
-        # Le module Niri définit déjà config.niri (default gnome;gtk +
-        # FileChooser=gtk quand useNautilus=false). On force juste Settings
-        # sur gnome pour que le color-scheme se propage aux applis.
-        config.niri."org.freedesktop.impl.portal.Settings" = "gnome";
-        # Le module Niri ajoute déjà xdg-desktop-portal-gnome ; on complète
-        # avec le backend GTK (FileChooser quand useNautilus=false).
-        extraPortals = with pkgs; [
-          xdg-desktop-portal-gtk
+        config.niri = {
+          "org.freedesktop.impl.portal.Settings" = "gnome";
+          "org.freedesktop.impl.portal.FileChooser" = lib.mkForce [ "luciole" "gtk" ];
+        };
+        extraPortals = [
+          luciole
+          pkgs.xdg-desktop-portal-gtk
         ];
       };
 
@@ -187,7 +192,7 @@
           key = "parenleft";
           name = "5:  Files";
           matches = [
-            { app-id = "^(Thunar|thunar|org\\.xfce\\.Thunar)$"; }
+            { app-id = "^dev\\.noctalia\\.luciole$"; }
           ];
         }
         {
@@ -335,7 +340,7 @@
                 in
                 {
                   "Mod+Return".spawn-sh = "${lib.getExe pkgs.ghostty} -e herdr";
-                  "Mod+E".spawn = lib.getExe pkgs.thunar;
+                  "Mod+E".spawn = lib.getExe inputs.luciole.packages.${pkgs.stdenv.hostPlatform.system}.default;
                   "Mod+P" = _: {
                     props.repeat = false;
                     content.spawn = [
