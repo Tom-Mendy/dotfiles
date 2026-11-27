@@ -3,6 +3,7 @@
   flake.nixosModules.niri =
     {
       config,
+      username,
       pkgs,
       lib,
       ...
@@ -34,7 +35,10 @@
       '';
     in
     {
-      imports = [ inputs.luciole.nixosModules.default ];
+      imports = [
+        inputs.luciole.nixosModules.default
+        inputs.noctalia-greeter.nixosModules.default
+      ];
 
       programs.niri = {
         enable = true;
@@ -96,7 +100,7 @@
         };
       };
 
-      # Keep the login keyring unlocked when logging in through tuigreet.
+      # Keep the login keyring unlocked when logging in through greetd.
       security.pam.services.greetd.enableGnomeKeyring = true;
 
       environment.etc."xdg/xfce4/helpers.rc".text = ''
@@ -130,11 +134,17 @@
         ];
       };
 
-      services.greetd = {
+      services.displayManager.noctalia-greeter = {
         enable = true;
-        settings.default_session = {
-          command = "${lib.getExe pkgs.tuigreet} --time --remember --remember-user-session --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";
-          user = "greeter";
+        settings = {
+          keyboard.layout = "fr";
+          session.default = "niri";
+          user.default = username;
+          cursor = {
+            size = 24;
+            theme = "Bibata-Modern-Amber";
+            path = pkgs.bibata-cursors;
+          };
         };
       };
 
